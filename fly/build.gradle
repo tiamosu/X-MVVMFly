@@ -1,0 +1,48 @@
+apply {
+    from "${rootDir.path}/config_lib.gradle"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //support
+    api Deps.androidx_multidex
+    api Deps.androidx_appcompat
+
+    //fragment框架
+    api Deps.fragmentation_support_androidx
+
+    //rx
+    api Deps.rxjava2
+    api Deps.rxerrorhandler
+
+    //retrofit2
+    api(Deps.retrofit2) {
+        exclude module: 'okhttp'
+    }
+    api(Deps.retrofit2_adapter_rxjava2) {
+        exclude module: 'retrofit'
+        exclude module: 'rxjava'
+    }
+    api(Deps.retrofit2_converter_gson) {
+        exclude module: 'retrofit'
+    }
+
+    //okhttp3
+    api Deps.okhttp3
+
+    //dagger2
+    api Deps.dagger2
+    kapt Deps.dagger2_apt
+
+    //常用的util库
+    api Deps.utilcode
+
+    //glide
+    compileOnly(Deps.glide) {
+        exclude group: 'androidx.annotation'
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.vectordrawable'
+    }
+}
+
+apply from: "${rootDir.path}/config_bintray.gradle"

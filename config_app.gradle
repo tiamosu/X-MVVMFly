@@ -1,0 +1,86 @@
+apply {
+    plugin "com.android.application"
+    plugin "kotlin-android"
+    plugin "kotlin-android-extensions"
+    plugin "kotlin-kapt"
+}
+
+configAppSigning(project)
+configApkName(project)
+
+android {
+    flavorDimensions "define"
+    compileSdkVersion Android.compileSdkVersion
+    defaultConfig {
+        applicationId "com.tiamosu.fly.demo"
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        //启用multiDex的支持
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/*'
+        exclude 'LICENSE.txt'
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+def configAppSigning(Project project) {
+    def signFile = file("${rootDir.path}/sign/keystore.properties")
+    if (signFile == null || !signFile.exists()) {
+        return
+    }
+
+    println "$project.name config sign start..."
+    project.android {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(signFile))
+        signingConfigs {
+            release {
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+                storeFile new File(signFile.getParent(), properties['storeFile'])
+                storePassword properties['storePassword']
+            }
+        }
+        buildTypes.release.signingConfig signingConfigs.release
+    }
+    println "$project.name config sign end..."
+}
+
+static def configApkName(Project project) {
+    project.android.applicationVariants.all { variant ->
+        if (variant.buildType.name != "debug") {//防止AS无法安装debug包(apk)
+            variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.path + "/apk")
+        }
+        variant.getPackageApplicationProvider().get().outputScope.apkDatas.forEach { output ->
+            output.outputFileName = "fly_v${variant.versionName}.apk"
+        }
+    }
+}
+
+dependencies {
+
+}
