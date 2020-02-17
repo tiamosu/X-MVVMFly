@@ -1,2 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tiamosu.fly" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tiamosu.fly">
+
+    <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="n">
+
+        <!-- 9.0 http使用适配-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
+</manifest>

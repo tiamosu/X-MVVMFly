@@ -5,7 +5,6 @@ apply {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //support
-    api Deps.androidx_multidex
     api Deps.androidx_appcompat
 
     //fragment框架
@@ -38,11 +37,12 @@ dependencies {
     api Deps.utilcode
 
     //glide
-    compileOnly(Deps.glide) {
+    api(Deps.glide) {
         exclude group: 'androidx.annotation'
         exclude group: 'androidx.fragment'
         exclude group: 'androidx.vectordrawable'
     }
+    kapt Deps.glide_compiler
 }
 
 apply from: "${rootDir.path}/config_bintray.gradle"
