@@ -12,6 +12,7 @@ dependencies {
 
     //rx
     api Deps.rxjava2
+    api Deps.rxandroid2
     api Deps.rxerrorhandler
 
     //retrofit2

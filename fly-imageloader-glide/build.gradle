@@ -1,0 +1,11 @@
+apply {
+    from "${rootDir.path}/config_lib.gradle"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly project(':fly')
+    kapt Deps.glide_compiler
+}
+
+apply from: "${rootDir.path}/config_bintray.gradle"

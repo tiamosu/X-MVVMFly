@@ -1,1 +1,4 @@
-include ':app', ':fly'
+include ':app'
+
+include ':fly',
+        ':fly-imageloader-glide'
