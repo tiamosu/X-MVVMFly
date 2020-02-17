@@ -12,7 +12,9 @@ dependencies {
 
     //rx
     api Deps.rxjava2
-    api Deps.rxandroid2
+    api(Deps.rxandroid2) {
+        exclude module: 'rxjava'
+    }
     api Deps.rxerrorhandler
 
     //retrofit2
@@ -24,8 +26,12 @@ dependencies {
         exclude module: 'rxjava'
     }
     api(Deps.retrofit2_converter_gson) {
+        exclude module: 'gson'
         exclude module: 'retrofit'
     }
+
+    //gson
+    api Deps.gson
 
     //okhttp3
     api Deps.okhttp3

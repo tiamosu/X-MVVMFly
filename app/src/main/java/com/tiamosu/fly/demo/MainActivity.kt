@@ -1,7 +1,7 @@
-package com.tiamosu.fly
+package com.tiamosu.fly.demo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
