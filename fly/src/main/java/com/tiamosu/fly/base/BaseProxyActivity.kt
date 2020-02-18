@@ -8,15 +8,12 @@ import androidx.appcompat.widget.ContentFrameLayout
 import com.tiamosu.fly.R
 import com.tiamosu.fly.utils.FragmentUtils
 import me.yokeyword.fragmentation.ISupportFragment
-import me.yokeyword.fragmentation.SupportActivity
 
 /**
  * @author weixia
  * @date 2020/2/18.
  */
-@Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseProxyActivity : SupportActivity(), IActivity {
-    var mContentView: View? = null
+abstract class BaseProxyActivity : BaseFlyActivity() {
 
     /**
      * @return 设置根Fragment
@@ -24,17 +21,8 @@ abstract class BaseProxyActivity : SupportActivity(), IActivity {
     @NonNull
     protected abstract fun getRootFragment(): Class<out ISupportFragment>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initData(intent.extras)
-        setContentView()
-        initView(savedInstanceState, null)
-        initEvent()
-        doBusiness()
-    }
-
     @SuppressLint("RestrictedApi")
-    private fun setContentView() {
+    override fun setContentView() {
         mContentView = ContentFrameLayout(this)
         mContentView!!.id = R.id.delegate_container
         if (getLayoutId() > 0) {

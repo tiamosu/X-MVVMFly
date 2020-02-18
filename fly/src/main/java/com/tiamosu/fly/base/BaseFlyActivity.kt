@@ -21,7 +21,7 @@ abstract class BaseFlyActivity : SupportActivity(), IActivity {
         doBusiness()
     }
 
-    private fun setContentView() {
+    internal open fun setContentView() {
         if (getLayoutId() <= 0) {
             return
         }
