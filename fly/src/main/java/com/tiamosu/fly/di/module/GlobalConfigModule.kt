@@ -26,7 +26,7 @@ import javax.inject.Singleton
 /**
  * 框架独创的建造者模式 [Module],可向框架中注入外部配置的自定义参数
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 @Suppress("unused")

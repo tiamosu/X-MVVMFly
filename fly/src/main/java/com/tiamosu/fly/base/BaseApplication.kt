@@ -9,7 +9,7 @@ import com.tiamosu.fly.di.component.AppComponent
 import com.tiamosu.fly.utils.Preconditions
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/7/2.
  */
 open class BaseApplication : Application(), App {

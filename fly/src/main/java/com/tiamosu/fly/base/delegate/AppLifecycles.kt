@@ -7,7 +7,7 @@ import android.content.res.Configuration
 /**
  * 用于代理 [Application] 的生命周期
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 interface AppLifecycles {

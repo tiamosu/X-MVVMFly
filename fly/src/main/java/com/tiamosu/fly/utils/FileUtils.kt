@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.Utils
 import java.io.File
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/7/28.
  */
 object FileUtils {

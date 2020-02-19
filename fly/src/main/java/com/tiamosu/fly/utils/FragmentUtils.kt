@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/7/10.
  */
 @Suppress("UNCHECKED_CAST")

@@ -9,7 +9,7 @@ import com.tiamosu.fly.di.module.GlobalConfigModule
  * [ConfigModule] 可以给框架配置一些参数,需要实现 [ConfigModule] 后,在 AndroidManifest 中声明该实现类
  * @see [ConfigModule wiki 官方文档](https://github.com/JessYanCoding/MVPArms/wiki#2.1)
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 interface ConfigModule {

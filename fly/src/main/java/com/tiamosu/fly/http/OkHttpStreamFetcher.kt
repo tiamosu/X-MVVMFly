@@ -18,7 +18,7 @@ import java.io.InputStream
 /**
  * Fetches an [InputStream] using the okhttp library.
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/8/27.
  */
 class OkHttpStreamFetcher(private val client: Call.Factory, private val url: GlideUrl) :

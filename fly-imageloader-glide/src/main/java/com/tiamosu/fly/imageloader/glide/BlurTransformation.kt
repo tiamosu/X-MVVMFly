@@ -11,7 +11,7 @@ import java.security.MessageDigest
 /**
  * 高斯模糊
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/17.
  */
 class BlurTransformation(@IntRange(from = 0) radius: Int) : BitmapTransformation() {

@@ -4,7 +4,7 @@ package com.tiamosu.fly.integration.cache
  * 用于缓存框架中所必需的组件,开发者可通过 [com.tiamosu.fly.di.module.GlobalConfigModule.Builder.cacheFactory] 为框架提供缓存策略
  * 开发者也可以用于自己日常中的使用
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  * @see LruCache
  */

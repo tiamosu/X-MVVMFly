@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2019/9/25.
  */
 class RetrofitServiceProxyHandler(

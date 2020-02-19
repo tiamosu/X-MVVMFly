@@ -9,7 +9,7 @@ import com.bumptech.glide.Registry
  * 如果你想具有配置 [Glide] 的权利,则需要让 [com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy]
  * 的实现类也必须实现 [GlideAppliesOptions]
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/17.
  */
 interface GlideAppliesOptions {

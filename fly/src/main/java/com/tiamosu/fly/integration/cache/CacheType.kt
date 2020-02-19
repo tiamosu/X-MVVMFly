@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
  * 构建 [Cache] 时,使用 [CacheType] 中声明的类型,来区分不同的模块
  * 从而为不同的模块构建不同的缓存策略
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  * @see Cache.Factory.build
  */

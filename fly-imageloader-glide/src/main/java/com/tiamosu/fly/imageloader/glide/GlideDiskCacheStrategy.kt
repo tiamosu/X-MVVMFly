@@ -3,7 +3,7 @@ package com.tiamosu.fly.imageloader.glide
 import androidx.annotation.IntDef
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/9/19.
  */
 object GlideDiskCacheStrategy {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/9/17.
  */
 @Singleton

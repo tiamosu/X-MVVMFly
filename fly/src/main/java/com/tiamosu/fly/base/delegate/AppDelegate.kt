@@ -25,7 +25,7 @@ import java.util.*
  * 这时就不用再继承 [com.tiamosu.fly.base.BaseApplication], 只用在自定义 [Application] 中对应的生命周期调用 [AppDelegate] 的对应方法
  * ([Application] 一定要实现 [App] 接口), 框架就能照常运行, 并且 [Application] 中对应的生命周期可使用以下方式扩展
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 class AppDelegate(context: Context) : App, AppLifecycles {

@@ -1,7 +1,7 @@
 package com.tiamosu.fly.utils
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 @Suppress("unused")

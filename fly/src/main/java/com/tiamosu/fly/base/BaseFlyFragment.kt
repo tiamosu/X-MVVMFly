@@ -9,7 +9,7 @@ import me.yokeyword.fragmentation.SupportFragment
 import java.lang.ref.WeakReference
 
 /**
- * @author weixia
+ * @author tiamosu
  * @date 2020/2/18.
  */
 abstract class BaseFlyFragment : SupportFragment(), IBaseView {

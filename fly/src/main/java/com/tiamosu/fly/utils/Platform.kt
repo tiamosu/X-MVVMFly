@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Action
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/4/24.
  */
 object Platform {

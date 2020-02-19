@@ -16,7 +16,7 @@ import java.util.*
  * `value` 可存储至 [mMap] (数据永久存储至内存中, 适合比较重要的数据) 中, 否则储存至 [mCache]
  *
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 class IntelligentCache<V>(size: Int) : Cache<String, V> {

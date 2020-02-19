@@ -6,7 +6,7 @@ import android.content.Context
  * 图片加载策略,实现 [BaseImageLoaderStrategy]
  * 并通过 [ImageLoader.setLoadImgStrategy] 配置后,才可进行图片请求
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/17.
  */
 interface BaseImageLoaderStrategy<out T : ImageConfig> {

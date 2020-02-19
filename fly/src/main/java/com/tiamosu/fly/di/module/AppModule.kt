@@ -16,7 +16,7 @@ import javax.inject.Singleton
 /**
  * 提供一些框架必须的实例的 [Module]
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 @Suppress("unused")

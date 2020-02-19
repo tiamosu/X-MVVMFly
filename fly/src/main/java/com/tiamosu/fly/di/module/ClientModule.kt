@@ -23,7 +23,7 @@ import javax.inject.Singleton
 /**
  * 提供一些三方库客户端实例的 [Module]
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 @Suppress("unused")

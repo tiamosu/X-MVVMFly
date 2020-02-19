@@ -3,7 +3,7 @@ package com.tiamosu.fly.http
 import okhttp3.HttpUrl
 
 /**
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 interface BaseUrl {

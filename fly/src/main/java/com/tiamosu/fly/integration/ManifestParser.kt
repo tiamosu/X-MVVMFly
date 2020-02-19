@@ -8,7 +8,7 @@ import java.util.*
  * 用于解析 AndroidManifest 中的 Meta 属性
  * 配合 [ConfigModule] 使用
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 class ManifestParser(private val context: Context) {

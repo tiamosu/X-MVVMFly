@@ -12,7 +12,7 @@ import java.io.InputStream
 /**
  * A simple model loader for fetching media over http/https using OkHttp.
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/8/27.
  */
 class OkHttpUrlLoader(private val client: Call.Factory) : ModelLoader<GlideUrl, InputStream> {

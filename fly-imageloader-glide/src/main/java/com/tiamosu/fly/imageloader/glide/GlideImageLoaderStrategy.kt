@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers
  * 此类只是简单的实现了 Glide 加载的策略,方便快速使用,但大部分情况会需要应对复杂的场景
  * 这时可自行实现 [BaseImageLoaderStrategy] 和 [com.tiamosu.fly.http.imageloader.ImageConfig] 替换现有策略
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/17.
  */
 @Suppress("UNCHECKED_CAST")

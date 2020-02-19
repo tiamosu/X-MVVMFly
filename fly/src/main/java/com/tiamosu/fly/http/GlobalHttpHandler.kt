@@ -8,7 +8,7 @@ import okhttp3.Response
  * 处理 Http 请求和响应结果的处理类
  * 使用 [com.tiamosu.fly.di.module.GlobalConfigModule.Builder.globalHttpHandler] 方法配置
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/9/14.
  */
 interface GlobalHttpHandler {

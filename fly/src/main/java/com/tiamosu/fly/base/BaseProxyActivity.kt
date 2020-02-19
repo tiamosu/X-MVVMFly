@@ -10,7 +10,7 @@ import com.tiamosu.fly.utils.FragmentUtils
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**
- * @author weixia
+ * @author tiamosu
  * @date 2020/2/18.
  */
 abstract class BaseProxyActivity : BaseFlyActivity() {

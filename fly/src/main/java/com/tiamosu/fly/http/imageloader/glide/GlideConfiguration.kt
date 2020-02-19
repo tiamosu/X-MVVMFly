@@ -28,7 +28,7 @@ import java.io.InputStream
  * [AppGlideModule] 的默认实现类
  * 用于配置缓存文件夹,切换图片请求框架等操作
  *
- * @author xia
+ * @author tiamosu
  * @date 2018/8/27.
  */
 @GlideModule(glideName = "GlideFly")
