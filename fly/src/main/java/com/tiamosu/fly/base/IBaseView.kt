@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 
 /**
- * @author weixia
+ * @author tiamosu
  * @date 2020/2/18.
  */
-interface IActivity {
+interface IBaseView {
 
     /**
      * @return 用于布局加载
@@ -31,7 +31,7 @@ interface IActivity {
     fun initEvent()
 
     /**
-     * 用于执行相关业务，加载网络数据等
+     * 用于加载数据、处理相关业务逻辑等（Fragment中，懒加载）
      */
     fun doBusiness()
 }

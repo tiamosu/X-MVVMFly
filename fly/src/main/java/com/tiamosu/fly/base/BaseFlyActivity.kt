@@ -5,27 +5,26 @@ import android.view.View
 import me.yokeyword.fragmentation.SupportActivity
 
 /**
- * @author weixia
+ * @author tiamosu
  * @date 2020/2/18.
  */
-@Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseFlyActivity : SupportActivity(), IActivity {
-    var mContentView: View? = null
+abstract class BaseFlyActivity : SupportActivity(), IBaseView {
+    var rootView: View? = null
+        internal set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData(intent.extras)
         setContentView()
-        initView(savedInstanceState, mContentView)
+        initView(savedInstanceState, rootView)
         initEvent()
         doBusiness()
     }
 
     internal open fun setContentView() {
-        if (getLayoutId() <= 0) {
-            return
+        if (getLayoutId() > 0) {
+            rootView = View.inflate(this, getLayoutId(), null)
+            setContentView(rootView)
         }
-        mContentView = View.inflate(this, getLayoutId(), null)
-        setContentView(mContentView)
     }
 }

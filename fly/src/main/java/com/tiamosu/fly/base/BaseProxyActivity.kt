@@ -23,12 +23,12 @@ abstract class BaseProxyActivity : BaseFlyActivity() {
 
     @SuppressLint("RestrictedApi")
     override fun setContentView() {
-        mContentView = ContentFrameLayout(this)
-        mContentView!!.id = R.id.delegate_container
+        rootView = ContentFrameLayout(this)
+        rootView!!.id = R.id.delegate_container
         if (getLayoutId() > 0) {
-            View.inflate(this, getLayoutId(), (mContentView as ContentFrameLayout))
+            View.inflate(this, getLayoutId(), (rootView as ContentFrameLayout))
         }
-        setContentView(mContentView)
+        setContentView(rootView)
 
         if (findFragment(getRootFragment()) == null) {
             loadRootFragment(R.id.delegate_container, FragmentUtils.newInstance(getRootFragment()))
