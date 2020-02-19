@@ -1,6 +1,5 @@
 package com.tiamosu.fly.utils
 
-import android.util.Log
 import com.blankj.utilcode.util.SDCardUtils
 import com.blankj.utilcode.util.Utils
 import java.io.File
@@ -19,8 +18,6 @@ object FileUtils {
     @JvmStatic
     fun createDir(fileDirName: String): File? {
         val externalFileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath ?: ""
-        Log.e("xia", externalFileDirPath)
-
         val dir = "$externalFileDirPath/$fileDirName/"
         val fileDir = File(dir)
         return createOrExistsDir(fileDir)
