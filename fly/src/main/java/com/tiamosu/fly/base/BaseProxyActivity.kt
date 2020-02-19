@@ -3,8 +3,8 @@ package com.tiamosu.fly.base
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.annotation.NonNull
-import androidx.appcompat.widget.ContentFrameLayout
 import com.tiamosu.fly.R
 import com.tiamosu.fly.utils.FragmentUtils
 import me.yokeyword.fragmentation.ISupportFragment
@@ -23,10 +23,10 @@ abstract class BaseProxyActivity : BaseFlyActivity() {
 
     @SuppressLint("RestrictedApi")
     override fun setContentView() {
-        rootView = ContentFrameLayout(this)
+        rootView = FrameLayout(this)
         rootView!!.id = R.id.delegate_container
         if (getLayoutId() > 0) {
-            View.inflate(this, getLayoutId(), (rootView as ContentFrameLayout))
+            View.inflate(this, getLayoutId(), rootView as FrameLayout)
         }
         setContentView(rootView)
 
