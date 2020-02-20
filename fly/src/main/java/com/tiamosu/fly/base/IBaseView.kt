@@ -21,6 +21,11 @@ interface IBaseView {
     fun setContentView()
 
     /**
+     * 可自定义用于初始相关数据
+     */
+    fun initAny(savedInstanceState: Bundle?)
+
+    /**
      * 用于初始化数据
      */
     fun initData(bundle: Bundle?)

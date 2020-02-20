@@ -2,6 +2,7 @@ package com.tiamosu.fly.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.CallSuper
 import me.yokeyword.fragmentation.SupportActivity
 
 /**
@@ -13,11 +14,16 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initData(intent.extras)
         setContentView()
+        initAny(savedInstanceState)
+        doBusiness()
+    }
+
+    @CallSuper
+    override fun initAny(savedInstanceState: Bundle?) {
+        initData(intent.extras)
         initView(savedInstanceState, rootView)
         initEvent()
-        doBusiness()
     }
 
     override fun setContentView() {

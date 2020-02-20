@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import androidx.annotation.CallSuper
 import me.yokeyword.fragmentation.SupportFragment
 import java.lang.ref.WeakReference
 
@@ -55,6 +56,11 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initAny(savedInstanceState)
+    }
+
+    @CallSuper
+    override fun initAny(savedInstanceState: Bundle?) {
         initData(arguments)
         initView(savedInstanceState, rootView)
         initEvent()
