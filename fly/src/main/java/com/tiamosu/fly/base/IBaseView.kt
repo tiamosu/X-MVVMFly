@@ -16,6 +16,11 @@ interface IBaseView {
     fun getLayoutId(): Int
 
     /**
+     * 生成布局视图
+     */
+    fun setContentView()
+
+    /**
      * 用于初始化数据
      */
     fun initData(bundle: Bundle?)

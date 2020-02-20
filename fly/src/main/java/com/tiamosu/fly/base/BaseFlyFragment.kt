@@ -13,17 +13,14 @@ import java.lang.ref.WeakReference
  * @date 2020/2/18.
  */
 abstract class BaseFlyFragment : SupportFragment(), IBaseView {
-    private var weakReferenceRootView: WeakReference<View>? = null
+    private var inflater: LayoutInflater? = null
+
     //保证转场动画的流畅性
     private var isonLazyInitView = false
     private var isOnEnterAnimationEnd = false
 
     @Suppress("MemberVisibilityCanBePrivate")
     var rootView: View? = null
-        get() {
-            return weakReferenceRootView?.get()
-        }
-        internal set
 
     @Suppress("UNCHECKED_CAST")
     fun <T : SupportFragment> getParentDelegate(): T {
@@ -35,21 +32,26 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val contentView = rootView
-        if (contentView == null) {
-            if (getLayoutId() > 0) {
-                val view = inflater.inflate(getLayoutId(), container, false)
-                weakReferenceRootView = WeakReference(view)
-            }
+        this.inflater = inflater
+        if (rootView == null) {
+            setContentView()
         } else {
             // 缓存的 rootView 需要判断是否已经被加过 parent，如果有 parent 需要从 parent 删除，
             // 要不然会发生这个 rootview 已经有 parent 的错误。
             var viewParent: ViewParent
-            if (contentView.parent.also { viewParent = it } is ViewGroup) {
-                (viewParent as ViewGroup).removeView(contentView)
+            if (rootView!!.parent.also { viewParent = it } is ViewGroup) {
+                (viewParent as ViewGroup).removeView(rootView)
             }
         }
-        return contentView ?: rootView
+        return rootView
+    }
+
+    override fun setContentView() {
+        if (getLayoutId() > 0) {
+            val view = inflater?.inflate(getLayoutId(), null)
+            val weakReferenceRootView = WeakReference(view)
+            rootView = weakReferenceRootView.get()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

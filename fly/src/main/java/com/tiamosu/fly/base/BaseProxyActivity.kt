@@ -1,6 +1,5 @@
 package com.tiamosu.fly.base
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -21,7 +20,6 @@ abstract class BaseProxyActivity : BaseFlyActivity() {
     @NonNull
     protected abstract fun getRootFragment(): Class<out ISupportFragment>
 
-    @SuppressLint("RestrictedApi")
     override fun setContentView() {
         rootView = FrameLayout(this)
         rootView!!.id = R.id.delegate_container

@@ -10,7 +10,6 @@ import me.yokeyword.fragmentation.SupportActivity
  */
 abstract class BaseFlyActivity : SupportActivity(), IBaseView {
     var rootView: View? = null
-        internal set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +20,7 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
         doBusiness()
     }
 
-    internal open fun setContentView() {
+    override fun setContentView() {
         if (getLayoutId() > 0) {
             rootView = View.inflate(this, getLayoutId(), null)
             setContentView(rootView)
