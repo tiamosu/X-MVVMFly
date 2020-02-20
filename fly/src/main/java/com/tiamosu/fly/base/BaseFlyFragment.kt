@@ -14,13 +14,12 @@ import java.lang.ref.WeakReference
  */
 abstract class BaseFlyFragment : SupportFragment(), IBaseView {
     private var inflater: LayoutInflater? = null
+    @Suppress("MemberVisibilityCanBePrivate")
+    var rootView: View? = null
 
     //保证转场动画的流畅性
     private var isonLazyInitView = false
     private var isOnEnterAnimationEnd = false
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    var rootView: View? = null
 
     @Suppress("UNCHECKED_CAST")
     fun <T : SupportFragment> getParentDelegate(): T {
