@@ -12,9 +12,9 @@ import java.lang.ref.WeakReference
  * @author tiamosu
  * @date 2020/2/18.
  */
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFlyFragment : SupportFragment(), IBaseView {
-    private var inflater: LayoutInflater? = null
-    @Suppress("MemberVisibilityCanBePrivate")
+    var inflater: LayoutInflater? = null
     var rootView: View? = null
 
     //保证转场动画的流畅性
