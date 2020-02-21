@@ -13,7 +13,7 @@ import me.yokeyword.fragmentation.ISupportFragment
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseProxyActivity : BaseFlyActivity() {
+abstract class FlyProxyActivity : BaseFlyActivity() {
 
     /**
      * @return 设置根Fragment

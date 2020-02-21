@@ -1,12 +1,12 @@
 package com.tiamosu.fly.demo
 
-import com.tiamosu.fly.base.BaseProxyActivity
+import com.tiamosu.fly.base.FlyProxyActivity
 import com.tiamosu.fly.demo.page.SplashFragment
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
-class MainActivity : BaseProxyActivity() {
+class MainActivity : FlyProxyActivity() {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
