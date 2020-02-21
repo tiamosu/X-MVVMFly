@@ -16,8 +16,8 @@ class MainActivity : BaseProxyActivity() {
         return SplashFragment::class.java
     }
 
-    override fun loadRootFragment() {
-        super.loadRootFragment()
+    override fun loadRootFragment(containerId: Int) {
+        super.loadRootFragment(R.id.main_container_fl)
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator? {

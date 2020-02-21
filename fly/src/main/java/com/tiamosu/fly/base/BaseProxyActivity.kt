@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import androidx.annotation.NonNull
 import com.tiamosu.fly.R
 import com.tiamosu.fly.utils.FragmentUtils
+import com.tiamosu.fly.utils.Preconditions
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**
@@ -21,18 +22,26 @@ abstract class BaseProxyActivity : BaseFlyActivity() {
     protected abstract fun getRootFragment(): Class<out ISupportFragment>
 
     override fun setContentView() {
-        rootView = FrameLayout(this)
-        rootView!!.id = R.id.delegate_container
-        if (getLayoutId() > 0) {
-            View.inflate(this, getLayoutId(), rootView as FrameLayout)
+        if (getLayoutId() <= 0) {
+            rootView = FrameLayout(this)
+            rootView!!.id = R.id.delegate_container
+            setContentView(rootView)
+        } else {
+            super.setContentView()
         }
-        setContentView(rootView)
-        loadRootFragment()
+
+        loadRootFragment(R.id.delegate_container)
     }
 
-    protected open fun loadRootFragment() {
+    protected open fun loadRootFragment(containerId: Int) {
+        if (getLayoutId() > 0 && containerId == R.id.delegate_container) {
+            Preconditions.checkArgument(
+                false,
+                "you should override loadRootFragment(containerId)!"
+            )
+        }
         if (findFragment(getRootFragment()) == null) {
-            loadRootFragment(R.id.delegate_container, FragmentUtils.newInstance(getRootFragment()))
+            loadRootFragment(containerId, FragmentUtils.newInstance(getRootFragment()))
         }
     }
 
