@@ -5,7 +5,18 @@ apply {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //support
-    api Deps.androidx_appcompat
+    api Deps.androidx_annotation
+    api(Deps.androidx_appcompat) {
+        exclude module: 'annotation'
+        exclude module: 'lifecycle-common'
+        exclude module: 'lifecycle-livedata'
+        exclude module: 'lifecycle-viewmodel'
+        exclude module: 'lifecycle-runtime'
+    }
+    api Deps.lifecycle_common_java8
+    api Deps.lifecycle_livedata
+    api Deps.lifecycle_viewmodel
+    api Deps.lifecycle_runtime
 
     //fragment框架
     api Deps.fragmentation_support_androidx

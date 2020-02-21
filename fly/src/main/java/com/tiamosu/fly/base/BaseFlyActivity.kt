@@ -3,6 +3,7 @@ package com.tiamosu.fly.base
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import com.tiamosu.fly.http.manager.NetworkStateManager
 import me.yokeyword.fragmentation.SupportActivity
 
 /**
@@ -16,6 +17,10 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
         super.onCreate(savedInstanceState)
         setContentView()
         initAny(savedInstanceState)
+
+        //添加网络状态监听
+        lifecycle.addObserver(NetworkStateManager.instance)
+
         doBusiness()
     }
 
@@ -28,7 +33,7 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
 
     override fun setContentView() {
         if (getLayoutId() > 0) {
-            rootView = View.inflate(this, getLayoutId(), null)
+            rootView = View.inflate(getContext(), getLayoutId(), null)
             setContentView(rootView)
         }
     }

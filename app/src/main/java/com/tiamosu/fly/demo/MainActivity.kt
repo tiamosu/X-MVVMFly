@@ -1,12 +1,26 @@
 package com.tiamosu.fly.demo
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.tiamosu.fly.base.BaseProxyActivity
+import com.tiamosu.fly.demo.page.SplashFragment
+import me.yokeyword.fragmentation.ISupportFragment
+import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator
+import me.yokeyword.fragmentation.anim.FragmentAnimator
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseProxyActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun getRootFragment(): Class<out ISupportFragment> {
+        return SplashFragment::class.java
+    }
+
+    override fun loadRootFragment() {
+        super.loadRootFragment()
+    }
+
+    override fun onCreateFragmentAnimator(): FragmentAnimator? {
+        return DefaultVerticalAnimator()
     }
 }

@@ -27,7 +27,10 @@ abstract class BaseProxyActivity : BaseFlyActivity() {
             View.inflate(this, getLayoutId(), rootView as FrameLayout)
         }
         setContentView(rootView)
+        loadRootFragment()
+    }
 
+    protected open fun loadRootFragment() {
         if (findFragment(getRootFragment()) == null) {
             loadRootFragment(R.id.delegate_container, FragmentUtils.newInstance(getRootFragment()))
         }

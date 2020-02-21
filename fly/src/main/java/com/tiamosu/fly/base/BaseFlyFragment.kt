@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import androidx.annotation.CallSuper
+import androidx.lifecycle.Observer
+import com.tiamosu.fly.http.manager.NetworkStateManager
 import me.yokeyword.fragmentation.SupportFragment
 import java.lang.ref.WeakReference
 
@@ -57,6 +59,15 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initAny(savedInstanceState)
+
+        NetworkStateManager.instance.networkStateCallback.observe(
+            this, Observer { isAvailable ->
+                onNetworkStateChanged(isAvailable)
+            }
+        )
+    }
+
+    protected open fun onNetworkStateChanged(isAvailable: Boolean?) {
     }
 
     @CallSuper

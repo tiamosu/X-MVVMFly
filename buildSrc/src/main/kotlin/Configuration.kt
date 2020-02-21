@@ -1,4 +1,4 @@
-@file:Suppress("unused", "SpellCheckingInspection")
+@file:Suppress("unused")
 
 object Android {
     const val compileSdkVersion = 29
@@ -11,6 +11,7 @@ object Android {
 }
 
 object Versions {
+    const val lifecycle = "2.2.0"
     const val kotlin = "1.3.61"
     const val retrofit2 = "2.6.4"
     const val okhttp3 = "3.12.8" //版本3.12.X，兼容Android 4
@@ -37,6 +38,13 @@ object Deps {
     const val androidx_recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
+
+    //lifecycle
+    const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
+    const val lifecycle_common_java8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
+    const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel:${Versions.lifecycle}"
+    const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:${Versions.lifecycle}"
 
     //kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
