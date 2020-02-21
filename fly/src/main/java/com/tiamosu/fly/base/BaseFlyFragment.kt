@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import androidx.annotation.CallSuper
-import androidx.lifecycle.Observer
-import com.tiamosu.fly.http.manager.NetworkStateManager
+import com.tiamosu.fly.http.manager.NetworkDelegate
 import me.yokeyword.fragmentation.SupportFragment
 import java.lang.ref.WeakReference
 
@@ -19,6 +18,8 @@ import java.lang.ref.WeakReference
 abstract class BaseFlyFragment : SupportFragment(), IBaseView {
     var inflater: LayoutInflater? = null
     var rootView: View? = null
+
+    private val networkDelegate by lazy { NetworkDelegate() }
 
     //保证转场动画的流畅性
     private var isonLazyInitView = false
@@ -59,15 +60,6 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initAny(savedInstanceState)
-
-        NetworkStateManager.instance.networkStateCallback.observe(
-            this, Observer { isAvailable ->
-                onNetworkStateChanged(isAvailable)
-            }
-        )
-    }
-
-    protected open fun onNetworkStateChanged(isAvailable: Boolean?) {
     }
 
     @CallSuper
@@ -75,6 +67,15 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
         initData(arguments)
         initView(savedInstanceState, rootView)
         initEvent()
+
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+    }
+
+    override fun onNetworkStateChanged(isAvailable: Boolean) {
+    }
+
+    override fun onNetReConnect() {
     }
 
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {

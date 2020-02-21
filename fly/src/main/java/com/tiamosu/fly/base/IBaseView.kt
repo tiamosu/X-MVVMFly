@@ -44,4 +44,14 @@ interface IBaseView {
      * 用于加载数据、处理相关业务逻辑等（Fragment中，懒加载）
      */
     fun doBusiness()
+
+    /**
+     * 网络是否连接可用
+     */
+    fun onNetworkStateChanged(isAvailable: Boolean)
+
+    /**
+     * 用于网络连接恢复后加载
+     */
+    fun onNetReConnect()
 }

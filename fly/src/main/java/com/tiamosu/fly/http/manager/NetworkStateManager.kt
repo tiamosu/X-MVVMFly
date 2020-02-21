@@ -21,23 +21,31 @@ import com.tiamosu.fly.utils.FlyUtils
  * @date 2020/2/20.
  */
 class NetworkStateManager private constructor() : DefaultLifecycleObserver {
-    private var connectivityManager: ConnectivityManager? = null
-    private var context: Context? = null
+    private val contextMap: MutableMap<LifecycleOwner, Context?> = mutableMapOf()
+    private val managerMap: MutableMap<LifecycleOwner, ConnectivityManager?> = mutableMapOf()
     val networkStateCallback = UnPeekLiveData<Boolean>()
+
+    override fun onCreate(owner: LifecycleOwner) {
+        val context = FlyUtils.getContext(owner)
+        val connectivityManager =
+            context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        contextMap[owner] = context
+        managerMap[owner] = connectivityManager
+    }
 
     @Suppress("DEPRECATION")
     override fun onStart(owner: LifecycleOwner) {
         updateConnection(null)
 
-        context = context ?: FlyUtils.getContext(owner)
-        connectivityManager = connectivityManager
-            ?: context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-
+        val context = contextMap[owner]
+        val connectivityManager = managerMap[owner]
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectivityManager?.registerDefaultNetworkCallback(networkCallback)
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest()
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest(
+                connectivityManager
+            )
             else -> {
                 context?.registerReceiver(
                     networkReceiver,
@@ -48,10 +56,8 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        context = context ?: FlyUtils.getContext(owner)
-        connectivityManager = connectivityManager
-            ?: context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-
+        val context = contextMap[owner]
+        val connectivityManager = managerMap[owner]
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManager?.unregisterNetworkCallback(networkCallback)
         } else {
@@ -59,8 +65,13 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
         }
     }
 
+    override fun onDestroy(owner: LifecycleOwner) {
+        contextMap.remove(owner)
+        managerMap.remove(owner)
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun lollipopNetworkAvailableRequest() {
+    private fun lollipopNetworkAvailableRequest(connectivityManager: ConnectivityManager?) {
         val builder = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -89,9 +100,9 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     }
 
     private fun updateConnection(isAvailable: Boolean?) {
-        //**判断当前的网络连接状态是否可用*/
-        isAvailable ?: NetworkUtils.isConnected()
-        networkStateCallback.postValue(isAvailable)
+        //判断当前的网络连接状态是否可用
+        val available = isAvailable ?: NetworkUtils.isConnected()
+        networkStateCallback.postValue(available)
     }
 
     companion object {

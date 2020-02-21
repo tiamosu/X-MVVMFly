@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.base.App
 import com.tiamosu.fly.di.component.AppComponent
@@ -22,41 +24,38 @@ object FlyUtils {
     }
 
     @JvmStatic
-    fun getContext(lifecycleOwner: LifecycleOwner): Context? {
-        return when (lifecycleOwner) {
+    fun getContext(owner: LifecycleOwner): Context? {
+        return when (owner) {
             is SupportFragment -> {
-                lifecycleOwner.context
+                owner.context
             }
             is Fragment -> {
-                lifecycleOwner.context
+                owner.context
             }
             is SupportActivity -> {
-                lifecycleOwner.getContext()
+                owner.getContext()
             }
             is Activity -> {
-                lifecycleOwner
+                owner
             }
             else -> null
         }
     }
 
-//    @JvmStatic
-//    fun isCurrentVisible(lifecycleOwner: LifecycleOwner): Boolean {
-//        when (lifecycleOwner) {
-//            is Activity -> {
-//                val activity = lifecycleOwner as Activity?
-//                return AppUtils.isAppForeground()
-//                        && ActivityUtils.getTopActivity() == activity!!
-//            }
-//            is FlySupportFragment<*> -> {
-//                val fragment = lifecycleOwner as FlySupportFragment<*>?
-//                return fragment!!.isSupportVisible()
-//            }
-//            is Fragment -> {
-//                val fragment = lifecycleOwner as Fragment?
-//                return fragment!!.isVisible
-//            }
-//            else -> return false
-//        }
-//    }
+    @JvmStatic
+    fun isPageVisible(owner: LifecycleOwner): Boolean {
+        return when (owner) {
+            is Activity -> {
+                val activity = owner as Activity
+                (AppUtils.isAppForeground() && ActivityUtils.getTopActivity() == activity)
+            }
+            is SupportFragment -> {
+                owner.isSupportVisible()
+            }
+            is Fragment -> {
+                owner.isVisible
+            }
+            else -> false
+        }
+    }
 }

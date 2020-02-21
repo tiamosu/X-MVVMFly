@@ -1,6 +1,5 @@
 package com.tiamosu.fly.demo.base
 
-import android.os.Bundle
 import android.util.Log
 import com.tiamosu.fly.base.BaseFlyFragment
 
@@ -10,12 +9,11 @@ import com.tiamosu.fly.base.BaseFlyFragment
  */
 abstract class BaseFragment : BaseFlyFragment() {
 
-    override fun initAny(savedInstanceState: Bundle?) {
-        super.initAny(savedInstanceState)
+    override fun onNetworkStateChanged(isAvailable: Boolean) {
+        Log.e("xia", "页面====：${javaClass.simpleName}   网络状态=====：$isAvailable")
     }
 
-    override fun onNetworkStateChanged(isAvailable: Boolean?) {
-        super.onNetworkStateChanged(isAvailable)
-        Log.e("xia", "页面====：${javaClass.simpleName}   网络状态=====：$isAvailable")
+    override fun onNetReConnect() {
+        Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
     }
 }
