@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.manager
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.base.IBaseView
@@ -17,6 +18,9 @@ class NetworkDelegate {
 
     fun addNetworkObserve(baseview: IBaseView) {
         val owner = baseview as? LifecycleOwner ?: return
+        if (owner is AppCompatActivity) {
+            owner.lifecycle.addObserver(NetworkStateManager.instance)
+        }
         NetworkStateManager.instance.networkStateCallback.observe(owner,
             Observer { isAvailable ->
                 val currentNetStatus =

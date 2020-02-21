@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import com.tiamosu.fly.http.manager.NetworkDelegate
-import com.tiamosu.fly.http.manager.NetworkStateManager
 import me.yokeyword.fragmentation.SupportActivity
 
 /**
@@ -38,7 +37,6 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
         initEvent()
 
         //添加网络状态监听
-        lifecycle.addObserver(NetworkStateManager.instance)
         networkDelegate.addNetworkObserve(this)
     }
 
