@@ -8,7 +8,7 @@ import com.tiamosu.fly.di.component.AppComponent
  * @author tiamosu
  * @date 2018/9/14.
  */
-interface App {
+interface IFlyApp {
 
     fun getAppComponent(): AppComponent
 }

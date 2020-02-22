@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.manager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.tiamosu.fly.base.IBaseView
+import com.tiamosu.fly.base.IFlyBaseView
 import com.tiamosu.fly.utils.FlyUtils
 
 /**
@@ -16,7 +16,7 @@ class NetworkDelegate {
     //网络是否重新连接
     private var isNetReConnect: Boolean = false
 
-    fun addNetworkObserve(baseview: IBaseView) {
+    fun addNetworkObserve(baseview: IFlyBaseView) {
         val owner = baseview as? LifecycleOwner ?: return
         if (owner is AppCompatActivity) {
             owner.lifecycle.addObserver(NetworkStateManager.instance)

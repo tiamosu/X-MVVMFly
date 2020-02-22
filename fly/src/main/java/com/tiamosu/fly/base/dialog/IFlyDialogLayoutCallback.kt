@@ -7,17 +7,17 @@ import android.view.Window
  * @author tiamosu
  * @date 2020/2/19.
  */
-interface IDialogLayoutCallback {
+interface IFlyDialogLayoutCallback {
 
     fun bindTheme(): Int
 
     fun bindLayout(): Int
 
-    fun initView(dialog: BaseDialogFragment, contentView: View)
+    fun initView(dialog: BaseFlyDialogFragment, contentView: View)
 
     fun setWindowStyle(window: Window)
 
-    fun onCancel(dialog: BaseDialogFragment)
+    fun onCancel(dialog: BaseFlyDialogFragment)
 
-    fun onDismiss(dialog: BaseDialogFragment)
+    fun onDismiss(dialog: BaseFlyDialogFragment)
 }

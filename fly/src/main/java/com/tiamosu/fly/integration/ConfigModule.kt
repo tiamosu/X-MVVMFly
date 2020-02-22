@@ -2,7 +2,7 @@ package com.tiamosu.fly.integration
 
 import android.app.Application
 import android.content.Context
-import com.tiamosu.fly.base.delegate.AppLifecycles
+import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.module.GlobalConfigModule
 
 /**
@@ -23,10 +23,10 @@ interface ConfigModule {
     fun applyOptions(context: Context, builder: GlobalConfigModule.Builder)
 
     /**
-     * 使用 [AppLifecycles] 在 [Application] 的生命周期中注入一些操作
+     * 使用 [IFlyAppLifecycles] 在 [Application] 的生命周期中注入一些操作
      *
      * @param context    [Context]
      * @param lifecycles [Application] 的生命周期容器, 可向框架中添加多个 [Application] 的生命周期类
      */
-    fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycles>)
+    fun injectAppLifecycle(context: Context, lifecycles: MutableList<IFlyAppLifecycles>)
 }

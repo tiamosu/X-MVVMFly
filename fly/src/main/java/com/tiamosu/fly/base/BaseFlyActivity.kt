@@ -10,7 +10,7 @@ import me.yokeyword.fragmentation.SupportActivity
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyActivity : SupportActivity(), IBaseView {
+abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
     var rootView: View? = null
 
     private val networkDelegate by lazy { NetworkDelegate() }

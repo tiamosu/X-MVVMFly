@@ -17,18 +17,18 @@ import com.blankj.utilcode.util.Utils
  * @date 2020/2/19.
  */
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseDialogFragment : DialogFragment() {
-    protected var mDialogLayoutCallback: IDialogLayoutCallback? = null
-    protected var mDialogCallback: IDialogCallback? = null
+abstract class BaseFlyDialogFragment : DialogFragment() {
+    protected var mDialogLayoutCallback: IFlyDialogLayoutCallback? = null
+    protected var mDialogCallback: IFlyDialogCallback? = null
     protected var mActivity: FragmentActivity? = null
 
-    fun init(@NonNull activity: FragmentActivity, layoutCallback: IDialogLayoutCallback?): BaseDialogFragment {
+    fun init(@NonNull activity: FragmentActivity, layoutCallback: IFlyDialogLayoutCallback?): BaseFlyDialogFragment {
         mActivity = activity
         mDialogLayoutCallback = layoutCallback
         return this
     }
 
-    fun init(@NonNull activity: FragmentActivity, dialogCallback: IDialogCallback?): BaseDialogFragment {
+    fun init(@NonNull activity: FragmentActivity, dialogCallback: IFlyDialogCallback?): BaseFlyDialogFragment {
         mActivity = activity
         mDialogCallback = dialogCallback
         return this
@@ -94,7 +94,7 @@ abstract class BaseDialogFragment : DialogFragment() {
                 if (prev != null) {
                     fm.beginTransaction().remove(prev)
                 }
-                super@BaseDialogFragment.showNow(fm, tag)
+                super@BaseFlyDialogFragment.showNow(fm, tag)
             }
         }
     }
@@ -102,7 +102,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     override fun dismiss() {
         Utils.runOnUiThread {
             if (ActivityUtils.isActivityAlive(mActivity)) {
-                super@BaseDialogFragment.dismissAllowingStateLoss()
+                super@BaseFlyDialogFragment.dismissAllowingStateLoss()
             }
         }
     }

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull
  * @author tiamosu
  * @date 2020/2/19.
  */
-interface IDialogCallback {
+interface IFlyDialogCallback {
 
     @NonNull
     fun bindDialog(activity: Activity): Dialog

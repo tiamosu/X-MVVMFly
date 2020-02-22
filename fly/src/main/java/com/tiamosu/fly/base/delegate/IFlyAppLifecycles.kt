@@ -10,7 +10,7 @@ import android.content.res.Configuration
  * @author tiamosu
  * @date 2018/9/14.
  */
-interface AppLifecycles {
+interface IFlyAppLifecycles {
 
     fun attachBaseContext(context: Context)
 

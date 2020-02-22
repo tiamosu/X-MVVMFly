@@ -8,7 +8,7 @@ import android.content.ContentProvider
 import android.content.Context
 import android.content.res.Configuration
 import androidx.fragment.app.Fragment
-import com.tiamosu.fly.base.App
+import com.tiamosu.fly.base.IFlyApp
 import com.tiamosu.fly.di.component.AppComponent
 import com.tiamosu.fly.di.component.DaggerAppComponent
 import com.tiamosu.fly.di.module.GlobalConfigModule
@@ -20,20 +20,20 @@ import com.tiamosu.fly.utils.Preconditions
 import java.util.*
 
 /**
- * [AppDelegate] 可以代理 [Application] 的生命周期, 在对应的生命周期, 执行对应的逻辑, 因为 Java 只能单继承,
+ * [FlyAppDelegate] 可以代理 [Application] 的生命周期, 在对应的生命周期, 执行对应的逻辑, 因为 Java 只能单继承,
  * 所以当遇到某些三方库需要继承于它的 [Application] 的时候, 就只有自定义 [Application] 并继承于三方库的 [Application],
- * 这时就不用再继承 [com.tiamosu.fly.base.BaseApplication], 只用在自定义 [Application] 中对应的生命周期调用 [AppDelegate] 的对应方法
- * ([Application] 一定要实现 [App] 接口), 框架就能照常运行, 并且 [Application] 中对应的生命周期可使用以下方式扩展
+ * 这时就不用再继承 [com.tiamosu.fly.base.BaseFlyApplication], 只用在自定义 [Application] 中对应的生命周期调用 [FlyAppDelegate] 的对应方法
+ * ([Application] 一定要实现 [IFlyApp] 接口), 框架就能照常运行, 并且 [Application] 中对应的生命周期可使用以下方式扩展
  *
  * @author tiamosu
  * @date 2018/9/14.
  */
-class AppDelegate(context: Context) : App, AppLifecycles {
+class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
     private var mApplication: Application? = null
     private var mAppComponent: AppComponent? = null
 
     private var mConfigModules: List<ConfigModule>? = null
-    private var mAppLifecycles: MutableList<AppLifecycles>? = ArrayList()
+    private var mAppLifecycles: MutableList<IFlyAppLifecycles>? = ArrayList()
     private var mComponentCallback: ComponentCallbacks2? = null
 
     init {

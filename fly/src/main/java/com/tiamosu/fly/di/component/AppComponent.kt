@@ -2,7 +2,7 @@ package com.tiamosu.fly.di.component
 
 import android.app.Application
 import com.google.gson.Gson
-import com.tiamosu.fly.base.delegate.AppDelegate
+import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.di.module.AppModule
 import com.tiamosu.fly.di.module.ClientModule
 import com.tiamosu.fly.di.module.GlobalConfigModule
@@ -93,7 +93,7 @@ interface AppComponent {
      */
     fun executorService(): ExecutorService
 
-    fun inject(delegate: AppDelegate)
+    fun inject(delegate: FlyAppDelegate)
 
     @Component.Builder
     interface Builder {

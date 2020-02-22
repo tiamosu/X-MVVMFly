@@ -3,8 +3,8 @@ package com.tiamosu.fly.base
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import com.tiamosu.fly.base.delegate.AppDelegate
-import com.tiamosu.fly.base.delegate.AppLifecycles
+import com.tiamosu.fly.base.delegate.FlyAppDelegate
+import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.component.AppComponent
 import com.tiamosu.fly.utils.Preconditions
 
@@ -12,12 +12,12 @@ import com.tiamosu.fly.utils.Preconditions
  * @author tiamosu
  * @date 2018/7/2.
  */
-open class BaseApplication : Application(), App {
-    private var mAppDelegate: AppLifecycles? = null
+open class BaseFlyApplication : Application(), IFlyApp {
+    private var mAppDelegate: IFlyAppLifecycles? = null
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        mAppDelegate = mAppDelegate ?: AppDelegate(base)
+        mAppDelegate = mAppDelegate ?: FlyAppDelegate(base)
         mAppDelegate?.attachBaseContext(base)
     }
 
@@ -60,14 +60,14 @@ open class BaseApplication : Application(), App {
         Preconditions.checkNotNull<Any>(
             mAppDelegate,
             "%s cannot be null",
-            AppLifecycles::class.java.name
+            IFlyAppLifecycles::class.java.name
         )
         Preconditions.checkState(
-            mAppDelegate is App,
+            mAppDelegate is IFlyApp,
             "%s must be implements %s",
-            AppLifecycles::class.java.name,
-            App::class.java.name
+            IFlyAppLifecycles::class.java.name,
+            IFlyApp::class.java.name
         )
-        return (mAppDelegate as App).getAppComponent()
+        return (mAppDelegate as IFlyApp).getAppComponent()
     }
 }

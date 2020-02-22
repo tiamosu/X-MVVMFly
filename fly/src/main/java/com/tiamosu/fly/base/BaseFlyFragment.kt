@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference
  * @date 2020/2/18.
  */
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseFlyFragment : SupportFragment(), IBaseView {
+abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     var inflater: LayoutInflater? = null
     var rootView: View? = null
 

@@ -7,7 +7,7 @@ import android.view.View
  * @author tiamosu
  * @date 2020/2/18.
  */
-interface IBaseView {
+interface IFlyBaseView {
 
     /**
      * @return 用于布局加载

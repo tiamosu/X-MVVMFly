@@ -27,7 +27,7 @@ object FlyDialogHelper {
     }
 
     @JvmStatic
-    fun safeShowDialog(dialogFragment: BaseDialogFragment?) {
+    fun safeShowDialog(dialogFragment: BaseFlyDialogFragment?) {
         try {
             if (dialogFragment?.showsDialog == false) {
                 dialogFragment.show()
@@ -37,7 +37,7 @@ object FlyDialogHelper {
     }
 
     @JvmStatic
-    fun safeCloseDialog(dialogFragment: BaseDialogFragment?) {
+    fun safeCloseDialog(dialogFragment: BaseFlyDialogFragment?) {
         try {
             if (dialogFragment?.showsDialog == true) {
                 dialogFragment.dismiss()

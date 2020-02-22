@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.base.App
+import com.tiamosu.fly.base.IFlyApp
 import com.tiamosu.fly.di.component.AppComponent
 import me.yokeyword.fragmentation.SupportActivity
 import me.yokeyword.fragmentation.SupportFragment
@@ -20,7 +20,7 @@ object FlyUtils {
 
     @JvmStatic
     fun getAppComponent(): AppComponent {
-        return (Utils.getApp() as App).getAppComponent()
+        return (Utils.getApp() as IFlyApp).getAppComponent()
     }
 
     @JvmStatic
