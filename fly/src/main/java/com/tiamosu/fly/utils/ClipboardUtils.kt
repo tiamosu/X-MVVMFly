@@ -1,12 +1,10 @@
 package com.tiamosu.fly.utils
 
 import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-
 import com.blankj.utilcode.util.Utils
+import com.tiamosu.fly.integration.extension.clipboardManager
 
 /**
  * @author tiamosu
@@ -17,9 +15,6 @@ import com.blankj.utilcode.util.Utils
 @Suppress("unused")
 object ClipboardUtils {
 
-    private val clipboardManager: ClipboardManager by lazy {
-        Utils.getApp().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    }
 
     /**
      * 复制文本到剪贴板

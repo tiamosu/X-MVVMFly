@@ -13,41 +13,30 @@ import android.os.Build
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.Utils
+import com.tiamosu.fly.integration.extension.connectivityManager
 import com.tiamosu.fly.integration.livedata.UnPeekLiveData
-import com.tiamosu.fly.utils.FlyUtils
 
 /**
  * @author tiamosu
  * @date 2020/2/20.
  */
 class NetworkStateManager private constructor() : DefaultLifecycleObserver {
-    private val contextMap: MutableMap<LifecycleOwner, Context?> = mutableMapOf()
-    private val managerMap: MutableMap<LifecycleOwner, ConnectivityManager?> = mutableMapOf()
     val networkStateCallback = UnPeekLiveData<Boolean>()
-
-    override fun onCreate(owner: LifecycleOwner) {
-        val context = FlyUtils.getContext(owner)
-        val connectivityManager =
-            context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        contextMap[owner] = context
-        managerMap[owner] = connectivityManager
-    }
 
     @Suppress("DEPRECATION")
     override fun onStart(owner: LifecycleOwner) {
         updateConnection(null)
 
-        val context = contextMap[owner]
-        val connectivityManager = managerMap[owner]
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                connectivityManager?.registerDefaultNetworkCallback(networkCallback)
+                connectivityManager.registerDefaultNetworkCallback(networkCallback)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest(
                 connectivityManager
             )
             else -> {
-                context?.registerReceiver(
+                Utils.getApp()?.registerReceiver(
                     networkReceiver,
                     IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
                 )
@@ -56,18 +45,11 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        val context = contextMap[owner]
-        val connectivityManager = managerMap[owner]
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            connectivityManager?.unregisterNetworkCallback(networkCallback)
+            connectivityManager.unregisterNetworkCallback(networkCallback)
         } else {
-            context?.unregisterReceiver(networkReceiver)
+            Utils.getApp()?.unregisterReceiver(networkReceiver)
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        contextMap.remove(owner)
-        managerMap.remove(owner)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
