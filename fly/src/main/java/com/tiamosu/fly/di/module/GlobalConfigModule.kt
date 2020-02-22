@@ -63,7 +63,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
     }
 
     /**
-     * 提供 BaseUrl, 默认使用 <"https://api.github.com/">
+     * 提供 BaseUrl
      */
     @Singleton
     @Provides
