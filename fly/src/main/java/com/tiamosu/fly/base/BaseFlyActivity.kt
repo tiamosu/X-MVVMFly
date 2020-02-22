@@ -39,6 +39,6 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
         networkDelegate.addNetworkObserve(this)
     }
 
-    override fun onNetworkStateChanged(isAvailable: Boolean) {}
+    override fun onNetworkStateChanged(isConnected: Boolean) {}
     override fun onNetReConnect() {}
 }

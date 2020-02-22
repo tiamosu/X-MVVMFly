@@ -9,8 +9,8 @@ import com.tiamosu.fly.base.BaseFlyActivity
  */
 abstract class BaseActivity : BaseFlyActivity() {
 
-    override fun onNetworkStateChanged(isAvailable: Boolean) {
-        Log.e("xia", "页面====：${javaClass.simpleName}   网络状态=====：$isAvailable")
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        Log.e("xia", "页面====：${javaClass.simpleName}   网络是否连接=====：$isConnected")
     }
 
     override fun onNetReConnect() {

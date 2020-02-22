@@ -48,7 +48,7 @@ interface IFlyBaseView {
     /**
      * 网络是否连接可用
      */
-    fun onNetworkStateChanged(isAvailable: Boolean)
+    fun onNetworkStateChanged(isConnected: Boolean)
 
     /**
      * 用于网络连接恢复后加载

@@ -99,10 +99,10 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
         }
     }
 
-    private fun updateConnection(isAvailable: Boolean?) {
-        //判断当前的网络连接状态是否可用
-        val available = isAvailable ?: NetworkUtils.isConnected()
-        networkStateCallback.postValue(available)
+    private fun updateConnection(isConnected: Boolean?) {
+        //判断当前的网络是否连接
+        val connectedBol = isConnected ?: NetworkUtils.isConnected()
+        networkStateCallback.postValue(connectedBol)
     }
 
     companion object {

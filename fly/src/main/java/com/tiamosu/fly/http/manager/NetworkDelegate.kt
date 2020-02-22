@@ -22,17 +22,17 @@ class NetworkDelegate {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
         NetworkStateManager.instance.networkStateCallback.observe(owner,
-            Observer { isAvailable ->
+            Observer { isConnected ->
                 val currentNetStatus =
-                    if (isAvailable) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
+                    if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
                 if (currentNetStatus != networkLastStatus || isNetReConnect) {
                     //判断网络是否是重连接的
-                    if (isAvailable && networkLastStatus == NetworkState.NETWORK_OFF) {
+                    if (isConnected && networkLastStatus == NetworkState.NETWORK_OFF) {
                         isNetReConnect = true
                     }
                     if (FlyUtils.isPageVisible(owner)) {
-                        baseview.onNetworkStateChanged(isAvailable)
-                        if (isAvailable && isNetReConnect) {
+                        baseview.onNetworkStateChanged(isConnected)
+                        if (isConnected && isNetReConnect) {
                             baseview.onNetReConnect()
                             isNetReConnect = false
                         }
