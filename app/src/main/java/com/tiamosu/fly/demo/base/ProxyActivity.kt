@@ -1,19 +1,19 @@
-package com.tiamosu.fly.base
+package com.tiamosu.fly.demo.base
 
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.NonNull
-import com.tiamosu.fly.R
+import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.utils.FragmentUtils
 import com.tiamosu.fly.utils.Preconditions
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**
  * @author tiamosu
- * @date 2020/2/18.
+ * @date 2020/2/22.
  */
-abstract class FlyProxyActivity : BaseFlyActivity() {
+abstract class ProxyActivity : BaseActivity() {
 
     /**
      * @return 设置根Fragment

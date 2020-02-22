@@ -1,7 +1,6 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import com.tiamosu.fly.http.manager.NetworkDelegate
@@ -40,11 +39,6 @@ abstract class BaseFlyActivity : SupportActivity(), IBaseView {
         networkDelegate.addNetworkObserve(this)
     }
 
-    override fun onNetworkStateChanged(isAvailable: Boolean) {
-        Log.e("xia", "页面====：${javaClass.simpleName}   网络状态=====：$isAvailable")
-    }
-
-    override fun onNetReConnect() {
-        Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
-    }
+    override fun onNetworkStateChanged(isAvailable: Boolean) {}
+    override fun onNetReConnect() {}
 }

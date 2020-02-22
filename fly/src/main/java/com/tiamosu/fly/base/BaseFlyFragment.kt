@@ -72,11 +72,8 @@ abstract class BaseFlyFragment : SupportFragment(), IBaseView {
         networkDelegate.addNetworkObserve(this)
     }
 
-    override fun onNetworkStateChanged(isAvailable: Boolean) {
-    }
-
-    override fun onNetReConnect() {
-    }
+    override fun onNetworkStateChanged(isAvailable: Boolean) {}
+    override fun onNetReConnect() {}
 
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
         super.onEnterAnimationEnd(savedInstanceState)
