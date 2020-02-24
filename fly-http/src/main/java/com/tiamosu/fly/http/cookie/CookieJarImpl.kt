@@ -17,4 +17,8 @@ class CookieJarImpl(@NonNull private val cookieStore: CookieStore) : CookieJar {
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
         return cookieStore[url]
     }
+
+    fun getCookieStore(): CookieStore {
+        return cookieStore
+    }
 }
