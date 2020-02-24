@@ -1,4 +1,4 @@
-package com.tiamosu.fly.http.utils
+package com.tiamosu.fly.http.ssl
 
 import android.os.Build
 import java.io.IOException

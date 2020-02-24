@@ -1,4 +1,4 @@
-package com.tiamosu.fly.http.utils
+package com.tiamosu.fly.http.ssl
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
@@ -17,18 +17,55 @@ import javax.net.ssl.*
  */
 object HttpsUtils {
 
-    private val sslParams by lazy {
-        getSslSocketFactory(null, null, null)
+    @JvmStatic
+    fun getSslSocketFactory(): SSLParams {
+        return getSslSocketFactory(null, null, null, null)
     }
 
+    /**
+     * https单向认证
+     * 可以额外配置信任服务端的证书策略，否则默认是按CA证书去验证的，若不是CA可信任的证书，则无法通过验证
+     */
     @JvmStatic
-    val sslSocketFactory by lazy {
-        sslParams.sslSocketFactory
+    fun getSslSocketFactory(trustManager: X509TrustManager): SSLParams {
+        return getSslSocketFactory(trustManager, null, null, null)
     }
 
+    /**
+     * https单向认证
+     * 用含有服务端公钥的证书校验服务端证书
+     */
     @JvmStatic
-    val trustManager by lazy {
-        sslParams.trustManager
+    fun getSslSocketFactory(certificates: Array<InputStream>): SSLParams {
+        return getSslSocketFactory(null, null, null, certificates)
+    }
+
+    /**
+     * https双向认证
+     * bksFile 和 password -> 客户端使用bks证书校验服务端证书
+     * certificates -> 用含有服务端公钥的证书校验服务端证书
+     */
+    @JvmStatic
+    fun getSslSocketFactory(
+        bksFile: InputStream,
+        password: String,
+        certificates: Array<InputStream>
+    ): SSLParams? {
+        return getSslSocketFactory(null, bksFile, password, certificates)
+    }
+
+    /**
+     * https双向认证
+     * bksFile 和 password -> 客户端使用bks证书校验服务端证书
+     * X509TrustManager -> 如果需要自己校验，那么可以自己实现相关校验，如果不需要自己校验，那么传null即可
+     */
+    @JvmStatic
+    fun getSslSocketFactory(
+        trustManager: X509TrustManager,
+        bksFile: InputStream,
+        password: String
+    ): SSLParams? {
+        return getSslSocketFactory(trustManager, bksFile, password)
     }
 
     @JvmStatic
@@ -38,24 +75,27 @@ object HttpsUtils {
 
     @JvmStatic
     fun getSslSocketFactory(
-        certificates: Array<InputStream>?,
-        bksFile: InputStream?,
-        password: String?
+        trustManager: X509TrustManager? = null,
+        bksFile: InputStream? = null,
+        password: String? = null,
+        certificates: Array<InputStream>? = null
     ): SSLParams {
         val sslParams = SSLParams()
+        val trustManagers = prepareTrustManager(certificates)
+        val keyManagers = prepareKeyManager(bksFile, password)
+
         try {
-            val trustManagers = prepareTrustManager(certificates)
-            val trustManager: X509TrustManager
-            trustManager = if (trustManagers != null) {
-                MyTrustManager(chooseTrustManager(trustManagers)!!)
-            } else {
-                UnSafeTrustManager()
-            }
-            val keyManagers = prepareKeyManager(bksFile, password)
+            val manager: X509TrustManager = trustManager
+                ?: if (trustManagers != null) {
+                    MyTrustManager(chooseTrustManager(trustManagers))
+                } else {
+                    UnSafeTrustManager()
+                }
+
             val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), SecureRandom())
+            sslContext.init(keyManagers, arrayOf<TrustManager>(manager), SecureRandom())
             sslParams.sslSocketFactory = TLSSocketFactory(sslContext)
-            sslParams.trustManager = trustManager
+            sslParams.trustManager = manager
             return sslParams
         } catch (e: NoSuchAlgorithmException) {
             throw AssertionError(e)
@@ -161,7 +201,7 @@ object HttpsUtils {
     }
 
     private class MyTrustManager @Throws(NoSuchAlgorithmException::class, KeyStoreException::class)
-    internal constructor(private val localTrustManager: X509TrustManager) : X509TrustManager {
+    internal constructor(private val localTrustManager: X509TrustManager?) : X509TrustManager {
         private val defaultTrustManager: X509TrustManager?
 
         init {
@@ -179,7 +219,7 @@ object HttpsUtils {
             try {
                 defaultTrustManager?.checkServerTrusted(chain, authType)
             } catch (ce: CertificateException) {
-                localTrustManager.checkServerTrusted(chain, authType)
+                localTrustManager?.checkServerTrusted(chain, authType)
             }
         }
 
