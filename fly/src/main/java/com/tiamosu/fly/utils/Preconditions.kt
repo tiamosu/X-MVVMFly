@@ -22,7 +22,11 @@ object Preconditions {
     }
 
     @JvmStatic
-    fun checkArgument(expression: Boolean, errorMessageTemplate: String?, vararg errorMessageArgs: Any) {
+    fun checkArgument(
+        expression: Boolean,
+        errorMessageTemplate: String?,
+        vararg errorMessageArgs: Any
+    ) {
         if (!expression) {
             throw IllegalArgumentException(format(errorMessageTemplate, *errorMessageArgs))
         }
@@ -43,7 +47,11 @@ object Preconditions {
     }
 
     @JvmStatic
-    fun checkState(expression: Boolean, errorMessageTemplate: String?, vararg errorMessageArgs: Any) {
+    fun checkState(
+        expression: Boolean,
+        errorMessageTemplate: String?,
+        vararg errorMessageArgs: Any
+    ) {
         if (!expression) {
             throw IllegalStateException(format(errorMessageTemplate, *errorMessageArgs))
         }
@@ -64,9 +72,13 @@ object Preconditions {
     }
 
     @JvmStatic
-    fun <T> checkNotNull(reference: T?, errorMessageTemplate: String?, vararg errorMessageArgs: Any): T {
+    fun <T> checkNotNull(
+        reference: T?,
+        errorMessageTemplate: String?,
+        vararg errorMessageArgs: Any
+    ): T {
         return reference
-                ?: throw NullPointerException(format(errorMessageTemplate, *errorMessageArgs))
+            ?: throw NullPointerException(format(errorMessageTemplate, *errorMessageArgs))
     }
 
     @JvmStatic
@@ -79,12 +91,21 @@ object Preconditions {
         }
     }
 
-    @JvmStatic
     private fun badElementIndex(index: Int, size: Int, desc: String?): String? {
         return when {
-            index < 0 -> format("%s (%s) must not be negative", desc!!, index)
-            size < 0 -> throw IllegalArgumentException("negative size: $size")
-            else -> format("%s (%s) must be less than size (%s)", desc!!, index, size)
+            index < 0 -> format(
+                "%s (%s) must not be negative",
+                arrayOf(desc, Integer.valueOf(index))
+            )
+            size < 0 -> throw IllegalArgumentException(
+                StringBuilder(26).append("negative size: ").append(
+                    size
+                ).toString()
+            )
+            else -> format(
+                "%s (%s) must be less than size (%s)",
+                arrayOf(desc, Integer.valueOf(index), Integer.valueOf(size))
+            )
         }
     }
 
@@ -98,12 +119,21 @@ object Preconditions {
         }
     }
 
-    @JvmStatic
     private fun badPositionIndex(index: Int, size: Int, desc: String?): String? {
         return when {
-            index < 0 -> format("%s (%s) must not be negative", desc!!, index)
-            size < 0 -> throw IllegalArgumentException("negative size: $size")
-            else -> format("%s (%s) must not be greater than size (%s)", desc!!, index, size)
+            index < 0 -> format(
+                "%s (%s) must not be negative",
+                arrayOf(desc, Integer.valueOf(index))
+            )
+            size < 0 -> throw IllegalArgumentException(
+                StringBuilder(26).append("negative size: ").append(
+                    size
+                ).toString()
+            )
+            else -> format(
+                "%s (%s) must not be greater than size (%s)",
+                arrayOf(desc, Integer.valueOf(index), Integer.valueOf(size))
+            )
         }
     }
 
@@ -114,18 +144,18 @@ object Preconditions {
         }
     }
 
-    @JvmStatic
     private fun badPositionIndexes(start: Int, end: Int, size: Int): String? {
         return if (start in 0..size)
-            if (end in 0..size)
-                format("end index (%s) must not be less than start index (%s)", end, start)
+            if (end in 0..size) format(
+                "end index (%s) must not be less than start index (%s)",
+                arrayOf(Integer.valueOf(end), Integer.valueOf(start))
+            )
             else
                 badPositionIndex(end, size, "end index")
         else
             badPositionIndex(start, size, "start index")
     }
 
-    @JvmStatic
     private fun format(template: String?, vararg args: Any): String? {
         var str = template
         if (args.isEmpty()) {

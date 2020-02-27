@@ -1,7 +1,5 @@
 package com.tiamosu.fly.http.utils
 
-import java.io.File
-
 /**
  * @author tiamosu
  * @date 2018/10/8.
@@ -12,27 +10,16 @@ import java.io.File
 object ParamsUtils {
 
     @JvmStatic
-    fun escapeParams(map: MutableMap<String, String?>?): Map<String, String> {
-        if (map?.isNotEmpty() == true) {
-            val mapTemp = hashMapOf<String, String>()
-            for ((key, value) in map) {
-                mapTemp[key] = value ?: ""
-            }
-            return mapTemp
+    fun <V> escapeParams(map: Map<String?, V?>?): Map<String, V> {
+        if (map == null || map.isEmpty()) {
+            return mapOf()
         }
-        return mapOf()
-    }
-
-    @JvmStatic
-    fun escapeFileParams(map: MutableMap<String, File?>?): Map<String, File> {
-        if (map?.isNotEmpty() == true) {
-            val mapTemp = hashMapOf<String, File>()
-            for ((key, value) in map) {
-                value ?: continue
-                mapTemp[key] = value
+        val hashMap: LinkedHashMap<String, V> = linkedMapOf()
+        for ((key, value) in map) {
+            if (key != null && value != null) {
+                hashMap[key] = value
             }
-            return mapTemp
         }
-        return mapOf()
+        return hashMap
     }
 }

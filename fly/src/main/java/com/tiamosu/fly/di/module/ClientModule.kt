@@ -46,7 +46,7 @@ abstract class ClientModule {
 
     @Module
     companion object {
-        private const val TIME_OUT = 10L
+        private const val TIME_OUT = 60L
 
         /**
          * 提供 [Retrofit]
