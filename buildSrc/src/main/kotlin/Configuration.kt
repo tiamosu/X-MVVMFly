@@ -14,7 +14,7 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val kotlin = "1.3.61"
     const val retrofit2 = "2.6.4"
-    const val okhttp3 = "3.12.9" //版本3.12.X，兼容Android 4
+    const val okhttp3 = "3.12.10" //版本3.12.X，兼容Android 4
     const val autodispose = "1.4.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.26"
@@ -50,6 +50,7 @@ object Deps {
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     const val kotlin_ktx = "androidx.core:core-ktx:1.2.0"
 
     //arouter
@@ -72,7 +73,7 @@ object Deps {
     const val gson = "com.google.code.gson:gson:2.8.6"
 
     //rx
-    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.17"
+    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.18"
     const val rxandroid2 = "io.reactivex.rxjava2:rxandroid:2.1.1"
     const val rxcache2 = "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
     const val rxcache_gson = "com.github.VictorAlbertos.Jolyglot:gson:0.0.4"
@@ -84,6 +85,9 @@ object Deps {
 
     //utilcode
     const val utilcode = "com.blankj:utilcodex:1.26.0"
+
+    //disklrucache
+    const val disklrucache = "com.jakewharton:disklrucache:2.0.2"
 
     //okhttp
     const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"

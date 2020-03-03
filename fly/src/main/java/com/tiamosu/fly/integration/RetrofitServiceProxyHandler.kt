@@ -11,10 +11,12 @@ import java.lang.reflect.Method
  * @date 2019/9/25.
  */
 class RetrofitServiceProxyHandler(
-    private val mRetrofit: Retrofit?,
-    private val mServiceClass: Class<*>
+    private val retrofit: Retrofit?,
+    private val serviceClass: Class<*>
 ) : InvocationHandler {
-    private var mRetrofitService: Any? = null
+
+    private val retrofitService by lazy { retrofit?.create(serviceClass) }
+
     @Throws(Throwable::class)
     override fun invoke(proxy: Any?, method: Method?, vararg args: Any?): Any? {
         // 根据 https://zhuanlan.zhihu.com/p/40097338 对 Retrofit 进行的优化
@@ -39,12 +41,4 @@ class RetrofitServiceProxyHandler(
 
         return method?.invoke(retrofitService, *args)
     }
-
-    private val retrofitService: Any?
-        get() {
-            if (mRetrofitService == null) {
-                mRetrofitService = mRetrofit?.create(mServiceClass)
-            }
-            return mRetrofitService
-        }
 }

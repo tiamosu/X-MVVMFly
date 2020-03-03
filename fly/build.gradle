@@ -18,6 +18,9 @@ dependencies {
     api Deps.lifecycle_viewmodel
     api Deps.lifecycle_runtime
 
+    //kotlin
+    api Deps.kotlin_reflect
+
     //fragment框架
     api Deps.fragmentation_support_androidx
 

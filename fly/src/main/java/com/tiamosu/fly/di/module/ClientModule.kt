@@ -46,7 +46,7 @@ abstract class ClientModule {
 
     @Module
     companion object {
-        private const val TIME_OUT = 60L
+        private const val TIME_OUT = 10_000L
 
         /**
          * 提供 [Retrofit]
@@ -107,9 +107,9 @@ abstract class ClientModule {
             executorService: ExecutorService
         ): OkHttpClient {
             builder
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+                .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
 
             if (handler != null) {
                 builder.addInterceptor { chain ->

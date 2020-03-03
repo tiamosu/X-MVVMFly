@@ -1,4 +1,4 @@
-package com.tiamosu.fly.http.cookie.store
+package com.tiamosu.fly.http.cookie
 
 import okhttp3.Cookie
 import java.io.IOException
@@ -7,11 +7,11 @@ import java.io.ObjectOutputStream
 import java.io.Serializable
 
 /**
- * from http://stackoverflow.com/questions/25461792/persistent-cookie-store-using-okhttp-2-on-android
- * and<br></br>
- * http://www.geebr.com/post/okHttp3%E4%B9%8BCookies%E7%AE%A1%E7%90%86%E5%8F%8A%E6%8C%81%E4%B9%85%E5%8C%96
+ * 描述：对存储的cookie进行序列化
+ *
+ * @author tiamosu
+ * @date 2020/3/1.
  */
-@Suppress("unused")
 class SerializableHttpCookie(@field:Transient private val cookie: Cookie) : Serializable {
     @Transient
     private var clientCookie: Cookie? = null
@@ -52,9 +52,5 @@ class SerializableHttpCookie(@field:Transient private val cookie: Cookie) : Seri
         builder = if (secure) builder.secure() else builder
         builder = if (httpOnly) builder.httpOnly() else builder
         clientCookie = builder.build()
-    }
-
-    companion object {
-        private const val serialVersionUID = 6374381323722046732L
     }
 }

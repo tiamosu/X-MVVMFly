@@ -1,7 +1,6 @@
 package com.tiamosu.fly.http.ssl
 
 import android.annotation.SuppressLint
-import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import java.io.IOException
 import java.io.InputStream
@@ -50,7 +49,7 @@ object HttpsUtils {
         bksFile: InputStream,
         password: String,
         certificates: Array<InputStream>
-    ): SSLParams? {
+    ): SSLParams {
         return getSslSocketFactory(null, bksFile, password, certificates)
     }
 
@@ -64,13 +63,8 @@ object HttpsUtils {
         trustManager: X509TrustManager,
         bksFile: InputStream,
         password: String
-    ): SSLParams? {
+    ): SSLParams {
         return getSslSocketFactory(trustManager, bksFile, password)
-    }
-
-    @JvmStatic
-    val hostnameVerifier by lazy {
-        SafeHostnameVerifier()
     }
 
     @JvmStatic
@@ -103,16 +97,6 @@ object HttpsUtils {
             throw AssertionError(e)
         } catch (e: KeyStoreException) {
             throw AssertionError(e)
-        }
-    }
-
-    class SafeHostnameVerifier : HostnameVerifier {
-        private val verifyHostNameArray = arrayOf<String>()
-
-        override fun verify(hostname: String, session: SSLSession): Boolean {
-            return if (TextUtils.isEmpty(hostname)) {
-                false
-            } else !listOf(*verifyHostNameArray).contains(hostname)
         }
     }
 

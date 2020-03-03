@@ -16,10 +16,15 @@ interface IRepositoryManager {
      * 根据传入的 Class 获取对应的 Retrofit service
      *
      * @param serviceClass Retrofit service class
-     * @param <T>     Retrofit service 类型
+     * @param retrofit 传入新的 Retrofit
+     * @param useCache 是否缓存 Retrofit service
      * @return Retrofit service
-    </T> */
-    fun <T> obtainRetrofitService(serviceClass: Class<T>): T?
+     */
+    fun <T> obtainRetrofitService(
+        serviceClass: Class<T>,
+        retrofit: Retrofit? = null,
+        useCache: Boolean = true
+    ): T?
 
     interface ObtainServiceDelegate {
         @Nullable

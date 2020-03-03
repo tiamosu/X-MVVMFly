@@ -2,7 +2,6 @@ package com.tiamosu.fly.integration
 
 import com.tiamosu.fly.integration.cache.Cache
 import com.tiamosu.fly.integration.cache.CacheType
-import com.tiamosu.fly.utils.Preconditions
 import dagger.Lazy
 import retrofit2.Retrofit
 import java.lang.reflect.Proxy
@@ -16,22 +15,23 @@ import javax.inject.Singleton
  * @author tiamosu
  * @date 2018/9/14.
  */
-@Suppress("UNCHECKED_CAST")
 @Singleton
 class RepositoryManager @Inject
 constructor() : IRepositoryManager {
 
     @JvmField
     @Inject
-    internal var mRetrofit: Lazy<Retrofit>? = null
+    internal var lazyRetrofit: Lazy<Retrofit>? = null
     @JvmField
     @Inject
-    internal var mCacheFactory: Cache.Factory<String, Any?>? = null
+    internal var cacheFactory: Cache.Factory<String, Any?>? = null
     @JvmField
     @Inject
-    internal var mObtainServiceDelegate: IRepositoryManager.ObtainServiceDelegate? = null
+    internal var obtainServiceDelegate: IRepositoryManager.ObtainServiceDelegate? = null
 
-    private var mRetrofitServiceCache: Cache<String, Any?>? = null
+    private val retrofitServiceCache: Cache<String, Any?>? by lazy {
+        cacheFactory?.build(CacheType.RETROFIT_SERVICE_CACHE)
+    }
 
     /**
      * 根据传入的 Class 获取对应的 Retrofit service
@@ -40,28 +40,31 @@ constructor() : IRepositoryManager {
      * @param <T>          ApiService class
      * @return ApiService
      */
+    @Suppress("UNCHECKED_CAST")
     @Synchronized
-    override fun <T> obtainRetrofitService(serviceClass: Class<T>): T? {
-        if (mRetrofitServiceCache == null) {
-            mRetrofitServiceCache = mCacheFactory?.build(CacheType.RETROFIT_SERVICE_CACHE)
-        }
-        Preconditions.checkNotNull<Any>(
-            mRetrofitServiceCache,
-            "Cannot return null from a Cache.Factory#build(int) method"
-        )
-
+    override fun <T> obtainRetrofitService(
+        serviceClass: Class<T>,
+        retrofit: Retrofit?,
+        useCache: Boolean
+    ): T? {
+        val newRetrofit = retrofit ?: lazyRetrofit?.get()
         val canonicalName = serviceClass.canonicalName ?: ""
-        var retrofitService = mRetrofitServiceCache?.get(canonicalName) as T?
+        var retrofitService: T? = null
+        if (useCache) {
+            retrofitService = retrofitServiceCache?.get(canonicalName) as? T
+        }
         if (retrofitService == null) {
             retrofitService =
-                mObtainServiceDelegate?.createRetrofitService(mRetrofit?.get(), serviceClass)
+                obtainServiceDelegate?.createRetrofitService(newRetrofit, serviceClass)
             if (retrofitService == null) {
                 retrofitService = Proxy.newProxyInstance(
-                    serviceClass.classLoader, arrayOf<Class<*>>(serviceClass),
-                    RetrofitServiceProxyHandler(mRetrofit?.get(), serviceClass)
+                    serviceClass.classLoader, arrayOf(serviceClass),
+                    RetrofitServiceProxyHandler(newRetrofit, serviceClass)
                 ) as? T
             }
-            mRetrofitServiceCache?.put(canonicalName, retrofitService)
+            if (useCache) {
+                retrofitServiceCache?.put(canonicalName, retrofitService)
+            }
         }
         return retrofitService
     }

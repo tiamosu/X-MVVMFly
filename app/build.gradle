@@ -9,4 +9,5 @@ dependencies {
     implementation project(':fly-imageloader-glide')
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation Deps.okhttp3_logging_interceptor
 }

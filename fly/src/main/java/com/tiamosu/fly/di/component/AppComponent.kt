@@ -13,6 +13,7 @@ import dagger.BindsInstance
 import dagger.Component
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import java.io.File
 import java.util.concurrent.ExecutorService
 import javax.inject.Singleton
@@ -50,11 +51,18 @@ interface AppComponent {
     fun imageLoader(): ImageLoader
 
     /**
+     * [OkHttpClient.Builder] 自定义扩展
+     */
+    fun okHttpBuilder(): OkHttpClient.Builder
+
+    /**
      * 网络请求框架
      *
      * @return [OkHttpClient]
      */
     fun okHttpClient(): OkHttpClient
+
+    fun retrofit(): Retrofit
 
     /**
      * Json 序列化库

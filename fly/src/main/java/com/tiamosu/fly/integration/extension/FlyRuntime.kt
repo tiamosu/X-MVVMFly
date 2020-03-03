@@ -1,3 +1,5 @@
+@file:JvmName("FlyRuntime")
+
 package com.tiamosu.fly.integration.extension
 
 import android.content.ClipboardManager
