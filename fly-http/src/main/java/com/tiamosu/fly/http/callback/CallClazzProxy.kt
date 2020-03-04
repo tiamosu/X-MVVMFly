@@ -14,7 +14,7 @@ import java.lang.reflect.Type
  * @author tiamosu
  * @date 2020/3/2.
  */
-abstract class CallClazzProxy<T : ApiResult<R>, R>(private val callType: Type?) : IType<T> {
+abstract class CallClazzProxy<T : ApiResult<R>, R>(val callType: Type?) : IType<T> {
 
     override fun getType(): Type? { //CallClazz代理方式，获取需要解析的Type
         var typeArguments: Type? = callType

@@ -25,7 +25,7 @@ object RxUtil {
         }
     }
 
-    fun <T> io2mainWithApiresult(): ObservableTransformer<ApiResult<T>, T> {
+    fun <T> io2mainWithApiresult(): ObservableTransformer<ApiResult<T?>, T?> {
         return ObservableTransformer { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())
@@ -38,7 +38,7 @@ object RxUtil {
         }
     }
 
-    fun <T> main(): ObservableTransformer<ApiResult<T>, T> {
+    fun <T> main(): ObservableTransformer<ApiResult<T?>, T?> {
         return ObservableTransformer { upstream ->
             upstream
                 .map(HandleFuc())

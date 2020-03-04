@@ -90,7 +90,7 @@ class RxCache {
     @Suppress("UNCHECKED_CAST")
     fun <T> transformer(
         cacheMode: CacheMode,
-        type: Type
+        type: Type?
     ): ObservableTransformer<T, CacheResult<T>>? {
         //获取缓存策略
         val strategy = loadStrategy(cacheMode) ?: return null

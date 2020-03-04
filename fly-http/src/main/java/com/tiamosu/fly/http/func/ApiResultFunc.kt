@@ -20,7 +20,7 @@ import java.lang.reflect.Type
  * @author tiamosu
  * @date 2020/3/3.
  */
-class ApiResultFunc<T>(val type: Type) : Function<ResponseBody, ApiResult<T>> {
+class ApiResultFunc<T>(val type: Type?) : Function<ResponseBody, ApiResult<T?>> {
 
     protected val gson: Gson by lazy {
         GsonBuilder()
@@ -35,8 +35,8 @@ class ApiResultFunc<T>(val type: Type) : Function<ResponseBody, ApiResult<T>> {
 
     @Suppress("UNCHECKED_CAST")
     @Throws(Exception::class)
-    override fun apply(responseBody: ResponseBody): ApiResult<T> {
-        var apiResult = ApiResult<T>()
+    override fun apply(responseBody: ResponseBody): ApiResult<T?> {
+        var apiResult = ApiResult<T?>()
         apiResult.code = -1
         if (type is ParameterizedType) { //自定义ApiResult
             val cls: Class<T> = type.rawType as Class<T>
@@ -51,7 +51,7 @@ class ApiResultFunc<T>(val type: Type) : Function<ResponseBody, ApiResult<T>> {
                         apiResult.data = json as T
                         apiResult.code = 0
                     } else {
-                        val result = gson.fromJson<ApiResult<T>>(json, type)
+                        val result = gson.fromJson<ApiResult<T?>>(json, type)
                         if (result != null) {
                             apiResult = result
                         } else {
@@ -108,7 +108,7 @@ class ApiResultFunc<T>(val type: Type) : Function<ResponseBody, ApiResult<T>> {
 
     @Suppress("UNCHECKED_CAST")
     @Throws(JSONException::class)
-    private fun parseApiResult(json: String, apiResult: ApiResult<T>): ApiResult<T>? {
+    private fun parseApiResult(json: String, apiResult: ApiResult<T?>): ApiResult<T?>? {
         if (TextUtils.isEmpty(json)) return null
         val jsonObject = JSONObject(json)
         if (jsonObject.has("code")) {

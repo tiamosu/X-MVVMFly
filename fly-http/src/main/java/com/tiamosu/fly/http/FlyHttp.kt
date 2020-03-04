@@ -301,7 +301,7 @@ class FlyHttp {
     /**
      * 超时重试延迟时间，单位 ms
      */
-    fun setRetryDelay(retryDelay: Int): FlyHttp {
+    fun setRetryDelay(retryDelay: Long): FlyHttp {
         this.retryDelay = retryDelay
         return this
     }
@@ -309,7 +309,7 @@ class FlyHttp {
     /**
      * 超时重试延迟叠加时间，单位 ms
      */
-    fun setRetryIncreaseDelay(retryIncreaseDelay: Int): FlyHttp {
+    fun setRetryIncreaseDelay(retryIncreaseDelay: Long): FlyHttp {
         this.retryIncreaseDelay = retryIncreaseDelay
         return this
     }
@@ -463,8 +463,8 @@ class FlyHttp {
     companion object {
         const val DEFAULT_MILLISECONDS = 60_000L //默认的超时时间
         const val DEFAULT_RETRY_COUNT = 3 //默认重试次数
-        const val DEFAULT_RETRY_INCREASEDELAY = 0 //默认重试叠加时间
-        const val DEFAULT_RETRY_DELAY = 500 //默认重试延时
+        const val DEFAULT_RETRY_INCREASEDELAY = 0L //默认重试叠加时间
+        const val DEFAULT_RETRY_DELAY = 500L //默认重试延时
         const val DEFAULT_CACHE_NEVER_EXPIRE = -1L //缓存过期时间，默认永久缓存
 
         val instance = Holder.INSTANCE
@@ -561,14 +561,14 @@ class FlyHttp {
         /**
          * 超时重试延迟时间
          */
-        fun getRetryDelay(): Int {
+        fun getRetryDelay(): Long {
             return instance.retryDelay
         }
 
         /**
          * 超时重试延迟叠加时间
          */
-        fun getRetryIncreaseDelay(): Int {
+        fun getRetryIncreaseDelay(): Long {
             return instance.retryIncreaseDelay
         }
     }

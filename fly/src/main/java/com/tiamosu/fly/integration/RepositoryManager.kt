@@ -21,7 +21,7 @@ constructor() : IRepositoryManager {
 
     @JvmField
     @Inject
-    internal var lazyRetrofit: Lazy<Retrofit>? = null
+    internal var retrofit: Lazy<Retrofit>? = null
     @JvmField
     @Inject
     internal var cacheFactory: Cache.Factory<String, Any?>? = null
@@ -42,15 +42,13 @@ constructor() : IRepositoryManager {
      */
     @Suppress("UNCHECKED_CAST")
     @Synchronized
-    override fun <T> obtainRetrofitService(
-        serviceClass: Class<T>,
-        retrofit: Retrofit?,
-        useCache: Boolean
-    ): T? {
-        val newRetrofit = retrofit ?: lazyRetrofit?.get()
+    override fun <T> obtainRetrofitService(serviceClass: Class<T>, retrofit: Retrofit?): T? {
+        val oldRetrofit = this.retrofit?.get()
+        val newRetrofit = retrofit ?: oldRetrofit
         val canonicalName = serviceClass.canonicalName ?: ""
         var retrofitService: T? = null
-        if (useCache) {
+
+        if (newRetrofit == oldRetrofit) {
             retrofitService = retrofitServiceCache?.get(canonicalName) as? T
         }
         if (retrofitService == null) {
@@ -62,7 +60,7 @@ constructor() : IRepositoryManager {
                     RetrofitServiceProxyHandler(newRetrofit, serviceClass)
                 ) as? T
             }
-            if (useCache) {
+            if (newRetrofit == oldRetrofit) {
                 retrofitServiceCache?.put(canonicalName, retrofitService)
             }
         }
