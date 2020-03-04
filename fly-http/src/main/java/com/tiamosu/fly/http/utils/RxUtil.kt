@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
  */
 object RxUtil {
 
-    fun <T> io2main(): ObservableTransformer<T, T> {
+    fun <T> io2main(): ObservableTransformer<T?, T?> {
         return ObservableTransformer { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())

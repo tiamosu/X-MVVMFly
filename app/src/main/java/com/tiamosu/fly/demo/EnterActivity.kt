@@ -34,7 +34,6 @@ class EnterActivity : BaseActivity() {
         btn_request1.setOnClickListener {
             GetRequest("/friend/json")
                 .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
-                    put(HttpHeaders.HEAD_KEY_USER_AGENT, HttpHeaders.userAgent)
                     put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
                 }))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
