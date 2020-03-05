@@ -1,7 +1,6 @@
 package com.tiamosu.fly.http.api
 
 import io.reactivex.Observable
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -90,13 +89,8 @@ interface ApiService {
     //       文件上传下载         //
     // =========================//
 
-    @Multipart
     @POST
-    fun uploadFiles(@Url url: String, @PartMap() maps: Map<String, RequestBody>): Observable<ResponseBody>
-
-    @Multipart
-    @POST
-    fun uploadFiles(@Url url: String?, @Part parts: List<MultipartBody.Part>): Observable<ResponseBody>
+    fun uploadFiles(@Url url: String, @Body body: RequestBody): Observable<ResponseBody>
 
     @Streaming
     @GET

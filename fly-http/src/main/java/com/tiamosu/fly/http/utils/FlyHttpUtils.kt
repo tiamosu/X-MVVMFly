@@ -1,11 +1,14 @@
 package com.tiamosu.fly.http.utils
 
 import com.blankj.utilcode.util.LogUtils
+import com.tiamosu.fly.http.model.HttpParams
+import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.lang.reflect.GenericArrayType
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.lang.reflect.TypeVariable
+import java.net.URLConnection
 import java.nio.charset.Charset
 import java.util.*
 
@@ -192,5 +195,16 @@ object FlyHttpUtils {
             }
         }
         return needtypes
+    }
+
+    /** 根据文件名获取MIME类型  */
+    @JvmStatic
+    fun guessMimeType(fileName: String?): MediaType? {
+        var newFileName = fileName ?: return HttpParams.MEDIA_TYPE_STREAM
+        val fileNameMap = URLConnection.getFileNameMap()
+        newFileName = newFileName.replace("#", "") //解决文件名中含有#号异常的问题
+        val contentType =
+            fileNameMap.getContentTypeFor(newFileName) ?: return HttpParams.MEDIA_TYPE_STREAM
+        return MediaType.parse(contentType)
     }
 }
