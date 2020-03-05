@@ -14,19 +14,18 @@ import com.tiamosu.fly.http.request.GetRequest
 import com.tiamosu.fly.http.ssl.HttpsUtils
 import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.http.utils.RxUtil
+import com.tiamosu.fly.utils.FlyUtils
 import io.reactivex.disposables.Disposable
 import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.File
 import java.io.InputStream
 import java.net.Proxy
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSession
 
 /**
  * 描述：网络请求入口类
@@ -49,45 +48,59 @@ import javax.net.ssl.SSLSession
 class FlyHttp {
     //Cookie管理
     private var cookieJar: CookieManger? = null
+
     //Okhttp缓存对象
     private var cache: Cache? = null
+
     //缓存类型，默认无缓存
     private var cacheMode: CacheMode = CacheMode.NO_CACHE
+
     //缓存时间
     private var cacheTime = -1L
+
     //缓存目录
     private var cacheDirectory: File? = null
+
     //缓存大小
     private var cacheMaxSize = 0
+
     //全局 BaseUrl
-    private var baseUrl1: String? = null
+    private var baseUrl: String? = null
+
     //超时重试次数，默认3次
     private var retryCount = DEFAULT_RETRY_COUNT
+
     //超时重试延时，单位 ms
     private var retryDelay = DEFAULT_RETRY_DELAY
+
     //超时重试叠加延时，单位 ms
     private var retryIncreaseDelay = DEFAULT_RETRY_INCREASEDELAY
+
     //全局公共请求头
     private var commonHeaders: HttpHeaders? = null
+
     //全局公共请求参数
     private var commonParams: HttpParams? = null
+
     //OkHttpClient请求的Builder
     private var okHttpClientBuilder: OkHttpClient.Builder
+
     //Retrofit请求Builder
     private var retrofitBuilder: Retrofit.Builder
+
     //RxCache请求的Builder
     private var rxCacheBuilder: RxCache.Builder
 
     init {
-        okHttpClientBuilder = OkHttpClient.Builder().apply {
-            hostnameVerifier(DefaultHostnameVerifier())
-            connectTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-            readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-            writeTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-        }
-        retrofitBuilder = Retrofit.Builder().apply {
-            addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        }
+        okHttpClientBuilder = FlyUtils.getAppComponent().okHttpClient().newBuilder()
+            .apply {
+                val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory()
+                sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
+                hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
+            }
+
+        retrofitBuilder = FlyUtils.getAppComponent().retrofit().newBuilder()
+
         rxCacheBuilder = RxCache.Builder().init()
             .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
     }
@@ -101,15 +114,15 @@ class FlyHttp {
     }
 
     /**
-     * 调试模式,第二个参数表示所有catch住的log是否需要打印<br></br>
+     * 调试模式,第二个参数表示所有catch住的log是否需要打印
      * 一般来说,这些异常是由于不标准的数据格式,或者特殊需要主动产生的,
      * 并不是框架错误,如果不想每次打印,这里可以关闭异常显示
      */
     fun debug(tag: String?, isPrintException: Boolean): FlyHttp {
-        val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp_" else tag!!
+        val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag!!
         if (isPrintException) {
-            val loggingInterceptor = HttpLoggingInterceptor(tempTag, isPrintException)
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            val loggingInterceptor = HttpLoggingInterceptor(tempTag)
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
         FlyHttpLog.customTagPrefix = tempTag
@@ -118,21 +131,6 @@ class FlyHttp {
         FlyHttpLog.allowI = isPrintException
         FlyHttpLog.allowV = isPrintException
         return this
-    }
-
-    /**
-     * 此类是用于主机名验证的基接口。 在握手期间，如果 URL 的主机名和服务器的标识主机名不匹配，
-     * 则验证机制可以回调此接口的实现程序来确定是否应该允许此连接。策略可以是基于证书的或依赖于其他验证方案。
-     * 当验证 URL 主机名使用的默认规则失败时使用这些回调。如果主机名是可接受的，则返回 true
-     */
-    class DefaultHostnameVerifier : HostnameVerifier {
-        private val verifyHostNameArray = arrayOf<String>()
-
-        override fun verify(hostname: String, session: SSLSession): Boolean {
-            return if (TextUtils.isEmpty(hostname)) {
-                false
-            } else !listOf(*verifyHostNameArray).contains(hostname)
-        }
     }
 
     /**
@@ -180,7 +178,7 @@ class FlyHttp {
      */
     fun setCertificates(certificates: Array<InputStream>): FlyHttp {
         val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory(certificates)
-        okHttpClientBuilder.sslSocketFactory(sslParams.sslSocketFactory!!, sslParams.trustManager!!)
+        okHttpClientBuilder.sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
         return this
     }
 
@@ -194,7 +192,7 @@ class FlyHttp {
     ): FlyHttp {
         val sslParams: HttpsUtils.SSLParams =
             HttpsUtils.getSslSocketFactory(bksFile, password, certificates)
-        okHttpClientBuilder.sslSocketFactory(sslParams.sslSocketFactory!!, sslParams.trustManager!!)
+        okHttpClientBuilder.sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
         return this
     }
 
@@ -286,7 +284,7 @@ class FlyHttp {
      * 全局设置baseurl
      */
     fun setBaseUrl(baseUrl: String): FlyHttp {
-        baseUrl1 = baseUrl
+        this.baseUrl = baseUrl
         return this
     }
 
@@ -461,7 +459,6 @@ class FlyHttp {
     }
 
     companion object {
-        const val DEFAULT_MILLISECONDS = 60_000L //默认的超时时间
         const val DEFAULT_RETRY_COUNT = 3 //默认重试次数
         const val DEFAULT_RETRY_INCREASEDELAY = 0L //默认重试叠加时间
         const val DEFAULT_RETRY_DELAY = 500L //默认重试延时
@@ -469,106 +466,94 @@ class FlyHttp {
 
         val instance = Holder.INSTANCE
 
-        fun getOkHttpClient(): OkHttpClient {
+        internal fun getOkHttpClient(): OkHttpClient {
             return instance.okHttpClientBuilder.build()
         }
 
-        fun getRetrofit(): Retrofit {
+        internal fun getRetrofit(): Retrofit {
             return instance.retrofitBuilder.build()
         }
 
-        fun getRxCache(): RxCache {
+        internal fun getRxCache(): RxCache {
             return instance.rxCacheBuilder.build()
         }
 
-        /**
-         * 对外暴露 OkHttpClient,方便自定义
-         */
-        fun getOkHttpClientBuilder(): OkHttpClient.Builder {
-            return instance.okHttpClientBuilder
-        }
-
-        /**
-         * 对外暴露 Retrofit,方便自定义
-         */
-        fun getRetrofitBuilder(): Retrofit.Builder {
-            return instance.retrofitBuilder
-        }
-
-        /**
-         * 对外暴露 RxCache,方便自定义
-         */
-        fun getRxCacheBuilder(): RxCache.Builder {
+        internal fun getRxCacheBuilder(): RxCache.Builder {
             return instance.rxCacheBuilder
         }
 
         /**
          * 获取全局的cookie实例
          */
-        fun getCookieJar(): CookieManger? {
+        internal fun getCookieJar(): CookieManger? {
             return instance.cookieJar
         }
 
         /**
          * 获取缓存的路劲
          */
-        fun getCacheDirectory(): File? {
+        internal fun getCacheDirectory(): File? {
             return instance.cacheDirectory
         }
 
         /**
          * 获取全局的缓存大小
          */
-        fun getCacheMaxSize(): Int {
+        internal fun getCacheMaxSize(): Int {
             return instance.cacheMaxSize
         }
 
         /**
          * 获取全局的缓存过期时间
          */
-        fun getCacheTime(): Long {
+        internal fun getCacheTime(): Long {
             return instance.cacheTime
         }
 
         /**
-         * 获取OkHttp的缓存
+         * 获取okHttp的缓存
          */
-        fun getHttpCache(): Cache? {
+        internal fun getHttpCache(): Cache? {
             return instance.cache
         }
 
         /**
          * 获取全局的缓存模式
          */
-        fun getCacheMode(): CacheMode {
+        internal fun getCacheMode(): CacheMode {
             return instance.cacheMode
         }
 
         /**
          * 获取全局baseurl
          */
-        fun getBaseUrl(): String? {
-            return instance.baseUrl1
+        internal fun getBaseUrl(): String? {
+            var baseUrl = instance.baseUrl
+            if (TextUtils.isEmpty(baseUrl)) {
+                val httpUrl = getRetrofit().baseUrl()
+                baseUrl = httpUrl.url().toString()
+            }
+            return baseUrl
         }
 
         /**
          * 超时重试次数
          */
-        fun getRetryCount(): Int {
+        internal fun getRetryCount(): Int {
             return instance.retryCount
         }
 
         /**
          * 超时重试延迟时间
          */
-        fun getRetryDelay(): Long {
+        internal fun getRetryDelay(): Long {
             return instance.retryDelay
         }
 
         /**
          * 超时重试延迟叠加时间
          */
-        fun getRetryIncreaseDelay(): Long {
+        internal fun getRetryIncreaseDelay(): Long {
             return instance.retryIncreaseDelay
         }
     }

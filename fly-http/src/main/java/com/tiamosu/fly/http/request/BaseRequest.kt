@@ -35,75 +35,40 @@ import javax.net.ssl.HostnameVerifier
  */
 @Suppress("UNCHECKED_CAST")
 abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
-    //读超时，单位 ms
-    private var readTimeOut = 0L
-    //写超时，单位 ms
-    private var writeTimeOut = 0L
-    //链接超时，单位 ms
-    private var connectTimeout = 0L
-    //代理
-    private var proxy: Proxy? = null
-    //使用 verify 函数效验服务器主机名的合法性
-    private var hostnameVerifier: HostnameVerifier? = null
-    //获取 SSLSocketFactory 和 X509TrustManager
-    private var sslParams: HttpsUtils.SSLParams? = null
-    //拦截器
-    private val interceptors: MutableList<Interceptor> = mutableListOf()
-    //网络拦截器
-    private val networkInterceptors: MutableList<Interceptor> = mutableListOf()
-    //是否需要签名
-    private var sign = false
-    //是否需要追加时间戳
-    private var timeStamp = false
-    //是否需要追加 token
-    private var accessToken = false
-    //用户手动添加的 Cookie
-    private var cookies: MutableList<Cookie> = mutableListOf()
+    private var readTimeOut = 0L                                //读超时，单位 ms
+    private var writeTimeOut = 0L                               //写超时，单位 ms
+    private var connectTimeout = 0L                             //链接超时，单位 ms
+    private var proxy: Proxy? = null                            //代理
+    private var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
+    private var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
+    private var sign = false                                    //是否需要签名
+    private var timeStamp = false                               //是否需要追加时间戳
+    private var accessToken = false                             //是否需要追加 token
+    private var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
+    private val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
+    private val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
 
-
-    //Okhttp缓存对象
-    private var cache: Cache? = null
-    //缓存类型，默认无缓存
-    protected var cacheMode: CacheMode = NO_CACHE
-    //缓存时间
-    private var cacheTime = -1L
-    //缓存Key
-    private var cacheKey: String? = null
-    //设置RxCache磁盘转换器
-    private var diskConverter: IDiskConverter? = null
-
-
-    //BaseUrl
     private var baseUrl: String? = null
-    //HttpUrl
     private var httpUrl: HttpUrl? = null
-    //超时重试次数，默认3次
-    protected var retryCount = 3
-    //超时重试延时，单位 ms
-    protected var retryDelay = 0L
-    //超时重试叠加延时，单位 ms
-    protected var retryIncreaseDelay = 0L
-    //是否是同步请求
-    protected var isSyncRequest = false
-    //转换器
-    private var converterFactories: MutableList<Converter.Factory> = mutableListOf()
-    //适配器
-    private var adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()
+    protected var retryCount = 3                                //超时重试次数，默认3次
+    protected var retryDelay = 0L                               //超时重试延时，单位 ms
+    protected var retryIncreaseDelay = 0L                       //超时重试叠加延时，单位 ms
+    protected var isSyncRequest = false                         //是否是同步请求
+    private var converterFactories: MutableList<Converter.Factory> = mutableListOf()    //转换器
+    private var adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()    //适配器
 
+    private var cache: Cache? = null                            //okHttp缓存对象
+    protected var cacheMode: CacheMode = NO_CACHE               //缓存类型，默认无缓存
+    private var cacheTime = -1L                                 //缓存时间
+    private var cacheKey: String? = null                        //缓存Key
+    private var diskConverter: IDiskConverter? = null           //设置RxCache磁盘转换器
 
-    private val flyHttp by lazy { FlyHttp.instance }
-    //添加的 header
-    private val httpHeaders by lazy { HttpHeaders() }
-    //添加的 param
-    protected val httpParams by lazy { HttpParams() }
-    //retrofit
-    private var retrofit: Retrofit? = null
-    //rxCache缓存
-    protected var rxCache: RxCache? = null
-    //通用的的api接口
-    protected var apiManager: ApiService? = null
-    //okHttpClient
-    private var okHttpClient: OkHttpClient? = null
+    private val httpHeaders by lazy { HttpHeaders() }           //添加的 header
+    protected val httpParams by lazy { HttpParams() }           //添加的 param
+    private var retrofit: Retrofit? = null                      //retrofit
+    protected var rxCache: RxCache? = null                      //rxCache缓存
+    protected var apiManager: ApiService? = null                //通用的的api接口
+    private var okHttpClient: OkHttpClient? = null              //okHttpClient
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
@@ -124,18 +89,16 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
         //默认添加 Accept-Language
         val acceptLanguage = HttpHeaders.acceptLanguage
         if (!TextUtils.isEmpty(acceptLanguage)) headers(
-            HttpHeaders.HEAD_KEY_ACCEPT_LANGUAGE,
-            acceptLanguage
+            HttpHeaders.HEAD_KEY_ACCEPT_LANGUAGE, acceptLanguage
         )
         //默认添加 User-Agent
         val userAgent = HttpHeaders.userAgent
         if (!TextUtils.isEmpty(userAgent)) headers(
-            HttpHeaders.HEAD_KEY_USER_AGENT,
-            userAgent
+            HttpHeaders.HEAD_KEY_USER_AGENT, userAgent
         )
         //添加公共请求参数
-        flyHttp.getCommonParams()?.let(httpParams::put)
-        flyHttp.getCommonHeaders()?.let(httpHeaders::put)
+        FlyHttp.instance.getCommonParams()?.let(httpParams::put)
+        FlyHttp.instance.getCommonHeaders()?.let(httpHeaders::put)
     }
 
     fun readTimeOut(readTimeOut: Long): R {
@@ -385,7 +348,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
         if (connectTimeout > 0) builder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
         if (cookies.size > 0) FlyHttp.getCookieJar()?.addCookies(cookies)
         hostnameVerifier?.let(builder::hostnameVerifier)
-        sslParams?.let { builder.sslSocketFactory(it.sslSocketFactory!!, it.trustManager!!) }
+        sslParams?.let { builder.sslSocketFactory(it.sslSocketFactory, it.trustManager) }
         proxy?.let(builder::proxy)
 
         //添加头  头添加放在最前面方便其他拦截器可能会用到

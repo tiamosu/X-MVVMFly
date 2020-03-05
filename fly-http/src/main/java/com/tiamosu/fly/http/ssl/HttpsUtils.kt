@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.ssl
 
 import android.annotation.SuppressLint
+import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import java.io.IOException
 import java.io.InputStream
@@ -213,7 +214,22 @@ object HttpsUtils {
     }
 
     class SSLParams {
-        var sslSocketFactory: SSLSocketFactory? = null
-        var trustManager: X509TrustManager? = null
+        lateinit var sslSocketFactory: SSLSocketFactory
+        lateinit var trustManager: X509TrustManager
+    }
+
+    /**
+     * 此类是用于主机名验证的基接口。 在握手期间，如果 URL 的主机名和服务器的标识主机名不匹配，
+     * 则验证机制可以回调此接口的实现程序来确定是否应该允许此连接。策略可以是基于证书的或依赖于其他验证方案。
+     * 当验证 URL 主机名使用的默认规则失败时使用这些回调。如果主机名是可接受的，则返回 true
+     */
+    class DefaultHostnameVerifier : HostnameVerifier {
+        private val verifyHostNameArray = arrayOf<String>()
+
+        override fun verify(hostname: String, session: SSLSession): Boolean {
+            return if (TextUtils.isEmpty(hostname)) {
+                false
+            } else !listOf(*verifyHostNameArray).contains(hostname)
+        }
     }
 }
