@@ -27,7 +27,6 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     protected var bytes: ByteArray? = null          //上传的字节数据
     protected var any: Any? = null                  //上传的对象
     protected var requestBody: RequestBody? = null  //上传的自定义请求体
-    protected var file: File? = null                //上传的文件
 
     override fun upRequestBody(requestBody: RequestBody?): R {
         this.requestBody = requestBody

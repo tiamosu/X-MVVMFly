@@ -31,40 +31,24 @@ import javax.net.ssl.HostnameVerifier
 @Suppress("UNCHECKED_CAST")
 abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
     protected var readTimeOut = 0L                                //读超时，单位 ms
-        private set
     protected var writeTimeOut = 0L                               //写超时，单位 ms
-        private set
     protected var connectTimeout = 0L                             //链接超时，单位 ms
-        private set
     protected var proxy: Proxy? = null                            //代理
-        private set
     protected var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
-        private set
     protected var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
-        private set
     protected var sign = false                                    //是否需要签名
-        private set
     protected var timeStamp = false                               //是否需要追加时间戳
-        private set
     protected var accessToken = false                             //是否需要追加 token
-        private set
     protected var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
-        private set
     protected val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
     protected val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
 
     protected var baseUrl: String? = null
-        private set
     protected var httpUrl: HttpUrl? = null
-        private set
     protected var retryCount = 3                                  //超时重试次数，默认3次
-        private set
     protected var retryDelay = 0L                                 //超时重试延时，单位 ms
-        private set
     protected var retryIncreaseDelay = 0L                         //超时重试叠加延时，单位 ms
-        private set
     protected var isSyncRequest = false                           //是否是同步请求
-        private set
     protected val converterFactories: MutableList<Converter.Factory> = mutableListOf()    //转换器
     protected val adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()    //适配器
 
@@ -72,13 +56,9 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
     protected val httpParams by lazy { HttpParams() }             //添加的 param
 
     protected var retrofit: Retrofit? = null                      //retrofit
-        private set
     protected var rxCache: RxCache? = null                        //rxCache缓存
-        private set
     protected var apiManager: ApiService? = null                  //通用的的api接口
-        private set
     protected var okHttpClient: OkHttpClient? = null              //okHttpClient
-        private set
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
