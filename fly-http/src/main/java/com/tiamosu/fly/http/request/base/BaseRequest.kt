@@ -1,18 +1,14 @@
 package com.tiamosu.fly.http.request.base
 
-import android.annotation.SuppressLint
 import android.text.TextUtils
 import com.tiamosu.fly.http.FlyHttp
-import com.tiamosu.fly.http.FlyHttp.Companion.getRxCache
 import com.tiamosu.fly.http.api.ApiService
-import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.interceptors.BaseDynamicInterceptor
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
+import com.tiamosu.fly.http.request.RequestCall
 import com.tiamosu.fly.http.ssl.HttpsUtils
-import com.tiamosu.fly.http.utils.FlyHttpLog
-import com.tiamosu.fly.http.utils.RxUtil
 import com.tiamosu.fly.utils.FlyUtils
 import io.reactivex.Observable
 import okhttp3.*
@@ -29,7 +25,7 @@ import javax.net.ssl.HostnameVerifier
  * @date 2020/2/26.
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
+abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) {
     protected var readTimeOut = 0L                                //读超时，单位 ms
     protected var writeTimeOut = 0L                               //写超时，单位 ms
     protected var connectTimeout = 0L                             //链接超时，单位 ms
@@ -56,8 +52,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
     protected val httpParams by lazy { HttpParams() }             //添加的 param
 
     protected var retrofit: Retrofit? = null                      //retrofit
-    protected var rxCache: RxCache? = null                        //rxCache缓存
-    protected var apiManager: ApiService? = null                  //通用的的api接口
+    protected var apiService: ApiService? = null                  //通用的的api接口
     protected var okHttpClient: OkHttpClient? = null              //okHttpClient
 
     init {
@@ -286,16 +281,6 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
     }
 
     /**
-     * 移除缓存（key）
-     */
-    @SuppressLint("CheckResult")
-    fun removeCache(key: String) {
-        getRxCache().remove(key).compose(RxUtil.io2main()).subscribe(
-            { FlyHttpLog.i("removeCache success!!!") },
-            { throwable -> FlyHttpLog.i("removeCache err!!!$throwable") })
-    }
-
-    /**
      * 根据当前的请求参数，生成对应的 OkHttpClient
      */
     private fun generateOkClient(): OkHttpClient.Builder {
@@ -341,16 +326,16 @@ abstract class BaseRequest<R : BaseRequest<R>>(protected val url: String) {
         return builder
     }
 
-    protected open fun build(): R {
+    fun build(): RequestCall {
         val okHttpClientBuilder = generateOkClient()
         val retrofitBuilder = generateRetrofit()
         okHttpClient = okHttpClientBuilder.build().also {
             it.let(retrofitBuilder::client)
         }
         retrofit = retrofitBuilder.build()
-        apiManager = FlyUtils.getAppComponent().repositoryManager()
+        apiService = FlyUtils.getAppComponent().repositoryManager()
             .obtainRetrofitService(ApiService::class.java, retrofit)
-        return this as R
+        return RequestCall(generateRequest())
     }
 
     protected abstract fun generateRequest(): Observable<ResponseBody>?

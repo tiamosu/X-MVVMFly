@@ -6,11 +6,11 @@ import okhttp3.ResponseBody
 
 /**
  * @author tiamosu
- * @date 2020/2/26.
+ * @date 2020/3/6.
  */
-class GetRequest<T>(url: String) : BaseRequest<T, GetRequest<T>>(url) {
+class DownloadRequest<T>(url: String) : BaseRequest<T, DeleteRequest<T>>(url) {
 
     override fun generateRequest(): Observable<ResponseBody>? {
-        return apiService?.get(url, httpParams.urlParamsMap)
+        return apiService?.downloadFile(url)
     }
 }

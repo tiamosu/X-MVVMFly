@@ -2,11 +2,8 @@ package com.tiamosu.fly.http.request.base
 
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.model.HttpParams.FileWrapper
-import io.reactivex.Observable
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -18,7 +15,7 @@ import java.io.File
  * @date 2020/3/3.
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseRequest<R>(url),
+abstract class BaseBodyRequest<T, R : BaseBodyRequest<T, R>>(url: String) : BaseRequest<T, R>(url),
     HasBody<R> {
 
     protected var mediaType: MediaType? = null      //上传的MIME类型
@@ -125,50 +122,5 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     override fun upObject(any: Any?): R {
         this.any = any
         return this as R
-    }
-
-    override fun generateRequest(): Observable<ResponseBody>? {
-        when {
-            requestBody != null -> {
-                return apiManager?.postBody(url, requestBody!!)
-            }
-            json != null -> {
-                val body = RequestBody.create(mediaType, json!!)
-                return apiManager?.postJson(url, body)
-            }
-            content != null -> {
-                val body = RequestBody.create(mediaType, content!!)
-                return apiManager?.postBody(url, body)
-            }
-            bytes != null -> {
-                val body = RequestBody.create(mediaType, bytes!!)
-                return apiManager?.postBody(url, body)
-            }
-            any != null -> {
-                return apiManager?.postBody(url, any!!)
-            }
-            else -> return if (httpParams.fileParamsMap.isEmpty()) {
-                apiManager?.post(url, httpParams.urlParamsMap)
-            } else {
-                apiManager?.uploadFiles(url, generateMultipartRequestBody())
-            }
-        }
-    }
-
-    private fun generateMultipartRequestBody(): RequestBody {
-        //表单提交，有文件
-        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-        //拼接键值对
-        for ((key, value) in httpParams.urlParamsMap) {
-            builder.addFormDataPart(key, value)
-        }
-        //拼接文件
-        for ((key, files) in httpParams.fileParamsMap) {
-            files.forEach {
-                val fileBody: RequestBody = RequestBody.create(it.contentType, it.file)
-                builder.addFormDataPart(key, it.fileName, fileBody)
-            }
-        }
-        return builder.build()
     }
 }

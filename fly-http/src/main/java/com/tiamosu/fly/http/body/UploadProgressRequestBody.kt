@@ -15,29 +15,13 @@ import java.io.IOException
  * @author tiamosu
  * @date 2020/3/2.
  */
-class UploadProgressRequestBody : RequestBody {
-    protected var delegate: RequestBody? = null
-        private set
-    protected var progressCallBack: ProgressResponseCallBack? = null
-        private set
-    protected var countingSink: CountingSink? = null
-        private set
-
-    constructor(listener: ProgressResponseCallBack?) {
-        progressCallBack = listener
-    }
-
-    constructor(delegate: RequestBody?, progressCallBack: ProgressResponseCallBack?) {
-        this.delegate = delegate
-        this.progressCallBack = progressCallBack
-    }
-
-    fun setRequestBody(delegate: RequestBody?) {
-        this.delegate = delegate
-    }
+class UploadProgressRequestBody(
+    private val delegate: RequestBody,
+    private val progressCallBack: ProgressResponseCallBack?
+) : RequestBody() {
 
     override fun contentType(): MediaType? {
-        return delegate?.contentType()
+        return delegate.contentType()
     }
 
     /**
@@ -45,7 +29,7 @@ class UploadProgressRequestBody : RequestBody {
      */
     override fun contentLength(): Long {
         return try {
-            delegate?.contentLength() ?: 0L
+            delegate.contentLength()
         } catch (e: IOException) {
             e(e.message)
             -1L
@@ -54,16 +38,16 @@ class UploadProgressRequestBody : RequestBody {
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        countingSink = CountingSink(sink)
-        val bufferedSink: BufferedSink = Okio.buffer(countingSink!!)
-        delegate?.writeTo(bufferedSink)
+        val countingSink = CountingSink(sink)
+        val bufferedSink: BufferedSink = Okio.buffer(countingSink)
+        delegate.writeTo(bufferedSink)
         bufferedSink.flush()
     }
 
-    protected inner class CountingSink(delegate: Sink) : ForwardingSink(delegate) {
+    private inner class CountingSink(delegate: Sink) : ForwardingSink(delegate) {
         private var bytesWritten = 0L
-        private var contentLength = 0L //总字节长度，避免多次调用contentLength()方法
-        private var lastRefreshUiTime = 0L //最后一次刷新的时间
+        private var contentLength = 0L      //总字节长度，避免多次调用contentLength()方法
+        private var lastRefreshUiTime = 0L  //最后一次刷新的时间
 
         @Throws(IOException::class)
         override fun write(source: Buffer, byteCount: Long) {
@@ -71,6 +55,7 @@ class UploadProgressRequestBody : RequestBody {
             if (contentLength <= 0) contentLength = contentLength() //获得contentLength的值，后续不再调用
             //增加当前写入的字节数
             bytesWritten += byteCount
+
             val curTime = System.currentTimeMillis()
             //每100毫秒刷新一次数据,防止频繁无用的刷新
             val done = bytesWritten == contentLength

@@ -3,11 +3,14 @@ package com.tiamosu.fly.demo
 import android.os.Bundle
 import android.view.View
 import com.blankj.utilcode.util.ActivityUtils
+import com.tiamosu.fly.demo.api.CustomApiService
 import com.tiamosu.fly.demo.base.BaseActivity
+import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
-import com.tiamosu.fly.http.request.GetRequest
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_enter.*
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 
 /**
@@ -20,7 +23,13 @@ class EnterActivity : BaseActivity() {
         return R.layout.activity_enter
     }
 
-    override fun initData(bundle: Bundle?) {}
+    override fun initData(bundle: Bundle?) {
+        val custom = FlyHttp.custom<Any>("")
+        val observable: Observable<ResponseBody>? = custom.create(CustomApiService::class.java)
+            ?.custom("custom", mapOf())
+        custom.apiCall(observable)
+    }
+
     override fun initView(savedInstanceState: Bundle?, contentView: View?) {}
 
     override fun initEvent() {
@@ -28,16 +37,16 @@ class EnterActivity : BaseActivity() {
             ActivityUtils.startActivity(MainActivity::class.java)
         }
         btn_request.setOnClickListener {
-            GetRequest("/friend/json")
-                .request()
+            FlyHttp.get<Any>("/friend/json")
+                .build()
         }
         btn_request1.setOnClickListener {
-            GetRequest("/friend/json")
+            FlyHttp.get<Any>("/friend/json")
                 .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
                     put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
                 }))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
-                .request()
+                .build()
         }
     }
 
