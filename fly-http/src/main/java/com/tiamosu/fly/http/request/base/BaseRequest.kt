@@ -8,7 +8,7 @@ import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
-import com.tiamosu.fly.http.ssl.HttpsUtils
+import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.utils.FlyUtils
 import io.reactivex.Observable
 import okhttp3.*

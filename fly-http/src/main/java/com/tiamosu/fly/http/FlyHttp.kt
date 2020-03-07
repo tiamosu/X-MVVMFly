@@ -6,7 +6,7 @@ import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
-import com.tiamosu.fly.http.ssl.HttpsUtils
+import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.utils.FlyUtils
 import okhttp3.Call

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.http.ssl
+package com.tiamosu.fly.http.https
 
 import android.annotation.SuppressLint
 import android.text.TextUtils

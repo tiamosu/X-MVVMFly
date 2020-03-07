@@ -17,7 +17,7 @@ import java.util.logging.Logger
  * @author tiamosu
  * @date 2020/3/1.
  */
-class HttpLoggingInterceptor : BaseInterceptor {
+class HttpLoggingInterceptor : Interceptor {
     @Volatile
     private var level = Level.NONE
     private var logger: Logger

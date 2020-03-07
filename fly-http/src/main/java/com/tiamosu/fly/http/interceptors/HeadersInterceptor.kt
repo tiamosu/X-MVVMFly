@@ -11,7 +11,7 @@ import java.io.IOException
  * @author tiamosu
  * @date 2020/2/26.
  */
-class HeadersInterceptor(private val headers: HttpHeaders) : BaseInterceptor() {
+class HeadersInterceptor(private val headers: HttpHeaders) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {

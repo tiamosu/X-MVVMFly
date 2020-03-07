@@ -24,18 +24,11 @@ import java.util.*
  * @date 2020/2/29.
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : BaseInterceptor() {
-    var httpUrl: HttpUrl? = null
-        private set
-    //是否需要签名
-    var isSign = false
-        private set
-    //是否需要追加时间戳
-    var isTimeStamp = false
-        private set
-    //是否需要添加token
-    var isAccessToken = false
-        private set
+abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Interceptor {
+    protected var httpUrl: HttpUrl? = null
+    protected var isSign = false            //是否需要签名
+    protected var isTimeStamp = false       //是否需要追加时间戳
+    protected var isAccessToken = false     //是否需要添加token
 
     fun sign(sign: Boolean): R {
         isSign = sign

@@ -15,7 +15,7 @@ import java.nio.charset.Charset
  * @author tiamosu
  * @date 2020/3/3.
  */
-abstract class BaseExpiredInterceptor : BaseInterceptor() {
+abstract class BaseExpiredInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
