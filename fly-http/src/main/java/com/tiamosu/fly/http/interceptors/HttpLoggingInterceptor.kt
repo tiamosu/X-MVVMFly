@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.interceptors
 
+import androidx.annotation.IntDef
 import com.tiamosu.fly.http.utils.FlyIOUtils
 import okhttp3.*
 import okhttp3.internal.http.HttpHeaders
@@ -24,13 +25,6 @@ class HttpLoggingInterceptor : Interceptor {
     private var isLogEnable = false
     private var colorLevel: java.util.logging.Level = java.util.logging.Level.INFO
 
-    enum class Level {
-        NONE,       //不打印log
-        BASIC,      //只打印 请求首行 和 响应首行
-        HEADERS,    //打印请求和响应的所有 Header
-        BODY        //所有数据全部打印
-    }
-
     constructor(tag: String) : this(tag, true)
 
     constructor(tag: String, isLogEnable: Boolean) {
@@ -38,7 +32,7 @@ class HttpLoggingInterceptor : Interceptor {
         logger = Logger.getLogger(tag)
     }
 
-    fun setLevel(level: Level): HttpLoggingInterceptor {
+    fun setLevel(@Level.Level level: Int): HttpLoggingInterceptor {
         this.level = level
         return this
     }
@@ -239,5 +233,16 @@ class HttpLoggingInterceptor : Interceptor {
         fun getCharset(contentType: MediaType?): Charset {
             return contentType?.charset(UTF8) ?: UTF8
         }
+    }
+
+    object Level {
+        const val NONE = 1      //不打印log
+        const val BASIC = 2     //只打印 请求首行 和 响应首行
+        const val HEADERS = 3   //打印请求和响应的所有 Header
+        const val BODY = 4      //所有数据全部打印
+
+        @IntDef(NONE, BASIC, HEADERS, BODY)
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class Level
     }
 }

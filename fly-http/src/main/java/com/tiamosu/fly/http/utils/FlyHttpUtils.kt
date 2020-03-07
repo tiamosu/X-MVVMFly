@@ -226,7 +226,7 @@ object FlyHttpUtils {
         try {
             fileName = URLDecoder.decode(fileName, "UTF-8")
         } catch (e: UnsupportedEncodingException) {
-            FlyHttpLog.e(e)
+            FlyHttpLog.printStackTrace(e)
         }
         return fileName!!
     }

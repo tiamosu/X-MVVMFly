@@ -2,11 +2,11 @@ package com.tiamosu.fly.http
 
 import android.text.TextUtils
 import com.tiamosu.fly.http.cookie.CookieManger
+import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
-import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.utils.FlyUtils
 import okhttp3.Call
@@ -81,11 +81,7 @@ class FlyHttp {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
-        FlyHttpLog.customTagPrefix = tempTag
-        FlyHttpLog.allowE = isPrintException
-        FlyHttpLog.allowD = isPrintException
-        FlyHttpLog.allowI = isPrintException
-        FlyHttpLog.allowV = isPrintException
+        FlyHttpLog.debug(tempTag, isPrintException)
         return this
     }
 

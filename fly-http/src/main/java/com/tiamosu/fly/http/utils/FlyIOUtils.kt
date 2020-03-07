@@ -31,7 +31,7 @@ object FlyIOUtils {
             oos.flush()
             return baos.toByteArray()
         } catch (e: IOException) {
-            FlyHttpLog.e(e)
+            FlyHttpLog.printStackTrace(e)
         } finally {
             CloseUtils.closeIO(oos, baos)
         }
@@ -48,7 +48,7 @@ object FlyIOUtils {
             ois = ObjectInputStream(bais)
             return ois.readObject()
         } catch (e: Exception) {
-            FlyHttpLog.e(e)
+            FlyHttpLog.printStackTrace(e)
         } finally {
             CloseUtils.closeIO(ois, bais)
         }
