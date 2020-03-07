@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.request
 
 import com.tiamosu.fly.http.request.base.BaseRequest
 import io.reactivex.Observable
-import okhttp3.ResponseBody
+import okhttp3.Response
 
 /**
  * @author tiamosu
@@ -10,7 +10,7 @@ import okhttp3.ResponseBody
  */
 class GetRequest<T>(url: String) : BaseRequest<T, GetRequest<T>>(url) {
 
-    override fun generateRequest(): Observable<ResponseBody>? {
+    override fun generateRequest(): Observable<Response>? {
         return apiService?.get(url, httpParams.urlParamsMap)
     }
 }

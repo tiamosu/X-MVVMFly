@@ -162,11 +162,11 @@ class HttpLoggingInterceptor : BaseInterceptor {
                 if (logBody && HttpHeaders.hasBody(clone)) {
                     var contentType: MediaType?
                     if (isPlaintext(responseBody?.contentType().also { contentType = it })) {
-                        val bytes: ByteArray = FlyIOUtils.toByteArray(responseBody!!.byteStream())
-                        val body = String(bytes, getCharset(contentType))
+                        val bytes = FlyIOUtils.toByteArray(responseBody?.byteStream())
+                        val body = bytes?.let { String(it, getCharset(contentType)) }
                         log("\tbody:$body")
 
-                        responseBody = ResponseBody.create(contentType, body)
+                        responseBody = body?.let { ResponseBody.create(contentType, it) }
                         return response.newBuilder().body(responseBody).build()
                     } else {
                         log("\tbody: maybe [file part] , too large too print , ignored!")

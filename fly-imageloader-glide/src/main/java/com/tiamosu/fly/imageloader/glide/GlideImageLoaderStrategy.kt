@@ -172,7 +172,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         if (config.mIsClearMemory) {//清除内存缓存
-            Platform.post(Action { Glide.get(context).clearMemory() })
+            Platform.postOnMain(Action { Glide.get(context).clearMemory() })
         }
     }
 

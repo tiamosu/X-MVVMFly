@@ -338,5 +338,5 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         return RequestCall(generateRequest())
     }
 
-    protected abstract fun generateRequest(): Observable<ResponseBody>?
+    protected abstract fun generateRequest(): Observable<Response>?
 }

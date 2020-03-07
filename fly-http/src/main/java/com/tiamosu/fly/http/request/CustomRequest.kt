@@ -4,7 +4,7 @@ import com.tiamosu.fly.http.api.ApiService
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.FlyUtils
 import io.reactivex.Observable
-import okhttp3.ResponseBody
+import okhttp3.Response
 
 /**
  * 描述：自定义请求，例如你有自己的ApiService
@@ -19,12 +19,12 @@ open class CustomRequest<T>(url: String) : BaseRequest<T, CustomRequest<T>>(url)
             .obtainRetrofitService(serviceClass, retrofit)
     }
 
-    fun apiCall(observable: Observable<ResponseBody>?) {
+    fun apiCall(observable: Observable<Response>?) {
         RequestCall(observable)
             .request()
     }
 
-    override fun generateRequest(): Observable<ResponseBody>? {
+    override fun generateRequest(): Observable<Response>? {
         return null
     }
 }

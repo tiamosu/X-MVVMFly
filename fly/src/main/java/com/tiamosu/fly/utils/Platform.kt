@@ -18,7 +18,7 @@ object Platform {
     fun getHandler() = Handler(Looper.getMainLooper())
 
     @JvmStatic
-    fun post(action: Action) {
+    fun postOnMain(action: Action) {
         Completable.fromAction(action)
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe()

@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.request
 import com.tiamosu.fly.http.request.base.BaseBodyRequest
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
+import okhttp3.Response
 
 /**
  * @author tiamosu
@@ -11,7 +11,7 @@ import okhttp3.ResponseBody
  */
 class PutRequest<T>(url: String) : BaseBodyRequest<T, PutRequest<T>>(url) {
 
-    override fun generateRequest(): Observable<ResponseBody>? {
+    override fun generateRequest(): Observable<Response>? {
         when {
             requestBody != null -> {
                 return apiService?.putBody(url, requestBody!!)

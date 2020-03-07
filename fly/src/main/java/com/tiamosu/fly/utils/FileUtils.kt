@@ -11,14 +11,16 @@ import java.io.File
 object FileUtils {
 
     @JvmStatic
-    fun createFile(fileDirName: String, fileName: String): File {
+    fun createFile(fileDirName: String?, fileName: String): File {
         return File(createDir(fileDirName), fileName)
     }
 
     @JvmStatic
-    fun createDir(fileDirName: String): File? {
-        val externalFileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath ?: ""
-        val dir = "$externalFileDirPath/$fileDirName/"
+    fun createDir(fileDirName: String?): File? {
+        val fileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath
+            ?: Utils.getApp().cacheDir.absolutePath
+        val folder = fileDirName ?: Utils.getApp().packageName
+        val dir = "$fileDirPath/$folder/"
         val fileDir = File(dir)
         return createOrExistsDir(fileDir)
     }

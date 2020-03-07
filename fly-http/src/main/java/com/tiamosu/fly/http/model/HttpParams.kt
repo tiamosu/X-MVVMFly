@@ -51,7 +51,7 @@ class HttpParams : Serializable {
     }
 
     fun put(key: String?, file: File?, fileName: String?) {
-        put(key, file, fileName, FlyHttpUtils.guessMimeType(fileName))
+        put(key, file, fileName, null)
     }
 
     fun put(key: String?, fileWrapper: FileWrapper?) {
@@ -60,12 +60,13 @@ class HttpParams : Serializable {
 
     fun put(key: String?, file: File?, fileName: String?, contentType: MediaType?) {
         if (key != null && file != null && fileName != null) {
+            val mediaType = contentType ?: FlyHttpUtils.guessMimeType(fileName)
             var fileWrappers: MutableList<FileWrapper>? = fileParamsMap[key]
             if (fileWrappers == null) {
                 fileWrappers = mutableListOf()
                 fileParamsMap[key] = fileWrappers
             }
-            fileWrappers.add(FileWrapper(file, fileName, contentType))
+            fileWrappers.add(FileWrapper(file, fileName, mediaType))
         }
     }
 

@@ -1,9 +1,7 @@
 package com.tiamosu.fly.http.utils
 
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import com.blankj.utilcode.util.CloseUtils
+import java.io.*
 
 /**
  * @author tiamosu
@@ -13,15 +11,52 @@ object FlyIOUtils {
 
     @JvmStatic
     @Throws(IOException::class)
-    fun toByteArray(input: InputStream): ByteArray {
+    fun toByteArray(input: InputStream?): ByteArray? {
+        input ?: return null
         val output = ByteArrayOutputStream()
         write(input, output)
         output.close()
         return output.toByteArray()
     }
 
+    @JvmStatic
+    fun toByteArray(input: Any?): ByteArray? {
+        input ?: return null
+        var baos: ByteArrayOutputStream? = null
+        var oos: ObjectOutputStream? = null
+        try {
+            baos = ByteArrayOutputStream()
+            oos = ObjectOutputStream(baos)
+            oos.writeObject(input)
+            oos.flush()
+            return baos.toByteArray()
+        } catch (e: IOException) {
+            FlyHttpLog.e(e)
+        } finally {
+            CloseUtils.closeIO(oos, baos)
+        }
+        return null
+    }
+
+    @JvmStatic
+    fun toObject(input: ByteArray?): Any? {
+        input ?: return null
+        var bais: ByteArrayInputStream? = null
+        var ois: ObjectInputStream? = null
+        try {
+            bais = ByteArrayInputStream(input)
+            ois = ObjectInputStream(bais)
+            return ois.readObject()
+        } catch (e: Exception) {
+            FlyHttpLog.e(e)
+        } finally {
+            CloseUtils.closeIO(ois, bais)
+        }
+        return null
+    }
+
     @Throws(IOException::class)
-    fun write(inputStream: InputStream, outputStream: OutputStream) {
+    private fun write(inputStream: InputStream, outputStream: OutputStream) {
         var len: Int
         val buffer = ByteArray(4096)
         while (inputStream.read(buffer).also { len = it } != -1) {

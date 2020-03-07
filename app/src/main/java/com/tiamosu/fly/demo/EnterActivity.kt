@@ -8,9 +8,7 @@ import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_enter.*
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 
 /**
@@ -25,7 +23,7 @@ class EnterActivity : BaseActivity() {
 
     override fun initData(bundle: Bundle?) {
         val custom = FlyHttp.custom<Any>("")
-        val observable: Observable<ResponseBody>? = custom.create(CustomApiService::class.java)
+        val observable = custom.create(CustomApiService::class.java)
             ?.custom("custom", mapOf())
         custom.apiCall(observable)
     }
