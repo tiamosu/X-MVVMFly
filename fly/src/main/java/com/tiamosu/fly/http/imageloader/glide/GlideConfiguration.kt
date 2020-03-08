@@ -1,9 +1,7 @@
 package com.tiamosu.fly.http.imageloader.glide
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.Context
-import android.content.Context.ACTIVITY_SERVICE
 import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
@@ -19,6 +17,7 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.tiamosu.fly.http.OkHttpUrlLoader
+import com.tiamosu.fly.integration.extension.activityManager
 import com.tiamosu.fly.utils.FileUtils
 import com.tiamosu.fly.utils.FlyUtils
 import java.io.File
@@ -58,7 +57,6 @@ class GlideConfiguration : AppGlideModule() {
 
         val defaultOptions = RequestOptions()
         // Prefer higher quality images unless we're on a low RAM device
-        val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             defaultOptions.format(if (activityManager.isLowRamDevice) PREFER_RGB_565 else PREFER_ARGB_8888)
         }

@@ -1,9 +1,9 @@
 package com.tiamosu.fly.integration.cache
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import androidx.fragment.app.Fragment
+import com.tiamosu.fly.integration.extension.activityManager
 
 /**
  * 构建 [Cache] 时,使用 [CacheType] 中声明的类型,来区分不同的模块
@@ -42,8 +42,8 @@ interface CacheType {
             }
 
             override fun calculateCacheSize(context: Context): Int {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val targetMemoryCacheSize = (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                val targetMemoryCacheSize =
+                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
@@ -59,8 +59,8 @@ interface CacheType {
             }
 
             override fun calculateCacheSize(context: Context): Int {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val targetMemoryCacheSize = (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                val targetMemoryCacheSize =
+                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
@@ -76,8 +76,8 @@ interface CacheType {
             }
 
             override fun calculateCacheSize(context: Context): Int {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val targetMemoryCacheSize = (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                val targetMemoryCacheSize =
+                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
@@ -96,8 +96,8 @@ interface CacheType {
             }
 
             override fun calculateCacheSize(context: Context): Int {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val targetMemoryCacheSize = (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                val targetMemoryCacheSize =
+                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
@@ -116,8 +116,8 @@ interface CacheType {
             }
 
             override fun calculateCacheSize(context: Context): Int {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val targetMemoryCacheSize = (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                val targetMemoryCacheSize =
+                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize

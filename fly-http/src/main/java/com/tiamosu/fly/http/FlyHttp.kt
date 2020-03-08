@@ -359,6 +359,13 @@ class FlyHttp {
         }
 
         /**
+         * 文件上传
+         */
+        fun <T> upload(url: String): UploadRequest<T> {
+            return UploadRequest(url)
+        }
+
+        /**
          * 自定求请求
          */
         fun <T> custom(url: String): CustomRequest<T> {

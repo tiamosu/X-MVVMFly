@@ -51,17 +51,15 @@ interface AppComponent {
     fun imageLoader(): ImageLoader
 
     /**
-     * [OkHttpClient.Builder] 自定义扩展
-     */
-    fun okHttpBuilder(): OkHttpClient.Builder
-
-    /**
      * 网络请求框架
      *
      * @return [OkHttpClient]
      */
     fun okHttpClient(): OkHttpClient
 
+    /**
+     * @return [Retrofit]
+     */
     fun retrofit(): Retrofit
 
     /**

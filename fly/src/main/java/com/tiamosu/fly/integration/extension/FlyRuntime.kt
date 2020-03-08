@@ -2,6 +2,7 @@
 
 package com.tiamosu.fly.integration.extension
 
+import android.app.ActivityManager
 import android.content.ClipboardManager
 import android.content.Context
 import android.net.ConnectivityManager
@@ -17,4 +18,8 @@ val connectivityManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
 
 val clipboardManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
     Utils.getApp().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+}
+
+val activityManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 }
