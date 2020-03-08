@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.convert.FileConvert
-import okhttp3.Response
+import okhttp3.ResponseBody
 import java.io.File
 
 /**
@@ -23,7 +23,7 @@ abstract class FileCallback : AbsCallback<File> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): File? {
-        return convert.convertResponse(response)
+    override fun convertResponse(body: ResponseBody): File? {
+        return convert.convertResponse(body)
     }
 }

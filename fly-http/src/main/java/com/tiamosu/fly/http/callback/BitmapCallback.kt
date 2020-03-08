@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.callback
 
 import android.graphics.Bitmap
 import com.tiamosu.fly.http.convert.BitmapConvert
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * 描述：返回图片的Bitmap
@@ -22,7 +22,7 @@ abstract class BitmapCallback : AbsCallback<Bitmap> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): Bitmap? {
-        return convert.convertResponse(response)
+    override fun convertResponse(body: ResponseBody): Bitmap? {
+        return convert.convertResponse(body)
     }
 }

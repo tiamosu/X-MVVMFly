@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.convert
 import android.graphics.Bitmap
 import com.blankj.utilcode.util.CloseUtils
 import com.blankj.utilcode.util.ImageUtils
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * 描述：Bitmap转换器
@@ -23,13 +23,12 @@ class BitmapConvert : Converter<Bitmap> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): Bitmap? {
-        val body = response.body() ?: return null
+    override fun convertResponse(body: ResponseBody): Bitmap? {
         val inputStream = body.byteStream()
         val bitmap = ImageUtils.getBitmap(inputStream).let {
             ImageUtils.compressBySampleSize(it, maxWidth, maxHeight)
         }
-        CloseUtils.closeIO(response, body, inputStream)
+        CloseUtils.closeIO(body, inputStream)
         return bitmap
     }
 }

@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.convert
 
 import com.blankj.utilcode.util.CloseUtils
-import okhttp3.Response
+import okhttp3.ResponseBody
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -14,8 +14,7 @@ import java.io.InputStreamReader
 class FileContentConvert : Converter<String> {
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): String? {
-        val body = response.body() ?: return null
+    override fun convertResponse(body: ResponseBody): String? {
         val inputStream = body.byteStream()
         val reader = InputStreamReader(inputStream, "utf-8")
         val bufferedReader = BufferedReader(reader)
@@ -27,7 +26,7 @@ class FileContentConvert : Converter<String> {
         } while (true)
 
         val result = builder.toString()
-        CloseUtils.closeIO(inputStream, reader, bufferedReader)
+        CloseUtils.closeIO(body, inputStream, reader, bufferedReader)
         return result
     }
 }

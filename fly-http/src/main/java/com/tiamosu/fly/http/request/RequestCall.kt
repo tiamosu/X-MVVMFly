@@ -5,6 +5,7 @@ import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.http.subsciber.CallbackSubscriber
 import com.tiamosu.fly.http.utils.RxUtils
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
+import okhttp3.ResponseBody
 
 /**
  * @author tiamosu
@@ -12,10 +13,10 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay
  */
 class RequestCall<T>(private val request: BaseRequest<T, *>) {
 
-    fun request(callback: Callback<T>) {
+    fun request(callback: Callback<out T>) {
         request.callback = callback
         request.generateRequest()?.also { it ->
-            it.compose(if (request.isSyncRequest) RxUtils.main() else RxUtils.io())
+            it.compose(if (request.isSyncRequest) RxUtils.main<ResponseBody>() else RxUtils.io<ResponseBody>())
                 .retryWhen(RetryWithDelay(request.retryCount, request.retryDelay))
                 .subscribe(CallbackSubscriber(request))
         }

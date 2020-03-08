@@ -6,7 +6,7 @@ import com.tiamosu.fly.http.request.base.ProgressRequestBody.ProgressResponseCal
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * @author tiamosu
@@ -20,7 +20,7 @@ class UploadRequest<T>(url: String) : BaseBodyRequest<T, UploadRequest<T>>(url) 
         return this
     }
 
-    override fun generateRequest(): Observable<Response>? {
+    override fun generateRequest(): Observable<ResponseBody>? {
         return apiService?.uploadFiles(url, generateMultipartRequestBody())
     }
 

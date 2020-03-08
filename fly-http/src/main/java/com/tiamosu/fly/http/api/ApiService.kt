@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.api
 
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import okhttp3.Response
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -25,7 +25,10 @@ interface ApiService {
     //         GET请求           //
     // =========================//
     @GET
-    operator fun get(@Url url: String, @QueryMap params: Map<String, String>): Observable<Response>
+    operator fun get(
+        @Url url: String,
+        @QueryMap params: Map<String, String>
+    ): Observable<ResponseBody>
 
 
     //==========================//
@@ -33,60 +36,60 @@ interface ApiService {
     // =========================//
     @POST
     @FormUrlEncoded
-    fun post(@Url url: String, @FieldMap maps: Map<String, String>): Observable<Response>
+    fun post(@Url url: String, @FieldMap maps: Map<String, String>): Observable<ResponseBody>
 
     @POST
-    fun postBody(@Url url: String, @Body any: Any): Observable<Response>
+    fun postBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
 
     @POST
-    fun postBody(@Url url: String, @Body body: RequestBody): Observable<Response>
+    fun postBody(@Url url: String, @Body body: RequestBody): Observable<ResponseBody>
 
     @POST
     @Headers("Content-Type: application/json", "Accept: application/json")
-    fun postJson(@Url url: String, @Body jsonBody: RequestBody): Observable<Response>
+    fun postJson(@Url url: String, @Body jsonBody: RequestBody): Observable<ResponseBody>
 
 
     //==========================//
     //         PUT请求           //
     // =========================//
     @PUT
-    fun put(@Url url: String, @QueryMap maps: Map<String, String>): Observable<Response>
+    fun put(@Url url: String, @QueryMap maps: Map<String, String>): Observable<ResponseBody>
 
     @PUT
-    fun putBody(@Url url: String, @Body any: Any): Observable<Response>
+    fun putBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
 
     @PUT
-    fun putBody(@Url url: String, @Body body: RequestBody): Observable<Response>
+    fun putBody(@Url url: String, @Body body: RequestBody): Observable<ResponseBody>
 
     @PUT
     @Headers("Content-Type: application/json", "Accept: application/json")
-    fun putJson(@Url url: String, @Body jsonBody: RequestBody): Observable<Response>
+    fun putJson(@Url url: String, @Body jsonBody: RequestBody): Observable<ResponseBody>
 
 
     //==========================//
     //         DELETE请求        //
     // =========================//
     @DELETE
-    fun delete(@Url url: String, @QueryMap maps: Map<String, String>): Observable<Response>
+    fun delete(@Url url: String, @QueryMap maps: Map<String, String>): Observable<ResponseBody>
 
     @HTTP(method = "DELETE", hasBody = true)
-    fun deleteBody(@Url url: String, @Body any: Any): Observable<Response>
+    fun deleteBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
 
     @HTTP(method = "DELETE", hasBody = true)
-    fun deleteBody(@Url url: String, @Body body: RequestBody): Observable<Response>
+    fun deleteBody(@Url url: String, @Body body: RequestBody): Observable<ResponseBody>
 
     @Headers("Content-Type: application/json", "Accept: application/json")
     @HTTP(method = "DELETE", hasBody = true)
-    fun deleteJson(@Url url: String, @Body jsonBody: RequestBody): Observable<Response>
+    fun deleteJson(@Url url: String, @Body jsonBody: RequestBody): Observable<ResponseBody>
 
 
     //==========================//
     //       文件上传下载         //
     // =========================//
     @POST
-    fun uploadFiles(@Url url: String, @Body body: RequestBody): Observable<Response>
+    fun uploadFiles(@Url url: String, @Body body: RequestBody): Observable<ResponseBody>
 
     @Streaming
     @GET
-    fun downloadFile(@Url url: String): Observable<Response>
+    fun downloadFile(@Url url: String): Observable<ResponseBody>
 }

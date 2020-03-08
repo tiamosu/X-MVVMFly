@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.convert
 
 import com.blankj.utilcode.util.CloseUtils
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * 描述：字符串转换器
@@ -11,10 +11,9 @@ import okhttp3.Response
  */
 class StringConvert : Converter<String> {
 
-    override fun convertResponse(response: Response): String? {
-        val body = response.body() ?: return null
+    override fun convertResponse(body: ResponseBody): String? {
         val string = body.string()
-        CloseUtils.closeIO(response)
+        CloseUtils.closeIO(body)
         return string
     }
 }

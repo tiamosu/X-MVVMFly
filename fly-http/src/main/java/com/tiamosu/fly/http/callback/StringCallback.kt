@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.convert.StringConvert
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * 描述：返回字符串类型的数据
@@ -13,7 +13,7 @@ abstract class StringCallback : AbsCallback<String>() {
     private val convert: StringConvert = StringConvert()
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): String? {
-        return convert.convertResponse(response)
+    override fun convertResponse(body: ResponseBody): String? {
+        return convert.convertResponse(body)
     }
 }

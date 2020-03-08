@@ -40,28 +40,4 @@ interface Callback<T> : Converter<T> {
      * 下载过程中的进度回调，UI线程
      */
     fun downloadProgress(progress: Progress)
-
-    class DefaultCallback<T> : Callback<T> {
-        override fun onStart(request: BaseRequest<T, out BaseRequest<T, *>>) {
-        }
-
-        override fun onSuccess(response: Response<T>) {
-        }
-
-        override fun onError(response: Response<T>) {
-        }
-
-        override fun onComplete() {
-        }
-
-        override fun uploadProgress(progress: Progress) {
-        }
-
-        override fun downloadProgress(progress: Progress) {
-        }
-
-        override fun convertResponse(response: okhttp3.Response): T? {
-            return convertResponse(response)
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.subsciber
 
+import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.FlyUtils
@@ -13,9 +14,10 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
  * @date 2020/3/7.
  */
 class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
-    ErrorHandleSubscriber<okhttp3.Response>(FlyUtils.getAppComponent().rxErrorHandler()) {
+    ErrorHandleSubscriber<okhttp3.ResponseBody>(FlyUtils.getAppComponent().rxErrorHandler()) {
 
-    private val callback = request.callback
+    @Suppress("UNCHECKED_CAST")
+    private val callback: Callback<T>? = request.callback as? Callback<T>
 
     override fun onSubscribe(d: Disposable) {
         Platform.postOnMain(Action {
@@ -23,10 +25,10 @@ class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
         })
     }
 
-    override fun onNext(t: okhttp3.Response) {
+    override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            val success = Response.success(false, body, t)
+            val success = Response.success(false, body, null)
             Platform.postOnMain(Action {
                 callback?.onSuccess(success)
             })

@@ -74,7 +74,7 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(val url: String) {
     var isGlobalErrorHandle = true                    //是否进行全局错误统一处理
         private set
 
-    internal var callback: Callback<T>? = null
+    internal var callback: Callback<*>? = null
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
@@ -358,5 +358,5 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(val url: String) {
         return RequestCall(this)
     }
 
-    abstract fun generateRequest(): Observable<Response>?
+    abstract fun generateRequest(): Observable<ResponseBody>?
 }

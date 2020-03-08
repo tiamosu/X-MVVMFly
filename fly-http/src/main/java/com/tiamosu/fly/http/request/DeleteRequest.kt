@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.request
 import com.tiamosu.fly.http.request.base.BaseBodyRequest
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import okhttp3.Response
+import okhttp3.ResponseBody
 
 /**
  * @author tiamosu
@@ -11,7 +11,7 @@ import okhttp3.Response
  */
 class DeleteRequest<T>(url: String) : BaseBodyRequest<T, DeleteRequest<T>>(url) {
 
-    override fun generateRequest(): Observable<Response>? {
+    override fun generateRequest(): Observable<ResponseBody>? {
         when {
             requestBody != null -> {
                 return apiService?.deleteBody(url, requestBody!!)

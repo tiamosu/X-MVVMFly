@@ -4,11 +4,10 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.model.Progress
-import com.tiamosu.fly.http.utils.FlyHttpUtils
 import com.tiamosu.fly.utils.FileUtils
 import com.tiamosu.fly.utils.Platform
 import io.reactivex.functions.Action
-import okhttp3.Response
+import okhttp3.ResponseBody
 import java.io.*
 
 /**
@@ -18,8 +17,8 @@ import java.io.*
  * @date 2020/3/6.
  */
 class FileConvert : Converter<File> {
-    private var destFileDir: String? = null             //目标文件存储的文件夹路径
-    private var destFileName: String? = null            //目标文件存储的文件名
+    private var destFileDir: String                     //目标文件存储的文件夹路径
+    private var destFileName: String                    //目标文件存储的文件名
     private var callback: Callback<File>? = null        //下载回调
 
     constructor() : this(null)
@@ -27,8 +26,9 @@ class FileConvert : Converter<File> {
     constructor(destFileName: String?) : this(null, destFileName)
 
     constructor(destFileDir: String?, destFileName: String?) {
-        this.destFileDir = destFileDir
-        this.destFileName = destFileName
+        this.destFileDir = if (!TextUtils.isEmpty(destFileDir)) destFileDir!! else "download"
+        this.destFileName =
+            if (!TextUtils.isEmpty(destFileName)) destFileName!! else "unknownfile_" + System.currentTimeMillis()
     }
 
     fun setCallback(callback: Callback<File>?) {
@@ -36,14 +36,8 @@ class FileConvert : Converter<File> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(response: Response): File? {
-        val body = response.body() ?: return null
-        val url: String = response.request().url().toString()
-        if (TextUtils.isEmpty(destFileDir)) destFileDir = "download"
-        if (TextUtils.isEmpty(destFileName)) destFileName =
-            FlyHttpUtils.getNetFileName(response, url)
-
-        val file = FileUtils.createFile(destFileDir, destFileName!!)
+    override fun convertResponse(body: ResponseBody): File? {
+        val file = FileUtils.createFile(destFileDir, destFileName)
         val inputStream = body.byteStream()
         var bis: BufferedInputStream? = null
         var fos: FileOutputStream? = null
@@ -55,8 +49,6 @@ class FileConvert : Converter<File> {
             progress.fileName = destFileName
             progress.filePath = file.absolutePath
             progress.status = Progress.LOADING
-            progress.url = url
-            progress.tag = url
 
             bis = BufferedInputStream(inputStream)
             fos = FileOutputStream(file)
@@ -77,7 +69,7 @@ class FileConvert : Converter<File> {
         } catch (e: IOException) {
             return null
         } finally {
-            CloseUtils.closeIO(response, bos, fos, bis, inputStream)
+            CloseUtils.closeIO(body, bos, fos, bis, inputStream)
         }
         return file
     }
