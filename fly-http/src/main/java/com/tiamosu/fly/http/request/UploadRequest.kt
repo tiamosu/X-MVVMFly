@@ -12,10 +12,10 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/8.
  */
-class UploadRequest<T>(url: String) : BaseBodyRequest<T, UploadRequest<T>>(url) {
+class UploadRequest(url: String) : BaseBodyRequest<UploadRequest>(url) {
     private var progressCallBack: ProgressResponseCallBack? = null//上传回调监听
 
-    fun updateFileCallback(progressCallBack: ProgressResponseCallBack?): UploadRequest<T> {
+    fun updateFileCallback(progressCallBack: ProgressResponseCallBack?): UploadRequest {
         this.progressCallBack = progressCallBack
         return this
     }

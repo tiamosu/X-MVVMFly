@@ -326,49 +326,49 @@ class FlyHttp {
         /**
          * get请求
          */
-        operator fun <T> get(url: String): GetRequest<T> {
+        operator fun get(url: String): GetRequest {
             return GetRequest(url)
         }
 
         /**
          * post请求
          */
-        fun <T> post(url: String): PostRequest<T> {
+        fun post(url: String): PostRequest {
             return PostRequest(url)
         }
 
         /**
          * put请求
          */
-        fun <T> put(url: String): PutRequest<T> {
+        fun put(url: String): PutRequest {
             return PutRequest(url)
         }
 
         /**
          * delete请求
          */
-        fun <T> delete(url: String): DeleteRequest<T> {
+        fun delete(url: String): DeleteRequest {
             return DeleteRequest(url)
         }
 
         /**
          * 文件下载
          */
-        fun <T> download(url: String): DownloadRequest<T> {
+        fun download(url: String): DownloadRequest {
             return DownloadRequest(url)
         }
 
         /**
          * 文件上传
          */
-        fun <T> upload(url: String): UploadRequest<T> {
+        fun upload(url: String): UploadRequest {
             return UploadRequest(url)
         }
 
         /**
          * 自定求请求
          */
-        fun <T> custom(url: String): CustomRequest<T> {
+        fun custom(url: String): CustomRequest {
             return CustomRequest(url)
         }
     }

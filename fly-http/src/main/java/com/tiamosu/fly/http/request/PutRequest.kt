@@ -9,7 +9,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/6.
  */
-class PutRequest<T>(url: String) : BaseBodyRequest<T, PutRequest<T>>(url) {
+class PutRequest(url: String) : BaseBodyRequest<PutRequest>(url) {
 
     override fun generateRequest(): Observable<ResponseBody>? {
         when {

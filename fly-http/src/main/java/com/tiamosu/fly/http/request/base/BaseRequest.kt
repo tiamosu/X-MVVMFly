@@ -25,7 +25,7 @@ import javax.net.ssl.HostnameVerifier
  * @date 2020/2/26.
  */
 @Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
-abstract class BaseRequest<T, R : BaseRequest<T, R>>(val url: String) {
+abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     var readTimeOut = 0L                                //读超时，单位 ms
         private set
     var writeTimeOut = 0L                               //写超时，单位 ms
@@ -346,7 +346,7 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(val url: String) {
         return builder
     }
 
-    fun build(): RequestCall<T> {
+    fun build(): RequestCall {
         val okHttpClientBuilder = generateOkClient()
         val retrofitBuilder = generateRetrofit()
         okHttpClient = okHttpClientBuilder.build().also {

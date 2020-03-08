@@ -9,7 +9,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/6.
  */
-class DeleteRequest<T>(url: String) : BaseBodyRequest<T, DeleteRequest<T>>(url) {
+class DeleteRequest(url: String) : BaseBodyRequest<DeleteRequest>(url) {
 
     override fun generateRequest(): Observable<ResponseBody>? {
         when {

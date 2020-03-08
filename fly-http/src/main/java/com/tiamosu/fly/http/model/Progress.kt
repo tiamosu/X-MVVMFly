@@ -28,7 +28,7 @@ class Progress : Serializable {
     var status = 0                                              //当前状态 = 0
     var priority: Int                                           //任务优先级
     var date: Long                                              //创建时间
-    var request: BaseRequest<*, out BaseRequest<*, *>>? = null  //网络请求
+    var request: BaseRequest<out BaseRequest<*>>? = null        //网络请求
     var extra1: Serializable? = null                            //额外的数据
     var extra2: Serializable? = null                            //额外的数据
     var extra3: Serializable? = null                            //额外的数据
@@ -221,7 +221,7 @@ class Progress : Serializable {
             progress.priority = cursor.getInt(cursor.getColumnIndex(PRIORITY))
             progress.date = cursor.getLong(cursor.getColumnIndex(DATE))
             progress.request =
-                toObject(cursor.getBlob(cursor.getColumnIndex(REQUEST))) as BaseRequest<*, out BaseRequest<*, *>>?
+                toObject(cursor.getBlob(cursor.getColumnIndex(REQUEST))) as BaseRequest<out BaseRequest<*>>?
             progress.extra1 =
                 toObject(cursor.getBlob(cursor.getColumnIndex(EXTRA1))) as Serializable?
             progress.extra2 =

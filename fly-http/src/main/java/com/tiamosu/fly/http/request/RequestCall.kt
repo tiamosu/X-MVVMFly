@@ -11,9 +11,9 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/6.
  */
-class RequestCall<T>(private val request: BaseRequest<T, *>) {
+class RequestCall(private val request: BaseRequest<*>) {
 
-    fun request(callback: Callback<out T>) {
+    fun request(callback: Callback<*>) {
         request.callback = callback
         request.generateRequest()?.also { it ->
             it.compose(if (request.isSyncRequest) RxUtils.main<ResponseBody>() else RxUtils.io<ResponseBody>())

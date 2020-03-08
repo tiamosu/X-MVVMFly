@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ActivityUtils
-import com.tiamosu.fly.demo.api.CustomApiService
 import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.callback.StringCallback
@@ -39,24 +38,24 @@ class EnterActivity : BaseActivity() {
             ActivityUtils.startActivity(MainActivity::class.java)
         }
         btn_request.setOnClickListener {
-            FlyHttp.get<String>("/friend/json")
+            FlyHttp["/friend/json"]
                 .build()
                 .request(object : StringCallback() {
-                    override fun onSuccess(response: Response<String>) {
+                    override fun onSuccess(response: Response) {
                         Log.e("xia", "body:" + response.body)
 //                        FlyHttpLog.i("response:$response")
                     }
                 })
         }
         btn_request1.setOnClickListener {
-            FlyHttp.get<String>("/friend/json")
+            FlyHttp["/friend/json"]
                 .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
                     put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
                 }))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .build()
                 .request(object : StringCallback() {
-                    override fun onSuccess(response: Response<String>) {
+                    override fun onSuccess(response: Response) {
                         FlyHttpLog.i("response:$response")
                     }
                 })

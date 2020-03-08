@@ -12,7 +12,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/6.
  */
-open class CustomRequest<T>(url: String) : BaseRequest<T, CustomRequest<T>>(url) {
+open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
     private var observable: Observable<ResponseBody>? = null
 
     fun <R> create(serviceClass: Class<R>): R? {
@@ -20,7 +20,7 @@ open class CustomRequest<T>(url: String) : BaseRequest<T, CustomRequest<T>>(url)
             .obtainRetrofitService(serviceClass, retrofit)
     }
 
-    fun apiCall(observable: Observable<ResponseBody>?, callback: Callback<out T>) {
+    fun apiCall(observable: Observable<ResponseBody>?, callback: Callback<*>) {
         this.observable = observable
         val newCallback = callback
         RequestCall(this)

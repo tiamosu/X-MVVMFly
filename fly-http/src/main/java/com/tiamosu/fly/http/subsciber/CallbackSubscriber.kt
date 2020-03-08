@@ -13,11 +13,10 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
  * @author tiamosu
  * @date 2020/3/7.
  */
-class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
+class CallbackSubscriber(val request: BaseRequest<*>) :
     ErrorHandleSubscriber<okhttp3.ResponseBody>(FlyUtils.getAppComponent().rxErrorHandler()) {
 
-    @Suppress("UNCHECKED_CAST")
-    private val callback: Callback<T>? = request.callback as? Callback<T>
+    private val callback: Callback<*>? = request.callback
 
     override fun onSubscribe(d: Disposable) {
         Platform.postOnMain(Action {
@@ -28,7 +27,7 @@ class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
     override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            val success = Response.success(false, body, null)
+            val success = Response.success(body)
             Platform.postOnMain(Action {
                 callback?.onSuccess(success)
             })
@@ -42,7 +41,7 @@ class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
             super.onError(t)
         }
         Platform.postOnMain(Action {
-            val error: Response<T> = Response.error(false, null, t)
+            val error = Response.error(t)
             callback?.onError(error)
         })
     }

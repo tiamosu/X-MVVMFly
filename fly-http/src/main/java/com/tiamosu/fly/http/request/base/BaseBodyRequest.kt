@@ -15,7 +15,7 @@ import java.io.File
  * @date 2020/3/3.
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseBodyRequest<T, R : BaseBodyRequest<T, R>>(url: String) : BaseRequest<T, R>(url),
+abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseRequest<R>(url),
     HasBody<R> {
 
     protected var mediaType: MediaType? = null      //上传的MIME类型

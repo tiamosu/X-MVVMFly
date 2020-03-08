@@ -8,7 +8,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/2/26.
  */
-class GetRequest<T>(url: String) : BaseRequest<T, GetRequest<T>>(url) {
+class GetRequest(url: String) : BaseRequest<GetRequest>(url) {
 
     override fun generateRequest(): Observable<ResponseBody>? {
         return apiService?.get(url, httpParams.urlParamsMap)

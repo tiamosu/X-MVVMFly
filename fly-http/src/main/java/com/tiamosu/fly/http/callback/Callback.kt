@@ -14,17 +14,17 @@ interface Callback<T> : Converter<T> {
     /**
      * 请求网络开始前，UI线程
      */
-    fun onStart(request: BaseRequest<T, out BaseRequest<T, *>>)
+    fun onStart(request: BaseRequest<out BaseRequest<*>>)
 
     /**
      * 对返回数据进行操作的回调，UI线程
      */
-    fun onSuccess(response: Response<T>)
+    fun onSuccess(response: Response)
 
     /**
      * 请求失败，响应错误，数据解析错误等，都会回调该方法，UI线程
      */
-    fun onError(response: Response<T>)
+    fun onError(response: Response)
 
     /**
      * 请求网络结束后，UI线程

@@ -12,9 +12,9 @@ import com.tiamosu.fly.http.request.base.BaseRequest
  */
 abstract class AbsCallback<T> : Callback<T> {
 
-    override fun onStart(request: BaseRequest<T, out BaseRequest<T, *>>) {}
+    override fun onStart(request: BaseRequest<out BaseRequest<*>>) {}
 
-    override fun onError(response: Response<T>) {}
+    override fun onError(response: Response) {}
 
     override fun onComplete() {}
 
