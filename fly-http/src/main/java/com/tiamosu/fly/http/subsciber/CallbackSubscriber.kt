@@ -47,7 +47,7 @@ class CallbackSubscriber<T>(val request: BaseRequest<T, *>) :
 
     override fun onComplete() {
         Platform.postOnMain(Action {
-            callback?.onFinish()
+            callback?.onComplete()
         })
     }
 }
