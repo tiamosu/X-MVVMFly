@@ -3,17 +3,17 @@ package com.tiamosu.fly.http.request.base
 import android.text.TextUtils
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.api.ApiService
+import com.tiamosu.fly.http.callback.Callback
+import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.interceptors.BaseDynamicInterceptor
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
-import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.utils.FlyUtils
 import io.reactivex.Observable
 import okhttp3.*
 import retrofit2.CallAdapter
-import retrofit2.Converter
 import retrofit2.Retrofit
 import java.io.InputStream
 import java.net.Proxy
@@ -24,36 +24,57 @@ import javax.net.ssl.HostnameVerifier
  * @author tiamosu
  * @date 2020/2/26.
  */
-@Suppress("UNCHECKED_CAST")
-abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) {
-    protected var readTimeOut = 0L                                //读超时，单位 ms
-    protected var writeTimeOut = 0L                               //写超时，单位 ms
-    protected var connectTimeout = 0L                             //链接超时，单位 ms
-    protected var proxy: Proxy? = null                            //代理
-    protected var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
-    protected var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
-    protected var sign = false                                    //是否需要签名
-    protected var timeStamp = false                               //是否需要追加时间戳
-    protected var accessToken = false                             //是否需要追加 token
-    protected var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
-    protected val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
-    protected val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
+@Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
+abstract class BaseRequest<T, R : BaseRequest<T, R>>(val url: String) {
+    var readTimeOut = 0L                                //读超时，单位 ms
+        private set
+    var writeTimeOut = 0L                               //写超时，单位 ms
+        private set
+    var connectTimeout = 0L                             //链接超时，单位 ms
+        private set
+    var proxy: Proxy? = null                            //代理
+        private set
+    var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
+        private set
+    var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
+        private set
+    var sign = false                                    //是否需要签名
+        private set
+    var timeStamp = false                               //是否需要追加时间戳
+        private set
+    var accessToken = false                             //是否需要追加 token
+        private set
+    var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
+        private set
+    val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
+    val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
 
-    protected var baseUrl: String? = null
-    protected var httpUrl: HttpUrl? = null
-    protected var retryCount = 3                                  //超时重试次数，默认3次
-    protected var retryDelay = 0L                                 //超时重试延时，单位 ms
-    protected var retryIncreaseDelay = 0L                         //超时重试叠加延时，单位 ms
-    protected var isSyncRequest = false                           //是否是同步请求
-    protected val converterFactories: MutableList<Converter.Factory> = mutableListOf()    //转换器
-    protected val adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()    //适配器
+    var baseUrl: String? = null
+        private set
+    var httpUrl: HttpUrl? = null
+        private set
+    var retryCount = 3                                  //超时重试次数，默认3次
+        private set
+    var retryDelay = 0                                  //超时重试延时，单位 s
+        private set
+    var isSyncRequest = false                           //是否是同步请求，默认为异步请求
+        private set
+    val converterFactories: MutableList<retrofit2.Converter.Factory> = mutableListOf()    //转换器
+    val adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()    //适配器
 
-    protected val httpHeaders by lazy { HttpHeaders() }           //添加的 header
-    protected val httpParams by lazy { HttpParams() }             //添加的 param
+    val httpHeaders by lazy { HttpHeaders() }           //添加的 header
+    val httpParams by lazy { HttpParams() }             //添加的 param
 
-    protected var retrofit: Retrofit? = null                      //retrofit
-    protected var apiService: ApiService? = null                  //通用的的api接口
-    protected var okHttpClient: OkHttpClient? = null              //okHttpClient
+    var retrofit: Retrofit? = null
+        private set
+    var apiService: ApiService? = null
+        private set
+    var okHttpClient: OkHttpClient? = null
+        private set
+    var isGlobalErrorHandle = true                    //是否进行全局错误统一处理
+        private set
+
+    internal var callback: Callback<T>? = null
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
@@ -66,7 +87,6 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         }
         retryCount = FlyHttp.getRetryCount()
         retryDelay = FlyHttp.getRetryDelay()
-        retryIncreaseDelay = FlyHttp.getRetryIncreaseDelay()
 
         //默认添加 Accept-Language
         val acceptLanguage = HttpHeaders.acceptLanguage
@@ -189,13 +209,8 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         return this as R
     }
 
-    fun retryDelay(retryDelay: Long): R {
+    fun retryDelay(retryDelay: Int): R {
         this.retryDelay = retryDelay
-        return this as R
-    }
-
-    fun retryIncreaseDelay(retryIncreaseDelay: Long): R {
-        this.retryIncreaseDelay = retryIncreaseDelay
         return this as R
     }
 
@@ -207,7 +222,7 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
     /**
      * 设置Converter.Factory,默认GsonConverterFactory.create()
      */
-    fun addConverterFactory(factory: Converter.Factory?): R {
+    fun addConverterFactory(factory: retrofit2.Converter.Factory?): R {
         factory?.let(converterFactories::add)
         return this as R
     }
@@ -280,6 +295,11 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         return this as R
     }
 
+    fun globalErrorHandle(isGlobalErrorHandle: Boolean): R {
+        this.isGlobalErrorHandle = isGlobalErrorHandle
+        return this as R
+    }
+
     /**
      * 根据当前的请求参数，生成对应的 OkHttpClient
      */
@@ -326,7 +346,7 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         return builder
     }
 
-    fun build(): RequestCall {
+    fun build(): RequestCall<T> {
         val okHttpClientBuilder = generateOkClient()
         val retrofitBuilder = generateRetrofit()
         okHttpClient = okHttpClientBuilder.build().also {
@@ -335,8 +355,8 @@ abstract class BaseRequest<T, R : BaseRequest<T, R>>(protected val url: String) 
         retrofit = retrofitBuilder.build()
         apiService = FlyUtils.getAppComponent().repositoryManager()
             .obtainRetrofitService(ApiService::class.java, retrofit)
-        return RequestCall(generateRequest())
+        return RequestCall(this)
     }
 
-    protected abstract fun generateRequest(): Observable<Response>?
+    abstract fun generateRequest(): Observable<Response>?
 }

@@ -17,6 +17,11 @@ import javax.net.ssl.*
  */
 object HttpsUtils {
 
+    class SSLParams {
+        lateinit var sslSocketFactory: SSLSocketFactory
+        lateinit var trustManager: X509TrustManager
+    }
+
     @JvmStatic
     fun getSslSocketFactory(): SSLParams {
         return getSslSocketFactory(null, null, null, null)
@@ -80,16 +85,22 @@ object HttpsUtils {
         val keyManagers = prepareKeyManager(bksFile, password)
 
         try {
-            val manager: X509TrustManager = trustManager
-                ?: if (trustManagers != null) {
-                    MyTrustManager(chooseTrustManager(trustManagers))
-                } else {
-                    UnSafeTrustManager()
-                }
+            //优先使用用户自定义的TrustManager
+            val manager = trustManager ?: if (trustManagers != null) {
+                //然后使用默认的TrustManager
+                MyTrustManager(chooseTrustManager(trustManagers))
+            } else {
+                //否则使用不安全的TrustManager
+                UnSafeTrustManager()
+            }
 
+            // 创建TLS类型的SSLContext对象， that uses our TrustManager
             val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(keyManagers, arrayOf<TrustManager>(manager), SecureRandom())
-            sslParams.sslSocketFactory = TLSSocketFactory(sslContext)
+            // 用上面得到的trustManagers初始化SSLContext，这样sslContext就会信任keyStore中的证书
+            // 第一个参数是授权的密钥管理器，用来授权验证，比如授权自签名的证书验证。第二个是被授权的证书管理器，用来验证服务器端的证书
+            sslContext.init(keyManagers, arrayOf<TrustManager>(manager), null)
+            // 通过sslContext获取SSLSocketFactory对象
+            sslParams.sslSocketFactory = sslContext.socketFactory
             sslParams.trustManager = manager
             return sslParams
         } catch (e: NoSuchAlgorithmException) {
@@ -101,6 +112,10 @@ object HttpsUtils {
         }
     }
 
+    /**
+     * 为了解决客户端不信任服务器数字证书的问题，网络上大部分的解决方案都是让客户端不对证书做任何检查，
+     * 这是一种有很大安全漏洞的办法
+     */
     private class UnSafeTrustManager : X509TrustManager {
         @SuppressLint("TrustAllX509TrustManager")
         override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
@@ -121,19 +136,25 @@ object HttpsUtils {
         }
         try {
             val certificateFactory = CertificateFactory.getInstance("X.509")
+            //创建一个默认类型的KeyStore，存储我们信任的证书
             val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
             keyStore.load(null)
-            for ((index, certificate) in certificates.withIndex()) {
+
+            for ((index, certStream) in certificates.withIndex()) {
                 val certificateAlias = index.toString()
-                keyStore.setCertificateEntry(
-                    certificateAlias,
-                    certificateFactory.generateCertificate(certificate)
-                )
-                CloseUtils.closeIO(certificate)
+                //证书工厂根据证书文件的流生成证书 cert
+                val cert = certificateFactory.generateCertificate(certStream)
+                //将cert作为可信证书放入到keyStore中
+                keyStore.setCertificateEntry(certificateAlias, cert)
+                CloseUtils.closeIO(certStream)
             }
+
+            //我们创建一个默认类型的TrustManagerFactory
             val trustManagerFactory =
                 TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            //用我们之前的keyStore实例初始化TrustManagerFactory，这样tmf就会信任keyStore中的证书
             trustManagerFactory.init(keyStore)
+            //通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
             return trustManagerFactory.trustManagers
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
@@ -158,7 +179,6 @@ object HttpsUtils {
                 KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
             keyManagerFactory.init(clientKeyStore, password.toCharArray())
             CloseUtils.closeIO(bksFile)
-
             return keyManagerFactory.keyManagers
         } catch (e: KeyStoreException) {
             e.printStackTrace()
@@ -211,11 +231,6 @@ object HttpsUtils {
         override fun getAcceptedIssuers(): Array<X509Certificate?> {
             return arrayOfNulls(0)
         }
-    }
-
-    class SSLParams {
-        lateinit var sslSocketFactory: SSLSocketFactory
-        lateinit var trustManager: X509TrustManager
     }
 
     /**

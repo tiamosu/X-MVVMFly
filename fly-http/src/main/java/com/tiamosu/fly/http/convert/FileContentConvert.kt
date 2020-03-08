@@ -6,7 +6,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 /**
- * 描述：获取文本内容
+ * 描述：文本内容转换器
  *
  * @author tiamosu
  * @date 2020/3/6.
@@ -26,7 +26,8 @@ class FileContentConvert : Converter<String> {
             builder.append(line)
         } while (true)
 
+        val result = builder.toString()
         CloseUtils.closeIO(inputStream, reader, bufferedReader)
-        return builder.toString()
+        return result
     }
 }

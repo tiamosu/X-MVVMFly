@@ -43,8 +43,7 @@ class FlyHttp {
     private var cookieJar: CookieManger? = null                     //Cookie管理
     private var baseUrl: String? = null                             //全局 BaseUrl
     private var retryCount = DEFAULT_RETRY_COUNT                    //超时重试次数，默认3次
-    private var retryDelay = DEFAULT_RETRY_DELAY                    //超时重试延时，单位 ms
-    private var retryIncreaseDelay = DEFAULT_RETRY_INCREASEDELAY    //超时重试叠加延时，单位 ms
+    private var retryDelay = DEFAULT_RETRY_DELAY                    //超时重试延时，单位 s
     private var commonHeaders: HttpHeaders? = null                  //全局公共请求头
     private var commonParams: HttpParams? = null                    //全局公共请求参数
     private var okHttpClientBuilder: OkHttpClient.Builder           //OkHttpClient请求的Builder
@@ -190,18 +189,10 @@ class FlyHttp {
     }
 
     /**
-     * 超时重试延迟时间，单位 ms
+     * 超时重试延迟时间，单位 s
      */
-    fun setRetryDelay(retryDelay: Long): FlyHttp {
+    fun setRetryDelay(retryDelay: Int): FlyHttp {
         this.retryDelay = retryDelay
-        return this
-    }
-
-    /**
-     * 超时重试延迟叠加时间，单位 ms
-     */
-    fun setRetryIncreaseDelay(retryIncreaseDelay: Long): FlyHttp {
-        this.retryIncreaseDelay = retryIncreaseDelay
         return this
     }
 
@@ -287,8 +278,7 @@ class FlyHttp {
 
     companion object {
         const val DEFAULT_RETRY_COUNT = 3 //默认重试次数
-        const val DEFAULT_RETRY_INCREASEDELAY = 0L //默认重试叠加时间
-        const val DEFAULT_RETRY_DELAY = 500L //默认重试延时
+        const val DEFAULT_RETRY_DELAY = 2 //默认重试延时
 
         val instance = Holder.INSTANCE
 
@@ -329,15 +319,8 @@ class FlyHttp {
         /**
          * 超时重试延迟时间
          */
-        internal fun getRetryDelay(): Long {
+        internal fun getRetryDelay(): Int {
             return instance.retryDelay
-        }
-
-        /**
-         * 超时重试延迟叠加时间
-         */
-        internal fun getRetryIncreaseDelay(): Long {
-            return instance.retryIncreaseDelay
         }
 
         /**

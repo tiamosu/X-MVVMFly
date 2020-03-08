@@ -12,21 +12,23 @@ import okhttp3.Response
 import java.io.*
 
 /**
+ * 描述：文件转换器
+ *
  * @author tiamosu
  * @date 2020/3/6.
  */
 class FileConvert : Converter<File> {
-    private var folder: String? = null              //目标文件存储的文件夹路径
-    private var fileName: String? = null            //目标文件存储的文件名
-    private var callback: Callback<File>? = null    //下载回调
+    private var destFileDir: String? = null             //目标文件存储的文件夹路径
+    private var destFileName: String? = null            //目标文件存储的文件名
+    private var callback: Callback<File>? = null        //下载回调
 
     constructor() : this(null)
 
-    constructor(fileName: String?) : this(null, fileName)
+    constructor(destFileName: String?) : this(null, destFileName)
 
-    constructor(folder: String?, fileName: String?) {
-        this.folder = folder
-        this.fileName = fileName
+    constructor(destFileDir: String?, destFileName: String?) {
+        this.destFileDir = destFileDir
+        this.destFileName = destFileName
     }
 
     fun setCallback(callback: Callback<File>?) {
@@ -37,10 +39,11 @@ class FileConvert : Converter<File> {
     override fun convertResponse(response: Response): File? {
         val body = response.body() ?: return null
         val url: String = response.request().url().toString()
-        if (TextUtils.isEmpty(folder)) folder = "download"
-        if (TextUtils.isEmpty(fileName)) fileName = FlyHttpUtils.getNetFileName(response, url)
+        if (TextUtils.isEmpty(destFileDir)) destFileDir = "download"
+        if (TextUtils.isEmpty(destFileName)) destFileName =
+            FlyHttpUtils.getNetFileName(response, url)
 
-        val file = FileUtils.createFile(folder, fileName!!)
+        val file = FileUtils.createFile(destFileDir, destFileName!!)
         val inputStream = body.byteStream()
         var bis: BufferedInputStream? = null
         var fos: FileOutputStream? = null
@@ -49,7 +52,7 @@ class FileConvert : Converter<File> {
         try {
             val progress = Progress()
             progress.totalSize = body.contentLength()
-            progress.fileName = fileName
+            progress.fileName = destFileName
             progress.filePath = file.absolutePath
             progress.status = Progress.LOADING
             progress.url = url
@@ -74,9 +77,9 @@ class FileConvert : Converter<File> {
         } catch (e: IOException) {
             return null
         } finally {
-            CloseUtils.closeIO(bos, fos, bis, inputStream)
+            CloseUtils.closeIO(response, bos, fos, bis, inputStream)
         }
-        return null
+        return file
     }
 
     private fun onProgress(progress: Progress, read: Int) {

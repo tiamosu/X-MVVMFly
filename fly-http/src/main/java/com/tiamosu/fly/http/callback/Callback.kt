@@ -22,11 +22,6 @@ interface Callback<T> : Converter<T> {
     fun onSuccess(response: Response<T>)
 
     /**
-     * 缓存成功的回调，UI线程
-     */
-    fun onCacheSuccess(response: Response<T>)
-
-    /**
      * 请求失败，响应错误，数据解析错误等，都会回调该方法，UI线程
      */
     fun onError(response: Response<T>)
@@ -45,4 +40,28 @@ interface Callback<T> : Converter<T> {
      * 下载过程中的进度回调，UI线程
      */
     fun downloadProgress(progress: Progress)
+
+    class DefaultCallback<T> : Callback<T> {
+        override fun onStart(request: BaseRequest<T, out BaseRequest<T, *>>) {
+        }
+
+        override fun onSuccess(response: Response<T>) {
+        }
+
+        override fun onError(response: Response<T>) {
+        }
+
+        override fun onFinish() {
+        }
+
+        override fun uploadProgress(progress: Progress) {
+        }
+
+        override fun downloadProgress(progress: Progress) {
+        }
+
+        override fun convertResponse(response: okhttp3.Response): T? {
+            return convertResponse(response)
+        }
+    }
 }
