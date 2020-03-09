@@ -29,7 +29,7 @@ interface Callback<T> : Converter<T> {
     /**
      * 请求网络结束后，UI线程
      */
-    fun onComplete()
+    fun onFinish()
 
     /**
      * 上传过程中的进度回调，get请求不回调，UI线程

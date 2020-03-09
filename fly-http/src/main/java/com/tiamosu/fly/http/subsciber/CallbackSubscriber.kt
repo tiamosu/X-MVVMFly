@@ -43,12 +43,13 @@ class CallbackSubscriber(val request: BaseRequest<*>) :
         Platform.postOnMain(Action {
             val error = Response.error(t)
             callback?.onError(error)
+            callback?.onFinish()
         })
     }
 
     override fun onComplete() {
         Platform.postOnMain(Action {
-            callback?.onComplete()
+            callback?.onFinish()
         })
     }
 }

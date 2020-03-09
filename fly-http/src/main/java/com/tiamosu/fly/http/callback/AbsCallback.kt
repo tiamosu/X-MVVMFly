@@ -16,7 +16,7 @@ abstract class AbsCallback<T> : Callback<T> {
 
     override fun onError(response: Response) {}
 
-    override fun onComplete() {}
+    override fun onFinish() {}
 
     override fun uploadProgress(progress: Progress) {}
 
