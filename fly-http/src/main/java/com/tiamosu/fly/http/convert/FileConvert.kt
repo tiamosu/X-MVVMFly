@@ -48,7 +48,6 @@ class FileConvert : Converter<File> {
             progress.totalSize = body.contentLength()
             progress.fileName = destFileName
             progress.filePath = file.absolutePath
-            progress.status = Progress.LOADING
 
             bis = BufferedInputStream(inputStream)
             fos = FileOutputStream(file)
