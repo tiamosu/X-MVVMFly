@@ -10,7 +10,7 @@ import okhttp3.ResponseBody
  * @date 2020/3/7.
  */
 abstract class FileContentCallback : AbsCallback<String>() {
-    private val convert: FileContentConvert = FileContentConvert()
+    private val convert = FileContentConvert()
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): String? {
