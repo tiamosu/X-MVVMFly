@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.interceptors
 
 import androidx.annotation.IntDef
-import com.tiamosu.fly.http.utils.FlyIOUtils
+import com.tiamosu.fly.http.utils.FlyHttpUtils
 import okhttp3.*
 import okhttp3.internal.http.HttpHeaders
 import okio.Buffer
@@ -156,7 +156,7 @@ class HttpLoggingInterceptor : Interceptor {
                 if (logBody && HttpHeaders.hasBody(clone)) {
                     var contentType: MediaType?
                     if (isPlaintext(responseBody?.contentType().also { contentType = it })) {
-                        val bytes = FlyIOUtils.toByteArray(responseBody?.byteStream())
+                        val bytes = FlyHttpUtils.toByteArray(responseBody?.byteStream())
                         val body = bytes?.let { String(it, getCharset(contentType)) }
                         log("\tbody:$body")
 

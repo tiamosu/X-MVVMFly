@@ -1,14 +1,13 @@
 package com.tiamosu.fly.http.utils
 
-import android.text.TextUtils
 import com.blankj.utilcode.util.LogUtils
-import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import okhttp3.MediaType
-import okhttp3.Response
-import java.io.UnsupportedEncodingException
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.net.URLConnection
-import java.net.URLDecoder
 import java.nio.charset.Charset
 import java.util.*
 
@@ -71,72 +70,22 @@ object FlyHttpUtils {
         return MediaType.parse(contentType)
     }
 
-    /**
-     * 根据响应头或者url获取文件名
-     */
     @JvmStatic
-    fun getNetFileName(response: Response?, url: String?): String {
-        var fileName: String? = getHeaderFileName(response)
-        if (TextUtils.isEmpty(fileName)) fileName = getUrlFileName(url)
-        if (TextUtils.isEmpty(fileName)) fileName = "unknownfile_" + System.currentTimeMillis()
-        try {
-            fileName = URLDecoder.decode(fileName, "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            FlyHttpLog.printStackTrace(e)
-        }
-        return fileName!!
+    @Throws(IOException::class)
+    fun toByteArray(input: InputStream?): ByteArray? {
+        input ?: return null
+        val output = ByteArrayOutputStream()
+        write(input, output)
+        output.close()
+        return output.toByteArray()
     }
 
-    /**
-     * 解析文件头
-     * Content-Disposition: attachment; filename=FileName.txt
-     * Content-Disposition: attachment; filename*="UTF-8''%E6%9B%BF%E6%8D%A2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf"
-     */
-    private fun getHeaderFileName(response: Response?): String? {
-        var dispositionHeader =
-            response?.header(HttpHeaders.HEAD_KEY_CONTENT_DISPOSITION)
-        if (dispositionHeader != null) {
-            //文件名可能包含双引号，需要去除
-            dispositionHeader = dispositionHeader.replace("\"".toRegex(), "")
-            var split = "filename="
-            var indexOf = dispositionHeader.indexOf(split)
-            if (indexOf != -1) {
-                return dispositionHeader.substring(indexOf + split.length)
-            }
-            split = "filename*="
-            indexOf = dispositionHeader.indexOf(split)
-            if (indexOf != -1) {
-                var fileName =
-                    dispositionHeader.substring(indexOf + split.length)
-                val encode = "UTF-8''"
-                if (fileName.startsWith(encode)) {
-                    fileName = fileName.substring(encode.length)
-                }
-                return fileName
-            }
+    @Throws(IOException::class)
+    private fun write(inputStream: InputStream, outputStream: OutputStream) {
+        var len: Int
+        val buffer = ByteArray(4096)
+        while (inputStream.read(buffer).also { len = it } != -1) {
+            outputStream.write(buffer, 0, len)
         }
-        return null
-    }
-
-    /**
-     * 通过 ‘？’ 和 ‘/’ 判断文件名
-     * http://mavin-manzhan.oss-cn-hangzhou.aliyuncs.com/1486631099150286149.jpg?x-oss-process=image/watermark,image_d2F0ZXJtYXJrXzIwMF81MC5wbmc
-     */
-    private fun getUrlFileName(url: String?): String? {
-        var filename: String? = null
-        val strings = url?.split("/")?.toTypedArray()
-        strings?.forEach {
-            if (it.contains("?")) {
-                val endIndex = it.indexOf("?")
-                if (endIndex != -1) {
-                    filename = it.substring(0, endIndex)
-                    return filename
-                }
-            }
-        }
-        if (strings?.isNotEmpty() == true) {
-            filename = strings[strings.size - 1]
-        }
-        return filename
     }
 }

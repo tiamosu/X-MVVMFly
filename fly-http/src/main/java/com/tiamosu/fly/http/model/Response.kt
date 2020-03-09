@@ -8,9 +8,6 @@ class Response {
     var body: Any? = null
     var exception: Throwable? = null
 
-    val isSuccessful: Boolean
-        get() = exception == null
-
     companion object {
 
         fun success(body: Any?): Response {
