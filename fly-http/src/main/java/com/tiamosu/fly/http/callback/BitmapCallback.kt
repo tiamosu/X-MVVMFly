@@ -1,7 +1,8 @@
 package com.tiamosu.fly.http.callback
 
 import android.graphics.Bitmap
-import com.tiamosu.fly.http.convert.BitmapConvert
+import com.blankj.utilcode.util.CloseUtils
+import com.blankj.utilcode.util.ImageUtils
 import okhttp3.ResponseBody
 
 /**
@@ -10,19 +11,24 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/7.
  */
-abstract class BitmapCallback : AbsCallback<Bitmap> {
-    private var convert: BitmapConvert
+abstract class BitmapCallback : ResultCallback<Bitmap> {
+    private var maxWidth = 0
+    private var maxHeight = 0
 
-    constructor() {
-        convert = BitmapConvert()
-    }
+    constructor() : this(1000, 1000)
 
     constructor(maxWidth: Int, maxHeight: Int) {
-        convert = BitmapConvert(maxWidth, maxHeight)
+        this.maxWidth = maxWidth
+        this.maxHeight = maxHeight
     }
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): Bitmap? {
-        return convert.convertResponse(body)
+        val inputStream = body.byteStream()
+        val bitmap = ImageUtils.getBitmap(inputStream).let {
+            ImageUtils.compressBySampleSize(it, maxWidth, maxHeight)
+        }
+        CloseUtils.closeIO(body, inputStream)
+        return bitmap
     }
 }

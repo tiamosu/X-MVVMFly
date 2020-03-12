@@ -1,12 +1,12 @@
-package com.tiamosu.fly.http.convert
+package com.tiamosu.fly.http.callback
 
 import okhttp3.ResponseBody
 
 /**
  * @author tiamosu
- * @date 2020/2/24.
+ * @date 2020/3/12.
  */
-interface Converter<T> {
+abstract class ResultCallback<T> : AbsCallback<T>() {
 
     /**
      * 拿到响应后，将数据转换成需要的格式，子线程中执行，可以是耗时操作
@@ -16,5 +16,5 @@ interface Converter<T> {
      * @throws Exception 转换过程发生的异常
      */
     @Throws(Throwable::class)
-    fun convertResponse(body: ResponseBody): T?
+    abstract fun convertResponse(body: ResponseBody): T?
 }

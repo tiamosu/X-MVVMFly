@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.callback
 
-import com.tiamosu.fly.http.convert.StringConvert
-import okhttp3.ResponseBody
+import com.tiamosu.fly.utils.Platform
+import io.reactivex.functions.Action
 
 /**
  * 描述：返回字符串类型的数据
@@ -9,11 +9,11 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/7.
  */
-abstract class StringCallback : AbsCallback<String>() {
-    private val convert = StringConvert()
+abstract class StringCallback : CacheResultCallback<String>() {
 
-    @Throws(Throwable::class)
-    override fun convertResponse(body: ResponseBody): String? {
-        return convert.convertResponse(body)
+    override fun convertResponse(string: String?) {
+        Platform.postOnMain(Action {
+            onSuccess(string)
+        })
     }
 }

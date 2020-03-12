@@ -6,6 +6,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /**
+ * 描述：对字符串转换为对应的Json数据
  * @author tiamosu
  * @date 2020/3/8.
  */

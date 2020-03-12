@@ -1,6 +1,12 @@
 package com.tiamosu.fly.http
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
+import com.blankj.utilcode.util.Utils
+import com.tiamosu.fly.http.cache.RxCache
+import com.tiamosu.fly.http.cache.converter.IDiskConverter
+import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
+import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.cookie.CookieManger
 import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
@@ -8,14 +14,15 @@ import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
 import com.tiamosu.fly.http.utils.FlyHttpLog
+import com.tiamosu.fly.http.utils.RxUtils
+import com.tiamosu.fly.utils.FileUtils
 import com.tiamosu.fly.utils.FlyUtils
-import okhttp3.Call
-import okhttp3.ConnectionPool
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import com.tiamosu.fly.utils.Preconditions
+import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
+import java.io.File
 import java.io.InputStream
 import java.net.Proxy
 import java.util.concurrent.Executor
@@ -24,6 +31,7 @@ import javax.net.ssl.HostnameVerifier
 
 /**
  * 描述：网络请求入口类
+ *
  * 主要功能：
  * 1.全局设置超时时间
  * 2.支持请求错误重试相关参数，包括重试次数、重试延时时间
@@ -48,6 +56,12 @@ class FlyHttp {
     private var commonParams: HttpParams? = null                    //全局公共请求参数
     private var okHttpClientBuilder: OkHttpClient.Builder           //OkHttpClient请求的Builder
     private var retrofitBuilder: Retrofit.Builder                   //Retrofit请求Builder
+    private var cache: Cache? = null                                //Okhttp缓存对象
+    private var cacheMode: CacheMode = CacheMode.NO_CACHE           //缓存类型
+    private var cacheTime = -1L                                     //缓存时间
+    private var cacheDirectory: File? = null                        //缓存目录
+    private var cacheMaxSize = 0L                                   //缓存大小
+    private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
 
     init {
         okHttpClientBuilder = FlyUtils.getAppComponent().okHttpClient().newBuilder()
@@ -56,14 +70,15 @@ class FlyHttp {
                 sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
                 hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             }
-
         retrofitBuilder = FlyUtils.getAppComponent().retrofit().newBuilder()
+        rxCacheBuilder = RxCache.Builder().init(Utils.getApp())
+            .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
     }
 
     /**
      * 调试模式,默认打开所有的异常调试
      */
-    fun debug(tag: String?): FlyHttp {
+    fun debug(tag: String): FlyHttp {
         debug(tag, true)
         return this
     }
@@ -73,8 +88,8 @@ class FlyHttp {
      * 一般来说,这些异常是由于不标准的数据格式,或者特殊需要主动产生的,
      * 并不是框架错误,如果不想每次打印,这里可以关闭异常显示
      */
-    fun debug(tag: String?, isPrintException: Boolean): FlyHttp {
-        val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag!!
+    fun debug(tag: String, isPrintException: Boolean): FlyHttp {
+        val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag
         if (isPrintException) {
             val loggingInterceptor = HttpLoggingInterceptor(tempTag)
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -247,81 +262,87 @@ class FlyHttp {
     /**
      * 添加全局公共请求参数
      */
-    fun addCommonParams(commonParams: HttpParams?): FlyHttp {
+    fun addCommonParams(commonParams: HttpParams): FlyHttp {
         if (this.commonParams == null) this.commonParams = HttpParams()
         this.commonParams?.put(commonParams)
         return this
     }
 
     /**
-     * 获取全局公共请求参数
-     */
-    fun getCommonParams(): HttpParams? {
-        return commonParams
-    }
-
-    /**
      * 添加全局公共请求参数
      */
-    fun addCommonHeaders(commonHeaders: HttpHeaders?): FlyHttp {
+    fun addCommonHeaders(commonHeaders: HttpHeaders): FlyHttp {
         if (this.commonHeaders == null) this.commonHeaders = HttpHeaders()
         this.commonHeaders?.put(commonHeaders)
         return this
     }
 
     /**
-     * 获取全局公共请求头
+     * 全局设置OkHttp的缓存，默认是3天
      */
-    fun getCommonHeaders(): HttpHeaders? {
-        return commonHeaders
+    fun setHttpCache(cache: Cache): FlyHttp {
+        this.cache = cache
+        return this
+    }
+
+    /**
+     * 全局的缓存模式
+     */
+    fun setCacheMode(cacheMode: CacheMode): FlyHttp {
+        this.cacheMode = cacheMode
+        return this
+    }
+
+    /**
+     * 全局的缓存过期时间
+     */
+    fun setCacheTime(cacheTime: Long): FlyHttp {
+        var newCacheTime = cacheTime
+        if (newCacheTime <= -1) newCacheTime = DEFAULT_CACHE_NEVER_EXPIRE
+        this.cacheTime = newCacheTime
+        return this
+    }
+
+    /**
+     * 全局设置缓存的路径，默认是应用包下面的缓存
+     */
+    fun setCacheDirectory(directory: File?): FlyHttp {
+        this.cacheDirectory = directory
+        rxCacheBuilder.diskDir(directory)
+        return this
+    }
+
+    /**
+     * 全局的缓存大小,默认50M
+     */
+    fun setCacheMaxSize(maxSize: Long): FlyHttp {
+        this.cacheMaxSize = maxSize
+        return this
+    }
+
+    /**
+     * 全局设置缓存的版本，默认为1，缓存的版本号
+     */
+    fun setCacheVersion(cacheersion: Int): FlyHttp {
+        Preconditions.checkState(cacheersion >= 0, "cacheersion must > 0")
+        rxCacheBuilder.appVersion(cacheersion)
+        return this
+    }
+
+    /**
+     * 全局设置缓存的转换器
+     */
+    fun setCacheDiskConverter(converter: IDiskConverter): FlyHttp {
+        rxCacheBuilder.diskConverter(converter)
+        return this
     }
 
     companion object {
-        const val DEFAULT_RETRY_COUNT = 3 //默认重试次数
-        const val DEFAULT_RETRY_DELAY = 2 //默认重试延时
+        const val DEFAULT_RETRY_COUNT = 3           //默认重试次数
+        const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
+        const val DEFAULT_CACHE_NEVER_EXPIRE = -1L   //缓存过期时间，默认永久缓存
 
-        val instance = Holder.INSTANCE
-
-        internal fun getOkHttpClient(): OkHttpClient {
-            return instance.okHttpClientBuilder.build()
-        }
-
-        internal fun getRetrofit(): Retrofit {
-            return instance.retrofitBuilder.build()
-        }
-
-        /**
-         * 获取全局的cookie实例
-         */
-        internal fun getCookieJar(): CookieManger? {
-            return instance.cookieJar
-        }
-
-        /**
-         * 获取全局baseurl
-         */
-        internal fun getBaseUrl(): String? {
-            var baseUrl = instance.baseUrl
-            if (TextUtils.isEmpty(baseUrl)) {
-                val httpUrl = getRetrofit().baseUrl()
-                baseUrl = httpUrl.url().toString()
-            }
-            return baseUrl
-        }
-
-        /**
-         * 超时重试次数
-         */
-        internal fun getRetryCount(): Int {
-            return instance.retryCount
-        }
-
-        /**
-         * 超时重试延迟时间
-         */
-        internal fun getRetryDelay(): Int {
-            return instance.retryDelay
-        }
+        private val instance = Holder.INSTANCE
 
         /**
          * get请求
@@ -370,6 +391,141 @@ class FlyHttp {
          */
         fun custom(url: String): CustomRequest {
             return CustomRequest(url)
+        }
+
+        fun getOkHttpClientBuilder(): OkHttpClient.Builder {
+            return instance.okHttpClientBuilder
+        }
+
+        fun getOkHttpClient(): OkHttpClient {
+            return instance.okHttpClientBuilder.build()
+        }
+
+        fun getRetrofitBuilder(): Retrofit.Builder {
+            return instance.retrofitBuilder
+        }
+
+        fun getRetrofit(): Retrofit {
+            return instance.retrofitBuilder.build()
+        }
+
+        /**
+         * 获取全局的cookie实例
+         */
+        fun getCookieJar(): CookieManger? {
+            return instance.cookieJar
+        }
+
+        /**
+         * 获取全局baseurl
+         */
+        fun getBaseUrl(): String? {
+            var baseUrl = instance.baseUrl
+            if (TextUtils.isEmpty(baseUrl)) {
+                val httpUrl = getRetrofit().baseUrl()
+                baseUrl = httpUrl.url().toString()
+            }
+            return baseUrl
+        }
+
+        /**
+         * 超时重试次数
+         */
+        fun getRetryCount(): Int {
+            return instance.retryCount
+        }
+
+        /**
+         * 超时重试延迟时间
+         */
+        internal fun getRetryDelay(): Int {
+            return instance.retryDelay
+        }
+
+        /**
+         * 获取全局公共请求参数
+         */
+        fun getCommonParams(): HttpParams? {
+            return instance.commonParams
+        }
+
+        /**
+         * 获取全局公共请求头
+         */
+        fun getCommonHeaders(): HttpHeaders? {
+            return instance.commonHeaders
+        }
+
+        /**
+         * 获取OkHttp的缓存
+         */
+        fun getHttpCache(): Cache? {
+            return instance.cache
+        }
+
+        /**
+         * 获取全局的缓存模式
+         */
+        fun getCacheMode(): CacheMode {
+            return instance.cacheMode
+        }
+
+        /**
+         * 获取全局的缓存过期时间
+         */
+        fun getCacheTime(): Long {
+            return instance.cacheTime
+        }
+
+        /**
+         * 获取缓存的路劲
+         */
+        fun getCacheDirectory(): File? {
+            return instance.cacheDirectory ?: FileUtils.createOrExistsDir(
+                File(FlyUtils.getAppComponent().cacheFile(), "http")
+            )
+        }
+
+        /**
+         * 获取全局的缓存大小
+         */
+        fun getCacheMaxSize(): Long {
+            return instance.cacheMaxSize
+        }
+
+        /**
+         * 对外暴露RxCache，方便自定义
+         */
+        fun getRxCacheBuilder(): RxCache.Builder {
+            return instance.rxCacheBuilder
+        }
+
+        fun getRxCache(): RxCache {
+            return instance.rxCacheBuilder.build()
+        }
+
+        /**
+         * 清空缓存
+         */
+        @SuppressLint("CheckResult")
+        fun clearCache() {
+            getRxCache().clear()
+                .compose(RxUtils.main())
+                .subscribe(
+                    { FlyHttpLog.i("clearCache success!!!") },
+                    { FlyHttpLog.i("clearCache err!!!") })
+        }
+
+        /**
+         * 移除缓存（key）
+         */
+        @SuppressLint("CheckResult")
+        fun removeCache(key: String?) {
+            getRxCache().remove(key)
+                .compose(RxUtils.main())
+                .subscribe(
+                    { FlyHttpLog.i("removeCache success!!!") },
+                    { FlyHttpLog.i("removeCache err!!!") })
         }
     }
 

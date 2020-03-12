@@ -20,11 +20,10 @@ open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
             .obtainRetrofitService(serviceClass, retrofit)
     }
 
-    fun apiCall(observable: Observable<ResponseBody>?, callback: Callback<*>) {
+    fun <T> apiCall(observable: Observable<ResponseBody>?, callback: Callback<T>) {
         this.observable = observable
-        val newCallback = callback
         RequestCall(this)
-            .request(newCallback)
+            .execute(callback)
     }
 
     override fun generateRequest(): Observable<ResponseBody>? {

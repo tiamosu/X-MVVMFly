@@ -7,6 +7,10 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.lang.reflect.GenericArrayType
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+import java.lang.reflect.TypeVariable
 import java.net.URLConnection
 import java.nio.charset.Charset
 import java.util.*
@@ -86,6 +90,87 @@ object FlyHttpUtils {
         val buffer = ByteArray(4096)
         while (inputStream.read(buffer).also { len = it } != -1) {
             outputStream.write(buffer, 0, len)
+        }
+    }
+
+    @JvmStatic
+    fun getParameterizedType(type: Type?, i: Int): Type? {
+        return when (type) {
+            is ParameterizedType -> { //处理泛型类型
+                type.actualTypeArguments[i]
+            }
+            is TypeVariable<*> -> { //处理泛型擦拭对象
+                getType(type.bounds[0], 0)
+            }
+            else -> { //class本身也是type，强制转型
+                type
+            }
+        }
+    }
+
+    @JvmStatic
+    fun getType(type: Type?, i: Int): Type? {
+        return when (type) {
+            is ParameterizedType -> { //处理泛型类型
+                getGenericType(type, i)
+            }
+            is TypeVariable<*> -> {//处理泛型擦拭对象
+                getType(type.bounds[0], 0)
+            }
+            else -> { //class本身也是type，强制转型
+                type
+            }
+        }
+    }
+
+    @JvmStatic
+    fun getGenericType(parameterizedType: ParameterizedType?, i: Int): Type? {
+        return when (val genericType = parameterizedType?.actualTypeArguments?.get(i)) {
+            is ParameterizedType -> { //处理多级泛型
+                genericType.rawType
+            }
+            is GenericArrayType -> { //处理数组泛型
+                genericType.genericComponentType
+            }
+            is TypeVariable<*> -> { //处理泛型擦拭对象
+                getClass(genericType.bounds[0], 0)
+            }
+            else -> {
+                genericType
+            }
+        }
+    }
+
+    @JvmStatic
+    fun getClass(type: Type?, i: Int): Class<*>? {
+        return when (type) {
+            is ParameterizedType -> { //处理泛型类型
+                getGenericClass(type, i)
+            }
+            is TypeVariable<*> -> { //处理泛型擦拭对象
+                getClass(type.bounds[0], 0)
+            }
+            else -> { //class本身也是type，强制转型
+                type as? Class<*>
+            }
+        }
+    }
+
+    @JvmStatic
+    fun getGenericClass(parameterizedType: ParameterizedType?, i: Int): Class<*>? {
+        return when (val genericClass = parameterizedType?.actualTypeArguments?.get(i)) {
+            is ParameterizedType -> { //处理多级泛型
+                genericClass.rawType as? Class<*>
+            }
+            is GenericArrayType -> { //处理数组泛型
+                genericClass.genericComponentType as? Class<*>
+            }
+            is TypeVariable<*> -> { //处理泛型擦拭对象
+                getClass(genericClass.bounds[0], 0)
+            }
+            else -> {
+                genericClass as? Class<*>
+            }
         }
     }
 }

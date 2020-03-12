@@ -1,35 +1,30 @@
-package com.tiamosu.fly.http.subsciber
+package com.tiamosu.fly.http.subscriber
 
-import com.tiamosu.fly.http.callback.Callback
-import com.tiamosu.fly.http.model.Response
+import com.tiamosu.fly.http.callback.ResultCallback
 import com.tiamosu.fly.http.request.base.BaseRequest
-import com.tiamosu.fly.utils.FlyUtils
 import com.tiamosu.fly.utils.Platform
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
-import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 
 /**
  * @author tiamosu
  * @date 2020/3/7.
  */
-class CallbackSubscriber(val request: BaseRequest<*>) :
-    ErrorHandleSubscriber<okhttp3.ResponseBody>(FlyUtils.getAppComponent().rxErrorHandler()) {
+class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp3.ResponseBody>() {
 
-    private val callback: Callback<*>? = request.callback
+    @Suppress("UNCHECKED_CAST")
+    private val callback = request.callback as? ResultCallback<T>
 
-    override fun onSubscribe(d: Disposable) {
+    override fun onStart() {
         Platform.postOnMain(Action {
-            callback?.onStart(request)
+            callback?.onStart()
         })
     }
 
     override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            val success = Response.success(body)
             Platform.postOnMain(Action {
-                callback?.onSuccess(success)
+                callback?.onSuccess(body)
             })
         } catch (t: Throwable) {
             onError(t)
@@ -41,8 +36,7 @@ class CallbackSubscriber(val request: BaseRequest<*>) :
             super.onError(t)
         }
         Platform.postOnMain(Action {
-            val error = Response.error(t)
-            callback?.onError(error)
+            callback?.onError(t)
             callback?.onFinish()
         })
     }

@@ -40,7 +40,7 @@ class GlideConfiguration : AppGlideModule() {
             // Careful: the external cache directory doesn't enforce permissions
             DiskLruCacheWrapper.create(
                 FileUtils.createOrExistsDir(
-                    File(appComponent.cacheFile(), "Glide")
+                    File(appComponent.cacheFile(), "glide")
                 ), IMAGE_DISK_CACHE_MAX_SIZE.toLong()
             )
         }

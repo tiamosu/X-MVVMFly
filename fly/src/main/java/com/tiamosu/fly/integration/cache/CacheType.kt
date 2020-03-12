@@ -1,8 +1,6 @@
 package com.tiamosu.fly.integration.cache
 
-import android.app.Activity
 import android.content.Context
-import androidx.fragment.app.Fragment
 import com.tiamosu.fly.integration.extension.activityManager
 
 /**
@@ -28,10 +26,7 @@ interface CacheType {
     @Suppress("unused")
     companion object {
         const val RETROFIT_SERVICE_CACHE_TYPE_ID = 0
-        const val CACHE_SERVICE_CACHE_TYPE_ID = 1
-        const val EXTRAS_TYPE_ID = 2
-        const val ACTIVITY_CACHE_TYPE_ID = 3
-        const val FRAGMENT_CACHE_TYPE_ID = 4
+        const val EXTRAS_TYPE_ID = 1
 
         val RETROFIT_SERVICE_CACHE: CacheType = object : CacheType {
             private val MAX_SIZE = 150
@@ -50,69 +45,12 @@ interface CacheType {
             }
         }
 
-        val CACHE_SERVICE_CACHE: CacheType = object : CacheType {
-            private val MAX_SIZE = 150
-            private val MAX_SIZE_MULTIPLIER = 0.002f
-
-            override fun getCacheTypeId(): Int {
-                return CACHE_SERVICE_CACHE_TYPE_ID
-            }
-
-            override fun calculateCacheSize(context: Context): Int {
-                val targetMemoryCacheSize =
-                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
-                return if (targetMemoryCacheSize >= MAX_SIZE) {
-                    MAX_SIZE
-                } else targetMemoryCacheSize
-            }
-        }
-
         val EXTRAS: CacheType = object : CacheType {
             private val MAX_SIZE = 500
             private val MAX_SIZE_MULTIPLIER = 0.005f
 
             override fun getCacheTypeId(): Int {
                 return EXTRAS_TYPE_ID
-            }
-
-            override fun calculateCacheSize(context: Context): Int {
-                val targetMemoryCacheSize =
-                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
-                return if (targetMemoryCacheSize >= MAX_SIZE) {
-                    MAX_SIZE
-                } else targetMemoryCacheSize
-            }
-        }
-
-        /**
-         * [Activity] 中存储数据的容器
-         */
-        val ACTIVITY_CACHE: CacheType = object : CacheType {
-            private val MAX_SIZE = 80
-            private val MAX_SIZE_MULTIPLIER = 0.0008f
-
-            override fun getCacheTypeId(): Int {
-                return ACTIVITY_CACHE_TYPE_ID
-            }
-
-            override fun calculateCacheSize(context: Context): Int {
-                val targetMemoryCacheSize =
-                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
-                return if (targetMemoryCacheSize >= MAX_SIZE) {
-                    MAX_SIZE
-                } else targetMemoryCacheSize
-            }
-        }
-
-        /**
-         * [Fragment] 中存储数据的容器
-         */
-        val FRAGMENT_CACHE: CacheType = object : CacheType {
-            private val MAX_SIZE = 80
-            private val MAX_SIZE_MULTIPLIER = 0.0008f
-
-            override fun getCacheTypeId(): Int {
-                return FRAGMENT_CACHE_TYPE_ID
             }
 
             override fun calculateCacheSize(context: Context): Int {

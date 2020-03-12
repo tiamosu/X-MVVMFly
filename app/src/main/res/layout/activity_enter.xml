@@ -42,11 +42,11 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_enter_page_main" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_request1"
+        android:id="@+id/btn_remove_cache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="数据请求1"
+        android:text="清理缓存"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_request" />

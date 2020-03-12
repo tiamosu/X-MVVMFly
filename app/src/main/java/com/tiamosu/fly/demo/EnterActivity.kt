@@ -6,13 +6,13 @@ import android.view.View
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.http.FlyHttp
+import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
+import com.tiamosu.fly.http.cache.model.CacheMode
+import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
-import com.tiamosu.fly.http.model.Response
-import com.tiamosu.fly.http.utils.FlyHttpLog
 import kotlinx.android.synthetic.main.activity_enter.*
-import okhttp3.logging.HttpLoggingInterceptor
 
 /**
  * @author tiamosu
@@ -39,26 +39,37 @@ class EnterActivity : BaseActivity() {
         }
         btn_request.setOnClickListener {
             FlyHttp["/friend/json"]
-                .build()
-                .request(object : StringCallback() {
-                    override fun onSuccess(response: Response) {
-                        Log.e("xia", "body:" + response.body)
-//                        FlyHttpLog.i("response:$response")
-                    }
-                })
-        }
-        btn_request1.setOnClickListener {
-            FlyHttp["/friend/json"]
                 .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
                     put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
                 }))
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                .cacheMode(CacheMode.FIRSTCACHE)
+                .cacheKey(this.javaClass.simpleName)
+                .cacheTime(300)
+                .cacheDiskConverter(SerializableDiskConverter())
                 .build()
-                .request(object : StringCallback() {
-                    override fun onSuccess(response: Response) {
-                        FlyHttpLog.i("response:$response")
+//                .execute(object : SimpleCallBack<ResponseBody>() {
+//                    override fun onSuccess(t: ResponseBody?) {
+//                        Log.e("xia", "t===:$t")
+//                    }
+//                })
+                .execute(object : StringCallback() {
+                    override fun onSuccess(t: String?) {
+//                        Log.e("xia", "t=========:$t")
+                    }
+
+                    override fun onSuccess(cacheResult: CacheResult<String>) {
+                        Log.e("xia", "cacheResult======:$cacheResult")
                     }
                 })
+//                .request(object : StringCallback() {
+//                    override fun onSuccess(response: Response) {
+//                        Log.e("xia", "body:" + response.body)
+////                        FlyHttpLog.i("response:$response")
+//                    }
+//                })
+        }
+        btn_remove_cache.setOnClickListener {
+            FlyHttp.clearCache()
         }
     }
 

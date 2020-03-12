@@ -3,18 +3,24 @@ package com.tiamosu.fly.http.request.base
 import android.text.TextUtils
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.api.ApiService
+import com.tiamosu.fly.http.cache.RxCache
+import com.tiamosu.fly.http.cache.converter.IDiskConverter
+import com.tiamosu.fly.http.cache.model.CacheMode
+import com.tiamosu.fly.http.cache.model.CacheMode.*
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.https.HttpsUtils
-import com.tiamosu.fly.http.interceptors.BaseDynamicInterceptor
-import com.tiamosu.fly.http.interceptors.HeadersInterceptor
+import com.tiamosu.fly.http.interceptors.*
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
+import com.tiamosu.fly.integration.extension.isInitialized
 import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.Preconditions
 import io.reactivex.Observable
 import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
+import java.io.File
 import java.io.InputStream
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
@@ -74,7 +80,21 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     var isGlobalErrorHandle = true                    //是否进行全局错误统一处理
         private set
 
+    private val okHttpBuilder by lazy { FlyHttp.getOkHttpClient().newBuilder() }
+
     internal var callback: Callback<*>? = null
+
+    var cache: Cache? = null
+        private set
+    var cacheMode: CacheMode = NO_CACHE             //默认无缓存
+        private set
+    var cacheTime = -1L                             //缓存时间
+        private set
+    var cacheKey: String? = null                    //缓存Key
+        private set
+    var diskConverter: IDiskConverter? = null       //设置Rxcache磁盘转换器
+        private set
+    var rxCache: RxCache? = null                    //rxcache缓存
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
@@ -87,6 +107,9 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         }
         retryCount = FlyHttp.getRetryCount()
         retryDelay = FlyHttp.getRetryDelay()
+        cacheMode = FlyHttp.getCacheMode()
+        cacheTime = FlyHttp.getCacheTime()
+        cache = FlyHttp.getHttpCache()
 
         //默认添加 Accept-Language
         val acceptLanguage = HttpHeaders.acceptLanguage
@@ -99,8 +122,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
             HttpHeaders.HEAD_KEY_USER_AGENT, userAgent
         )
         //添加公共请求参数
-        FlyHttp.instance.getCommonParams()?.let(httpParams::put)
-        FlyHttp.instance.getCommonHeaders()?.let(httpHeaders::put)
+        FlyHttp.getCommonParams()?.let(httpParams::put)
+        FlyHttp.getCommonHeaders()?.let(httpHeaders::put)
     }
 
     fun readTimeOut(readTimeOut: Long): R {
@@ -121,7 +144,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 设置代理
      */
-    fun okproxy(proxy: Proxy?): R {
+    fun okproxy(proxy: Proxy): R {
         this.proxy = proxy
         return this as R
     }
@@ -129,7 +152,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * https的全局访问规则
      */
-    fun hostnameVerifier(hostnameVerifier: HostnameVerifier?): R {
+    fun hostnameVerifier(hostnameVerifier: HostnameVerifier): R {
         this.hostnameVerifier = hostnameVerifier
         return this as R
     }
@@ -154,13 +177,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
-    fun addInterceptor(interceptor: Interceptor?): R {
-        interceptor?.let(interceptors::add)
+    fun addInterceptor(interceptor: Interceptor): R {
+        interceptor.let(interceptors::add)
         return this as R
     }
 
-    fun addNetworkInterceptor(networkInterceptor: Interceptor?): R {
-        networkInterceptor?.let(networkInterceptors::add)
+    fun addNetworkInterceptor(networkInterceptor: Interceptor): R {
+        networkInterceptor.let(networkInterceptors::add)
         return this as R
     }
 
@@ -188,13 +211,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
-    fun addCookie(cookie: Cookie?): R {
-        cookie?.let(cookies::add)
+    fun addCookie(cookie: Cookie): R {
+        cookies.add(cookie)
         return this as R
     }
 
-    fun addCookies(cookies: List<Cookie>?): R {
-        cookies?.let(this.cookies::addAll)
+    fun addCookies(cookies: List<Cookie>): R {
+        this.cookies.addAll(cookies)
         return this as R
     }
 
@@ -222,23 +245,23 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 设置Converter.Factory,默认GsonConverterFactory.create()
      */
-    fun addConverterFactory(factory: retrofit2.Converter.Factory?): R {
-        factory?.let(converterFactories::add)
+    fun addConverterFactory(factory: retrofit2.Converter.Factory): R {
+        converterFactories.add(factory)
         return this as R
     }
 
     /**
      * 设置CallAdapter.Factory,默认RxJavaCallAdapterFactory.create()
      */
-    fun addCallAdapterFactory(factory: CallAdapter.Factory?): R {
-        factory?.let(adapterFactories::add)
+    fun addCallAdapterFactory(factory: CallAdapter.Factory): R {
+        adapterFactories.add(factory)
         return this as R
     }
 
     /**
      * 添加头信息
      */
-    fun headers(headers: HttpHeaders?): R {
+    fun headers(headers: HttpHeaders): R {
         httpHeaders.put(headers)
         return this as R
     }
@@ -254,8 +277,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 移除头信息
      */
-    fun removeHeader(key: String?): R {
-        key?.let(httpHeaders::remove)
+    fun removeHeader(key: String): R {
+        httpHeaders.remove(key)
         return this as R
     }
 
@@ -270,7 +293,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 设置参数
      */
-    fun params(params: HttpParams?): R {
+    fun params(params: HttpParams): R {
         httpParams.put(params)
         return this as R
     }
@@ -285,8 +308,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
-    fun removeParam(key: String?): R {
-        key?.let(httpParams::remove)
+    fun removeParam(key: String): R {
+        httpParams.remove(key)
         return this as R
     }
 
@@ -300,39 +323,85 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    fun okCache(cache: Cache): R {
+        this.cache = cache
+        return this as R
+    }
+
+    fun cacheMode(cacheMode: CacheMode): R {
+        this.cacheMode = cacheMode
+        return this as R
+    }
+
+    fun cacheTime(cacheTime: Long): R {
+        var newCacheTime = cacheTime
+        if (newCacheTime <= -1) newCacheTime = FlyHttp.DEFAULT_CACHE_NEVER_EXPIRE
+        this.cacheTime = newCacheTime
+        return this as R
+    }
+
+    fun cacheKey(cacheKey: String): R {
+        this.cacheKey = cacheKey
+        return this as R
+    }
+
+    /**
+     * 设置缓存的转换器
+     */
+    open fun cacheDiskConverter(converter: IDiskConverter): R {
+        diskConverter = converter
+        return this as R
+    }
+
     /**
      * 根据当前的请求参数，生成对应的 OkHttpClient
      */
     private fun generateOkClient(): OkHttpClient.Builder {
-        val builder = FlyHttp.getOkHttpClient().newBuilder()
-        if (readTimeOut > 0) builder.readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
-        if (writeTimeOut > 0) builder.writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
-        if (connectTimeout > 0) builder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+        if (readTimeOut > 0) okHttpBuilder.readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
+        if (writeTimeOut > 0) okHttpBuilder.writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
+        if (connectTimeout > 0) okHttpBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
         if (cookies.size > 0) FlyHttp.getCookieJar()?.addCookies(cookies)
-        hostnameVerifier?.let(builder::hostnameVerifier)
-        sslParams?.let { builder.sslSocketFactory(it.sslSocketFactory, it.trustManager) }
-        proxy?.let(builder::proxy)
+        hostnameVerifier?.let(okHttpBuilder::hostnameVerifier)
+        sslParams?.let { okHttpBuilder.sslSocketFactory(it.sslSocketFactory, it.trustManager) }
+        proxy?.let(okHttpBuilder::proxy)
 
         //添加头  头添加放在最前面方便其他拦截器可能会用到
         if (!httpHeaders.isEmpty()) {
-            builder.addInterceptor(HeadersInterceptor(httpHeaders))
+            okHttpBuilder.addInterceptor(HeadersInterceptor(httpHeaders))
         }
-        interceptors.forEach {
-            builder.addInterceptor(it)
-        }
-        builder.interceptors().forEach {
-            if (it is BaseDynamicInterceptor<*>) {
-                it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
+        interceptors.forEach { okHttpBuilder.addInterceptor(it) }
+        networkInterceptors.forEach { okHttpBuilder.addNetworkInterceptor(it) }
+
+        if (!this::okHttpBuilder.isInitialized()) {
+            val okHttpBuilder = FlyHttp.getOkHttpClientBuilder()
+            okHttpBuilder.interceptors().forEach {
+                if (it is BaseDynamicInterceptor<*>) {
+                    it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
+                }
             }
+            return okHttpBuilder
+        } else {
+            okHttpBuilder.interceptors().forEach {
+                if (it is BaseDynamicInterceptor<*>) {
+                    it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
+                }
+            }
+            return okHttpBuilder
         }
-        networkInterceptors.forEach { builder.addNetworkInterceptor(it) }
-        return builder
     }
 
     /**
      * 根据当前的请求参数，生成对应的Retrofit
      */
     private fun generateRetrofit(): Retrofit.Builder {
+        if (converterFactories.isEmpty() && adapterFactories.isEmpty()) {
+            val builder = FlyHttp.getRetrofitBuilder()
+            if (!TextUtils.isEmpty(baseUrl)) {
+                builder.baseUrl(baseUrl!!)
+            }
+            return builder
+        }
+
         val builder = FlyHttp.getRetrofit().newBuilder()
         if (!TextUtils.isEmpty(baseUrl)) {
             builder.baseUrl(baseUrl!!)
@@ -346,8 +415,61 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return builder
     }
 
+    /**
+     * 根据当前的请求参数，生成对应的RxCache和Cache
+     */
+    private fun generateRxCache(): RxCache.Builder {
+        val rxCacheBuilder: RxCache.Builder = FlyHttp.getRxCacheBuilder()
+        when (cacheMode) {
+            NO_CACHE -> {
+                val noCacheInterceptor = NoCacheInterceptor()
+                interceptors.add(noCacheInterceptor)
+                networkInterceptors.add(noCacheInterceptor)
+            }
+            DEFAULT -> {
+                if (cache == null) {
+                    val cacheDirectory: File? = FlyHttp.getCacheDirectory()
+                    cache = cacheDirectory?.let {
+                        val maxSize =
+                            (5 * 1024 * 1024).coerceAtLeast(FlyHttp.getCacheMaxSize().toInt())
+                                .toLong()
+                        Cache(it, maxSize)
+                    }
+                }
+                val cacheControlValue =
+                    String.format("max-age=%d", (-1).coerceAtLeast(cacheTime.toInt()))
+                val cacheInterceptor = CacheInterceptor(cacheControlValue)
+                val cacheInterceptorOffline = CacheInterceptorOffline(cacheControlValue)
+                networkInterceptors.add(cacheInterceptor)
+                networkInterceptors.add(cacheInterceptorOffline)
+                interceptors.add(cacheInterceptorOffline)
+            }
+            FIRSTREMOTE, FIRSTCACHE, ONLYREMOTE, ONLYCACHE, CACHEANDREMOTE, CACHEANDREMOTEDISTINCT -> {
+                interceptors.add(NoCacheInterceptor())
+                return if (diskConverter == null) {
+                    rxCacheBuilder.cachekey(
+                            Preconditions.checkNotNull(cacheKey, "cacheKey == null")
+                        )
+                        .cacheTime(cacheTime)
+                    rxCacheBuilder
+                } else {
+                    val cacheBuilder: RxCache.Builder = FlyHttp.getRxCache().newBuilder()
+                    cacheBuilder.diskConverter(diskConverter)
+                        .cachekey(Preconditions.checkNotNull(cacheKey, "cacheKey == null"))
+                        .cacheTime(cacheTime)
+                    cacheBuilder
+                }
+            }
+        }
+        return rxCacheBuilder
+    }
+
     fun build(): RequestCall {
+        rxCache = generateRxCache().build()
         val okHttpClientBuilder = generateOkClient()
+        if (cacheMode === DEFAULT && cache != null) {
+            okHttpClientBuilder.cache(cache)
+        }
         val retrofitBuilder = generateRetrofit()
         okHttpClient = okHttpClientBuilder.build().also {
             it.let(retrofitBuilder::client)
