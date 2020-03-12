@@ -2,7 +2,6 @@ package com.tiamosu.fly.http
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.converter.IDiskConverter
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
@@ -71,7 +70,7 @@ class FlyHttp {
                 hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             }
         retrofitBuilder = FlyUtils.getAppComponent().retrofit().newBuilder()
-        rxCacheBuilder = RxCache.Builder().init(Utils.getApp())
+        rxCacheBuilder = RxCache.Builder().init()
             .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
     }
 

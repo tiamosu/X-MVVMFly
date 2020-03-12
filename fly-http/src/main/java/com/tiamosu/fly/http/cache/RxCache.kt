@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.cache
 
-import android.content.Context
 import android.os.StatFs
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.IDiskConverter
@@ -46,7 +45,6 @@ import java.io.File
  * @date 2020/3/10.
  */
 class RxCache {
-    val context: Context?
     var cacheCore: CacheCore? = null    //缓存的核心管理类
     val cacheKey: String?               //缓存的key
     val cacheTime: Long                 //缓存的时间 单位:秒
@@ -58,7 +56,6 @@ class RxCache {
     constructor() : this(Builder())
 
     constructor(builder: Builder) {
-        context = builder.context
         cacheKey = builder.cachekey
         cacheTime = builder.cacheTime
         diskDir = builder.diskDir
@@ -210,7 +207,6 @@ class RxCache {
         var diskMaxSize = 0L
         var diskDir: File? = null
         var diskConverter: IDiskConverter?
-        var context: Context? = null
         var cachekey: String? = null
         var cacheTime: Long
 
@@ -225,13 +221,11 @@ class RxCache {
             diskMaxSize = rxCache.diskMaxSize
             diskDir = rxCache.diskDir
             diskConverter = rxCache.diskConverter
-            context = rxCache.context
             cachekey = rxCache.cacheKey
             cacheTime = rxCache.cacheTime
         }
 
-        fun init(context: Context): Builder {
-            this.context = context
+        fun init(): Builder {
             return this
         }
 
@@ -293,6 +287,7 @@ class RxCache {
             private const val MAX_DISK_CACHE_SIZE = 50 * 1024 * 1024  // 50MB
             private const val CACHE_NEVER_EXPIRE = -1L                //永久不过期
 
+            @Suppress("DEPRECATION")
             private fun calculateDiskCacheSize(dir: File): Long {
                 var size: Long = 0
                 try {
