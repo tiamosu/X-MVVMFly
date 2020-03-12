@@ -272,8 +272,8 @@ class RxCache {
         }
 
         fun build(): RxCache {
-            diskDir ?: FlyHttp.getCacheDirectory()
-            diskConverter ?: SerializableDiskConverter()
+            diskDir = diskDir ?: FlyHttp.getCacheDirectory()
+            diskConverter = diskConverter ?: SerializableDiskConverter()
             if (diskMaxSize <= 0 && diskDir != null) {
                 diskMaxSize = calculateDiskCacheSize(diskDir!!)
             }

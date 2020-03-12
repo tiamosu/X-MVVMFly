@@ -3,7 +3,6 @@ package com.tiamosu.fly.demo.api
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.http.GET
-import retrofit2.http.QueryMap
 import retrofit2.http.Url
 
 /**
@@ -13,5 +12,5 @@ import retrofit2.http.Url
 interface CustomApiService {
 
     @GET
-    fun custom(@Url url: String, @QueryMap map: Map<String, String>): Observable<ResponseBody>
+    fun getFriend(@Url url: String): Observable<ResponseBody>
 }

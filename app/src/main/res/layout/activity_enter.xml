@@ -50,4 +50,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_request" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_request_custom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="自定义请求"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_remove_cache" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ActivityUtils
+import com.tiamosu.fly.demo.api.CustomApiService
 import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
@@ -25,10 +26,6 @@ class EnterActivity : BaseActivity() {
     }
 
     override fun initData(bundle: Bundle?) {
-//        val custom = FlyHttp.custom<Any>("")
-//        val observable = custom.create(CustomApiService::class.java)
-//            ?.custom("/friend/json", mapOf())
-//        custom.apiCall(observable)
     }
 
     override fun initView(savedInstanceState: Bundle?, contentView: View?) {}
@@ -47,11 +44,6 @@ class EnterActivity : BaseActivity() {
                 .cacheTime(300)
                 .cacheDiskConverter(SerializableDiskConverter())
                 .build()
-//                .execute(object : SimpleCallBack<ResponseBody>() {
-//                    override fun onSuccess(t: ResponseBody?) {
-//                        Log.e("xia", "t===:$t")
-//                    }
-//                })
                 .execute(object : StringCallback() {
                     override fun onSuccess(t: String?) {
 //                        Log.e("xia", "t=========:$t")
@@ -61,15 +53,22 @@ class EnterActivity : BaseActivity() {
                         Log.e("xia", "cacheResult======:$cacheResult")
                     }
                 })
-//                .request(object : StringCallback() {
-//                    override fun onSuccess(response: Response) {
-//                        Log.e("xia", "body:" + response.body)
-////                        FlyHttpLog.i("response:$response")
-//                    }
-//                })
         }
         btn_remove_cache.setOnClickListener {
             FlyHttp.clearCache()
+        }
+
+        btn_request_custom.setOnClickListener {
+            val custom = FlyHttp.custom("/friend/json").also {
+                it.build()
+            }
+            val observable = custom.create(CustomApiService::class.java)
+                ?.getFriend(custom.url)
+            custom.apiCall(observable, object : StringCallback() {
+                override fun onSuccess(t: String?) {
+                    Log.e("xia", "t=========:$t")
+                }
+            })
         }
     }
 
