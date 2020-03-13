@@ -1,0 +1,37 @@
+apply {
+    plugin "com.android.library"
+    plugin "kotlin-android"
+    plugin "kotlin-android-extensions"
+    plugin "kotlin-kapt"
+}
+
+android {
+    compileSdkVersion Android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    api Deps.arouter_api
+    kapt Deps.arouter_compiler
+}

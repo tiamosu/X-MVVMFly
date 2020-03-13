@@ -1,23 +1,15 @@
 package com.tiamosu.fly.demo
 
-import com.tiamosu.fly.demo.base.ProxyActivity
-import com.tiamosu.fly.demo.page.SplashFragment
+import com.tiamosu.fly.module.common.base.ProxyActivity
+import com.tiamosu.fly.module.main.ui.MainFragment
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
-class MainActivity : ProxyActivity() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
+class LaunchActivity : ProxyActivity() {
 
     override fun getRootFragment(): Class<out ISupportFragment> {
-        return SplashFragment::class.java
-    }
-
-    override fun loadRootFragment(containerId: Int) {
-        super.loadRootFragment(R.id.main_container_fl)
+        return MainFragment::class.java
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator? {

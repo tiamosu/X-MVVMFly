@@ -4,10 +4,6 @@ apply {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':fly')
-    implementation project(':fly-http')
-    implementation project(':fly-imageloader-glide')
-
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation Deps.okhttp3_logging_interceptor
+    implementation project(':module:module_main')
+    implementation project(':module:module_other')
 }

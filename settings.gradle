@@ -3,3 +3,7 @@ include ':app'
 include ':fly',
         ':fly-http',
         ':fly-imageloader-glide'
+
+include ':module:module_common'
+include ':module:module_main'
+include ':module:module_other'

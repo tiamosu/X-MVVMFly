@@ -1,11 +1,8 @@
-package com.tiamosu.fly.demo
+package com.tiamosu.fly.module.main.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.blankj.utilcode.util.ActivityUtils
-import com.tiamosu.fly.demo.api.CustomApiService
-import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
@@ -13,26 +10,28 @@ import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
-import kotlinx.android.synthetic.main.activity_enter.*
+import com.tiamosu.fly.module.common.base.BaseFragment
+import com.tiamosu.fly.module.main.R
+import com.tiamosu.fly.module.main.data.api.CustomApiService
+import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * @author tiamosu
- * @date 2020/2/21.
+ * @date 2020/3/13.
  */
-class EnterActivity : BaseActivity() {
+class MainFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_enter
+        return R.layout.fragment_main
     }
 
-    override fun initData(bundle: Bundle?) {
+    override fun initData(bundle: Bundle?) {}
+    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
     }
-
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {}
 
     override fun initEvent() {
         btn_enter_page_main.setOnClickListener {
-            ActivityUtils.startActivity(MainActivity::class.java)
+
         }
         btn_request.setOnClickListener {
             FlyHttp["/friend/json"]
@@ -72,6 +71,5 @@ class EnterActivity : BaseActivity() {
         }
     }
 
-    override fun doBusiness() {
-    }
+    override fun doBusiness() {}
 }

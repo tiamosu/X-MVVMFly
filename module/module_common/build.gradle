@@ -1,0 +1,13 @@
+apply {
+    from "${rootDir.path}/config_module.gradle"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':fly')
+    api project(':fly-http')
+    api project(':fly-imageloader-glide')
+
+    api Deps.androidx_constraint_layout
+    debugImplementation Deps.leakcanary_android
+}

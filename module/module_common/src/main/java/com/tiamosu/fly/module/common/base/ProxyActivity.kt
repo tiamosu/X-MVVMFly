@@ -1,10 +1,10 @@
-package com.tiamosu.fly.demo.base
+package com.tiamosu.fly.module.common.base
 
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.NonNull
-import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.module.common.R
 import com.tiamosu.fly.utils.FragmentUtils
 import com.tiamosu.fly.utils.Preconditions
 import me.yokeyword.fragmentation.ISupportFragment

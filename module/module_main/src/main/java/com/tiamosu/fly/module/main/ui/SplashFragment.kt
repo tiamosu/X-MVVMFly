@@ -1,17 +1,18 @@
-package com.tiamosu.fly.demo.page
+package com.tiamosu.fly.module.main.ui
 
 import android.os.Bundle
 import android.view.View
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.fly.module.common.base.BaseFragment
+import com.tiamosu.fly.module.main.R
 
 /**
  * @author tiamosu
- * @date 2020/2/21.
+ * @date 2020/3/13.
  */
 class SplashFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
-        return 0
+        return R.layout.fragment_splash
     }
 
     override fun initData(bundle: Bundle?) {}

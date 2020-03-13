@@ -1,0 +1,8 @@
+apply {
+    from "${rootDir.path}/config_module.gradle"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':module:module_common')
+}
