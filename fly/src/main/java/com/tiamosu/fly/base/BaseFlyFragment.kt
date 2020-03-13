@@ -25,6 +25,10 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     private var isonLazyInitView = false
     private var isOnEnterAnimationEnd = false
 
+    /**
+     * 若当前 Fragment 是 ChildFragment， 且想以父页面（ParentFragment）开启新页面时，
+     * 可使用 [getParentDelegate] .start() 等相关 api
+     */
     @Suppress("UNCHECKED_CAST")
     fun <T : SupportFragment> getParentDelegate(): T {
         return (parentFragment ?: this) as T

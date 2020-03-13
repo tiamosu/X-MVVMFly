@@ -12,8 +12,10 @@ import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.module.common.base.BaseFragment
+import com.tiamosu.fly.module.common.router.Router
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.module.main.data.api.CustomApiService
+import com.tiamosu.fly.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -31,8 +33,8 @@ class MainFragment : BaseFragment() {
     }
 
     override fun initEvent() {
-        btn_enter_page_main.setOnClickListener {
-
+        btn_enter_other.setOnClickListener {
+            start(FragmentUtils.newInstance(Router.obtainFragmentOtherCls()))
         }
         btn_request.setOnClickListener {
             FlyHttp["/friend/json"]
