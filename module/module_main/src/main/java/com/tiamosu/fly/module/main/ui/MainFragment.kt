@@ -3,6 +3,7 @@ package com.tiamosu.fly.module.main.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
@@ -72,4 +73,20 @@ class MainFragment : BaseFragment() {
     }
 
     override fun doBusiness() {}
+
+    override fun onBackPressedSupport(): Boolean {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            context.finish()
+        } else {
+            TOUCH_TIME = System.currentTimeMillis()
+            ToastUtils.showShort("再按一次退出")
+        }
+        return true
+    }
+
+    companion object {
+        // 再点一次退出程序时间设置
+        private const val WAIT_TIME = 2000L
+        private var TOUCH_TIME: Long = 0
+    }
 }
