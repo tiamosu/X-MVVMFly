@@ -9,9 +9,15 @@ import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
+import com.tiamosu.fly.http.FlyHttp
+import com.tiamosu.fly.http.https.HttpsUtils
+import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.module.common.BuildConfig
+import com.tiamosu.fly.utils.FlyUtils
 import me.yokeyword.fragmentation.Fragmentation
 import me.yokeyword.fragmentation.helper.ExceptionHandler
+import okhttp3.ConnectionPool
+import java.net.Proxy
 
 /**
  * @author tiamosu
@@ -20,7 +26,6 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler
 class AppLifecyclesImpl : IFlyAppLifecycles {
 
     override fun attachBaseContext(context: Context) {
-
     }
 
     override fun onCreate(application: Application) {
@@ -39,6 +44,24 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
                 ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
             }
             ARouter.init(application)
+
+            val httpHeaders = HttpHeaders()
+            httpHeaders.put(HttpHeaders.HEAD_KEY_ACCEPT_LANGUAGE, HttpHeaders.userAgent)
+            FlyHttp.instance
+                .debug("FlyHttp", BuildConfig.DEBUG)
+                .setBaseUrl("https://www.wanandroid.com")
+                .setReadTimeOut(60 * 1000)
+                .setWriteTimeOut(60 * 1000)
+                .setConnectTimeout(60 * 1000)
+                .setOkHttpProxy(Proxy.NO_PROXY)
+                .setHostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
+                .setCertificates()
+                .addInterceptor(CustomSignInterceptor())
+                .setRetryCount(3)
+                .setRetryDelay(2)
+                .setOkHttpConnectionPool(ConnectionPool())
+                .setCallbackExecutor(FlyUtils.getAppComponent().executorService())
+                .addCommonHeaders(httpHeaders)
         }
     }
 

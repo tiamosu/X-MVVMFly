@@ -125,7 +125,7 @@ class FlyHttp {
     /**
      * 全局设置代理
      */
-    fun setOkproxy(proxy: Proxy): FlyHttp {
+    fun setOkHttpProxy(proxy: Proxy): FlyHttp {
         okHttpClientBuilder.proxy(proxy)
         return this
     }
@@ -196,7 +196,7 @@ class FlyHttp {
     }
 
     /**
-     * 全局设置baseurl
+     * 全局设置 baseUrl
      */
     fun setBaseUrl(baseUrl: String): FlyHttp {
         this.baseUrl = baseUrl
@@ -222,7 +222,7 @@ class FlyHttp {
     /**
      * 全局设置请求的连接池
      */
-    fun setOkconnectionPool(connectionPool: ConnectionPool): FlyHttp {
+    fun setOkHttpConnectionPool(connectionPool: ConnectionPool): FlyHttp {
         okHttpClientBuilder.connectionPool(connectionPool)
         return this
     }
@@ -230,7 +230,7 @@ class FlyHttp {
     /**
      * 全局为Retrofit设置自定义的OkHttpClient
      */
-    fun setOkclient(client: OkHttpClient): FlyHttp {
+    fun setOkHttpClient(client: OkHttpClient): FlyHttp {
         retrofitBuilder.client(client)
         return this
     }
@@ -331,9 +331,9 @@ class FlyHttp {
     /**
      * 全局设置缓存的版本，默认为1，缓存的版本号
      */
-    fun setCacheVersion(cacheersion: Int): FlyHttp {
-        Preconditions.checkState(cacheersion >= 0, "cacheersion must > 0")
-        rxCacheBuilder.appVersion(cacheersion)
+    fun setCacheVersion(cacheVersion: Int): FlyHttp {
+        Preconditions.checkState(cacheVersion >= 0, "cacheVersion must > 0")
+        rxCacheBuilder.appVersion(cacheVersion)
         return this
     }
 

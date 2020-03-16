@@ -144,7 +144,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 设置代理
      */
-    fun okproxy(proxy: Proxy): R {
+    fun okHttpProxy(proxy: Proxy): R {
         this.proxy = proxy
         return this as R
     }
