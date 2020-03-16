@@ -3,7 +3,6 @@ package com.tiamosu.fly.http.interceptors
 import com.blankj.utilcode.util.LogUtils
 import com.tiamosu.fly.http.utils.FlyHttpUtils.UTF8
 import com.tiamosu.fly.http.utils.FlyHttpUtils.createUrlFromParams
-import com.tiamosu.fly.utils.Preconditions.checkNotNull
 import okhttp3.*
 import java.io.IOException
 import java.io.UnsupportedEncodingException
@@ -83,8 +82,6 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
         val nameKeys = listOf(nameList).toString()
         //拼装新的参数
         val newParams = dynamic(oldparams)
-        checkNotNull(newParams, "newParams == null")
-
         for ((key, value) in newParams) {
             val urlValue = URLEncoder.encode(value, UTF8.name())
             //原来的URl: https://xxx.xxx.xxx/app/chairdressing/skinAnalyzePower/skinTestResult?appId=10101
@@ -111,8 +108,6 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
             }
             //拼装新的参数
             val newParams = dynamic(oldparams)
-            checkNotNull(newParams, "newParams == null")
-
             for ((key, value1) in newParams) {
                 val value = URLDecoder.decode(value1, UTF8.name())
                 bodyBuilder.addEncoded(key, value)
@@ -161,5 +156,5 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
      * @param dynamicMap
      * @return 返回新的参数集合
      */
-    abstract fun dynamic(dynamicMap: TreeMap<String, String>?): TreeMap<String, String>
+    abstract fun dynamic(dynamicMap: TreeMap<String, String>): TreeMap<String, String>
 }

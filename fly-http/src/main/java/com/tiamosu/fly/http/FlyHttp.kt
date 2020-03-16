@@ -77,7 +77,7 @@ class FlyHttp {
     /**
      * 调试模式,默认打开所有的异常调试
      */
-    fun debug(tag: String): FlyHttp {
+    fun debug(tag: String? = null): FlyHttp {
         debug(tag, true)
         return this
     }
@@ -87,14 +87,14 @@ class FlyHttp {
      * 一般来说,这些异常是由于不标准的数据格式,或者特殊需要主动产生的,
      * 并不是框架错误,如果不想每次打印,这里可以关闭异常显示
      */
-    fun debug(tag: String, isPrintException: Boolean): FlyHttp {
+    fun debug(tag: String?, isPrintException: Boolean): FlyHttp {
         val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag
         if (isPrintException) {
-            val loggingInterceptor = HttpLoggingInterceptor(tempTag)
+            val loggingInterceptor = HttpLoggingInterceptor(tempTag!!)
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
-        FlyHttpLog.debug(tempTag, isPrintException)
+        FlyHttpLog.debug(tempTag!!, isPrintException)
         return this
     }
 
@@ -135,6 +135,15 @@ class FlyHttp {
      */
     fun setHostnameVerifier(hostnameVerifier: HostnameVerifier): FlyHttp {
         okHttpClientBuilder.hostnameVerifier(hostnameVerifier)
+        return this
+    }
+
+    /**
+     * 信任所以证书
+     */
+    fun setCertificates(): FlyHttp {
+        val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory()
+        okHttpClientBuilder.sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
         return this
     }
 
@@ -341,7 +350,7 @@ class FlyHttp {
         const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
         const val DEFAULT_CACHE_NEVER_EXPIRE = -1L   //缓存过期时间，默认永久缓存
 
-        private val instance = Holder.INSTANCE
+        val instance = Holder.INSTANCE
 
         /**
          * get请求
