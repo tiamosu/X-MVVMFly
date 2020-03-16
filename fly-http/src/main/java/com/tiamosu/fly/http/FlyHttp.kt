@@ -61,6 +61,7 @@ class FlyHttp {
     private var cacheDirectory: File? = null                        //缓存目录
     private var cacheMaxSize = 0L                                   //缓存大小
     private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
+    private var loggingInterceptor: HttpLoggingInterceptor? = null  //日志拦截器
 
     init {
         okHttpClientBuilder = FlyUtils.getAppComponent().okHttpClient().newBuilder()
@@ -90,9 +91,9 @@ class FlyHttp {
     fun debug(tag: String?, isPrintException: Boolean): FlyHttp {
         val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag
         if (isPrintException) {
-            val loggingInterceptor = HttpLoggingInterceptor(tempTag!!)
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            okHttpClientBuilder.addInterceptor(loggingInterceptor)
+            loggingInterceptor = HttpLoggingInterceptor(tempTag!!).also {
+                it.setLevel(HttpLoggingInterceptor.Level.BODY)
+            }
         }
         FlyHttpLog.debug(tempTag!!, isPrintException)
         return this
@@ -510,6 +511,10 @@ class FlyHttp {
 
         fun getRxCache(): RxCache {
             return instance.rxCacheBuilder.build()
+        }
+
+        fun getLoggingInterceptor(): HttpLoggingInterceptor? {
+            return instance.loggingInterceptor
         }
 
         /**

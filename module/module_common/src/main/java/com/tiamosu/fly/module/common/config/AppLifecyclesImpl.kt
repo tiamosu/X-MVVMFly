@@ -46,7 +46,7 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             ARouter.init(application)
 
             val httpHeaders = HttpHeaders()
-            httpHeaders.put(HttpHeaders.HEAD_KEY_ACCEPT_LANGUAGE, HttpHeaders.userAgent)
+            httpHeaders.put(HttpHeaders.HEAD_KEY_USER_AGENT, HttpHeaders.userAgent)
             FlyHttp.instance
                 .debug("FlyHttp", BuildConfig.DEBUG)
                 .setBaseUrl("https://www.wanandroid.com")

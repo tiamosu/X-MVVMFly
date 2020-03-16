@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.interceptors
 
 import com.blankj.utilcode.util.NetworkUtils
+import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.utils.FlyHttpLog.i
 import okhttp3.CacheControl
 import okhttp3.Interceptor
@@ -38,8 +39,11 @@ class CacheInterceptorOffline : CacheInterceptor {
             val response = chain.proceed(request)
             return response.newBuilder()
                 .removeHeader("Pragma")
-                .removeHeader("Cache-Control")
-                .header("Cache-Control", "public, only-if-cached, $cachecontrolvalueOffline")
+                .removeHeader(HttpHeaders.HEAD_KEY_CACHE_CONTROL)
+                .header(
+                    HttpHeaders.HEAD_KEY_CACHE_CONTROL,
+                    "public, only-if-cached, $cachecontrolvalueOffline"
+                )
                 .build()
         }
         return chain.proceed(request)

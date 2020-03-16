@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.interceptors
 
 import android.text.TextUtils
+import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.utils.FlyHttpLog.e
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -26,7 +27,7 @@ open class CacheInterceptor(
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse = chain.proceed(chain.request())
-        val cacheControl = originalResponse.header("Cache-Control")
+        val cacheControl = originalResponse.header(HttpHeaders.HEAD_KEY_CACHE_CONTROL)
         e(maxStaleOnline.toString() + "s load cache:" + cacheControl)
         return if (TextUtils.isEmpty(cacheControl) || cacheControl!!.contains("no-store")
             || cacheControl.contains("no-cache") || cacheControl.contains("must-revalidate")
@@ -34,9 +35,9 @@ open class CacheInterceptor(
         ) {
             originalResponse.newBuilder()
                 .removeHeader("Pragma")
-                .removeHeader("Cache-Control")
+                .removeHeader(HttpHeaders.HEAD_KEY_CACHE_CONTROL)
                 .header(
-                    "Cache-Control",
+                    HttpHeaders.HEAD_KEY_CACHE_CONTROL,
                     "public, max-age=$maxStale"
                 )
                 .build()

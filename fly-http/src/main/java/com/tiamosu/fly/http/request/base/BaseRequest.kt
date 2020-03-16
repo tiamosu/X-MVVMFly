@@ -372,22 +372,18 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         interceptors.forEach { okHttpBuilder.addInterceptor(it) }
         networkInterceptors.forEach { okHttpBuilder.addNetworkInterceptor(it) }
 
-        if (!this::okHttpBuilder.isInitialized()) {
-            val okHttpBuilder = FlyHttp.getOkHttpClientBuilder()
-            okHttpBuilder.interceptors().forEach {
-                if (it is BaseDynamicInterceptor<*>) {
-                    it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
-                }
+        val globalOkHttpBuilder = FlyHttp.getOkHttpClientBuilder()
+        val newOkHttpBuilder =
+            if (this::okHttpBuilder.isInitialized()) okHttpBuilder else globalOkHttpBuilder
+
+        newOkHttpBuilder.interceptors().forEach {
+            if (it is BaseDynamicInterceptor<*>) {
+                it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
             }
-            return okHttpBuilder
-        } else {
-            okHttpBuilder.interceptors().forEach {
-                if (it is BaseDynamicInterceptor<*>) {
-                    it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
-                }
-            }
-            return okHttpBuilder
         }
+        FlyHttp.getLoggingInterceptor()?.let(newOkHttpBuilder::addInterceptor)
+
+        return newOkHttpBuilder
     }
 
     /**

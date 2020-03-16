@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.interceptors
 
+import com.tiamosu.fly.http.model.HttpHeaders
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -16,9 +17,12 @@ class NoCacheInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        request = request.newBuilder().header("Cache-Control", "no-cache").build()
+        request =
+            request.newBuilder().header(HttpHeaders.HEAD_KEY_CACHE_CONTROL, "no-cache").build()
         var originalResponse = chain.proceed(request)
-        originalResponse = originalResponse.newBuilder().header("Cache-Control", "no-cache").build()
+        originalResponse =
+            originalResponse.newBuilder().header(HttpHeaders.HEAD_KEY_CACHE_CONTROL, "no-cache")
+                .build()
         return originalResponse
     }
 }

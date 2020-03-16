@@ -1,9 +1,9 @@
 package com.tiamosu.fly.http.interceptors
 
 import androidx.annotation.IntDef
+import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.utils.FlyHttpUtils
 import okhttp3.*
-import okhttp3.internal.http.HttpHeaders
 import okio.Buffer
 import java.io.IOException
 import java.net.URLDecoder
@@ -88,14 +88,15 @@ class HttpLoggingInterceptor : Interceptor {
             log(requestStartMessage)
 
             if (logHeaders) {
+                log(" ")
                 if (hasRequestBody) {
                     // Request body headers are only present when installed as a network interceptor. Force
                     // them to be included (when available) so there values are known.
                     if (requestBody?.contentType() != null) {
-                        log("\tContent-Type: " + requestBody.contentType())
+                        log("\t${HttpHeaders.HEAD_KEY_CONTENT_TYPE}: " + requestBody.contentType())
                     }
                     if (requestBody?.contentLength() != -1L) {
-                        log("\tContent-Length: " + requestBody?.contentLength())
+                        log("\t${HttpHeaders.HEAD_KEY_CONTENT_LENGTH}: " + requestBody?.contentLength())
                     }
                 }
 
@@ -105,8 +106,8 @@ class HttpLoggingInterceptor : Interceptor {
                 while (i < count) {
                     val name = headers.name(i)
                     // Skip headers from the request body as they are explicitly logged above.
-                    if (!"Content-Type".equals(name, ignoreCase = true)
-                        && !"Content-Length".equals(name, ignoreCase = true)
+                    if (!HttpHeaders.HEAD_KEY_CONTENT_TYPE.equals(name, ignoreCase = true)
+                        && !HttpHeaders.HEAD_KEY_CONTENT_LENGTH.equals(name, ignoreCase = true)
                     ) {
                         log("\t" + name + ": " + headers.value(i))
                     }
@@ -153,7 +154,7 @@ class HttpLoggingInterceptor : Interceptor {
                     i++
                 }
                 log(" ")
-                if (logBody && HttpHeaders.hasBody(clone)) {
+                if (logBody && okhttp3.internal.http.HttpHeaders.hasBody(clone)) {
                     var contentType: MediaType?
                     if (isPlaintext(responseBody?.contentType().also { contentType = it })) {
                         val bytes = FlyHttpUtils.toByteArray(responseBody?.byteStream())
@@ -172,6 +173,7 @@ class HttpLoggingInterceptor : Interceptor {
             e(e)
         } finally {
             log("<-- END HTTP")
+            log(" ")
         }
         return response
     }
