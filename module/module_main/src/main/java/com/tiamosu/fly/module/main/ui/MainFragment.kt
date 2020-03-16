@@ -8,6 +8,7 @@ import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.cache.model.CacheResult
+import com.tiamosu.fly.http.callback.JsonCallback
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
@@ -15,6 +16,7 @@ import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.module.main.data.api.CustomApiService
+import com.tiamosu.fly.module.main.data.model.Friend
 import com.tiamosu.fly.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -56,21 +58,20 @@ class MainFragment : BaseFragment() {
                     }
                 })
         }
-        btn_remove_cache.setOnClickListener {
-            FlyHttp.clearCache()
-        }
-
         btn_request_custom.setOnClickListener {
             val custom = FlyHttp.custom("/friend/json").also {
                 it.build()
             }
             val observable = custom.create(CustomApiService::class.java)
                 ?.getFriend(custom.url)
-            custom.apiCall(observable, object : StringCallback() {
-                override fun onSuccess(t: String?) {
-                    Log.e("xia", "t=========:$t")
+            custom.apiCall(observable, object : JsonCallback<Friend>() {
+                override fun onSuccess(t: Friend?) {
+                    Log.e("xia", "result=========:$t")
                 }
             })
+        }
+        btn_remove_cache.setOnClickListener {
+            FlyHttp.clearCache()
         }
     }
 

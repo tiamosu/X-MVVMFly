@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.convert
 
+import com.google.gson.JsonSyntaxException
 import com.tiamosu.fly.http.callback.IGenericsSerializator
 import com.tiamosu.fly.utils.FlyUtils
 import org.json.JSONArray
@@ -22,8 +23,12 @@ class JsonConvert : IGenericsSerializator {
                 JSONArray(response) as? T
             }
             else -> {
-                val gson = FlyUtils.getAppComponent().gson()
-                gson.fromJson(response, classOfT)
+                try {
+                    val gson = FlyUtils.getAppComponent().gson()
+                    gson.fromJson(response, classOfT)
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.callback
 
+import com.tiamosu.fly.http.convert.JsonConvert
 import com.tiamosu.fly.utils.Platform
 import io.reactivex.functions.Action
 import java.lang.reflect.ParameterizedType
@@ -8,8 +9,14 @@ import java.lang.reflect.ParameterizedType
  * @author tiamosu
  * @date 2020/3/8.
  */
-abstract class JsonCallback<T>(private val serializator: IGenericsSerializator) :
-    CacheResultCallback<T>() {
+abstract class JsonCallback<T> : CacheResultCallback<T> {
+    private var serializator: IGenericsSerializator? = null
+
+    constructor() : this(null)
+
+    constructor(serializator: IGenericsSerializator?) {
+        this.serializator = serializator ?: JsonConvert()
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun convertResponse(string: String?) {
@@ -22,7 +29,7 @@ abstract class JsonCallback<T>(private val serializator: IGenericsSerializator) 
             if (type is Class<*>) {
                 result = when (type) {
                     String::class.java -> it as? T
-                    else -> serializator.transform(it, type) as? T
+                    else -> serializator?.transform(it, type) as? T
                 }
             }
         }
