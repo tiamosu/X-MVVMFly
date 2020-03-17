@@ -17,12 +17,13 @@ import java.lang.ref.WeakReference
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     var inflater: LayoutInflater? = null
+    var container: ViewGroup? = null
     var rootView: View? = null
 
     private val networkDelegate by lazy { NetworkDelegate() }
 
     //保证转场动画的流畅性
-    private var isonLazyInitView = false
+    private var isOnLazyInitView = false
     private var isOnEnterAnimationEnd = false
 
     /**
@@ -40,6 +41,8 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
         savedInstanceState: Bundle?
     ): View? {
         this.inflater = inflater
+        this.container = container
+
         if (rootView == null) {
             setContentView()
         } else {
@@ -55,7 +58,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     override fun setContentView() {
         if (getLayoutId() > 0) {
-            val view = inflater?.inflate(getLayoutId(), null)
+            val view = inflater?.inflate(getLayoutId(), container, false)
             val weakReferenceRootView = WeakReference(view)
             rootView = weakReferenceRootView.get()
         }
@@ -82,14 +85,14 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
         super.onEnterAnimationEnd(savedInstanceState)
         isOnEnterAnimationEnd = true
-        if (isonLazyInitView) {
+        if (isOnLazyInitView) {
             doBusiness()
         }
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        isonLazyInitView = true
+        isOnLazyInitView = true
         if (isOnEnterAnimationEnd) {
             doBusiness()
         }
