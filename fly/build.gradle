@@ -8,15 +8,15 @@ dependencies {
     api Deps.androidx_annotation
     api(Deps.androidx_appcompat) {
         exclude module: 'annotation'
-        exclude module: 'lifecycle-common'
-        exclude module: 'lifecycle-livedata'
-        exclude module: 'lifecycle-viewmodel'
-        exclude module: 'lifecycle-runtime'
+        exclude module: 'fragment'
     }
-    api Deps.lifecycle_common_java8
-    api Deps.lifecycle_livedata
-    api Deps.lifecycle_viewmodel
-    api Deps.lifecycle_runtime
+    api(Deps.androidx_fragment) {
+        exclude module: 'annotation'
+    }
+    api(Deps.lifecycle_common_java8) {
+        exclude module: 'annotation'
+        exclude module: 'lifecycle-common'
+    }
 
     //kotlin
     api Deps.kotlin_reflect

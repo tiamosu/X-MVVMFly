@@ -8,7 +8,6 @@ import android.view.ViewParent
 import androidx.annotation.CallSuper
 import com.tiamosu.fly.http.manager.NetworkDelegate
 import me.yokeyword.fragmentation.SupportFragment
-import java.lang.ref.WeakReference
 
 /**
  * @author tiamosu
@@ -58,9 +57,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     override fun setContentView() {
         if (getLayoutId() > 0) {
-            val view = inflater?.inflate(getLayoutId(), container, false)
-            val weakReferenceRootView = WeakReference(view)
-            rootView = weakReferenceRootView.get()
+            rootView = inflater?.inflate(getLayoutId(), container, false)
         }
     }
 

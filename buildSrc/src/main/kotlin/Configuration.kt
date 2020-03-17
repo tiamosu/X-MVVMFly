@@ -35,6 +35,7 @@ object Deps {
     //support
     const val androidx_annotation = "androidx.annotation:annotation:1.1.0"
     const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
+    const val androidx_fragment = "androidx.fragment:fragment:1.2.0"
     const val androidx_recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
