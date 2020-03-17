@@ -28,7 +28,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     /**
      * 若当前 Fragment 是 ChildFragment， 且想以父页面（ParentFragment）开启新页面时，
-     * 可使用 [getParentDelegate] .start() 等相关 api
+     * 可使用 [getParentDelegate] .startX()、popX()、find/getX() 等相关 api
      */
     @Suppress("UNCHECKED_CAST")
     fun <T : SupportFragment> getParentDelegate(): T {
@@ -47,7 +47,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
             setContentView()
         } else {
             // 缓存的 rootView 需要判断是否已经被加过 parent，如果有 parent 需要从 parent 删除，
-            // 要不然会发生这个 rootview 已经有 parent 的错误。
+            // 要不然会发生这个 rootView 已经有 parent 的错误。
             var viewParent: ViewParent
             if (rootView!!.parent.also { viewParent = it } is ViewGroup) {
                 (viewParent as ViewGroup).removeView(rootView)
@@ -71,12 +71,12 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     @CallSuper
     override fun initAny(savedInstanceState: Bundle?) {
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+
         initData(arguments)
         initView(savedInstanceState, rootView)
         initEvent()
-
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}

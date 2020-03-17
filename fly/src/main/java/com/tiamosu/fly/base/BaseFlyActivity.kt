@@ -31,12 +31,12 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
 
     @CallSuper
     override fun initAny(savedInstanceState: Bundle?) {
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+
         initData(intent.extras)
         initView(savedInstanceState, rootView)
         initEvent()
-
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}
