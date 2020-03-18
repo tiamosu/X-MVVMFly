@@ -46,7 +46,7 @@ fun createUrlFromParams(url: String, params: Map<String, String>): String? {
         builder.deleteCharAt(builder.length - 1)
         return builder.toString()
     } catch (e: Exception) {
-        e(e.message)
+        eLog(e.message)
     }
     return url
 }

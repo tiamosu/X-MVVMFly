@@ -1,6 +1,6 @@
 package com.tiamosu.fly.http.cache.core
 
-import com.tiamosu.fly.utils.Preconditions.checkNotNull
+import com.tiamosu.fly.utils.checkNotNull
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 /**

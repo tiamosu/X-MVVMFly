@@ -12,7 +12,7 @@ import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
-import com.tiamosu.fly.http.utils.i
+import com.tiamosu.fly.http.utils.iLog
 import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.createOrExistsDir
@@ -524,7 +524,7 @@ class FlyHttp {
         fun clearCache() {
             getRxCache().clear()
                 .compose(main())
-                .subscribe({ i("clearCache success!!!") }, { i("clearCache err!!!") })
+                .subscribe({ iLog("clearCache success!!!") }, { iLog("clearCache err!!!") })
         }
 
         /**
@@ -534,7 +534,7 @@ class FlyHttp {
         fun removeCache(key: String?) {
             getRxCache().remove(key)
                 .compose(main())
-                .subscribe({ i("removeCache success!!!") }, { i("removeCache err!!!") })
+                .subscribe({ iLog("removeCache success!!!") }, { iLog("removeCache err!!!") })
         }
     }
 

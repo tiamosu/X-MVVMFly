@@ -1,8 +1,8 @@
 package com.tiamosu.fly.http.interceptors
 
-import com.blankj.utilcode.util.LogUtils
-import com.tiamosu.fly.http.utils.FlyHttpUtils.UTF8
-import com.tiamosu.fly.http.utils.FlyHttpUtils.createUrlFromParams
+import com.tiamosu.fly.http.utils.UTF8
+import com.tiamosu.fly.http.utils.createUrlFromParams
+import com.tiamosu.fly.http.utils.iLog
 import okhttp3.*
 import java.io.IOException
 import java.io.UnsupportedEncodingException
@@ -114,7 +114,7 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
             }
             if (httpUrl != null) {
                 val url = createUrlFromParams(httpUrl!!.url().toString(), newParams)
-                LogUtils.i(url)
+                iLog(url)
             }
 
             formBody = bodyBuilder.build()

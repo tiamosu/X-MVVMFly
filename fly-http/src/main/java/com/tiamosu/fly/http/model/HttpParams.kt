@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.model
 
-import com.tiamosu.fly.http.utils.FlyHttpUtils
+import com.tiamosu.fly.http.utils.escapeParams
+import com.tiamosu.fly.http.utils.guessMimeType
 import okhttp3.MediaType
 import java.io.File
 import java.io.Serializable
@@ -32,7 +33,7 @@ class HttpParams : Serializable {
 
     fun put(params: Map<String?, String?>?) {
         if (params?.isNotEmpty() == true) {
-            urlParamsMap.putAll(FlyHttpUtils.escapeParams(params))
+            urlParamsMap.putAll(escapeParams(params))
         }
     }
 
@@ -60,7 +61,7 @@ class HttpParams : Serializable {
 
     fun put(key: String?, file: File?, fileName: String?, contentType: MediaType?) {
         if (key != null && file != null && fileName != null) {
-            val mediaType = contentType ?: FlyHttpUtils.guessMimeType(fileName)
+            val mediaType = contentType ?: guessMimeType(fileName)
             var fileWrappers: MutableList<FileWrapper>? = fileParamsMap[key]
             if (fileWrappers == null) {
                 fileWrappers = mutableListOf()

@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.subscriber
 import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.callback.CacheResultCallback
 import com.tiamosu.fly.http.request.base.BaseRequest
-import com.tiamosu.fly.utils.Platform
+import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
 
 /**
@@ -15,7 +15,7 @@ class CacheCallbackSubscriber(val request: BaseRequest<*>) : BaseSubscriber<Cach
     private val callback = request.callback as? CacheResultCallback<*>
 
     override fun onStart() {
-        Platform.postOnMain(Action {
+        postOnMain(Action {
             callback?.onStart()
         })
     }
@@ -23,7 +23,7 @@ class CacheCallbackSubscriber(val request: BaseRequest<*>) : BaseSubscriber<Cach
     override fun onNext(t: CacheResult<String>) {
         try {
             callback?.convertResponse(t.data)
-            Platform.postOnMain(Action {
+            postOnMain(Action {
                 callback?.onSuccess(t)
             })
         } catch (t: Throwable) {
@@ -35,14 +35,14 @@ class CacheCallbackSubscriber(val request: BaseRequest<*>) : BaseSubscriber<Cach
         if (request.isGlobalErrorHandle) {
             super.onError(t)
         }
-        Platform.postOnMain(Action {
+        postOnMain(Action {
             callback?.onError(t)
             callback?.onFinish()
         })
     }
 
     override fun onComplete() {
-        Platform.postOnMain(Action {
+        postOnMain(Action {
             callback?.onFinish()
         })
     }

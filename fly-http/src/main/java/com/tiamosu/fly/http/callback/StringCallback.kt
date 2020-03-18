@@ -1,6 +1,6 @@
 package com.tiamosu.fly.http.callback
 
-import com.tiamosu.fly.utils.Platform
+import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
 
 /**
@@ -12,7 +12,7 @@ import io.reactivex.functions.Action
 abstract class StringCallback : CacheResultCallback<String>() {
 
     override fun convertResponse(string: String?) {
-        Platform.postOnMain(Action {
+        postOnMain(Action {
             onSuccess(string)
         })
     }

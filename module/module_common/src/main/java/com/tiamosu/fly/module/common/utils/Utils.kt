@@ -2,11 +2,11 @@
 
 package com.tiamosu.fly.module.common.utils
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.*
 import com.tiamosu.fly.module.common.base.BaseViewModel
+import com.tiamosu.fly.module.common.base.IBaseView
+import com.tiamosu.fly.module.common.data.State
+import com.tiamosu.fly.module.common.data.StateType
 import com.tiamosu.fly.module.common.integration.ViewModelFactory
 
 /**
@@ -33,11 +33,22 @@ fun <VM : ViewModel> viewModel(
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelFactory()
 ): VM {
-    val vm = ViewModelProvider(this, factory).get(clazz)
-    if (vm is BaseViewModel) {
-
+    return ViewModelProvider(this, factory).get(clazz).also {
+        if (it is BaseViewModel && this is IBaseView) {
+            val baseView: IBaseView = this
+            val observer: Observer<State> = Observer { state ->
+                state?.run {
+                    when (type) {
+                        StateType.TOAST_ERROR -> baseView.showError(msg)
+                        StateType.TOAST_INFO -> baseView.showInfo(msg)
+                        StateType.SHOW_LOADING -> baseView.showLoading()
+                        StateType.HIDE_LOADING -> baseView.hideLoading()
+                    }
+                }
+            }
+            it.state.observe(this as LifecycleOwner, observer)
+        }
     }
-    return vm
 }
 
 /**
@@ -59,6 +70,6 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(vararg argumen
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arguments: Any): Lazy<VM> {
     return lazy {
-        viewModel<VM>(*arguments)
+        viewModel(*arguments)
     }
 }

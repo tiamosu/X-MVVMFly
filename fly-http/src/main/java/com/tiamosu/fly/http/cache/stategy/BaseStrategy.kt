@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.cache.stategy
 
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.model.CacheResult
-import com.tiamosu.fly.http.utils.FlyHttpLog.i
+import com.tiamosu.fly.http.utils.iLog
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.functions.Function
@@ -44,11 +44,11 @@ abstract class BaseStrategy : IStrategy {
         var observable = source
             .flatMap { t ->
                 rxCache.save(key, t).map { aBoolean ->
-                        i("save status => $aBoolean")
+                        iLog("save status => $aBoolean")
                         CacheResult(false, t)
                     }
                     .onErrorReturn { throwable ->
-                        i("save status => $throwable")
+                        iLog("save status => $throwable")
                         CacheResult(false, t)
                     }
             }

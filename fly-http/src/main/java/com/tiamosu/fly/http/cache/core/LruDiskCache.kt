@@ -78,14 +78,14 @@ class LruDiskCache(
     }
 
     override fun doClear(): Boolean {
-        var statu = false
+        var state = false
         try {
             diskLruCache?.delete()
-            statu = true
+            state = true
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return statu
+        return state
     }
 
     override fun isExpiry(key: String?, existTime: Long): Boolean {

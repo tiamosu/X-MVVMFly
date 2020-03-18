@@ -9,8 +9,8 @@ import com.tiamosu.fly.http.cache.core.LruDiskCache
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.cache.stategy.IStrategy
-import com.tiamosu.fly.http.utils.FlyHttpLog.e
-import com.tiamosu.fly.http.utils.FlyHttpLog.i
+import com.tiamosu.fly.http.utils.eLog
+import com.tiamosu.fly.http.utils.iLog
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
@@ -80,7 +80,7 @@ class RxCache {
     fun <T> transformer(cacheMode: CacheMode): ObservableTransformer<T, CacheResult<T>> {
         val strategy = loadStrategy(cacheMode) //获取缓存策略
         return ObservableTransformer { upstream ->
-            i("cackeKey=$cacheKey")
+            iLog("cacheKey=$cacheKey")
             strategy.execute(
                 this@RxCache,
                 cacheKey,
@@ -99,7 +99,7 @@ class RxCache {
                     subscriber.onNext(data)
                 }
             } catch (e: Throwable) {
-                e(e.message)
+                eLog(e.message)
                 if (!subscriber.isDisposed) {
                     subscriber.onError(e)
                 }

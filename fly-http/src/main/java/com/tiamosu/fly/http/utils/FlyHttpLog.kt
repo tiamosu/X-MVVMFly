@@ -21,43 +21,43 @@ fun debug(logTag: String, isEnable: Boolean) {
     isLogEnable = isEnable
 }
 
-fun v(msg: String?) {
-    v(tag, msg)
+fun vLog(msg: String?) {
+    vLog(tag, msg)
 }
 
-fun v(tag: String?, msg: String?) {
+fun vLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.v(tag, msg ?: "")
 }
 
-fun d(msg: String?) {
-    d(tag, msg)
+fun dLog(msg: String?) {
+    dLog(tag, msg)
 }
 
-fun d(tag: String?, msg: String?) {
+fun dLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.d(tag, msg ?: "")
 }
 
-fun i(msg: String?) {
-    i(tag, msg)
+fun iLog(msg: String?) {
+    iLog(tag, msg)
 }
 
-fun i(tag: String?, msg: String?) {
+fun iLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.i(tag, msg ?: "")
 }
 
-fun w(msg: String?) {
-    w(tag, msg)
+fun wLog(msg: String?) {
+    wLog(tag, msg)
 }
 
-fun w(tag: String?, msg: String?) {
+fun wLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.w(tag, msg ?: "")
 }
 
-fun e(msg: String?) {
-    e(tag, msg)
+fun eLog(msg: String?) {
+    eLog(tag, msg)
 }
 
-fun e(tag: String?, msg: String?) {
+fun eLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.e(tag, msg ?: "")
 }
 

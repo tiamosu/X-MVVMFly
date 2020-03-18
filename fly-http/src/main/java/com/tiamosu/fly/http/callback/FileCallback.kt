@@ -3,8 +3,8 @@ package com.tiamosu.fly.http.callback
 import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import com.tiamosu.fly.http.model.Progress
-import com.tiamosu.fly.utils.FileUtils
-import com.tiamosu.fly.utils.Platform
+import com.tiamosu.fly.utils.createFile
+import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
 import okhttp3.ResponseBody
 import java.io.*
@@ -31,7 +31,7 @@ abstract class FileCallback : ResultCallback<File> {
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): File? {
-        val file = FileUtils.createFile(destFileDir, destFileName)
+        val file = createFile(destFileDir, destFileName)
         val inputStream = body.byteStream()
         var bis: BufferedInputStream? = null
         var fos: FileOutputStream? = null
@@ -70,7 +70,7 @@ abstract class FileCallback : ResultCallback<File> {
     private fun onProgress(progress: Progress, read: Int) {
         Progress.changeProgress(progress, read.toLong(), object : Progress.Action {
             override fun call(progress: Progress) {
-                Platform.postOnMain(Action {
+                postOnMain(Action {
                     downloadProgress(progress) //进度回调的方法
                 })
             }

@@ -5,7 +5,7 @@ import android.os.Build
 import android.text.TextUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.http.utils.FlyHttpUtils
+import com.tiamosu.fly.http.utils.escapeParams
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.Serializable
@@ -31,7 +31,7 @@ class HttpHeaders : Serializable {
 
     fun put(headers: Map<String?, String?>?) {
         if (headers?.isNotEmpty() == true) {
-            headersMap.putAll(FlyHttpUtils.escapeParams(headers))
+            headersMap.putAll(escapeParams(headers))
         }
     }
 

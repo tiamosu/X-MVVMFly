@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.convert.JsonConvert
-import com.tiamosu.fly.utils.Platform
+import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
 import java.lang.reflect.ParameterizedType
 
@@ -33,7 +33,7 @@ abstract class JsonCallback<T> : CacheResultCallback<T> {
                 }
             }
         }
-        Platform.postOnMain(Action {
+        postOnMain(Action {
             onSuccess(result)
         })
     }
