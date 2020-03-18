@@ -12,14 +12,14 @@ import com.tiamosu.fly.http.callback.JsonCallback
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
-import com.tiamosu.fly.integration.extension.lazyViewModel
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
+import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.module.main.data.api.CustomApiService
 import com.tiamosu.fly.module.main.data.bean.Friend
 import com.tiamosu.fly.module.main.ui.viewmodel.MainViewModel
-import com.tiamosu.fly.utils.FragmentUtils
+import com.tiamosu.fly.utils.newInstance
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -40,7 +40,7 @@ class MainFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_enter_other.setOnClickListener {
-            start(FragmentUtils.newInstance(Router.obtainFragmentOtherCls()))
+            start(newInstance(Router.obtainFragmentOtherCls()))
         }
         btn_request.setOnClickListener {
             mainViewModel.requestFriendJson()

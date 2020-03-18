@@ -1,6 +1,6 @@
 package com.tiamosu.fly.http.subscriber
 
-import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.disposables.DisposableHelper
 import io.reactivex.internal.util.EndConsumerHelper
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference
  * @date 2020/3/11.
  */
 abstract class BaseSubscriber<T>() : Disposable,
-    ErrorHandleSubscriber<T>(FlyUtils.getAppComponent().rxErrorHandler()) {
+    ErrorHandleSubscriber<T>(getAppComponent().rxErrorHandler()) {
 
     private val upstream = AtomicReference<Disposable>()
 

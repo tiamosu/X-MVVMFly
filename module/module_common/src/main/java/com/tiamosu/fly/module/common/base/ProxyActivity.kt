@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.NonNull
 import com.tiamosu.fly.module.common.R
-import com.tiamosu.fly.utils.FragmentUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkArgument
+import com.tiamosu.fly.utils.newInstance
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**
@@ -35,13 +35,10 @@ abstract class ProxyActivity : BaseActivity() {
 
     protected open fun loadRootFragment(containerId: Int) {
         if (getLayoutId() > 0 && containerId == R.id.delegate_container) {
-            Preconditions.checkArgument(
-                false,
-                "you should override loadRootFragment(containerId)!"
-            )
+            checkArgument(false, "you should override loadRootFragment(containerId)!")
         }
         if (findFragment(getRootFragment()) == null) {
-            loadRootFragment(containerId, FragmentUtils.newInstance(getRootFragment()))
+            loadRootFragment(containerId, newInstance(getRootFragment()))
         }
     }
 

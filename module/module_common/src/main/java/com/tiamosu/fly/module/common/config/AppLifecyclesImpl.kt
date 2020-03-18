@@ -13,7 +13,7 @@ import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.module.common.BuildConfig
-import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.getAppComponent
 import me.yokeyword.fragmentation.Fragmentation
 import me.yokeyword.fragmentation.helper.ExceptionHandler
 import okhttp3.ConnectionPool
@@ -60,7 +60,7 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
                 .setRetryCount(3)
                 .setRetryDelay(2)
                 .setOkHttpConnectionPool(ConnectionPool())
-                .setCallbackExecutor(FlyUtils.getAppComponent().executorService())
+                .setCallbackExecutor(getAppComponent().executorService())
                 .addCommonHeaders(httpHeaders)
         }
     }

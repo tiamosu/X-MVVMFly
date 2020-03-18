@@ -6,7 +6,8 @@ import android.content.res.Configuration
 import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.component.AppComponent
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
+import com.tiamosu.fly.utils.checkState
 
 /**
  * @author tiamosu
@@ -54,15 +55,11 @@ open class BaseFlyApplication : Application(), IFlyApp {
      * [AppComponent] 接口中声明的方法所返回的实例, 在 [getAppComponent] 拿到对象后都可以直接使用
      *
      * @return [AppComponent]
-     * @see [com.tiamosu.fly.utils.FlyUtils.getAppComponent]
+     * @see [com.tiamosu.fly.utils.getAppComponent]
      */
     override fun getAppComponent(): AppComponent {
-        Preconditions.checkNotNull<Any>(
-            mAppDelegate,
-            "%s cannot be null",
-            IFlyAppLifecycles::class.java.name
-        )
-        Preconditions.checkState(
+        checkNotNull(mAppDelegate, "%s cannot be null", IFlyAppLifecycles::class.java.name)
+        checkState(
             mAppDelegate is IFlyApp,
             "%s must be implements %s",
             IFlyAppLifecycles::class.java.name,

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.base.IFlyBaseView
-import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.isPageVisible
 
 /**
  * @author tiamosu
@@ -31,7 +31,7 @@ class NetworkDelegate {
                     if (isConnected && networkLastStatus == NetworkState.NETWORK_OFF) {
                         isNetReConnect = true
                     }
-                    if (FlyUtils.isPageVisible(owner)) {
+                    if (isPageVisible(owner)) {
                         baseView.onNetworkStateChanged(isConnected)
                         if (isConnected && isNetReConnect) {
                             baseView.onNetReConnect()

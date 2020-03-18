@@ -14,9 +14,9 @@ import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
 import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.http.utils.RxUtils
-import com.tiamosu.fly.utils.FileUtils
-import com.tiamosu.fly.utils.FlyUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkState
+import com.tiamosu.fly.utils.createOrExistsDir
+import com.tiamosu.fly.utils.getAppComponent
 import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Converter
@@ -64,13 +64,13 @@ class FlyHttp {
     private var loggingInterceptor: HttpLoggingInterceptor? = null  //日志拦截器
 
     init {
-        okHttpClientBuilder = FlyUtils.getAppComponent().okHttpClient().newBuilder()
+        okHttpClientBuilder = getAppComponent().okHttpClient().newBuilder()
             .apply {
                 val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory()
                 sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
                 hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             }
-        retrofitBuilder = FlyUtils.getAppComponent().retrofit().newBuilder()
+        retrofitBuilder = getAppComponent().retrofit().newBuilder()
         rxCacheBuilder = RxCache.Builder().init()
             .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
     }
@@ -333,7 +333,7 @@ class FlyHttp {
      * 全局设置缓存的版本，默认为1，缓存的版本号
      */
     fun setCacheVersion(cacheVersion: Int): FlyHttp {
-        Preconditions.checkState(cacheVersion >= 0, "cacheVersion must > 0")
+        checkState(cacheVersion >= 0, "cacheVersion must > 0")
         rxCacheBuilder.appVersion(cacheVersion)
         return this
     }
@@ -490,8 +490,8 @@ class FlyHttp {
          * 获取缓存的路劲
          */
         fun getCacheDirectory(): File? {
-            return instance.cacheDirectory ?: FileUtils.createOrExistsDir(
-                File(FlyUtils.getAppComponent().cacheFile(), "http")
+            return instance.cacheDirectory ?: createOrExistsDir(
+                File(getAppComponent().cacheFile(), "http")
             )
         }
 

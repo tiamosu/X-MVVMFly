@@ -4,14 +4,14 @@ import android.app.Application
 import android.text.TextUtils
 import com.tiamosu.fly.http.BaseUrl
 import com.tiamosu.fly.http.GlobalHttpHandler
+import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
 import com.tiamosu.fly.integration.IRepositoryManager
 import com.tiamosu.fly.integration.cache.Cache
 import com.tiamosu.fly.integration.cache.CacheType
 import com.tiamosu.fly.integration.cache.IntelligentCache
 import com.tiamosu.fly.integration.cache.LruCache
-import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
-import com.tiamosu.fly.utils.FileUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
+import com.tiamosu.fly.utils.getCacheFile
 import dagger.Module
 import dagger.Provides
 import me.jessyan.rxerrorhandler.handler.listener.ResponseErrorListener
@@ -110,7 +110,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
     @Singleton
     @Provides
     internal fun provideCacheFile(): File {
-        return mCacheFile ?: FileUtils.getCacheFile()
+        return mCacheFile ?: getCacheFile()
     }
 
     @Singleton
@@ -193,10 +193,8 @@ class GlobalConfigModule private constructor(builder: Builder) {
         }
 
         fun baseurl(baseUrl: BaseUrl): Builder {
-            this.mBaseUrl = Preconditions.checkNotNull(
-                baseUrl,
-                BaseUrl::class.java.canonicalName!! + "can not be null."
-            )
+            this.mBaseUrl =
+                checkNotNull(baseUrl, BaseUrl::class.java.canonicalName!! + "can not be null.")
             return this
         }
 

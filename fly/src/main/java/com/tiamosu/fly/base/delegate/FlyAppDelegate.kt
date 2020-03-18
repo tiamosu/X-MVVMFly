@@ -15,8 +15,7 @@ import com.tiamosu.fly.di.module.GlobalConfigModule
 import com.tiamosu.fly.integration.ConfigModule
 import com.tiamosu.fly.integration.ManifestParser
 import com.tiamosu.fly.integration.cache.IntelligentCache
-import com.tiamosu.fly.utils.FlyUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
 import java.util.*
 
 /**
@@ -152,10 +151,10 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
      * 在 [getAppComponent] 拿到对象后都可以直接使用
      *
      * @return AppComponent
-     * @see FlyUtils.getAppComponent
+     * @see com.tiamosu.fly.utils.getAppComponent
      */
     override fun getAppComponent(): AppComponent {
-        Preconditions.checkNotNull<Any>(
+        checkNotNull(
             mAppComponent,
             "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
             AppComponent::class.java.name, javaClass.name, if (mApplication == null)

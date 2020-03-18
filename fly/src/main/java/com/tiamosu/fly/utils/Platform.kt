@@ -1,3 +1,5 @@
+@file:JvmName("Platform")
+
 package com.tiamosu.fly.utils
 
 import io.reactivex.Completable
@@ -7,21 +9,17 @@ import io.reactivex.functions.Action
 
 /**
  * @author tiamosu
- * @date 2018/4/24.
+ * @date 2020/3/18.
  */
-object Platform {
 
-    @JvmStatic
-    fun postOnMain(action: Action) {
-        Completable.fromAction(action)
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-    }
+fun postOnMain(action: Action) {
+    Completable.fromAction(action)
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .subscribe()
+}
 
-    @JvmStatic
-    fun post(scheduler: Scheduler, action: Action) {
-        Completable.fromAction(action)
-            .subscribeOn(scheduler)
-            .subscribe()
-    }
+fun post(scheduler: Scheduler, action: Action) {
+    Completable.fromAction(action)
+        .subscribeOn(scheduler)
+        .subscribe()
 }

@@ -3,8 +3,8 @@ package com.tiamosu.fly.http.imageloader
 import android.content.Context
 import androidx.annotation.NonNull
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.utils.FlyUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
+import com.tiamosu.fly.utils.getAppComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,9 +23,10 @@ class ImageLoader @Inject constructor() {
      * 加载图片
      */
     fun <T : ImageConfig> loadImage(context: Context, config: T) {
-        Preconditions.checkNotNull<Any>(
+        checkNotNull(
             mStrategy, "Please implement BaseImageLoaderStrategy "
-                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
+                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) "
+                    + "in the applyOptions method of ConfigModule"
         )
         this.mStrategy!!.loadImage(context, config)
     }
@@ -34,9 +35,10 @@ class ImageLoader @Inject constructor() {
      * 停止加载或清理缓存
      */
     fun <T : ImageConfig> clear(context: Context, config: T) {
-        Preconditions.checkNotNull<Any>(
+        checkNotNull(
             mStrategy, "Please implement BaseImageLoaderStrategy "
-                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
+                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) "
+                    + "in the applyOptions method of ConfigModule"
         )
         this.mStrategy!!.clear(context, config)
     }
@@ -45,13 +47,13 @@ class ImageLoader @Inject constructor() {
 
         @JvmStatic
         fun <T : ImageConfig> loadImage(config: T) {
-            FlyUtils.getAppComponent().imageLoader()
+            getAppComponent().imageLoader()
                 .loadImage(Utils.getApp(), config)
         }
 
         @JvmStatic
         fun <T : ImageConfig> clear(config: T) {
-            FlyUtils.getAppComponent().imageLoader()
+            getAppComponent().imageLoader()
                 .clear(Utils.getApp(), config)
         }
     }

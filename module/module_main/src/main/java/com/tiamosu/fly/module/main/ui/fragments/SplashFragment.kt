@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
-import com.tiamosu.fly.utils.FragmentUtils
+import com.tiamosu.fly.utils.newInstance
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**
@@ -23,7 +23,7 @@ class SplashFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_enter_main.setOnClickListener {
-            startWithPop(FragmentUtils.newInstance(MainFragment::class.java))
+            startWithPop(newInstance(MainFragment::class.java))
         }
     }
 

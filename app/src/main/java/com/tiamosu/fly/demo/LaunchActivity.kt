@@ -3,7 +3,7 @@ package com.tiamosu.fly.demo
 import com.tiamosu.fly.module.common.base.ProxyActivity
 import com.tiamosu.fly.module.main.ui.fragments.MainFragment
 import com.tiamosu.fly.module.main.ui.fragments.SplashFragment
-import com.tiamosu.fly.utils.FragmentUtils
+import com.tiamosu.fly.utils.newInstance
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator
 import me.yokeyword.fragmentation.anim.FragmentAnimator
@@ -18,7 +18,7 @@ class LaunchActivity : ProxyActivity() {
         if (findFragment(getRootFragment()) == null
             && findFragment(MainFragment::class.java) == null
         ) {
-            loadRootFragment(containerId, FragmentUtils.newInstance(getRootFragment()))
+            loadRootFragment(containerId, newInstance(getRootFragment()))
         }
     }
 

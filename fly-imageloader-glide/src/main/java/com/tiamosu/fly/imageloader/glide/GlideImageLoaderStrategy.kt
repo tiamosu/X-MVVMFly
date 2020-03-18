@@ -16,7 +16,8 @@ import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
 import com.tiamosu.fly.http.imageloader.glide.GlideAppliesOptions
 import com.tiamosu.fly.http.imageloader.glide.GlideFly
 import com.tiamosu.fly.http.imageloader.glide.GlideRequest
-import com.tiamosu.fly.utils.Platform
+import com.tiamosu.fly.utils.post
+import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 
@@ -168,11 +169,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         if (config.mIsClearDiskCache) {//清除本地缓存
-            Platform.post(Schedulers.io(), Action { Glide.get(context).clearDiskCache() })
+            post(Schedulers.io(), Action { Glide.get(context).clearDiskCache() })
         }
 
         if (config.mIsClearMemory) {//清除内存缓存
-            Platform.postOnMain(Action { Glide.get(context).clearMemory() })
+            postOnMain(Action { Glide.get(context).clearMemory() })
         }
     }
 

@@ -13,9 +13,9 @@ import com.tiamosu.fly.http.interceptors.*
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
-import com.tiamosu.fly.integration.extension.isInitialized
-import com.tiamosu.fly.utils.FlyUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
+import com.tiamosu.fly.utils.getAppComponent
+import com.tiamosu.fly.utils.isInitialized
 import io.reactivex.Observable
 import okhttp3.*
 import retrofit2.CallAdapter
@@ -443,17 +443,16 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
             FIRSTREMOTE, FIRSTCACHE, ONLYREMOTE, ONLYCACHE, CACHEANDREMOTE, CACHEANDREMOTEDISTINCT -> {
                 interceptors.add(NoCacheInterceptor())
                 return if (diskConverter == null) {
-                    rxCacheBuilder.cachekey(
-                            Preconditions.checkNotNull(cacheKey, "cacheKey == null")
-                        )
-                        .cacheTime(cacheTime)
-                    rxCacheBuilder
+                    rxCacheBuilder.also {
+                        it.cachekey(checkNotNull(cacheKey, "cacheKey == null"))
+                            .cacheTime(cacheTime)
+                    }
                 } else {
-                    val cacheBuilder: RxCache.Builder = FlyHttp.getRxCache().newBuilder()
-                    cacheBuilder.diskConverter(diskConverter)
-                        .cachekey(Preconditions.checkNotNull(cacheKey, "cacheKey == null"))
-                        .cacheTime(cacheTime)
-                    cacheBuilder
+                    FlyHttp.getRxCache().newBuilder().also {
+                        it.diskConverter(diskConverter)
+                            .cachekey(checkNotNull(cacheKey, "cacheKey == null"))
+                            .cacheTime(cacheTime)
+                    }
                 }
             }
         }
@@ -471,7 +470,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
             it.let(retrofitBuilder::client)
         }
         retrofit = retrofitBuilder.build()
-        apiService = FlyUtils.getAppComponent().repositoryManager()
+        apiService = getAppComponent().repositoryManager()
             .obtainRetrofitService(ApiService::class.java, retrofit)
         return RequestCall(this)
     }

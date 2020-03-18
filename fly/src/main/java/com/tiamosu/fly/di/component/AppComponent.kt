@@ -6,9 +6,9 @@ import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.di.module.AppModule
 import com.tiamosu.fly.di.module.ClientModule
 import com.tiamosu.fly.di.module.GlobalConfigModule
+import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.integration.IRepositoryManager
 import com.tiamosu.fly.integration.cache.Cache
-import com.tiamosu.fly.http.imageloader.ImageLoader
 import dagger.BindsInstance
 import dagger.Component
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutorService
 import javax.inject.Singleton
 
 /**
- * 可通过 [com.tiamosu.fly.utils.FlyUtils.getAppComponent] 拿到此接口的实现类
+ * 可通过 [com.tiamosu.fly.utils.getAppComponent] 拿到此接口的实现类
  * 拥有此接口的实现类即可调用对应的方法拿到 Dagger 提供的对应实例
  *
  * @author tiamosu

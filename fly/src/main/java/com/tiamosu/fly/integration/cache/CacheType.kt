@@ -1,7 +1,7 @@
 package com.tiamosu.fly.integration.cache
 
 import android.content.Context
-import com.tiamosu.fly.integration.extension.activityManager
+import com.tiamosu.fly.utils.activityManager
 
 /**
  * 构建 [Cache] 时,使用 [CacheType] 中声明的类型,来区分不同的模块

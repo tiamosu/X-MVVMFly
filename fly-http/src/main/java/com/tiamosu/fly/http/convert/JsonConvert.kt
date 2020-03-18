@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.convert
 
 import com.google.gson.JsonSyntaxException
 import com.tiamosu.fly.http.callback.IGenericsSerializator
-import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.getAppComponent
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -24,8 +24,7 @@ class JsonConvert : IGenericsSerializator {
             }
             else -> {
                 try {
-                    val gson = FlyUtils.getAppComponent().gson()
-                    gson.fromJson(response, classOfT)
+                    getAppComponent().gson().fromJson(response, classOfT)
                 } catch (e: JsonSyntaxException) {
                     null
                 }

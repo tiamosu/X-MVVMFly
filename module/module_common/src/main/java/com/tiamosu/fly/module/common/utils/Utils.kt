@@ -1,25 +1,18 @@
-@file:JvmName("FlyUtils")
-@file:JvmMultifileClass
+@file:JvmName("Utils")
 
-package com.tiamosu.fly.integration.extension
+package com.tiamosu.fly.module.common.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
-import com.tiamosu.fly.integration.ViewModelFactory
-import kotlin.reflect.KProperty0
-import kotlin.reflect.jvm.isAccessible
+import com.tiamosu.fly.module.common.base.BaseViewModel
+import com.tiamosu.fly.module.common.integration.ViewModelFactory
 
 /**
  * @author tiamosu
- * @date 2020/2/28.
+ * @date 2020/3/18.
  */
-fun <T> KProperty0<T>.isInitialized(): Boolean {
-    isAccessible = true
-    return (getDelegate() as? Lazy<*>)?.isInitialized() ?: true
-}
-
 @JvmOverloads
 fun <VM : ViewModel> viewModel(
     clazz: Class<VM>,
@@ -40,7 +33,11 @@ fun <VM : ViewModel> viewModel(
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelFactory()
 ): VM {
-    return ViewModelProvider(this, factory).get(clazz)
+    val vm = ViewModelProvider(this, factory).get(clazz)
+    if (vm is BaseViewModel) {
+
+    }
+    return vm
 }
 
 /**

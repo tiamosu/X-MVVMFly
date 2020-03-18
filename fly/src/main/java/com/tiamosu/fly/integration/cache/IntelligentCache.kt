@@ -1,6 +1,7 @@
 package com.tiamosu.fly.integration.cache
 
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.integration.cache.IntelligentCache.Companion.KEY_KEEP
+import com.tiamosu.fly.utils.checkNotNull
 import java.util.*
 
 /**
@@ -133,7 +134,7 @@ class IntelligentCache<V>(size: Int) : Cache<String, V> {
          */
         @JvmStatic
         fun getKeyOfKeep(key: String): String {
-            Preconditions.checkNotNull<Any>(key, "key == null")
+            checkNotNull(key, "key == null")
             return KEY_KEEP + key
         }
     }

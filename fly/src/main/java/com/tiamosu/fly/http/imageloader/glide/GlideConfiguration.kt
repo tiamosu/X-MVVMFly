@@ -17,9 +17,9 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.tiamosu.fly.http.OkHttpUrlLoader
-import com.tiamosu.fly.integration.extension.activityManager
-import com.tiamosu.fly.utils.FileUtils
-import com.tiamosu.fly.utils.FlyUtils
+import com.tiamosu.fly.utils.activityManager
+import com.tiamosu.fly.utils.createOrExistsDir
+import com.tiamosu.fly.utils.getAppComponent
 import java.io.File
 import java.io.InputStream
 
@@ -35,13 +35,12 @@ class GlideConfiguration : AppGlideModule() {
 
     @SuppressLint("CheckResult")
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        val appComponent = FlyUtils.getAppComponent()
+        val appComponent = getAppComponent()
         builder.setDiskCache {
             // Careful: the external cache directory doesn't enforce permissions
             DiskLruCacheWrapper.create(
-                FileUtils.createOrExistsDir(
-                    File(appComponent.cacheFile(), "glide")
-                ), IMAGE_DISK_CACHE_MAX_SIZE.toLong()
+                createOrExistsDir(File(appComponent.cacheFile(), "glide")),
+                IMAGE_DISK_CACHE_MAX_SIZE.toLong()
             )
         }
 
@@ -75,7 +74,7 @@ class GlideConfiguration : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         //Glide 默认使用 HttpURLConnection 做网络请求,在这切换成 Okhttp 请求
-        val appComponent = FlyUtils.getAppComponent()
+        val appComponent = getAppComponent()
         registry.replace(
             GlideUrl::class.java, InputStream::class.java,
             OkHttpUrlLoader.Factory(appComponent.okHttpClient())

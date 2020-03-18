@@ -1,4 +1,4 @@
-package com.tiamosu.fly.integration
+package com.tiamosu.fly.module.common.integration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

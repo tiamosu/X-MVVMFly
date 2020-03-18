@@ -2,8 +2,8 @@ package com.tiamosu.fly.http.request
 
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.request.base.BaseRequest
-import com.tiamosu.fly.utils.FlyUtils
-import com.tiamosu.fly.utils.Preconditions
+import com.tiamosu.fly.utils.checkNotNull
+import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 
@@ -17,20 +17,20 @@ open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
     private var observable: Observable<ResponseBody>? = null
 
     fun <R> create(serviceClass: Class<R>): R? {
-        checkvalidate()
-        return FlyUtils.getAppComponent().repositoryManager()
+        checkValidate()
+        return getAppComponent().repositoryManager()
             .obtainRetrofitService(serviceClass, retrofit)
     }
 
     fun <T> apiCall(observable: Observable<ResponseBody>?, callback: Callback<T>) {
-        checkvalidate()
+        checkValidate()
         this.observable = observable
         RequestCall(this)
             .execute(callback)
     }
 
-    private fun checkvalidate() {
-        Preconditions.checkNotNull(retrofit, "请先调用build()才能使用")
+    private fun checkValidate() {
+        checkNotNull(retrofit, "请先调用build()才能使用")
     }
 
     override fun generateRequest(): Observable<ResponseBody>? {
