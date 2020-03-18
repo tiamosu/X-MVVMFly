@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.model.Progress
+import com.tiamosu.fly.http.model.Response
 
 /**
  * 描述：回调的基类
@@ -18,12 +19,12 @@ interface Callback<T> {
     /**
      * 对返回数据进行操作的回调，UI线程
      */
-    fun onSuccess(t: T?)
+    fun onSuccess(response: Response<T>)
 
     /**
      * 请求失败，响应错误，数据解析错误等，都会回调该方法，UI线程
      */
-    fun onError(e: Throwable)
+    fun onError(response: Response<T>)
 
     /**
      * 请求网络结束后，UI线程

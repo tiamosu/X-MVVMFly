@@ -2,8 +2,11 @@ package com.tiamosu.fly.module.main.ui.viewmodel
 
 import android.util.Log
 import com.tiamosu.fly.http.FlyHttp
+import com.tiamosu.fly.http.callback.JsonCallback
+import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.module.common.base.BaseViewModel
 import com.tiamosu.fly.module.main.data.api.APIs
+import com.tiamosu.fly.module.main.data.bean.Friend
 
 /**
  * @author tiamosu
@@ -11,24 +14,28 @@ import com.tiamosu.fly.module.main.data.api.APIs
  */
 class MainViewModel : BaseViewModel() {
 
-    fun requestFriendJson() {
+    fun requestFriendString() {
         FlyHttp[APIs.FRIEND_JSON]
             .build()
             .execute(stringCallback {
-                onStart {
-                    Log.e("xia", "onStart")
-                }
-                onFinish {
-                    Log.e("xia", "onFinally")
-                }
-
-                onError {
-                    Log.e("xia", "onError:${it.message}")
-                }
-
                 onSuccess {
-                    Log.e("xia", "onResponse:$it")
+                    Log.e("xia", "onSuccess:$it")
                 }
             })
+    }
+
+    fun requestFriendGson() {
+        FlyHttp[APIs.FRIEND_JSON]
+            .build()
+            .execute(object : JsonCallback<Friend>() {
+                override fun onSuccess(response: Response<Friend>) {
+                    Log.e("xia", "onSuccess:$response")
+                }
+            })
+//            .execute(jsonCallback<Friend> {
+//                onSuccess {
+//                    Log.e("xia", "onSuccess:$it")
+//                }
+//            })
     }
 }

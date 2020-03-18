@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.subscriber
 
 import com.tiamosu.fly.http.callback.ResultCallback
+import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
@@ -24,10 +25,11 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
         try {
             val body = callback?.convertResponse(t)
             postOnMain(Action {
-                callback?.onSuccess(body)
+                val response = Response.success(false, body)
+                callback?.onSuccess(response)
             })
-        } catch (t: Throwable) {
-            onError(t)
+        } catch (throwable: Throwable) {
+            onError(false, throwable)
         }
     }
 
@@ -35,14 +37,19 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
         if (request.isGlobalErrorHandle) {
             super.onError(t)
         }
-        postOnMain(Action {
-            callback?.onError(t)
-            callback?.onFinish()
-        })
+        onError(false, t)
     }
 
     override fun onComplete() {
         postOnMain(Action {
+            callback?.onFinish()
+        })
+    }
+
+    private fun onError(isFromCache: Boolean, throwable: Throwable?) {
+        postOnMain(Action {
+            val response = Response.error<T>(isFromCache, throwable)
+            callback?.onError(response)
             callback?.onFinish()
         })
     }

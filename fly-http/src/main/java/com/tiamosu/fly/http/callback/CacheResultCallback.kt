@@ -1,7 +1,5 @@
 package com.tiamosu.fly.http.callback
 
-import com.tiamosu.fly.http.cache.model.CacheResult
-
 /**
  * 描述：返回字符串（缓存）
  *
@@ -18,10 +16,5 @@ abstract class CacheResultCallback<T> : AbsCallback<T>() {
      * @throws Exception 转换过程发生的异常
      */
     @Throws(Throwable::class)
-    abstract fun convertResponse(string: String?)
-
-    /**
-     * 对返回数据进行操作的回调，UI线程
-     */
-    open fun onSuccess(cacheResult: CacheResult<String>) {}
+    abstract fun convertResponse(string: String?): T?
 }

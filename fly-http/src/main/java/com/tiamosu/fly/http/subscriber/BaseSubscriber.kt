@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference
  * @author tiamosu
  * @date 2020/3/11.
  */
-abstract class BaseSubscriber<T>() : Disposable,
+abstract class BaseSubscriber<T> : Disposable,
     ErrorHandleSubscriber<T>(getAppComponent().rxErrorHandler()) {
 
     private val upstream = AtomicReference<Disposable>()

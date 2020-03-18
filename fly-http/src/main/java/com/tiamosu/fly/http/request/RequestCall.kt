@@ -29,7 +29,7 @@ class RequestCall(private val request: BaseRequest<*>) {
                     ?.compose(if (request.isSyncRequest) main<String>() else io<String>())
                     ?.compose(request.rxCache?.transformer(request.cacheMode))
                     ?.retryWhen(RetryWithDelay(request.retryCount, request.retryDelay))
-                    ?.subscribeWith(CacheCallbackSubscriber(request))
+                    ?.subscribeWith(CacheCallbackSubscriber<T>(request))
             }
             else -> {
                 request.generateRequest()

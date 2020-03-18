@@ -1,6 +1,7 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.model.Progress
+import com.tiamosu.fly.http.model.Response
 
 /**
  * 描述：抽象的回调接口
@@ -12,7 +13,7 @@ abstract class AbsCallback<T> : Callback<T> {
 
     override fun onStart() {}
 
-    override fun onError(e: Throwable) {}
+    override fun onError(response: Response<T>) {}
 
     override fun onFinish() {}
 

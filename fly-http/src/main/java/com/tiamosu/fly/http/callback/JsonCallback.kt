@@ -1,8 +1,6 @@
 package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.convert.JsonConvert
-import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.functions.Action
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -19,7 +17,7 @@ abstract class JsonCallback<T> : CacheResultCallback<T> {
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun convertResponse(string: String?) {
+    override fun convertResponse(string: String?): T? {
         var result: T? = null
         string?.let {
             var type = javaClass.genericSuperclass
@@ -33,8 +31,6 @@ abstract class JsonCallback<T> : CacheResultCallback<T> {
                 }
             }
         }
-        postOnMain(Action {
-            onSuccess(result)
-        })
+        return result
     }
 }

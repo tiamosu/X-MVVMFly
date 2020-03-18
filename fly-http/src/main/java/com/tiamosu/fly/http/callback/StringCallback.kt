@@ -1,8 +1,5 @@
 package com.tiamosu.fly.http.callback
 
-import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.functions.Action
-
 /**
  * 描述：返回字符串类型的数据
  *
@@ -11,9 +8,7 @@ import io.reactivex.functions.Action
  */
 abstract class StringCallback : CacheResultCallback<String>() {
 
-    override fun convertResponse(string: String?) {
-        postOnMain(Action {
-            onSuccess(string)
-        })
+    override fun convertResponse(string: String?): String? {
+        return string
     }
 }

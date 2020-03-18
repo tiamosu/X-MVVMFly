@@ -5,13 +5,8 @@ import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.http.FlyHttp
-import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
-import com.tiamosu.fly.http.cache.model.CacheMode
-import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.callback.JsonCallback
-import com.tiamosu.fly.http.callback.StringCallback
-import com.tiamosu.fly.http.interceptors.HeadersInterceptor
-import com.tiamosu.fly.http.model.HttpHeaders
+import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
 import com.tiamosu.fly.module.common.utils.lazyViewModel
@@ -43,7 +38,7 @@ class MainFragment : BaseFragment() {
             start(newInstance(Router.obtainFragmentOtherCls()))
         }
         btn_request.setOnClickListener {
-            mainViewModel.requestFriendJson()
+            mainViewModel.requestFriendGson()
 
 //            FlyHttp["/friend/json"]
 //                .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
@@ -71,8 +66,8 @@ class MainFragment : BaseFragment() {
             val observable = custom.create(CustomApiService::class.java)
                 ?.getFriend(custom.url)
             custom.apiCall(observable, object : JsonCallback<Friend>() {
-                override fun onSuccess(t: Friend?) {
-                    Log.e("xia", "result=========:$t")
+                override fun onSuccess(response: Response<Friend>) {
+                    Log.e("xia", "result=========:$response")
                 }
             })
         }
