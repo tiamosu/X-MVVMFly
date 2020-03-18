@@ -12,8 +12,8 @@ import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
-import com.tiamosu.fly.http.utils.FlyHttpLog
-import com.tiamosu.fly.http.utils.RxUtils
+import com.tiamosu.fly.http.utils.i
+import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.createOrExistsDir
 import com.tiamosu.fly.utils.getAppComponent
@@ -95,7 +95,7 @@ class FlyHttp {
                 it.setLevel(HttpLoggingInterceptor.Level.BODY)
             }
         }
-        FlyHttpLog.debug(tempTag!!, isPrintException)
+        debug(tempTag!!, isPrintException)
         return this
     }
 
@@ -523,10 +523,8 @@ class FlyHttp {
         @SuppressLint("CheckResult")
         fun clearCache() {
             getRxCache().clear()
-                .compose(RxUtils.main())
-                .subscribe(
-                    { FlyHttpLog.i("clearCache success!!!") },
-                    { FlyHttpLog.i("clearCache err!!!") })
+                .compose(main())
+                .subscribe({ i("clearCache success!!!") }, { i("clearCache err!!!") })
         }
 
         /**
@@ -535,10 +533,8 @@ class FlyHttp {
         @SuppressLint("CheckResult")
         fun removeCache(key: String?) {
             getRxCache().remove(key)
-                .compose(RxUtils.main())
-                .subscribe(
-                    { FlyHttpLog.i("removeCache success!!!") },
-                    { FlyHttpLog.i("removeCache err!!!") })
+                .compose(main())
+                .subscribe({ i("removeCache success!!!") }, { i("removeCache err!!!") })
         }
     }
 
