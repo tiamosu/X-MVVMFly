@@ -352,11 +352,13 @@ class FlyHttp {
         const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
         const val DEFAULT_CACHE_NEVER_EXPIRE = -1L   //缓存过期时间，默认永久缓存
 
+        @JvmField
         val instance = Holder.INSTANCE
 
         /**
          * get请求
          */
+        @JvmStatic
         operator fun get(url: String): GetRequest {
             return GetRequest(url)
         }
@@ -364,6 +366,7 @@ class FlyHttp {
         /**
          * post请求
          */
+        @JvmStatic
         fun post(url: String): PostRequest {
             return PostRequest(url)
         }
@@ -371,6 +374,7 @@ class FlyHttp {
         /**
          * put请求
          */
+        @JvmStatic
         fun put(url: String): PutRequest {
             return PutRequest(url)
         }
@@ -378,6 +382,7 @@ class FlyHttp {
         /**
          * delete请求
          */
+        @JvmStatic
         fun delete(url: String): DeleteRequest {
             return DeleteRequest(url)
         }
@@ -385,6 +390,7 @@ class FlyHttp {
         /**
          * 文件下载
          */
+        @JvmStatic
         fun download(url: String): DownloadRequest {
             return DownloadRequest(url)
         }
@@ -392,6 +398,7 @@ class FlyHttp {
         /**
          * 文件上传
          */
+        @JvmStatic
         fun upload(url: String): UploadRequest {
             return UploadRequest(url)
         }
@@ -399,22 +406,27 @@ class FlyHttp {
         /**
          * 自定求请求
          */
+        @JvmStatic
         fun custom(url: String): CustomRequest {
             return CustomRequest(url)
         }
 
+        @JvmStatic
         fun getOkHttpClientBuilder(): OkHttpClient.Builder {
             return instance.okHttpClientBuilder
         }
 
+        @JvmStatic
         fun getOkHttpClient(): OkHttpClient {
             return instance.okHttpClientBuilder.build()
         }
 
+        @JvmStatic
         fun getRetrofitBuilder(): Retrofit.Builder {
             return instance.retrofitBuilder
         }
 
+        @JvmStatic
         fun getRetrofit(): Retrofit {
             return instance.retrofitBuilder.build()
         }
@@ -422,6 +434,7 @@ class FlyHttp {
         /**
          * 获取全局的cookie实例
          */
+        @JvmStatic
         fun getCookieJar(): CookieManger? {
             return instance.cookieJar
         }
@@ -429,6 +442,7 @@ class FlyHttp {
         /**
          * 获取全局baseurl
          */
+        @JvmStatic
         fun getBaseUrl(): String? {
             var baseUrl = instance.baseUrl
             if (TextUtils.isEmpty(baseUrl)) {
@@ -441,6 +455,7 @@ class FlyHttp {
         /**
          * 超时重试次数
          */
+        @JvmStatic
         fun getRetryCount(): Int {
             return instance.retryCount
         }
@@ -448,6 +463,7 @@ class FlyHttp {
         /**
          * 超时重试延迟时间
          */
+        @JvmStatic
         internal fun getRetryDelay(): Int {
             return instance.retryDelay
         }
@@ -455,6 +471,7 @@ class FlyHttp {
         /**
          * 获取全局公共请求参数
          */
+        @JvmStatic
         fun getCommonParams(): HttpParams? {
             return instance.commonParams
         }
@@ -462,6 +479,7 @@ class FlyHttp {
         /**
          * 获取全局公共请求头
          */
+        @JvmStatic
         fun getCommonHeaders(): HttpHeaders? {
             return instance.commonHeaders
         }
@@ -469,6 +487,7 @@ class FlyHttp {
         /**
          * 获取OkHttp的缓存
          */
+        @JvmStatic
         fun getHttpCache(): Cache? {
             return instance.cache
         }
@@ -476,6 +495,7 @@ class FlyHttp {
         /**
          * 获取全局的缓存模式
          */
+        @JvmStatic
         fun getCacheMode(): CacheMode {
             return instance.cacheMode
         }
@@ -483,6 +503,7 @@ class FlyHttp {
         /**
          * 获取全局的缓存过期时间
          */
+        @JvmStatic
         fun getCacheTime(): Long {
             return instance.cacheTime
         }
@@ -490,6 +511,7 @@ class FlyHttp {
         /**
          * 获取缓存的路劲
          */
+        @JvmStatic
         fun getCacheDirectory(): File? {
             return instance.cacheDirectory ?: createOrExistsDir(
                 File(getAppComponent().cacheFile(), "http")
@@ -499,6 +521,7 @@ class FlyHttp {
         /**
          * 获取全局的缓存大小
          */
+        @JvmStatic
         fun getCacheMaxSize(): Long {
             return instance.cacheMaxSize
         }
@@ -506,14 +529,17 @@ class FlyHttp {
         /**
          * 对外暴露RxCache，方便自定义
          */
+        @JvmStatic
         fun getRxCacheBuilder(): RxCache.Builder {
             return instance.rxCacheBuilder
         }
 
+        @JvmStatic
         fun getRxCache(): RxCache {
             return instance.rxCacheBuilder.build()
         }
 
+        @JvmStatic
         fun getLoggingInterceptor(): HttpLoggingInterceptor? {
             return instance.loggingInterceptor
         }
@@ -522,6 +548,7 @@ class FlyHttp {
          * 清空缓存
          */
         @SuppressLint("CheckResult")
+        @JvmStatic
         fun clearCache() {
             getRxCache().clear()
                 .compose(main())
@@ -532,6 +559,7 @@ class FlyHttp {
          * 移除缓存（key）
          */
         @SuppressLint("CheckResult")
+        @JvmStatic
         fun removeCache(key: String?) {
             getRxCache().remove(key)
                 .compose(main())

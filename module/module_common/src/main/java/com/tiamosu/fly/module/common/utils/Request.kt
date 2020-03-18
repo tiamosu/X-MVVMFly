@@ -1,5 +1,3 @@
-@file:JvmName("Request")
-
 package com.tiamosu.fly.module.common.utils
 
 import com.tiamosu.fly.http.callback.JsonCallback
