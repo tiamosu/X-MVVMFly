@@ -12,11 +12,11 @@ import android.util.Log
 private var isLogEnable = true
 private var tag = "FlyHttp"
 
-fun debug(isEnable: Boolean) {
-    debug(tag, isEnable)
+fun debugLog(isEnable: Boolean) {
+    debugLog(tag, isEnable)
 }
 
-fun debug(logTag: String, isEnable: Boolean) {
+fun debugLog(logTag: String, isEnable: Boolean) {
     tag = logTag
     isLogEnable = isEnable
 }
@@ -61,6 +61,6 @@ fun eLog(tag: String?, msg: String?) {
     if (isLogEnable) Log.e(tag, msg ?: "")
 }
 
-fun printStackTrace(t: Throwable?) {
+fun printStackTraceLog(t: Throwable?) {
     if (isLogEnable && t != null) t.printStackTrace()
 }

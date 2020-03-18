@@ -12,6 +12,7 @@ import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
+import com.tiamosu.fly.http.utils.debugLog
 import com.tiamosu.fly.http.utils.iLog
 import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
@@ -95,7 +96,7 @@ class FlyHttp {
                 it.setLevel(HttpLoggingInterceptor.Level.BODY)
             }
         }
-        debug(tempTag!!, isPrintException)
+        debugLog(tempTag!!, isPrintException)
         return this
     }
 

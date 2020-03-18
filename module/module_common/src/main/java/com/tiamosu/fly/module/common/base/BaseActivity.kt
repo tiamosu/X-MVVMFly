@@ -1,6 +1,7 @@
 package com.tiamosu.fly.module.common.base
 
 import android.util.Log
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.BaseFlyActivity
 
 /**
@@ -10,9 +11,11 @@ import com.tiamosu.fly.base.BaseFlyActivity
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     override fun showError(msg: String?) {
+        ToastUtils.showShort(msg)
     }
 
     override fun showInfo(msg: String?) {
+        ToastUtils.showShort(msg)
     }
 
     override fun showLoading() {

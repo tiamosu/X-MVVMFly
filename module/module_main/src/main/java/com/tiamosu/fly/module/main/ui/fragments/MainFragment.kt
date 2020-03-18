@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
  */
 class MainFragment : BaseFragment() {
 
-    private val mainViewModel: MainViewModel by lazyViewModel(this)
+    private val mainViewModel: MainViewModel by lazyViewModel()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
@@ -45,24 +45,24 @@ class MainFragment : BaseFragment() {
         btn_request.setOnClickListener {
             mainViewModel.requestFriendJson()
 
-            FlyHttp["/friend/json"]
-                .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
-                    put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
-                }))
-                .cacheMode(CacheMode.FIRSTCACHE)
-                .cacheKey(this.javaClass.simpleName)
-                .cacheTime(300)
-                .cacheDiskConverter(SerializableDiskConverter())
-                .build()
-                .execute(object : StringCallback() {
-                    override fun onSuccess(t: String?) {
-//                        Log.e("xia", "t=========:$t")
-                    }
-
-                    override fun onSuccess(cacheResult: CacheResult<String>) {
-                        Log.e("xia", "cacheResult======:$cacheResult")
-                    }
-                })
+//            FlyHttp["/friend/json"]
+//                .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
+//                    put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
+//                }))
+//                .cacheMode(CacheMode.FIRSTCACHE)
+//                .cacheKey(this.javaClass.simpleName)
+//                .cacheTime(300)
+//                .cacheDiskConverter(SerializableDiskConverter())
+//                .build()
+//                .execute(object : StringCallback() {
+//                    override fun onSuccess(t: String?) {
+////                        Log.e("xia", "t=========:$t")
+//                    }
+//
+//                    override fun onSuccess(cacheResult: CacheResult<String>) {
+//                        Log.e("xia", "cacheResult======:$cacheResult")
+//                    }
+//                })
         }
         btn_request_custom.setOnClickListener {
             val custom = FlyHttp.custom("/friend/json").also {
