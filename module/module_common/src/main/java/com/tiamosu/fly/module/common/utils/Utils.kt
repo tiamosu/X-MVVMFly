@@ -1,5 +1,3 @@
-@file:JvmName("Utils")
-
 package com.tiamosu.fly.module.common.utils
 
 import androidx.lifecycle.*
@@ -13,14 +11,6 @@ import com.tiamosu.fly.module.common.integration.ViewModelFactory
  * @author tiamosu
  * @date 2020/3/18.
  */
-@JvmOverloads
-fun <VM : ViewModel> viewModel(
-    clazz: Class<VM>,
-    store: ViewModelStore,
-    factory: ViewModelProvider.Factory = ViewModelFactory()
-): VM {
-    return ViewModelProvider(store, factory).get(clazz)
-}
 
 /**
  * 创建ViewModel的工厂方法
@@ -29,7 +19,6 @@ fun <VM : ViewModel> viewModel(
  * @param factory Factory   用于创建ViewModel对象的工厂
  * @return VM 创建后的实例
  */
-@JvmOverloads
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelFactory()
 ): VM {
