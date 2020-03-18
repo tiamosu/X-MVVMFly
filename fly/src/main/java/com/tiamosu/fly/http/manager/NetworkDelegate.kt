@@ -13,11 +13,12 @@ import com.tiamosu.fly.utils.FlyUtils
 class NetworkDelegate {
     //记录上一次网络连接状态
     private var networkLastStatus = NetworkState.NETWORK_DEFAULT
+
     //网络是否重新连接
     private var isNetReConnect: Boolean = false
 
-    fun addNetworkObserve(baseview: IFlyBaseView) {
-        val owner = baseview as? LifecycleOwner ?: return
+    fun addNetworkObserve(baseView: IFlyBaseView) {
+        val owner = baseView as? LifecycleOwner ?: return
         if (owner is AppCompatActivity) {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
@@ -31,9 +32,9 @@ class NetworkDelegate {
                         isNetReConnect = true
                     }
                     if (FlyUtils.isPageVisible(owner)) {
-                        baseview.onNetworkStateChanged(isConnected)
+                        baseView.onNetworkStateChanged(isConnected)
                         if (isConnected && isNetReConnect) {
-                            baseview.onNetReConnect()
+                            baseView.onNetReConnect()
                             isNetReConnect = false
                         }
                         networkLastStatus = currentNetStatus

@@ -62,6 +62,6 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(vararg argumen
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arguments: Any): Lazy<VM> {
     return lazy {
-        viewModel(*arguments)
+        viewModel<VM>(*arguments)
     }
 }

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.main.data.model
+package com.tiamosu.fly.module.main.data.bean
 
 /**
  * @author tiamosu

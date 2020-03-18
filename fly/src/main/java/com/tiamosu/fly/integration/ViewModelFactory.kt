@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException
  * @date 2020/3/17.
  */
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(vararg val arguments: Any) : ViewModelProvider.Factory {
+class ViewModelFactory(private vararg val arguments: Any) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val constructors = modelClass.constructors

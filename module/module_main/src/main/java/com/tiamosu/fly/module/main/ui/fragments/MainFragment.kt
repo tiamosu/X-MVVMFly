@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.main.ui
+package com.tiamosu.fly.module.main.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +12,13 @@ import com.tiamosu.fly.http.callback.JsonCallback
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
+import com.tiamosu.fly.integration.extension.lazyViewModel
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.module.main.data.api.CustomApiService
-import com.tiamosu.fly.module.main.data.model.Friend
+import com.tiamosu.fly.module.main.data.bean.Friend
+import com.tiamosu.fly.module.main.ui.viewmodel.MainViewModel
 import com.tiamosu.fly.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -25,6 +27,8 @@ import kotlinx.android.synthetic.main.fragment_main.*
  * @date 2020/3/13.
  */
 class MainFragment : BaseFragment() {
+
+    private val mainViewModel: MainViewModel by lazyViewModel(this)
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
@@ -39,6 +43,8 @@ class MainFragment : BaseFragment() {
             start(FragmentUtils.newInstance(Router.obtainFragmentOtherCls()))
         }
         btn_request.setOnClickListener {
+            mainViewModel.requestFriendJson()
+
             FlyHttp["/friend/json"]
                 .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
                     put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
