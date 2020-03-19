@@ -24,7 +24,10 @@ class GlideFragment : BaseFragment() {
     }
 
     override fun initData(bundle: Bundle?) {}
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+    override fun initView(
+        savedInstanceState: Bundle?,
+        contentView: View?
+    ) {
     }
 
     override fun initEvent() {

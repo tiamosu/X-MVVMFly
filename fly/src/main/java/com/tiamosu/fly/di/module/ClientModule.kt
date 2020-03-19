@@ -2,6 +2,7 @@ package com.tiamosu.fly.di.module
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
 import com.tiamosu.fly.http.GlobalHttpHandler
 import com.tiamosu.fly.utils.checkNotNull
 import dagger.Module
@@ -14,6 +15,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -54,6 +56,7 @@ abstract class ClientModule {
          * @param builder       [Retrofit.Builder]
          * @param client        [OkHttpClient]
          * @param httpUrl       [HttpUrl]
+         * @param gson          [Gson]
          *
          * @return [Retrofit]
          */
@@ -65,7 +68,8 @@ abstract class ClientModule {
             configuration: RetrofitConfiguration?,
             builder: Retrofit.Builder,
             client: OkHttpClient,
-            httpUrl: HttpUrl?
+            httpUrl: HttpUrl?,
+            gson: Gson
         ): Retrofit {
 
             checkNotNull(httpUrl, "baseUrl == null")
@@ -74,6 +78,7 @@ abstract class ClientModule {
                 .baseUrl(httpUrl!!)//域名
                 .client(client)//设置 OkHttp
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//使用 RxJava
+                .addConverterFactory(GsonConverterFactory.create(gson))//使用 Gson
 
             configuration?.configRetrofit(application, builder)
             return builder.build()

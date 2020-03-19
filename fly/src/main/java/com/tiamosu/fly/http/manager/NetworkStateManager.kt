@@ -15,7 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.utils.connectivityManager
-import com.tiamosu.fly.integration.livedata.UnPeekLiveData
+import com.tiamosu.fly.integration.bridge.UnPeekLiveData
 
 /**
  * @author tiamosu

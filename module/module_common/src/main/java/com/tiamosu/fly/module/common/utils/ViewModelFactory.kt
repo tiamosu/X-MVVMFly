@@ -5,7 +5,8 @@ import com.tiamosu.fly.module.common.base.BaseViewModel
 import com.tiamosu.fly.module.common.base.IBaseView
 import com.tiamosu.fly.module.common.data.State
 import com.tiamosu.fly.module.common.data.StateType
-import com.tiamosu.fly.module.common.integration.ViewModelFactory
+import java.lang.reflect.Constructor
+import java.lang.reflect.InvocationTargetException
 
 /**
  * @author tiamosu
@@ -20,7 +21,7 @@ import com.tiamosu.fly.module.common.integration.ViewModelFactory
  * @return VM 创建后的实例
  */
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
-    clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelFactory()
+    clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelProviderFactory()
 ): VM {
     return ViewModelProvider(this, factory).get(clazz).also {
         if (it is BaseViewModel && this is IBaseView) {
@@ -54,11 +55,50 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(factory: ViewM
  */
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(vararg arguments: Any): VM {
-    return viewModel(ViewModelFactory(*arguments))
+    return viewModel(ViewModelProviderFactory(*arguments))
 }
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arguments: Any): Lazy<VM> {
     return lazy {
         viewModel<VM>(*arguments)
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class ViewModelProviderFactory(private vararg val arguments: Any) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        val constructors = modelClass.constructors
+        val constructor =
+            find(constructors, object : Predicate<Constructor<*>> {
+                override fun test(element: Constructor<*>): Boolean {
+                    return element.parameterTypes.size == arguments.size
+                }
+            })
+                ?: throw RuntimeException("$this constructor arguments do not match the $modelClass constructor arguments.")
+        return try {
+            constructor.newInstance(*arguments) as T
+        } catch (e: IllegalAccessException) {
+            throw RuntimeException("Cannot create an instance of $modelClass", e)
+        } catch (e: InstantiationException) {
+            throw RuntimeException("Cannot create an instance of $modelClass", e)
+        } catch (e: InvocationTargetException) {
+            throw RuntimeException("Cannot create an instance of $modelClass", e)
+        }
+    }
+
+    internal interface Predicate<T> {
+        fun test(element: T): Boolean
+    }
+
+    companion object {
+        private fun <T> find(array: Array<T>, predicate: Predicate<T>): T? {
+            for (element in array) {
+                if (predicate.test(element)) {
+                    return element
+                }
+            }
+            return null
+        }
     }
 }

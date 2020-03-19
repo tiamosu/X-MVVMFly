@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
+import com.tiamosu.fly.utils.newInstance
+import kotlinx.android.synthetic.main.fragment_http.*
 
 /**
  * @author tiamosu
@@ -16,9 +18,26 @@ class HttpFragment : BaseFragment() {
     }
 
     override fun initData(bundle: Bundle?) {}
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+    override fun initView(
+        savedInstanceState: Bundle?,
+        contentView: View?
+    ) {
     }
 
-    override fun initEvent() {}
+    override fun initEvent() {
+        btn_basic_request.setOnClickListener {
+            start(newInstance(BasicRequestFragment::class.java))
+        }
+        btn_upload.setOnClickListener {
+            start(newInstance(UploadFragment::class.java))
+        }
+        btn_download.setOnClickListener {
+            start(newInstance(DownloadFragment::class.java))
+        }
+        btn_request_cache.setOnClickListener {
+            start(newInstance(CacheFragment::class.java))
+        }
+    }
+
     override fun doBusiness() {}
 }

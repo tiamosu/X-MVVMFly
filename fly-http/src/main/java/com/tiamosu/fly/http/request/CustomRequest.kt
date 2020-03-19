@@ -2,7 +2,6 @@ package com.tiamosu.fly.http.request
 
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.request.base.BaseRequest
-import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.Observable
 import okhttp3.ResponseBody
@@ -30,7 +29,9 @@ open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
     }
 
     private fun checkValidate() {
-        checkNotNull(retrofit, "请先调用build()才能使用")
+        if (retrofit == null) {
+            build()
+        }
     }
 
     override fun generateRequest(): Observable<ResponseBody>? {

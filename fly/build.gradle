@@ -35,6 +35,10 @@ dependencies {
         exclude module: 'retrofit'
         exclude module: 'rxjava'
     }
+    api(Deps.retrofit2_converter_gson) {
+        exclude module: 'gson'
+        exclude module: 'retrofit'
+    }
 
     //gson
     api Deps.gson

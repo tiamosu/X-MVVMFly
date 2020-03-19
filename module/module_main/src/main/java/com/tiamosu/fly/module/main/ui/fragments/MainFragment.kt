@@ -20,7 +20,10 @@ class MainFragment : BaseFragment() {
     }
 
     override fun initData(bundle: Bundle?) {}
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
+    override fun initView(
+        savedInstanceState: Bundle?,
+        contentView: View?
+    ) {
     }
 
     override fun initEvent() {
@@ -29,40 +32,7 @@ class MainFragment : BaseFragment() {
         }
         btn_start_http.setOnClickListener {
             start(newInstance(HttpFragment::class.java))
-
-//            mainViewModel.requestFriendGson()
-//
-//            FlyHttp["/friend/json"]
-//                .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
-//                    put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
-//                }))
-//                .cacheMode(CacheMode.FIRSTCACHE)
-//                .cacheKey(this.javaClass.simpleName)
-//                .cacheTime(300)
-//                .cacheDiskConverter(SerializableDiskConverter())
-//                .build()
-//                .execute(object : StringCallback() {
-//                    override fun onSuccess(t: String?) {
-////                        Log.e("xia", "t=========:$t")
-//                    }
-//
-//                    override fun onSuccess(cacheResult: CacheResult<String>) {
-//                        Log.e("xia", "cacheResult======:$cacheResult")
-//                    }
-//                })
         }
-//        btn_request_custom.setOnClickListener {
-//            val custom = FlyHttp.custom("/friend/json").also {
-//                it.build()
-//            }
-//            val observable = custom.create(CustomApiService::class.java)
-//                ?.getFriend(custom.url)
-//            custom.apiCall(observable, object : JsonCallback<Friend>() {
-//                override fun onSuccess(response: Response<Friend>) {
-//                    Log.e("xia", "result=========:$response")
-//                }
-//            })
-//        }
         btn_start_glide.setOnClickListener {
             start(newInstance(GlideFragment::class.java))
         }

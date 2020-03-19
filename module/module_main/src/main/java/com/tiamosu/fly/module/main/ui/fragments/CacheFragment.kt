@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
-import com.tiamosu.fly.utils.newInstance
-import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**
  * @author tiamosu
- * @date 2020/3/13.
+ * @date 2020/3/19.
  */
-class SplashFragment : BaseFragment() {
+class CacheFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_splash
+        return R.layout.fragment_cache
     }
 
     override fun initData(bundle: Bundle?) {}
@@ -24,11 +22,6 @@ class SplashFragment : BaseFragment() {
     ) {
     }
 
-    override fun initEvent() {
-        btn_enter_main.setOnClickListener {
-            startWithPop(newInstance(MainFragment::class.java))
-        }
-    }
-
+    override fun initEvent() {}
     override fun doBusiness() {}
 }
