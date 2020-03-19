@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.common.ui
+package com.tiamosu.fly.module.common.ui.fragment
 
 import android.os.Bundle
 import android.view.View

@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.base.IFlyBaseView
 import com.tiamosu.fly.utils.isPageVisible
+import me.yokeyword.fragmentation.SupportFragment
 
 /**
  * @author tiamosu
@@ -31,16 +32,31 @@ class NetworkDelegate {
                     if (isConnected && networkLastStatus == NetworkState.NETWORK_OFF) {
                         isNetReConnect = true
                     }
-                    if (isPageVisible(owner)) {
-                        baseView.onNetworkStateChanged(isConnected)
-                        if (isConnected && isNetReConnect) {
-                            baseView.onNetReConnect()
-                            isNetReConnect = false
-                        }
-                        networkLastStatus = currentNetStatus
+                    if (owner is SupportFragment) {
+                        owner.post(Runnable {
+                            pageVisibleLoad(owner, baseView, isConnected, currentNetStatus)
+                        })
+                    } else {
+                        pageVisibleLoad(owner, baseView, isConnected, currentNetStatus)
                     }
                 }
             }
         )
+    }
+
+    private fun pageVisibleLoad(
+        owner: LifecycleOwner,
+        baseView: IFlyBaseView,
+        isConnected: Boolean,
+        currentNetStatus: Int
+    ) {
+        if (isPageVisible(owner)) {
+            baseView.onNetworkStateChanged(isConnected)
+            if (isConnected && isNetReConnect) {
+                baseView.onNetReConnect()
+                isNetReConnect = false
+            }
+            networkLastStatus = currentNetStatus
+        }
     }
 }

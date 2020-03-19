@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.tiamosu.fly.module.common.ui.view.CustomProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:tpb_currentProgress="0"
+        app:tpb_isTextVisible="true"
+        app:tpb_maxProgress="100"
+        app:tpb_offset="2dp"
+        app:tpb_reachedBarColor="@android:color/holo_red_light"
+        app:tpb_reachedBarHeight="4dp"
+        app:tpb_textColor="@color/colorAccent"
+        app:tpb_textSize="12sp"
+        app:tpb_textUnit="%"
+        app:tpb_unreachedBarColor="@android:color/darker_gray"
+        app:tpb_unreachedBarHeight="4dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_download_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="下载文件"
+        tools:ignore="HardcodedText" />
+</androidx.appcompat.widget.LinearLayoutCompat>

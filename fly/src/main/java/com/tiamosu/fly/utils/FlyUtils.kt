@@ -48,15 +48,16 @@ fun getContext(owner: LifecycleOwner): Context? {
 }
 
 fun isPageVisible(owner: LifecycleOwner): Boolean {
+    if (!AppUtils.isAppForeground()) return false
     return when (owner) {
         is Activity -> {
-            AppUtils.isAppForeground() && ActivityUtils.getTopActivity() == owner
+            ActivityUtils.getTopActivity() == owner
         }
         is SupportFragment -> {
-            AppUtils.isAppForeground() && owner.isSupportVisible()
+            owner.isSupportVisible()
         }
         is Fragment -> {
-            AppUtils.isAppForeground() && owner.isVisible
+            owner.isVisible
         }
         else -> false
     }

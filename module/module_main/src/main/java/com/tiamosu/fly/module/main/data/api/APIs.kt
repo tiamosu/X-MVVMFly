@@ -6,7 +6,6 @@ package com.tiamosu.fly.module.main.data.api
  */
 object APIs {
     const val FRIEND_JSON = "/friend/json"
-    const val POST = "xx/post"
-    const val PUT = "xx/put"
-    const val DELETE = "xx/delete"
+    const val DOWNLOAD_FILE =
+        "https://qd.myapp.com/myapp/qqteam/QQ_JS/qqlite_4.0.0.1025_537062065.apk"
 }

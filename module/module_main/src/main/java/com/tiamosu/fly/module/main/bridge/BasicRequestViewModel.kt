@@ -18,24 +18,32 @@ class BasicRequestViewModel : BaseViewModel() {
 
     fun get() {
         HttpRequestManager.getFriend(jsonCallback<Friend>(onSuccess = {
+            showInfo("get请求成功！")
             getLiveData.postValue(it)
         }))
     }
 
     fun post() {
-        HttpRequestManager.post(stringCallback(onSuccess = {}))
+        HttpRequestManager.post(stringCallback(onSuccess = {
+            showInfo("post请求成功")
+        }))
     }
 
     fun put() {
-        HttpRequestManager.put(stringCallback(onSuccess = {}))
+        HttpRequestManager.put(stringCallback(onSuccess = {
+            showInfo("put请求成功")
+        }))
     }
 
     fun delete() {
-        HttpRequestManager.delete(stringCallback(onSuccess = {}))
+        HttpRequestManager.delete(stringCallback(onSuccess = {
+            showInfo("delete请求成功")
+        }))
     }
 
     fun custom() {
         HttpRequestManager.custom(stringCallback(onSuccess = {
+            showInfo("custom请求成功！")
             customLiveData.postValue(it)
         }))
     }

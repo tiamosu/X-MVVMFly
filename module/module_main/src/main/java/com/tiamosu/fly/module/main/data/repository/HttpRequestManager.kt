@@ -18,21 +18,21 @@ object HttpRequestManager : IRemoteRequest {
     }
 
     override fun <T> post(callback: Callback<T>) {
-        FlyHttp.post(APIs.POST)
+        FlyHttp.post(APIs.FRIEND_JSON)
             .retryCount(0)
             .build()
             .execute(callback)
     }
 
     override fun <T> put(callback: Callback<T>) {
-        FlyHttp.put(APIs.PUT)
+        FlyHttp.put(APIs.FRIEND_JSON)
             .retryCount(0)
             .build()
             .execute(callback)
     }
 
     override fun <T> delete(callback: Callback<T>) {
-        FlyHttp.delete(APIs.DELETE)
+        FlyHttp.delete(APIs.FRIEND_JSON)
             .retryCount(0)
             .build()
             .execute(callback)
@@ -43,5 +43,11 @@ object HttpRequestManager : IRemoteRequest {
             val observable = it.create(CustomApiService::class.java)?.getFriend(it.url)
             it.apiCall(observable, callback)
         }
+    }
+
+    override fun <T> downloadFile(callback: Callback<T>) {
+        FlyHttp.download(APIs.DOWNLOAD_FILE)
+            .build()
+            .execute(callback)
     }
 }

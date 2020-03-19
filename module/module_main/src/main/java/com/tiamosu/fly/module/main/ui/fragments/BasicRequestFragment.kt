@@ -48,12 +48,10 @@ class BasicRequestFragment : BaseFragment() {
 
         viewModel.getLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("xia", "result:$it")
-            showInfo("Get请求成功！")
         })
 
         viewModel.customLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("xia", "result:$it")
-            showInfo("自定义请求成功！")
         })
     }
 

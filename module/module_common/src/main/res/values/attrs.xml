@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomProgressBar">
+        <attr name="tpb_maxProgress" format="float" />
+        <attr name="tpb_currentProgress" format="float" />
+        <attr name="tpb_reachedBarHeight" format="dimension" />
+        <attr name="tpb_reachedBarColor" format="color" />
+        <attr name="tpb_unreachedBarHeight" format="dimension" />
+        <attr name="tpb_unreachedBarColor" format="color" />
+        <attr name="tpb_textSize" format="dimension" />
+        <attr name="tpb_textColor" format="color" />
+        <attr name="tpb_textUnit" format="string" />
+        <attr name="tpb_isTextVisible" format="boolean" />
+        <attr name="tpb_offset" format="dimension" />
+        <attr name="tpb_linearGradient" format="boolean" />
+    </declare-styleable>
+</resources>
