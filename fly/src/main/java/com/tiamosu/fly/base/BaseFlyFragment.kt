@@ -76,8 +76,11 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
         initEvent()
     }
 
-    override fun onNetworkStateChanged(isConnected: Boolean) {}
-    override fun onNetReConnect() {}
+    @CallSuper
+    override fun onSupportVisible() {
+        super.onSupportVisible()
+        networkDelegate.hasNetWork(this)
+    }
 
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
         super.onEnterAnimationEnd(savedInstanceState)
@@ -94,4 +97,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
             doBusiness()
         }
     }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {}
+    override fun onNetReConnect() {}
 }

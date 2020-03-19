@@ -22,6 +22,11 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
         doBusiness()
     }
 
+    override fun onResume() {
+        super.onResume()
+        networkDelegate.hasNetWork(this)
+    }
+
     override fun setContentView() {
         if (getLayoutId() > 0) {
             rootView = View.inflate(getContext(), getLayoutId(), null)
