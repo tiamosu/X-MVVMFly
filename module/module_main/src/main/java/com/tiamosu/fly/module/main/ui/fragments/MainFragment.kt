@@ -1,19 +1,11 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.http.FlyHttp
-import com.tiamosu.fly.http.callback.JsonCallback
-import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
-import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
-import com.tiamosu.fly.module.main.data.api.CustomApiService
-import com.tiamosu.fly.module.main.data.bean.Friend
-import com.tiamosu.fly.module.main.ui.viewmodel.MainViewModel
 import com.tiamosu.fly.utils.newInstance
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -22,8 +14,6 @@ import kotlinx.android.synthetic.main.fragment_main.*
  * @date 2020/3/13.
  */
 class MainFragment : BaseFragment() {
-
-    private val mainViewModel: MainViewModel by lazyViewModel()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
@@ -34,12 +24,14 @@ class MainFragment : BaseFragment() {
     }
 
     override fun initEvent() {
-        btn_enter_other.setOnClickListener {
+        btn_start_other.setOnClickListener {
             start(newInstance(Router.obtainFragmentOtherCls()))
         }
-        btn_request.setOnClickListener {
-            mainViewModel.requestFriendGson()
+        btn_start_http.setOnClickListener {
+            start(newInstance(HttpFragment::class.java))
 
+//            mainViewModel.requestFriendGson()
+//
 //            FlyHttp["/friend/json"]
 //                .addInterceptor(HeadersInterceptor(HttpHeaders().apply {
 //                    put(HttpHeaders.HEAD_KEY_ACCEPT_ENCODING, "utf-8")
@@ -59,20 +51,20 @@ class MainFragment : BaseFragment() {
 //                    }
 //                })
         }
-        btn_request_custom.setOnClickListener {
-            val custom = FlyHttp.custom("/friend/json").also {
-                it.build()
-            }
-            val observable = custom.create(CustomApiService::class.java)
-                ?.getFriend(custom.url)
-            custom.apiCall(observable, object : JsonCallback<Friend>() {
-                override fun onSuccess(response: Response<Friend>) {
-                    Log.e("xia", "result=========:$response")
-                }
-            })
-        }
-        btn_remove_cache.setOnClickListener {
-            FlyHttp.clearCache()
+//        btn_request_custom.setOnClickListener {
+//            val custom = FlyHttp.custom("/friend/json").also {
+//                it.build()
+//            }
+//            val observable = custom.create(CustomApiService::class.java)
+//                ?.getFriend(custom.url)
+//            custom.apiCall(observable, object : JsonCallback<Friend>() {
+//                override fun onSuccess(response: Response<Friend>) {
+//                    Log.e("xia", "result=========:$response")
+//                }
+//            })
+//        }
+        btn_start_glide.setOnClickListener {
+            start(newInstance(GlideFragment::class.java))
         }
     }
 

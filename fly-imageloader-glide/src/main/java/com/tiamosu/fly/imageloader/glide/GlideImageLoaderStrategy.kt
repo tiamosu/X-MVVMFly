@@ -36,7 +36,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         val glideRequest = getGlideRequest(context, config) ?: return
 
         //缓存策略
-        when (config.mCacheStrategy) {
+        when (config.cacheStrategy) {
             GlideDiskCacheStrategy.ALL -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
             GlideDiskCacheStrategy.NONE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE)
             GlideDiskCacheStrategy.RESOURCE -> glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -46,82 +46,82 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         //是否将图片剪切为 CenterCrop
-        if (config.mIsCenterCrop) {
+        if (config.isCenterCrop) {
             glideRequest.centerCrop()
-        } else if (config.mIsCenterInside) {
+        } else if (config.isCenterInside) {
             glideRequest.centerInside()
         }
 
         //是否将图片剪切为圆形
-        if (config.mIsCircleCrop) {
+        if (config.isCircleCrop) {
             glideRequest.circleCrop()
         }
 
         //设置圆角大小
-        if (config.mRoundingRadius != 0) {
-            glideRequest.transform(RoundedCorners(config.mRoundingRadius))
+        if (config.roundingRadius != 0) {
+            glideRequest.transform(RoundedCorners(config.roundingRadius))
         }
 
         //高斯模糊值, 值越大模糊效果越大(blurValue 建议设置为 15)
-        if (config.mBlurValue != 0) {
-            glideRequest.transform(BlurTransformation(config.mBlurValue))
+        if (config.blurValue != 0) {
+            glideRequest.transform(BlurTransformation(config.blurValue))
         }
 
         //glide用它来改变图形的形状
-        if (config.mTransformation != null) {
-            glideRequest.transform(config.mTransformation!!)
+        if (config.transformation != null) {
+            glideRequest.transform(config.transformation!!)
         }
 
         //设置占位符
         if (config.placeholder != 0) {
             glideRequest.placeholder(config.placeholder)
-        } else if (config.mPlaceholderDrawable != null) {
-            glideRequest.placeholder(config.mPlaceholderDrawable)
+        } else if (config.placeholderDrawable != null) {
+            glideRequest.placeholder(config.placeholderDrawable)
         }
 
         //设置错误的图片
         if (config.error != 0) {
             glideRequest.error(config.error)
-        } else if (config.mErrorDrawable != null) {
-            glideRequest.error(config.mErrorDrawable)
+        } else if (config.errorDrawable != null) {
+            glideRequest.error(config.errorDrawable)
         }
 
         //设置请求 url 为空图片
-        if (config.mFallback != 0) {
-            glideRequest.fallback(config.mFallback)
-        } else if (config.mFallbackDrawable != null) {
-            glideRequest.fallback(config.mFallbackDrawable)
+        if (config.fallback != 0) {
+            glideRequest.fallback(config.fallback)
+        } else if (config.fallbackDrawable != null) {
+            glideRequest.fallback(config.fallbackDrawable)
         }
 
         //设定大小
-        if (config.mTargetWidth > 0 && config.mTargetHeight > 0) {
-            glideRequest.override(config.mTargetWidth, config.mTargetHeight)
+        if (config.targetWidth > 0 && config.targetHeight > 0) {
+            glideRequest.override(config.targetWidth, config.targetHeight)
         }
 
         //添加请求配置
-        if (config.mRequestOptions != null) {
-            glideRequest.apply(config.mRequestOptions!!)
+        if (config.requestOptions != null) {
+            glideRequest.apply(config.requestOptions!!)
         }
 
         //添加图片加载监听
-        if (config.mRequestListener != null) {
-            glideRequest.addListener(config.mRequestListener)
+        if (config.requestListener != null) {
+            glideRequest.addListener(config.requestListener)
         }
 
         //不加载动画
-        if (config.mIsDontAnimate) {
+        if (config.isDontAnimate) {
             glideRequest.dontAnimate()
         }
 
         //是否使用淡入淡出过渡动画
-        if (config.mTranscodeType == TranscodeType.AS_DRAWABLE) {
-            if (config.mIsCrossFade) {
+        if (config.transcodeType == TranscodeType.AS_DRAWABLE) {
+            if (config.isCrossFade) {
                 val drawableTransitionOptions = DrawableTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Drawable>).transition(drawableTransitionOptions)
             }
-        } else if (config.mTranscodeType == TranscodeType.AS_BITMAP) {
-            if (config.mIsCrossFade) {
+        } else if (config.transcodeType == TranscodeType.AS_BITMAP) {
+            if (config.isCrossFade) {
                 val bitmapTransitionOptions = BitmapTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Bitmap>).transition(bitmapTransitionOptions)
@@ -130,14 +130,14 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
 
         if (config.imageView != null) {
             glideRequest.into(config.imageView!!)
-        } else if (config.mTarget != null) {
-            (glideRequest as? GlideRequest<in Any>)?.into(config.mTarget!!)
+        } else if (config.target != null) {
+            (glideRequest as? GlideRequest<in Any>)?.into(config.target!!)
         }
     }
 
     private fun getGlideRequest(context: Context, config: ImageConfigImpl): GlideRequest<Any>? {
         val request = GlideFly.with(context)
-        val glideRequest = when (config.mTranscodeType) {
+        val glideRequest = when (config.transcodeType) {
             TranscodeType.AS_BITMAP -> request.asBitmap() as? GlideRequest<Any>
             TranscodeType.AS_FILE -> request.asFile() as? GlideRequest<Any>
             TranscodeType.AS_GIF -> request.asGif() as? GlideRequest<Any>
@@ -161,18 +161,18 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
             requestManager.clear(config.imageView!!)
         }
 
-        if (config.mImageViews?.isNotEmpty() == true) {//取消在执行的任务并且释放资源
-            for (imageView in config.mImageViews!!) {
+        if (config.imageViews?.isNotEmpty() == true) {//取消在执行的任务并且释放资源
+            for (imageView in config.imageViews!!) {
                 imageView ?: continue
                 requestManager.clear(imageView)
             }
         }
 
-        if (config.mIsClearDiskCache) {//清除本地缓存
+        if (config.isClearDiskCache) {//清除本地缓存
             post(Schedulers.io(), Action { Glide.get(context).clearDiskCache() })
         }
 
-        if (config.mIsClearMemory) {//清除内存缓存
+        if (config.isClearMemory) {//清除内存缓存
             postOnMain(Action { Glide.get(context).clearMemory() })
         }
     }

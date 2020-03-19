@@ -24,149 +24,149 @@ import java.net.URL
  */
 @Suppress("unused")
 class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
-    var mTarget: Target<out Any>? = null
-    var mFallback: Int = 0 //请求 url 为空,则使用此图片作为占位符
-    var mPlaceholderDrawable: Drawable? = null
-    var mErrorDrawable: Drawable? = null
-    var mFallbackDrawable: Drawable? = null
-    var mRequestOptions: RequestOptions? = null//加载配置
-    var mRequestListener: RequestListener<Any>? = null//加载监听
-    var mTransformation: BitmapTransformation? = null//glide用它来改变图形的形状
-    var mImageViews: Array<ImageView?>? = null//视图控件数组
-    var mCacheStrategy: Int = 0//缓存策略
-    var mTranscodeType: Int = 0
-    var mRoundingRadius: Int = 0//图片每个圆角的大小
-    var mBlurValue: Int = 0//高斯模糊值, 值越大模糊效果越大
-    var mTargetWidth: Int = 0
-    var mTargetHeight: Int = 0//重新设定图片大小
-    var mIsCrossFade: Boolean = false//是否使用淡入淡出过渡动画
-    var mIsCenterCrop: Boolean = false//是否将图片剪切为 CenterCrop
-    var mIsCenterInside: Boolean = false//是否将图片剪切为 CenterInside
-    var mIsCircleCrop: Boolean = false//是否将图片剪切为圆形
-    var mIsClearMemory: Boolean = false//清理内存缓存
-    var mIsClearDiskCache: Boolean = false//清理本地缓存
-    var mIsDontAnimate: Boolean = false//不显示动画
+    var target: Target<out Any>? = null
+    var fallback: Int = 0 //请求 url 为空,则使用此图片作为占位符
+    var placeholderDrawable: Drawable? = null
+    var errorDrawable: Drawable? = null
+    var fallbackDrawable: Drawable? = null
+    var requestOptions: RequestOptions? = null//加载配置
+    var requestListener: RequestListener<Any>? = null//加载监听
+    var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
+    var imageViews: Array<ImageView?>? = null//视图控件数组
+    var cacheStrategy: Int = 0//缓存策略
+    var transcodeType: Int = 0
+    var roundingRadius: Int = 0//图片每个圆角的大小
+    var blurValue: Int = 0//高斯模糊值, 值越大模糊效果越大
+    var targetWidth: Int = 0
+    var targetHeight: Int = 0//重新设定图片大小
+    var isCrossFade: Boolean = false//是否使用淡入淡出过渡动画
+    var isCenterCrop: Boolean = false//是否将图片剪切为 CenterCrop
+    var isCenterInside: Boolean = false//是否将图片剪切为 CenterInside
+    var isCircleCrop: Boolean = false//是否将图片剪切为圆形
+    var isClearMemory: Boolean = false//清理内存缓存
+    var isClearDiskCache: Boolean = false//清理本地缓存
+    var isDontAnimate: Boolean = false//不显示动画
 
     init {
-        this.any = builder.mObject
-        this.imageView = builder.mImageView
-        this.placeholder = builder.mPlaceholder
-        this.error = builder.mError
-        this.mTarget = builder.mTarget
-        this.mFallback = builder.mFallback
-        this.mPlaceholderDrawable = builder.mPlaceholderDrawable
-        this.mErrorDrawable = builder.mErrorDrawable
-        this.mFallbackDrawable = builder.mFallbackDrawable
-        this.mRequestOptions = builder.mRequestOptions
-        this.mRequestListener = builder.mRequestListener
-        this.mTransformation = builder.mTransformation
-        this.mImageViews = builder.mImageViews
-        this.mCacheStrategy = builder.mCacheStrategy
-        this.mTranscodeType = builder.mTranscodeType
-        this.mRoundingRadius = builder.mRoundingRadius
-        this.mBlurValue = builder.mBlurValue
-        this.mTargetWidth = builder.mTargetWidth
-        this.mTargetHeight = builder.mTargetHeight
-        this.mIsCrossFade = builder.mIsCrossFade
-        this.mIsCenterCrop = builder.mIsCenterCrop
-        this.mIsCenterInside = builder.mIsCenterInside
-        this.mIsCircleCrop = builder.mIsCircleCrop
-        this.mIsClearMemory = builder.mIsClearMemory
-        this.mIsClearDiskCache = builder.mIsClearDiskCache
-        this.mIsDontAnimate = builder.mIsDontAnimate
+        this.any = builder.any
+        this.imageView = builder.imageView
+        this.placeholder = builder.placeholder
+        this.error = builder.error
+        this.target = builder.target
+        this.fallback = builder.fallback
+        this.placeholderDrawable = builder.placeholderDrawable
+        this.errorDrawable = builder.errorDrawable
+        this.fallbackDrawable = builder.fallbackDrawable
+        this.requestOptions = builder.requestOptions
+        this.requestListener = builder.requestListener
+        this.transformation = builder.transformation
+        this.imageViews = builder.imageViews
+        this.cacheStrategy = builder.cacheStrategy
+        this.transcodeType = builder.transcodeType
+        this.roundingRadius = builder.roundingRadius
+        this.blurValue = builder.blurValue
+        this.targetWidth = builder.targetWidth
+        this.targetHeight = builder.targetHeight
+        this.isCrossFade = builder.isCrossFade
+        this.isCenterCrop = builder.isCenterCrop
+        this.isCenterInside = builder.isCenterInside
+        this.isCircleCrop = builder.isCircleCrop
+        this.isClearMemory = builder.isClearMemory
+        this.isClearDiskCache = builder.isClearDiskCache
+        this.isDontAnimate = builder.isDontAnimate
     }
 
     class Builder constructor(
-        val mObject: Any?//所要加载的资源
+        val any: Any?//所要加载的资源
     ) {
-        var mImageView: ImageView? = null
-        var mTarget: Target<out Any>? = null
-        var mPlaceholder: Int = 0//占位符
-        var mError: Int = 0//错误占位符
-        var mFallback: Int = 0 //请求 url 为空,则使用此图片作为占位符
-        var mPlaceholderDrawable: Drawable? = null
-        var mErrorDrawable: Drawable? = null
-        var mFallbackDrawable: Drawable? = null
-        var mRequestOptions: RequestOptions? = null//加载配置
-        var mRequestListener: RequestListener<Any>? = null//加载监听
-        var mTransformation: BitmapTransformation? = null//glide用它来改变图形的形状
-        var mImageViews: Array<ImageView?>? = null//视图控件数组
-        var mCacheStrategy: Int = 0//缓存策略
-        var mTranscodeType: Int = 0
-        var mRoundingRadius: Int = 0//图片每个圆角的大小
-        var mBlurValue: Int = 0//高斯模糊值, 值越大模糊效果越大
-        var mTargetWidth: Int = 0
-        var mTargetHeight: Int = 0//重新设定图片大小
-        var mIsCrossFade: Boolean = false//是否使用淡入淡出过渡动画
-        var mIsCenterCrop: Boolean = false//是否将图片剪切为 CenterCrop
-        var mIsCenterInside: Boolean = false//是否将图片剪切为 CenterInside
-        var mIsCircleCrop: Boolean = false//是否将图片剪切为圆形
-        var mIsClearMemory: Boolean = false//清理内存缓存
-        var mIsClearDiskCache: Boolean = false//清理本地缓存
-        var mIsDontAnimate: Boolean = false//不显示动画
+        var imageView: ImageView? = null
+        var target: Target<out Any>? = null
+        var placeholder: Int = 0//占位符
+        var error: Int = 0//错误占位符
+        var fallback: Int = 0 //请求 url 为空,则使用此图片作为占位符
+        var placeholderDrawable: Drawable? = null
+        var errorDrawable: Drawable? = null
+        var fallbackDrawable: Drawable? = null
+        var requestOptions: RequestOptions? = null//加载配置
+        var requestListener: RequestListener<Any>? = null//加载监听
+        var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
+        var imageViews: Array<ImageView?>? = null//视图控件数组
+        var cacheStrategy: Int = 0//缓存策略
+        var transcodeType: Int = 0
+        var roundingRadius: Int = 0//图片每个圆角的大小
+        var blurValue: Int = 0//高斯模糊值, 值越大模糊效果越大
+        var targetWidth: Int = 0
+        var targetHeight: Int = 0//重新设定图片大小
+        var isCrossFade: Boolean = false//是否使用淡入淡出过渡动画
+        var isCenterCrop: Boolean = false//是否将图片剪切为 CenterCrop
+        var isCenterInside: Boolean = false//是否将图片剪切为 CenterInside
+        var isCircleCrop: Boolean = false//是否将图片剪切为圆形
+        var isClearMemory: Boolean = false//清理内存缓存
+        var isClearDiskCache: Boolean = false//清理本地缓存
+        var isDontAnimate: Boolean = false//不显示动画
 
         fun into(imageView: ImageView?): Builder {
-            this.mImageView = imageView
+            this.imageView = imageView
             return this
         }
 
         fun into(target: Target<out Any>?): Builder {
-            this.mTarget = target
+            this.target = target
             return this
         }
 
         fun into(imageViews: Array<ImageView?>?): Builder {
-            this.mImageViews = imageViews
+            this.imageViews = imageViews
             return this
         }
 
         fun `as`(@TranscodeType.Type transcodeType: Int): Builder {
-            this.mTranscodeType = transcodeType
+            this.transcodeType = transcodeType
             return this
         }
 
         fun placeholder(placeholder: Int): Builder {
-            this.mPlaceholder = placeholder
+            this.placeholder = placeholder
             return this
         }
 
         fun placeholder(placeholder: Drawable?): Builder {
-            this.mPlaceholderDrawable = placeholder
+            this.placeholderDrawable = placeholder
             return this
         }
 
         fun error(error: Int): Builder {
-            this.mError = error
+            this.error = error
             return this
         }
 
         fun error(error: Drawable?): Builder {
-            this.mErrorDrawable = error
+            this.errorDrawable = error
             return this
         }
 
         fun fallback(fallback: Int): Builder {
-            this.mFallback = fallback
+            this.fallback = fallback
             return this
         }
 
         fun fallback(fallback: Drawable?): Builder {
-            this.mFallbackDrawable = fallback
+            this.fallbackDrawable = fallback
             return this
         }
 
         fun diskCacheStrategy(@GlideDiskCacheStrategy.StrategyType cacheStrategy: Int): Builder {
-            this.mCacheStrategy = cacheStrategy
+            this.cacheStrategy = cacheStrategy
             return this
         }
 
         fun imageRadius(mRoundingRadius: Int): Builder {
-            this.mRoundingRadius = mRoundingRadius
+            this.roundingRadius = mRoundingRadius
             return this
         }
 
         fun blurValue(blurValue: Int): Builder { //blurValue 建议设置为 15
-            this.mBlurValue = blurValue
+            this.blurValue = blurValue
             return this
         }
 
@@ -182,58 +182,58 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 [com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy]
          */
         fun transform(transformation: BitmapTransformation?): Builder {
-            this.mTransformation = transformation
+            this.transformation = transformation
             return this
         }
 
         fun crossFade(): Builder {
-            this.mIsCrossFade = true
+            this.isCrossFade = true
             return this
         }
 
         fun centerCrop(): Builder {
-            this.mIsCenterCrop = true
+            this.isCenterCrop = true
             return this
         }
 
         fun centerInside(): Builder {
-            this.mIsCenterInside = true
+            this.isCenterInside = true
             return this
         }
 
         fun circleCrop(): Builder {
-            this.mIsCircleCrop = true
+            this.isCircleCrop = true
             return this
         }
 
         fun override(targetWidth: Int, targetHeight: Int): Builder {
-            this.mTargetWidth = targetWidth
-            this.mTargetHeight = targetHeight
+            this.targetWidth = targetWidth
+            this.targetHeight = targetHeight
             return this
         }
 
         fun clearMemory(): Builder {
-            this.mIsClearMemory = true
+            this.isClearMemory = true
             return this
         }
 
         fun clearDiskCache(): Builder {
-            this.mIsClearDiskCache = true
+            this.isClearDiskCache = true
             return this
         }
 
         fun apply(requestOptions: RequestOptions?): Builder {
-            this.mRequestOptions = requestOptions
+            this.requestOptions = requestOptions
             return this
         }
 
         fun addListener(requestListener: RequestListener<Any>?): Builder {
-            this.mRequestListener = requestListener
+            this.requestListener = requestListener
             return this
         }
 
         fun dontAnimate(): Builder {
-            this.mIsDontAnimate = true
+            this.isDontAnimate = true
             return this
         }
 

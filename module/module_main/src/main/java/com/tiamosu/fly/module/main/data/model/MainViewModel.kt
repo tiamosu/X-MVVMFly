@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.main.ui.viewmodel
+package com.tiamosu.fly.module.main.data.model
 
 import android.util.Log
 import com.tiamosu.fly.http.FlyHttp

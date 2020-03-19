@@ -14,12 +14,8 @@ import java.security.MessageDigest
  * @author tiamosu
  * @date 2018/9/17.
  */
-class BlurTransformation(@IntRange(from = 0) radius: Int) : BitmapTransformation() {
-    private var mRadius = DEFAULT_RADIUS
-
-    init {
-        mRadius = radius
-    }
+class BlurTransformation(@IntRange(from = 0) val radius: Int = DEFAULT_RADIUS) :
+    BitmapTransformation() {
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)
@@ -31,7 +27,7 @@ class BlurTransformation(@IntRange(from = 0) radius: Int) : BitmapTransformation
         outWidth: Int,
         outHeight: Int
     ): Bitmap {
-        return ImageUtils.fastBlur(toTransform, 0.1f, mRadius.toFloat(), true)
+        return ImageUtils.fastBlur(toTransform, 0.1f, radius.toFloat(), true)
     }
 
     override fun equals(other: Any?): Boolean {
