@@ -18,7 +18,7 @@ class CacheResult<T> : Serializable {
         this.isFromCache = isFromCache
     }
 
-    constructor(isFromCache: Boolean, data: T) {
+    constructor(isFromCache: Boolean, data: T?) {
         this.isFromCache = isFromCache
         this.data = data
     }

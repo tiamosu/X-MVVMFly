@@ -43,9 +43,9 @@ abstract class BaseStrategy : IStrategy {
     ): Observable<CacheResult<T>> {
         var observable = source
             .flatMap { t ->
-                rxCache.save(key, t).map { aBoolean ->
-                        iLog("save status => $aBoolean")
-                        CacheResult(false, t)
+                rxCache.save(key, t).map { boolean ->
+                        iLog("save status => $boolean")
+                        CacheResult<T>(false, t)
                     }
                     .onErrorReturn { throwable ->
                         iLog("save status => $throwable")

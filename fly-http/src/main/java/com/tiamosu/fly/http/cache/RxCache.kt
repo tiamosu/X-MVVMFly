@@ -95,7 +95,11 @@ class RxCache {
         override fun subscribe(subscriber: ObservableEmitter<T>) {
             try {
                 val data = execute()
-                if (!subscriber.isDisposed && data != null) {
+                if (!subscriber.isDisposed) {
+                    if (data == null) {
+                        subscriber.onError(NullPointerException())
+                        return
+                    }
                     subscriber.onNext(data)
                 }
             } catch (e: Throwable) {

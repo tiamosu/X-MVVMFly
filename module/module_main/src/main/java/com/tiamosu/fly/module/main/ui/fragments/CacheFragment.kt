@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_cache.*
 class CacheFragment : BaseFragment(), View.OnClickListener {
     private val viewModel: CacheViewModel by lazyViewModel()
     private var cacheMode = CacheMode.FIRSTREMOTE
+    private val cacheKey = this.javaClass.name
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_cache
@@ -34,6 +35,7 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
     ) {
     }
 
+    @Suppress("DEPRECATION")
     override fun initEvent() {
         btn_default_cache.setOnClickListener(this)
         btn_first_remote.setOnClickListener(this)
@@ -44,7 +46,7 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
         btn_cache_remote_distinct.setOnClickListener(this)
 
         btn_remove_cache.setOnClickListener {
-            FlyHttp.removeCache(this.javaClass.name)
+            FlyHttp.removeCache(cacheKey)
         }
         btn_clear_cache.setOnClickListener {
             FlyHttp.clearCache()
@@ -57,9 +59,9 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
                 .diskConverter(SerializableDiskConverter())
                 .build()
                 //这个表示读取缓存根据时间，读取指定时间内的缓存，例如读取：5*60s之内的缓存
-//                .load(this.javaClass.name, 5 * 60)
+//                .load(cacheKey, 5 * 60)
                 //这个表示读取缓存不根据时间只要有缓存就读取
-                .load(this.javaClass.name)
+                .load(cacheKey)
 
             observable.subscribe(object : BaseSubscriber<String>() {
                 override fun onStart() {
@@ -77,7 +79,6 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
             })
         }
 
-        @Suppress("DEPRECATION")
         viewModel.responseLiveData.observe(viewLifecycleOwner, Observer {
             val from: String = if (it.isFromCache) "我来自缓存" else "我来自远程网络"
             val spanned = Html.fromHtml(from + "\n" + it.body.toString())
@@ -124,6 +125,6 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun requestCache() {
-        viewModel.request(cacheMode, this.javaClass.name)
+        viewModel.request(cacheMode, cacheKey)
     }
 }
