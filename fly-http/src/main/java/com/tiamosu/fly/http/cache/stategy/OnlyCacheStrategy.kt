@@ -5,7 +5,7 @@ import com.tiamosu.fly.http.cache.model.CacheResult
 import io.reactivex.Observable
 
 /**
- * 描述：只读缓存
+ * 描述：只读取缓存
  *
  * @author tiamosu
  * @date 2020/3/10.

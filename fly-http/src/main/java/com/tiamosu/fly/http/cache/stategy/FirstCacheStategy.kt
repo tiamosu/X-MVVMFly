@@ -5,7 +5,7 @@ import com.tiamosu.fly.http.cache.model.CacheResult
 import io.reactivex.Observable
 
 /**
- * 描述：先显示缓存，缓存不存在，再请求网络
+ * 描述：先加载缓存，缓存没有再去请求网络
  *
  * @author tiamosu
  * @date 2020/3/10.

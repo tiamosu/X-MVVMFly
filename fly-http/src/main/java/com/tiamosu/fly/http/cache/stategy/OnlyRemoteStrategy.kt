@@ -5,7 +5,7 @@ import com.tiamosu.fly.http.cache.model.CacheResult
 import io.reactivex.Observable
 
 /**
- * 描述：只请求网络
+ * 描述：仅加载网络，但数据依然会被缓存
  *
  * @author tiamosu
  * @date 2020/3/10.
