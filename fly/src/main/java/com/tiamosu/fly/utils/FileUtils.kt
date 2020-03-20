@@ -2,7 +2,6 @@
 
 package com.tiamosu.fly.utils
 
-import com.blankj.utilcode.util.SDCardUtils
 import com.blankj.utilcode.util.Utils
 import java.io.File
 
@@ -36,12 +35,10 @@ fun createOrExistsDir(file: File?): File? {
  * 返回缓存文件夹
  */
 fun getCacheFile(): File {
-    var cacheFile: File? = null
-    if (SDCardUtils.isSDCardEnableByEnvironment()) {
-        //获取系统管理的sd卡缓存文件
-        val file = Utils.getApp().externalCacheDir
-        //如果获取的文件为空,就使用自己定义的缓存文件夹做缓存路径
-        cacheFile = file ?: createDir(Utils.getApp().packageName)
-    }
+    //获取应用程序内的外部缓存路劲
+    var cacheFile = Utils.getApp().externalCacheDir
+    //如果获取的文件为空,就使用自己定义的缓存文件夹做缓存路径
+    cacheFile = cacheFile ?: createDir(Utils.getApp().packageName)
+    //如果获取的文件为空，就使用应用程序内的内部缓存路劲
     return cacheFile ?: Utils.getApp().cacheDir
 }

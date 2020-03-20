@@ -26,7 +26,7 @@ abstract class FileCallback : ResultCallback<File> {
     constructor(destFileDir: String?, destFileName: String?) {
         this.destFileDir = if (!TextUtils.isEmpty(destFileDir)) destFileDir!! else "download"
         this.destFileName =
-            if (!TextUtils.isEmpty(destFileName)) destFileName!! else "unknownfile_" + System.currentTimeMillis()
+            if (!TextUtils.isEmpty(destFileName)) destFileName!! else "unknownFile_" + System.currentTimeMillis()
     }
 
     @Throws(Throwable::class)
