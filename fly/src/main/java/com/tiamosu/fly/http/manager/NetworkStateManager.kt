@@ -12,9 +12,9 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.Utils
+import com.tiamosu.fly.integration.bridge.UnPeekLiveData
 import com.tiamosu.fly.utils.connectivityManager
 
 /**
@@ -22,7 +22,7 @@ import com.tiamosu.fly.utils.connectivityManager
  * @date 2020/2/20.
  */
 class NetworkStateManager private constructor() : DefaultLifecycleObserver {
-    val networkStateCallback = MutableLiveData<Boolean>()
+    val networkStateCallback = UnPeekLiveData<Boolean>()
 
     @Suppress("DEPRECATION")
     override fun onStart(owner: LifecycleOwner) {

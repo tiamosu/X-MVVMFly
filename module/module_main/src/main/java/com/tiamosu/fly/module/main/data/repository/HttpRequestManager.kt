@@ -1,6 +1,8 @@
 package com.tiamosu.fly.module.main.data.repository
 
 import com.tiamosu.fly.http.FlyHttp
+import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
+import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.module.main.data.api.APIs
 import com.tiamosu.fly.module.main.data.api.CustomApiService
@@ -47,6 +49,20 @@ object HttpRequestManager : IRemoteRequest {
 
     override fun <T> downloadFile(callback: Callback<T>) {
         FlyHttp.download(APIs.DOWNLOAD_FILE)
+            .build()
+            .execute(callback)
+    }
+
+    override fun <T> requestCache(callback: Callback<T>, cacheMode: CacheMode, cacheKey: String) {
+        FlyHttp[APIs.FRIEND_JSON]
+            .readTimeOut(30 * 1000) //测试局部读超时30s
+            .cacheMode(cacheMode)
+            .cacheKey(cacheKey) //缓存key
+            .retryCount(3) //重试次数
+            .cacheTime(5 * 60) //缓存时间300s，默认-1永久缓存  okHttp和自定义缓存都起作用
+//            .okCache(Cache()) //okHttp缓存，模式为默认模式（CacheMode.DEFAULT）才生效
+            .cacheDiskConverter(SerializableDiskConverter()) //默认使用的是 SerializableDiskConverter()
+            .timeStamp(true)
             .build()
             .execute(callback)
     }

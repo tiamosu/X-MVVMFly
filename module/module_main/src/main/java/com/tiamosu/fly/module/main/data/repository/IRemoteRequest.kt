@@ -1,5 +1,6 @@
 package com.tiamosu.fly.module.main.data.repository
 
+import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
 
 /**
@@ -19,4 +20,6 @@ interface IRemoteRequest {
     fun <T> custom(callback: Callback<T>)
 
     fun <T> downloadFile(callback: Callback<T>)
+
+    fun <T> requestCache(callback: Callback<T>, cacheMode: CacheMode, cacheKey: String)
 }
