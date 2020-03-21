@@ -23,9 +23,12 @@ class NetworkDelegate {
         if (owner is AppCompatActivity) {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
-        NetworkStateManager.instance.networkStateCallback.observe(owner, Observer { isConnected ->
-            hasNetWork(baseView, isConnected)
-        })
+        if (baseView.isCheckNetChanged()) {
+            NetworkStateManager.instance.networkStateCallback.observe(
+                owner, Observer { isConnected ->
+                    hasNetWork(baseView, isConnected)
+                })
+        }
     }
 
     fun hasNetWork(baseView: IFlyBaseView, isConnected: Boolean = NetworkUtils.isConnected()) {

@@ -24,6 +24,10 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     override fun hideLoading() {
     }
 
+    override fun isCheckNetChanged(): Boolean {
+        return true
+    }
+
     override fun onNetworkStateChanged(isConnected: Boolean) {
         Log.e("xia", "页面====：${javaClass.simpleName}   网络是否连接=====：$isConnected")
     }

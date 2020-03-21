@@ -14,17 +14,37 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
     var rootView: View? = null
 
     private val networkDelegate by lazy { NetworkDelegate() }
+    private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView()
         initAny(savedInstanceState)
-        doBusiness()
+        tryLoadData(true)
     }
 
     override fun onResume() {
         super.onResume()
-        networkDelegate.hasNetWork(this)
+        if (isCheckNetChanged()) {
+            networkDelegate.hasNetWork(this)
+        }
+        tryLoadData(false)
+    }
+
+    override fun isNeedReload(): Boolean {
+        return false
+    }
+
+    private fun tryLoadData(isCreate: Boolean) {
+        if (isCreate) {
+            doBusiness()
+            isDataLoaded = true
+        } else if (isNeedReload()) {
+            if (!isDataLoaded) {
+                doBusiness()
+            }
+            isDataLoaded = false
+        }
     }
 
     override fun setContentView() {
@@ -42,6 +62,10 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
         initData(intent.extras)
         initView(savedInstanceState, rootView)
         initEvent()
+    }
+
+    override fun isCheckNetChanged(): Boolean {
+        return false
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}

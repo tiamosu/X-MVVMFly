@@ -41,9 +41,19 @@ interface IFlyBaseView {
     fun initEvent()
 
     /**
-     * 用于加载数据、处理相关业务逻辑等（Fragment中，懒加载）
+     * 再次可见时，是否重新请求数据，默认为false则只请求一次数据
+     */
+    fun isNeedReload(): Boolean
+
+    /**
+     * 用于加载数据、处理相关业务逻辑等（Fragment懒加载）
      */
     fun doBusiness()
+
+    /**
+     * 是否开启网络状态变化监听
+     */
+    fun isCheckNetChanged(): Boolean
 
     /**
      * 网络是否连接可用

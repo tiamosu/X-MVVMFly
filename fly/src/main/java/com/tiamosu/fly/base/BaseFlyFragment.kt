@@ -21,9 +21,10 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     private val networkDelegate by lazy { NetworkDelegate() }
 
-    //保证转场动画的流畅性
-    private var isOnLazyInitView = false
+    //保证转场动画的流畅性，进行延迟加载
+    private var isOnSupportVisible = false
     private var isOnEnterAnimationEnd = false
+    private var isDataLoaded = false
 
     /**
      * 若当前 Fragment 是 ChildFragment， 且想以父页面（ParentFragment）开启新页面时，
@@ -78,24 +79,35 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     @CallSuper
     override fun onSupportVisible() {
-        super.onSupportVisible()
-        networkDelegate.hasNetWork(this)
+        isOnSupportVisible = true
+        if (isCheckNetChanged()) {
+            networkDelegate.hasNetWork(this)
+        }
+        if (isOnEnterAnimationEnd) {
+            tryLoadData()
+        }
     }
 
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
-        super.onEnterAnimationEnd(savedInstanceState)
         isOnEnterAnimationEnd = true
-        if (isOnLazyInitView) {
-            doBusiness()
+        if (isOnSupportVisible) {
+            tryLoadData()
         }
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-        isOnLazyInitView = true
-        if (isOnEnterAnimationEnd) {
+    override fun isNeedReload(): Boolean {
+        return false
+    }
+
+    private fun tryLoadData() {
+        if (isNeedReload() || !isDataLoaded) {
             doBusiness()
+            isDataLoaded = true
         }
+    }
+
+    override fun isCheckNetChanged(): Boolean {
+        return false
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}
