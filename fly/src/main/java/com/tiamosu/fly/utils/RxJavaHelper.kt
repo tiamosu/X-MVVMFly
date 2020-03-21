@@ -14,11 +14,15 @@ import java.net.SocketException
  * @date 2020/3/18.
  */
 
-fun setRxJavaErrorHandler() {
+@JvmOverloads
+fun setRxJavaErrorHandler(handlerCallback: RxJavaErrorHandlerCallback? = null) {
     if (RxJavaPlugins.getErrorHandler() != null || RxJavaPlugins.isLockdown()) {
         return
     }
     RxJavaPlugins.setErrorHandler(Consumer { throwable ->
+        if (handlerCallback?.onCallback(throwable) == true) {
+            return@Consumer
+        }
         var e = throwable
         if (e is UndeliverableException) {
             e = e.cause
@@ -49,4 +53,8 @@ fun setRxJavaErrorHandler() {
         }
         Log.e("RxJavaHelper", "Undeliverable exception received, not sure what to do", e)
     })
+}
+
+interface RxJavaErrorHandlerCallback {
+    fun onCallback(throwable: Throwable?): Boolean
 }
