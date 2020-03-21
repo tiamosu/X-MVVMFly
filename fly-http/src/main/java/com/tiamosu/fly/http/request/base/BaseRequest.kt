@@ -59,7 +59,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         private set
     var httpUrl: HttpUrl? = null
         private set
-    var retryCount = 3                                  //超时重试次数，默认3次
+    var retryCount = 0                                  //超时重试次数，默认0次
         private set
     var retryDelay = 0                                  //超时重试延时，单位 s
         private set

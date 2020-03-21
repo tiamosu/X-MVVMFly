@@ -50,7 +50,7 @@ import javax.net.ssl.HostnameVerifier
 class FlyHttp {
     private var cookieJar: CookieManger? = null                     //Cookie管理
     private var baseUrl: String? = null                             //全局 BaseUrl
-    private var retryCount = DEFAULT_RETRY_COUNT                    //超时重试次数，默认3次
+    private var retryCount = DEFAULT_RETRY_COUNT                    //超时重试次数，默认0次
     private var retryDelay = DEFAULT_RETRY_DELAY                    //超时重试延时，单位 s
     private var commonHeaders: HttpHeaders? = null                  //全局公共请求头
     private var commonParams: HttpParams? = null                    //全局公共请求参数
@@ -348,7 +348,7 @@ class FlyHttp {
     }
 
     companion object {
-        const val DEFAULT_RETRY_COUNT = 3           //默认重试次数
+        const val DEFAULT_RETRY_COUNT = 0           //默认重试次数
         const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
         const val DEFAULT_CACHE_NEVER_EXPIRE = -1L   //缓存过期时间，默认永久缓存
 
