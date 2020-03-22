@@ -112,4 +112,11 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}
     override fun onNetReConnect() {}
+
+    override fun onDestroyView() {
+        isOnSupportVisible = false
+        isOnEnterAnimationEnd = false
+        isDataLoaded = false
+        super.onDestroyView()
+    }
 }

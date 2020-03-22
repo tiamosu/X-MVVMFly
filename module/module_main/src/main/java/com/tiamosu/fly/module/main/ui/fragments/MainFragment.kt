@@ -30,6 +30,9 @@ class MainFragment : BaseFragment() {
         btn_start_other.setOnClickListener {
             start(newInstance(Router.obtainFragmentOtherCls()))
         }
+        btn_start_shared.setOnClickListener {
+            start(newInstance(SharedFragment::class.java))
+        }
         btn_start_http.setOnClickListener {
             start(newInstance(HttpFragment::class.java))
         }

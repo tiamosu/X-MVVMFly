@@ -2,14 +2,22 @@ package com.tiamosu.fly.module.common.base
 
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tiamosu.fly.base.BaseFlyFragment
+import com.tiamosu.fly.module.common.bridge.SharedViewModel
 
 /**
  * @author tiamosu
  * @date 2020/2/20.
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
+
+    protected val shardViewModel: SharedViewModel by lazy {
+        getAppViewModelProvider().get(
+            SharedViewModel::class.java
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,5 +50,9 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun onNetReConnect() {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
+    }
+
+    protected fun getAppViewModelProvider(): ViewModelProvider {
+        return (context.applicationContext as BaseApplication).getAppViewModelProvider(context)
     }
 }

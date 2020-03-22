@@ -8,6 +8,7 @@ dependencies {
     api project(':fly-http')
     api project(':fly-imageloader-glide')
 
+    api Deps.androidx_multidex
     api Deps.androidx_constraint_layout
     debugImplementation Deps.leakcanary_android
 }

@@ -21,10 +21,10 @@ class UnPeekLiveData<T> : MutableLiveData<T>() {
     private fun hook(observer: Observer<in T>) {
         val liveDataClass = LiveData::class.java
         try { //获取field private SafeIterableMap<Observer<T>, ObserverWrapper> mObservers
-            val mObservers = liveDataClass.getDeclaredField("mObservers")
-            mObservers.isAccessible = true
+            val observersField = liveDataClass.getDeclaredField("mObservers")
+            observersField.isAccessible = true
             //获取SafeIterableMap集合mObservers
-            val observers = mObservers[this]
+            val observers = observersField[this]
             val observersClass: Class<*>? = observers?.javaClass
             //获取SafeIterableMap的get(Object obj)方法
             val methodGet = observersClass?.getDeclaredMethod("get", Any::class.java)
@@ -41,18 +41,18 @@ class UnPeekLiveData<T> : MutableLiveData<T>() {
             //获取ObserverWrapper的Class对象  LifecycleBoundObserver extends ObserverWrapper
             val wrapperClass: Class<*>? = objectWrapper.javaClass.superclass
             //获取ObserverWrapper的field mLastVersion
-            val mLastVersion = wrapperClass?.getDeclaredField("mLastVersion")
-            mLastVersion?.isAccessible = true
+            val lastVersionField = wrapperClass?.getDeclaredField("mLastVersion")
+            lastVersionField?.isAccessible = true
             //获取liveData的field mVersion
-            val mVersion = liveDataClass.getDeclaredField("mVersion")
-            mVersion.isAccessible = true
-            val mV = mVersion[this]
+            val versionField = liveDataClass.getDeclaredField("mVersion")
+            versionField.isAccessible = true
+            val any = versionField[this]
             //把当前ListData的mVersion赋值给 ObserverWrapper的field mLastVersion
-            mLastVersion?.set(objectWrapper, mV)
-            mObservers.isAccessible = false
+            lastVersionField?.set(objectWrapper, any)
+            observersField.isAccessible = false
             methodGet?.isAccessible = false
-            mLastVersion?.isAccessible = false
-            mVersion.isAccessible = false
+            lastVersionField?.isAccessible = false
+            versionField.isAccessible = false
         } catch (e: Exception) {
             e.printStackTrace()
         }

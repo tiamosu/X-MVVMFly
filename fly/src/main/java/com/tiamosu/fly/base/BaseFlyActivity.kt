@@ -70,4 +70,9 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}
     override fun onNetReConnect() {}
+
+    override fun onDestroy() {
+        isDataLoaded = false
+        super.onDestroy()
+    }
 }
