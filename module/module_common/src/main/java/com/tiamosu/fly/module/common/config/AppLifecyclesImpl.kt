@@ -59,8 +59,6 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
                 .setHostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
                 .setCertificates()
                 .addInterceptor(CustomSignInterceptor())
-                .setRetryCount(3)
-                .setRetryDelay(2)
                 .setOkHttpConnectionPool(ConnectionPool())
                 .setCallbackExecutor(getAppComponent().executorService())
                 .addCommonHeaders(httpHeaders)
