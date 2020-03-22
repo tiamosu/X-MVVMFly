@@ -38,7 +38,7 @@ class GlobalConfiguration : ConfigModule {
         })
 
         builder
-            .baseurl("https://www.wanandroid.com")
+            .baseurl(Api.APP_DOMAIN)
             .addInterceptor(HeadersInterceptor(headers))
             .imageLoaderStrategy(GlideImageLoaderStrategy())
             .okhttpConfiguration(object : ClientModule.OkHttpConfiguration {

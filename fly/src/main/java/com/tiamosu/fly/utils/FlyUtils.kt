@@ -2,6 +2,7 @@
 
 package com.tiamosu.fly.utils
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
@@ -24,6 +25,13 @@ fun <T> KProperty0<T>.isInitialized(): Boolean {
 }
 
 fun getAppComponent(): AppComponent {
+    checkNotNull(Utils.getApp(), "%s cannot be null", Context::class.java.name)
+    checkState(
+        Utils.getApp() is IFlyApp,
+        "%s must be implements %s",
+        Utils.getApp().javaClass.name,
+        IFlyApp::class.java.name
+    )
     return (Utils.getApp() as IFlyApp).getAppComponent()
 }
 

@@ -51,7 +51,7 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             httpHeaders.put(HttpHeaders.HEAD_KEY_USER_AGENT, HttpHeaders.userAgent)
             FlyHttp.instance
                 .debug("FlyHttp", BuildConfig.DEBUG)
-                .setBaseUrl("https://www.wanandroid.com")
+                .setBaseUrl(Api.APP_DOMAIN)
                 .setReadTimeOut(60 * 1000)
                 .setWriteTimeOut(60 * 1000)
                 .setConnectTimeout(60 * 1000)
