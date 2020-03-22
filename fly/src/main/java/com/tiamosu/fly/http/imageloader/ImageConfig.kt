@@ -12,6 +12,6 @@ import android.widget.ImageView
 open class ImageConfig {
     var any: Any? = null//所要加载的资源
     var imageView: ImageView? = null
-    var placeholder: Int = 0//占位符
-    var error: Int = 0//错误占位符
+    var placeholder = 0//占位符
+    var error = 0//错误占位符
 }
