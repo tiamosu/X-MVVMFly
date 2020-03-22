@@ -2,6 +2,8 @@ package com.tiamosu.fly.module.main.data.repository
 
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
+import com.tiamosu.fly.http.request.base.ProgressRequestBody
+import java.io.File
 
 /**
  * @author tiamosu
@@ -22,4 +24,11 @@ interface IRemoteRequest {
     fun <T> downloadFile(callback: Callback<T>)
 
     fun <T> requestCache(callback: Callback<T>, cacheMode: CacheMode, cacheKey: String)
+
+    fun <T> uploadFile(
+        callback: Callback<T>,
+        progressResponseCallBack: ProgressRequestBody.ProgressResponseCallBack,
+        key: String,
+        file: File
+    )
 }

@@ -4,8 +4,10 @@ import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
+import com.tiamosu.fly.http.request.base.ProgressRequestBody
 import com.tiamosu.fly.module.main.data.api.APIs
 import com.tiamosu.fly.module.main.data.api.CustomApiService
+import java.io.File
 
 /**
  * @author tiamosu
@@ -63,6 +65,18 @@ object HttpRequestManager : IRemoteRequest {
 //            .okCache(Cache()) //okHttp缓存，模式为默认模式（CacheMode.DEFAULT）才生效
             .cacheDiskConverter(SerializableDiskConverter()) //默认使用的是 SerializableDiskConverter()
             .timeStamp(true)
+            .build()
+            .execute(callback)
+    }
+
+    override fun <T> uploadFile(
+        callback: Callback<T>,
+        progressResponseCallBack: ProgressRequestBody.ProgressResponseCallBack,
+        key: String,
+        file: File
+    ) {
+        FlyHttp.upload(APIs.UPLOAD_FILE)
+            .params(key, file)
             .build()
             .execute(callback)
     }

@@ -8,4 +8,5 @@ object APIs {
     const val FRIEND_JSON = "/friend/json"
     const val DOWNLOAD_FILE =
         "https://qd.myapp.com/myapp/qqteam/QQ_JS/qqlite_4.0.0.1025_537062065.apk"
+    const val UPLOAD_FILE = "/xx/upload"
 }
