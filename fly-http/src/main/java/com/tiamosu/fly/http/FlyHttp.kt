@@ -411,23 +411,19 @@ class FlyHttp {
             return CustomRequest(url)
         }
 
-        @JvmStatic
-        fun getOkHttpClientBuilder(): OkHttpClient.Builder {
+        internal fun getOkHttpClientBuilder(): OkHttpClient.Builder {
             return instance.okHttpClientBuilder
         }
 
-        @JvmStatic
-        fun getOkHttpClient(): OkHttpClient {
+        internal fun getOkHttpClient(): OkHttpClient {
             return instance.okHttpClientBuilder.build()
         }
 
-        @JvmStatic
-        fun getRetrofitBuilder(): Retrofit.Builder {
+        internal fun getRetrofitBuilder(): Retrofit.Builder {
             return instance.retrofitBuilder
         }
 
-        @JvmStatic
-        fun getRetrofit(): Retrofit {
+        internal fun getRetrofit(): Retrofit {
             return instance.retrofitBuilder.build()
         }
 
