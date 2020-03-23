@@ -10,8 +10,7 @@ import android.view.View
 interface IFlyBaseView {
 
     /**
-     * @return 用于布局加载
-     * 如果[getLayoutId]返回0，则不会生产视图
+     * 用于布局加载，如果[getLayoutId]返回0，则不会生产视图
      */
     fun getLayoutId(): Int
 
@@ -56,7 +55,7 @@ interface IFlyBaseView {
     fun isCheckNetChanged(): Boolean
 
     /**
-     * 网络是否连接可用
+     * 网络状态变化监听，是否连接可用
      */
     fun onNetworkStateChanged(isConnected: Boolean)
 
