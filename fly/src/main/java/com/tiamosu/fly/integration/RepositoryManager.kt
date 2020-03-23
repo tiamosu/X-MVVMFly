@@ -10,7 +10,6 @@ import javax.inject.Singleton
 
 /**
  * 用来管理网络请求层
- * @see [RepositoryManager wiki 官方文档](https://github.com/JessYanCoding/MVPArms/wiki#2.3)
  *
  * @author tiamosu
  * @date 2018/9/14.
