@@ -5,6 +5,12 @@ apply {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(':fly')
+
+    api(Deps.glide) {
+        exclude group: 'androidx.annotation'
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.vectordrawable'
+    }
     kapt Deps.glide_compiler
 }
 

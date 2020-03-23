@@ -54,12 +54,11 @@ dependencies {
     api Deps.utilcode
 
     //glide
-    api(Deps.glide) {
+    compileOnly(Deps.glide) {
         exclude group: 'androidx.annotation'
         exclude group: 'androidx.fragment'
         exclude group: 'androidx.vectordrawable'
     }
-    kapt Deps.glide_compiler
 }
 
 apply from: "${rootDir.path}/config_bintray.gradle"

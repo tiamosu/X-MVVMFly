@@ -13,9 +13,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
-import com.tiamosu.fly.http.imageloader.glide.GlideAppliesOptions
-import com.tiamosu.fly.http.imageloader.glide.GlideFly
-import com.tiamosu.fly.http.imageloader.glide.GlideRequest
 import com.tiamosu.fly.utils.post
 import com.tiamosu.fly.utils.postOnMain
 import io.reactivex.functions.Action
@@ -29,7 +26,8 @@ import io.reactivex.schedulers.Schedulers
  * @date 2018/9/17.
  */
 @Suppress("UNCHECKED_CAST")
-class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, GlideAppliesOptions {
+class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
+    GlideAppliesOptions {
 
     @SuppressLint("CheckResult")
     override fun loadImage(context: Context, config: ImageConfigImpl) {

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.http.imageloader.glide
+package com.tiamosu.fly.imageloader.glide
 
 import android.content.Context
 import com.bumptech.glide.Glide
