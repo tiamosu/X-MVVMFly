@@ -24,6 +24,8 @@ implementation 'me.tiamosu:fly-http:1.0.0'
 implementation 'me.tiamosu:fly-imageloader-glide:1.0.0'
 ```
 
+## [UpdateLog](../../blob/master/CHANGELOG.md)
+
 ## *特别感谢*
 * [MVPArms](https://github.com/JessYanCoding/MVPArms)
 * [Fragmentation](https://github.com/YoKeyword/Fragmentation)
