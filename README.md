@@ -1,5 +1,9 @@
 # X-MVVMFly
 
+## Wiki
+
+[详细使用方法及扩展功能，请参照 Wiki (开发前必看!!!)](https://github.com/tiamosu/X-MVVMFly/wiki)
+
 ## Download
 
 ### fly
