@@ -4,6 +4,9 @@ include ':fly',
         ':fly-http',
         ':fly-imageloader-glide'
 
-include ':module:module_common'
-include ':module:module_main'
-include ':module:module_other'
+include ':module:module_common',
+        ':module:module_main',
+        ':module:module_other'
+
+include ':standalone:standalone_main',
+        ':standalone:standalone_other'
