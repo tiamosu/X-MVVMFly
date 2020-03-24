@@ -18,6 +18,7 @@ def projectName = POM_NAME
 
 version = projectVersion
 group = projectGroupId
+
 install {
     repositories.mavenInstaller {
         pom {
@@ -49,25 +50,10 @@ install {
     }
 }
 
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = projectName
-        websiteUrl = projectSiteUrl
-        vcsUrl = projectGitUrl
-        licenses = ["Apache-2.0"]
-        publish = true // 是否是公开项目。
-
-        version {
-            name = projectVersion
-            desc = projectDesc
-            released = new Date()
-            vcsTag = 'v' + projectVersion
-            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
-        }
+if (project.hasProperty("kotlin")) {
+    // Disable creating javaDocs
+    tasks.withType(Javadoc) {
+        enabled = false
     }
 }
 
@@ -78,6 +64,7 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     failOnError false
     source = android.sourceSets.main.java.srcDirs
+    classpath += configurations.compile
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -97,5 +84,27 @@ javadoc {
         version projectVersion
         links "http://docs.oracle.com/javase/7/docs/api"
         title projectName
+    }
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = projectName
+        websiteUrl = projectSiteUrl
+        vcsUrl = projectGitUrl
+        licenses = ["Apache-2.0"]
+        publish = true // 是否是公开项目。
+
+        version {
+            name = projectVersion
+            desc = projectDesc
+            released = new Date()
+            vcsTag = 'v' + projectVersion
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
     }
 }
