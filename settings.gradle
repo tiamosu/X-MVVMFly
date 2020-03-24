@@ -2,7 +2,8 @@ include ':app'
 
 include ':fly',
         ':fly-http',
-        ':fly-imageloader-glide'
+        ':fly-imageloader-glide',
+        ':fly-livedata-bus'
 
 include ':module:module_common',
         ':module:module_main',

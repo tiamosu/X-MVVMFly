@@ -33,6 +33,9 @@ class MainFragment : BaseFragment() {
         btn_start_shared.setOnClickListener {
             start(newInstance(SharedFragment::class.java))
         }
+        btn_start_bus.setOnClickListener {
+            start(newInstance(BusFragment::class.java))
+        }
         btn_start_http.setOnClickListener {
             start(newInstance(HttpFragment::class.java))
         }

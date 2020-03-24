@@ -7,6 +7,7 @@ dependencies {
     api project(':fly')
     api project(':fly-http')
     api project(':fly-imageloader-glide')
+    api project(':fly-livedata-bus')
 
     api Deps.androidx_multidex
     api Deps.androidx_constraint_layout

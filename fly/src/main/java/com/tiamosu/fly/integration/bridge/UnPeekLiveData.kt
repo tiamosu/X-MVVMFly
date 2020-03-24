@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
  *
  * Create by KunMinX at 19/9/23
  */
-class UnPeekLiveData<T> : MutableLiveData<T>() {
+open class UnPeekLiveData<T> : MutableLiveData<T>() {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         super.observe(owner, observer)
