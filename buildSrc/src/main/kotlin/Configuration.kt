@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "SpellCheckingInspection")
 
 object Android {
     const val compileSdkVersion = 29
@@ -18,7 +18,7 @@ object Versions {
     const val autodispose = "1.4.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.27"
-    const val fragmentation = "1.1.5"
+    const val fragmentation = "1.1.6"
 }
 
 object Publish {
