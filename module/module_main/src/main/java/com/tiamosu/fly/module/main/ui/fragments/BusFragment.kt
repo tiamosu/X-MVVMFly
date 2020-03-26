@@ -1,8 +1,6 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.livedata.bus.LiveDataBus
 import com.tiamosu.fly.module.common.base.BaseFragment
@@ -20,13 +18,6 @@ class BusFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_bus
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     @SuppressLint("SetTextI18n")

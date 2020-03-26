@@ -1,8 +1,6 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.graphics.drawable.Drawable
-import android.os.Bundle
-import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
@@ -21,13 +19,6 @@ class GlideFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_glide
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     override fun initEvent() {

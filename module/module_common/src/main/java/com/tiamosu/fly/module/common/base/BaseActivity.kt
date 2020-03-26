@@ -1,6 +1,8 @@
 package com.tiamosu.fly.module.common.base
 
+import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.BaseFlyActivity
@@ -13,9 +15,28 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(
-            SharedViewModel::class.java
-        )
+        getAppViewModelProvider().get(SharedViewModel::class.java)
+    }
+
+    /**
+     * 用于初始化数据
+     */
+    protected open fun initData(bundle: Bundle?) {}
+
+    /**
+     * 用于初始化View
+     */
+    protected open fun initView(rootView: View?) {}
+
+    /**
+     * 用于初始化事件
+     */
+    protected open fun initEvent() {}
+
+    override fun initAny() {
+        initData(intent.extras)
+        initView(rootView)
+        initEvent()
     }
 
     override fun showError(msg: String?) {

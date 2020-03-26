@@ -1,7 +1,5 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
@@ -15,13 +13,6 @@ class ChildLowerFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_child_lower
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     override fun initEvent() {

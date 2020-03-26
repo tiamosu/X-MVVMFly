@@ -1,6 +1,5 @@
 package com.tiamosu.fly.module.common.base
 
-import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -24,6 +23,10 @@ abstract class ProxyActivity : BaseActivity() {
     @NonNull
     protected abstract fun getRootFragment(): Class<out ISupportFragment>
 
+    override fun getLayoutId(): Int {
+        return 0
+    }
+
     override fun setContentView() {
         if (getLayoutId() <= 0) {
             rootView = FrameLayout(this)
@@ -45,13 +48,6 @@ abstract class ProxyActivity : BaseActivity() {
         }
     }
 
-    override fun getLayoutId(): Int {
-        return 0
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {}
-    override fun initEvent() {}
     override fun doBusiness() {}
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

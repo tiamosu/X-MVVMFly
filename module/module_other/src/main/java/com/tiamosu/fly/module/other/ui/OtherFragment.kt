@@ -1,7 +1,5 @@
 package com.tiamosu.fly.module.other.ui
 
-import android.os.Bundle
-import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.other.R
 
@@ -15,10 +13,5 @@ class OtherFragment : BaseFragment() {
         return R.layout.fragment_other
     }
 
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(savedInstanceState: Bundle?, contentView: View?) {
-    }
-
-    override fun initEvent() {}
     override fun doBusiness() {}
 }

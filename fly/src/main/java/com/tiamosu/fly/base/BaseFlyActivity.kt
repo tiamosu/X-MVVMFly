@@ -2,7 +2,6 @@ package com.tiamosu.fly.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.CallSuper
 import com.tiamosu.fly.http.manager.NetworkDelegate
 import me.yokeyword.fragmentation.SupportActivity
 
@@ -14,13 +13,34 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
     var rootView: View? = null
 
     private val networkDelegate by lazy { NetworkDelegate() }
+
+    //防止多次加载数据
     private var isDataLoaded = false
+
+    override fun isNeedReload(): Boolean {
+        return false
+    }
+
+    override fun isCheckNetChanged(): Boolean {
+        return false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView()
-        initAny(savedInstanceState)
+        initAny()
+
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+
         tryLoadData(true)
+    }
+
+    override fun setContentView() {
+        if (getLayoutId() > 0) {
+            rootView = View.inflate(getContext(), getLayoutId(), null)
+            setContentView(rootView)
+        }
     }
 
     override fun onResume() {
@@ -29,10 +49,6 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
             networkDelegate.hasNetWork(this)
         }
         tryLoadData(false)
-    }
-
-    override fun isNeedReload(): Boolean {
-        return false
     }
 
     private fun tryLoadData(isCreate: Boolean) {
@@ -45,27 +61,6 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
             }
             isDataLoaded = false
         }
-    }
-
-    override fun setContentView() {
-        if (getLayoutId() > 0) {
-            rootView = View.inflate(getContext(), getLayoutId(), null)
-            setContentView(rootView)
-        }
-    }
-
-    @CallSuper
-    override fun initAny(savedInstanceState: Bundle?) {
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
-
-        initData(intent.extras)
-        initView(savedInstanceState, rootView)
-        initEvent()
-    }
-
-    override fun isCheckNetChanged(): Boolean {
-        return false
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {}

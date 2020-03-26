@@ -1,8 +1,6 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.Observer
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.utils.lazyViewModel
@@ -20,13 +18,6 @@ class BasicRequestFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_basic_request
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     override fun initEvent() {

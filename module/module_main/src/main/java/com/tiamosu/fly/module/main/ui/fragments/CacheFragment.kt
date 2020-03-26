@@ -1,6 +1,5 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
-import android.os.Bundle
 import android.text.Html
 import android.view.View
 import androidx.lifecycle.Observer
@@ -26,13 +25,6 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_cache
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     @Suppress("DEPRECATION")

@@ -1,7 +1,5 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
-import android.os.Bundle
-import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.utils.newInstance
@@ -15,13 +13,6 @@ class SplashFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_splash
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     override fun initEvent() {

@@ -1,7 +1,5 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
-import android.os.Bundle
-import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.router.Router
@@ -17,13 +15,6 @@ class MainFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
-    }
-
-    override fun initData(bundle: Bundle?) {}
-    override fun initView(
-        savedInstanceState: Bundle?,
-        contentView: View?
-    ) {
     }
 
     override fun initEvent() {

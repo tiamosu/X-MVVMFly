@@ -24,6 +24,8 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     //保证转场动画的流畅性，进行延迟加载
     private var isOnSupportVisible = false
     private var isOnEnterAnimationEnd = false
+
+    //防止多次加载数据
     private var isDataLoaded = false
 
     /**
@@ -64,17 +66,10 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initAny(savedInstanceState)
-    }
+        initAny()
 
-    @CallSuper
-    override fun initAny(savedInstanceState: Bundle?) {
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
-
-        initData(arguments)
-        initView(savedInstanceState, rootView)
-        initEvent()
     }
 
     @CallSuper

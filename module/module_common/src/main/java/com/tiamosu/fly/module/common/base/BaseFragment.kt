@@ -2,6 +2,7 @@ package com.tiamosu.fly.module.common.base
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tiamosu.fly.base.BaseFlyFragment
@@ -14,14 +15,33 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(
-            SharedViewModel::class.java
-        )
+        getAppViewModelProvider().get(SharedViewModel::class.java)
     }
+
+    /**
+     * 用于初始化数据
+     */
+    protected open fun initData(bundle: Bundle?) {}
+
+    /**
+     * 用于初始化View
+     */
+    protected open fun initView(rootView: View?) {}
+
+    /**
+     * 用于初始化事件
+     */
+    protected open fun initEvent() {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ARouter.getInstance().inject(this)
+    }
+
+    override fun initAny() {
+        initData(arguments)
+        initView(rootView)
+        initEvent()
     }
 
     override fun showError(msg: String?) {
