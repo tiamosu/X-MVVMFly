@@ -74,7 +74,7 @@ object Deps {
     const val gson = "com.google.code.gson:gson:2.8.6"
 
     //rx
-    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.18"
+    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.19"
     const val rxandroid2 = "io.reactivex.rxjava2:rxandroid:2.1.1"
     const val rxerrorhandler = "me.jessyan:rxerrorhandler:2.1.1"
 
