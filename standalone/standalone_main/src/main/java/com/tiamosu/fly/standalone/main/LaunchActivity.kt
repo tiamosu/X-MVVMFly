@@ -1,5 +1,6 @@
 package com.tiamosu.fly.standalone.main
 
+import android.os.Bundle
 import com.tiamosu.fly.module.common.base.ProxyActivity
 import com.tiamosu.fly.module.main.ui.fragments.MainFragment
 import me.yokeyword.fragmentation.ISupportFragment
@@ -9,6 +10,11 @@ import me.yokeyword.fragmentation.ISupportFragment
  * @date 2020/3/24.
  */
 class LaunchActivity : ProxyActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun getRootFragment(): Class<out ISupportFragment?> {
         return MainFragment::class.java
