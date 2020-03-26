@@ -1,41 +1,52 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
+import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.module.common.base.BaseFragment
+import com.tiamosu.fly.module.common.base.BaseDBFragment
 import com.tiamosu.fly.module.common.router.Router
 import com.tiamosu.fly.module.main.R
+import com.tiamosu.fly.module.main.databinding.FragmentMainBinding
 import com.tiamosu.fly.utils.newInstance
-import kotlinx.android.synthetic.main.fragment_main.*
+import me.yokeyword.fragmentation.SupportFragment
 
 /**
  * @author tiamosu
  * @date 2020/3/13.
  */
-class MainFragment : BaseFragment() {
+class MainFragment : BaseDBFragment<FragmentMainBinding>() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
     }
 
-    override fun initEvent() {
-        btn_start_other.setOnClickListener {
-            start(newInstance(Router.obtainFragmentOtherCls()))
-        }
-        btn_start_shared.setOnClickListener {
-            start(newInstance(SharedFragment::class.java))
-        }
-        btn_start_bus.setOnClickListener {
-            start(newInstance(BusFragment::class.java))
-        }
-        btn_start_http.setOnClickListener {
-            start(newInstance(HttpFragment::class.java))
-        }
-        btn_start_glide.setOnClickListener {
-            start(newInstance(GlideFragment::class.java))
-        }
+    override fun initData(bundle: Bundle?) {
+        viewDataBinding?.click = ClickProxy(this)
     }
 
     override fun doBusiness() {}
+
+    class ClickProxy(private val fragment: SupportFragment) {
+
+        fun startOther() {
+            fragment.start(newInstance(Router.obtainFragmentOtherCls()))
+        }
+
+        fun startShared() {
+            fragment.start(newInstance(SharedFragment::class.java))
+        }
+
+        fun startBus() {
+            fragment.start(newInstance(BusFragment::class.java))
+        }
+
+        fun startHttp() {
+            fragment.start(newInstance(HttpFragment::class.java))
+        }
+
+        fun startGlide() {
+            fragment.start(newInstance(GlideFragment::class.java))
+        }
+    }
 
     override fun onBackPressedSupport(): Boolean {
         if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
