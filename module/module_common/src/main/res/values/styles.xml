@@ -10,8 +10,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="launchTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
+    <style name="launchTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/app_bg</item>
     </style>
 </resources>

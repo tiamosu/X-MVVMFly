@@ -25,10 +25,9 @@ class GlideFragment : BaseFragment() {
         btn_load_local_pic.setOnClickListener {
             ImageLoader.loadImage(
                 ImageConfigImpl
-                    .load(R.mipmap.ic_launcher)
+                    .load(R.drawable.fly)
                     .crossFade()
-                    .centerCrop()
-                    .circleCrop()
+                    .centerInside()
                     .into(iv)
                     .build()
             )
