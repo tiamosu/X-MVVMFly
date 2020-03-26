@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.tiamosu.fly.base.BaseFlyApplication
-import com.tiamosu.fly.utils.checkState
 
 /**
  * @author tiamosu
@@ -16,12 +15,9 @@ open class BaseApplication : BaseFlyApplication(), ViewModelStoreOwner {
 
     //可借助 Application 来管理一个应用级 的 SharedViewModel，
     //实现全应用范围内的 生命周期安全 且 事件源可追溯的 视图控制器 事件通知。
-    private lateinit var appViewModelStore: ViewModelStore
-    private var factory: ViewModelProvider.Factory? = null
-
-    override fun onCreate() {
-        super.onCreate()
-        appViewModelStore = ViewModelStore()
+    private val appViewModelStore by lazy { ViewModelStore() }
+    private val factory by lazy {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(this)
     }
 
     override fun getViewModelStore(): ViewModelStore {
@@ -29,24 +25,14 @@ open class BaseApplication : BaseFlyApplication(), ViewModelStoreOwner {
     }
 
     fun getAppViewModelProvider(activity: Activity): ViewModelProvider {
-        val app = activity.applicationContext as BaseApplication
-        return ViewModelProvider(app, app.getAppFactory(activity))
-    }
-
-    private fun getAppFactory(activity: Activity): ViewModelProvider.Factory {
-        val application = checkApplication(activity)
-        if (factory == null) {
-            factory = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        }
-        return factory!!
+        val app = checkApplication(activity) as BaseApplication
+        return ViewModelProvider(app, app.factory)
     }
 
     private fun checkApplication(activity: Activity): Application {
-        checkState(
-            activity.application != null,
+        return activity.application ?: throw IllegalStateException(
             "Your activity/fragment is not yet attached to Application. " +
                     "You can't request ViewModel before onCreate call."
         )
-        return activity.application
     }
 }
