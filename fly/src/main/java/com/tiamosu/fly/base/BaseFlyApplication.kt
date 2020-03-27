@@ -14,17 +14,17 @@ import com.tiamosu.fly.utils.checkState
  * @date 2018/7/2.
  */
 open class BaseFlyApplication : Application(), IFlyApp {
-    private var mAppDelegate: IFlyAppLifecycles? = null
+    private var appDelegate: IFlyAppLifecycles? = null
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        mAppDelegate = mAppDelegate ?: FlyAppDelegate(base)
-        mAppDelegate?.attachBaseContext(base)
+        appDelegate = appDelegate ?: FlyAppDelegate(base)
+        appDelegate?.attachBaseContext(base)
     }
 
     override fun onCreate() {
         super.onCreate()
-        mAppDelegate?.onCreate(this)
+        appDelegate?.onCreate(this)
     }
 
     /**
@@ -32,22 +32,22 @@ open class BaseFlyApplication : Application(), IFlyApp {
      */
     override fun onTerminate() {
         super.onTerminate()
-        mAppDelegate?.onTerminate(this)
+        appDelegate?.onTerminate(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        mAppDelegate?.onConfigurationChanged(newConfig)
+        appDelegate?.onConfigurationChanged(newConfig)
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mAppDelegate?.onLowMemory()
+        appDelegate?.onLowMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        mAppDelegate?.onTrimMemory(level)
+        appDelegate?.onTrimMemory(level)
     }
 
     /**
@@ -58,13 +58,13 @@ open class BaseFlyApplication : Application(), IFlyApp {
      * @see [com.tiamosu.fly.utils.getAppComponent]
      */
     override fun getAppComponent(): AppComponent {
-        checkNotNull(mAppDelegate, "%s cannot be null", IFlyAppLifecycles::class.java.name)
+        checkNotNull(appDelegate, "%s cannot be null", IFlyAppLifecycles::class.java.name)
         checkState(
-            mAppDelegate is IFlyApp,
+            appDelegate is IFlyApp,
             "%s must be implements %s",
             IFlyAppLifecycles::class.java.name,
             IFlyApp::class.java.name
         )
-        return (mAppDelegate as IFlyApp).getAppComponent()
+        return (appDelegate as IFlyApp).getAppComponent()
     }
 }

@@ -21,17 +21,17 @@ abstract class BaseExpiredInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
-        val responseBody = response.body()
+        val responseBody = response.body
         val source = responseBody?.source()
         source?.request(Long.MAX_VALUE) // Buffer the entire body.
-        val buffer = source?.buffer()
+        val buffer = source?.buffer
         var charset: Charset = UTF8
         val contentType = responseBody?.contentType()
         if (contentType != null) {
             charset = contentType.charset(UTF8)!!
         }
         val bodyString = buffer?.clone()?.readString(charset)
-        iLog("网络拦截器:" + bodyString + " host:" + request.url().toString())
+        iLog("网络拦截器:" + bodyString + " host:" + request.url.toString())
         val isText = isText(contentType)
         if (!isText) {
             return response
@@ -43,7 +43,7 @@ abstract class BaseExpiredInterceptor : Interceptor {
     }
 
     private fun isText(mediaType: MediaType?): Boolean {
-        if (mediaType?.type() == "text" || mediaType?.subtype() == "json") {
+        if (mediaType?.type == "text" || mediaType?.subtype == "json") {
             return true
         }
         return false

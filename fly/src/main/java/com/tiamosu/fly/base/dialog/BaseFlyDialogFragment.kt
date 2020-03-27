@@ -18,25 +18,25 @@ import com.blankj.utilcode.util.Utils
  */
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFlyDialogFragment : DialogFragment() {
-    protected var mDialogLayoutCallback: IFlyDialogLayoutCallback? = null
-    protected var mDialogCallback: IFlyDialogCallback? = null
-    protected var mActivity: FragmentActivity? = null
+    protected var dialogLayoutCallback: IFlyDialogLayoutCallback? = null
+    protected var dialogCallback: IFlyDialogCallback? = null
+    protected var fragmentActivity: FragmentActivity? = null
 
     fun init(@NonNull activity: FragmentActivity, layoutCallback: IFlyDialogLayoutCallback?): BaseFlyDialogFragment {
-        mActivity = activity
-        mDialogLayoutCallback = layoutCallback
+        fragmentActivity = activity
+        dialogLayoutCallback = layoutCallback
         return this
     }
 
     fun init(@NonNull activity: FragmentActivity, dialogCallback: IFlyDialogCallback?): BaseFlyDialogFragment {
-        mActivity = activity
-        mDialogCallback = dialogCallback
+        fragmentActivity = activity
+        this.dialogCallback = dialogCallback
         return this
     }
 
     override fun getTheme(): Int {
-        if (mDialogLayoutCallback != null) {
-            val theme = mDialogLayoutCallback!!.bindTheme()
+        if (dialogLayoutCallback != null) {
+            val theme = dialogLayoutCallback!!.bindTheme()
             if (theme != View.NO_ID) {
                 return theme
             }
@@ -45,8 +45,8 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return if (mDialogCallback != null) {
-            mDialogCallback!!.bindDialog(mActivity!!)
+        return if (dialogCallback != null) {
+            dialogCallback!!.bindDialog(fragmentActivity!!)
         } else super.onCreateDialog(savedInstanceState)
     }
 
@@ -55,41 +55,41 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (mDialogLayoutCallback != null) {
-            inflater.inflate(mDialogLayoutCallback!!.bindLayout(), container, false)
+        return if (dialogLayoutCallback != null) {
+            inflater.inflate(dialogLayoutCallback!!.bindLayout(), container, false)
         } else super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mDialogLayoutCallback?.initView(this, view)
+        dialogLayoutCallback?.initView(this, view)
     }
 
     override fun onStart() {
         super.onStart()
         val dialog = dialog ?: return
         val window = dialog.window ?: return
-        if (mDialogCallback != null) {
-            mDialogCallback!!.setWindowStyle(window)
-        } else if (mDialogLayoutCallback != null) {
-            mDialogLayoutCallback!!.setWindowStyle(window)
+        if (dialogCallback != null) {
+            dialogCallback!!.setWindowStyle(window)
+        } else if (dialogLayoutCallback != null) {
+            dialogLayoutCallback!!.setWindowStyle(window)
         }
     }
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        mDialogLayoutCallback?.onCancel(this)
+        dialogLayoutCallback?.onCancel(this)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        mDialogLayoutCallback?.onDismiss(this)
+        dialogLayoutCallback?.onDismiss(this)
     }
 
     @JvmOverloads
     fun show(tag: String? = javaClass.simpleName) {
         Utils.runOnUiThread {
-            if (ActivityUtils.isActivityAlive(mActivity)) {
-                val fm = mActivity!!.supportFragmentManager
+            if (ActivityUtils.isActivityAlive(fragmentActivity)) {
+                val fm = fragmentActivity!!.supportFragmentManager
                 val prev = fm.findFragmentByTag(tag)
                 if (prev != null) {
                     fm.beginTransaction().remove(prev)
@@ -101,7 +101,7 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
 
     override fun dismiss() {
         Utils.runOnUiThread {
-            if (ActivityUtils.isActivityAlive(mActivity)) {
+            if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 super@BaseFlyDialogFragment.dismissAllowingStateLoss()
             }
         }

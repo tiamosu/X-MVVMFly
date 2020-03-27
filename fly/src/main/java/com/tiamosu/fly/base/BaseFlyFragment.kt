@@ -13,7 +13,6 @@ import me.yokeyword.fragmentation.SupportFragment
  * @author tiamosu
  * @date 2020/2/18.
  */
-@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     var inflater: LayoutInflater? = null
     var container: ViewGroup? = null

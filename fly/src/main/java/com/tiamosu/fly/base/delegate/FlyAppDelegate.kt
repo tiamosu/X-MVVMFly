@@ -28,98 +28,97 @@ import java.util.*
  * @date 2018/9/14.
  */
 class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
-    private var mApplication: Application? = null
-    private var mAppComponent: AppComponent? = null
-
-    private var mConfigModules: List<ConfigModule>? = null
-    private var mAppLifecycles: MutableList<IFlyAppLifecycles>? = ArrayList()
-    private var mComponentCallback: ComponentCallbacks2? = null
+    private var application: Application? = null
+    private var appComponent: AppComponent? = null
+    private var configModules: List<ConfigModule>? = null
+    private var appLifecycles: MutableList<IFlyAppLifecycles>? = ArrayList()
+    private var componentCallback: ComponentCallbacks2? = null
 
     init {
         //用反射, 将 AndroidManifest.xml 中带有 ConfigModule 标签的 class 转成对象集合（List<ConfigModule>）
-        this.mConfigModules = ManifestParser(context).parse()
+        this.configModules = ManifestParser(context).parse()
 
         //遍历之前获得的集合, 执行每一个 ConfigModule 实现类的某些方法
-        for (module in mConfigModules!!) {
-            //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycles) 存入 mAppLifecycles 集合 (此时还未注册回调)
-            module.injectAppLifecycle(context, mAppLifecycles!!)
+        for (module in configModules!!) {
+            //将框架外部, 开发者实现的 Application 的生命周期回调 (IFlyAppLifecycles) 存入 appLifecycles 集合 (此时还未注册回调)
+            module.injectAppLifecycle(context, appLifecycles!!)
         }
     }
 
     override fun attachBaseContext(context: Context) {
-        //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
-        if (mAppLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in mAppLifecycles!!) {
+        //遍历 appLifecycles, 执行所有已注册的 IFlyAppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
                 lifecycle.attachBaseContext(context)
             }
         }
     }
 
     override fun onCreate(application: Application) {
-        this.mApplication = application
-        mAppComponent = DaggerAppComponent
+        this.application = application
+        appComponent = DaggerAppComponent
             .builder()
-            .application(application)//提供application
-            .globalConfigModule(getGlobalConfigModule(application, mConfigModules))//全局配置
+            .application(application)
+            .globalConfigModule(getGlobalConfigModule(application, configModules))//全局配置
             .build()
-        mAppComponent!!.inject(this)
+        appComponent!!.inject(this)
 
         //将 ConfigModule 的实现类的集合存放到缓存 Cache, 可以随时获取
         //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
         //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
         //前提是 extras 使用的是 IntelligentCache (框架默认使用)
-        mConfigModules?.apply {
-            mAppComponent!!.extras()
+        configModules?.apply {
+            appComponent!!.extras()
                 .put(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name), this)
         }
-        this.mConfigModules = null
+        this.configModules = null
 
-        mComponentCallback = AppComponentCallbacks(application, mAppComponent!!)
+        componentCallback = AppComponentCallbacks(application, appComponent!!)
         //注册回掉: 内存紧张时释放部分内存
-        application.registerComponentCallbacks(mComponentCallback)
+        application.registerComponentCallbacks(componentCallback)
 
         //执行框架外部, 开发者扩展的 App onCreate 逻辑
-        if (mAppLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in mAppLifecycles!!) {
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
                 lifecycle.onCreate(application)
             }
         }
     }
 
     override fun onTerminate(application: Application) {
-        if (mComponentCallback != null) {
-            mApplication?.unregisterComponentCallbacks(mComponentCallback)
+        if (componentCallback != null) {
+            application.unregisterComponentCallbacks(componentCallback)
         }
-        if (mAppLifecycles?.isNotEmpty() == true && mApplication != null) {
-            for (lifecycle in mAppLifecycles!!) {
-                lifecycle.onTerminate(mApplication!!)
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
+                lifecycle.onTerminate(application)
             }
         }
-        this.mApplication = null
-        this.mAppComponent = null
-        this.mAppLifecycles = null
-        this.mComponentCallback = null
+        this.application = null
+        this.appComponent = null
+        this.appLifecycles = null
+        this.componentCallback = null
     }
 
     override fun onConfigurationChanged(configuration: Configuration) {
-        if (mAppLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in mAppLifecycles!!) {
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
                 lifecycle.onConfigurationChanged(configuration)
             }
         }
     }
 
     override fun onLowMemory() {
-        if (mAppLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in mAppLifecycles!!) {
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
                 lifecycle.onLowMemory()
             }
         }
     }
 
     override fun onTrimMemory(level: Int) {
-        if (mAppLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in mAppLifecycles!!) {
+        if (appLifecycles?.isNotEmpty() == true) {
+            for (lifecycle in appLifecycles!!) {
                 lifecycle.onTrimMemory(level)
             }
         }
@@ -155,14 +154,14 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
      */
     override fun getAppComponent(): AppComponent {
         checkNotNull(
-            mAppComponent,
+            appComponent,
             "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
-            AppComponent::class.java.name, javaClass.name, if (mApplication == null)
+            AppComponent::class.java.name, javaClass.name, if (application == null)
                 Application::class.java.name
             else
-                mApplication!!.javaClass.name
+                application!!.javaClass.name
         )
-        return mAppComponent!!
+        return appComponent!!
     }
 
     /**

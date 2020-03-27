@@ -24,8 +24,8 @@ class CookieManger() : CookieJar {
         }
     }
 
-    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>?) {
-        if (cookies != null && cookies.isNotEmpty()) {
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+        if (cookies.isNotEmpty()) {
             for (item in cookies) {
                 cookieStore.add(url, item)
             }

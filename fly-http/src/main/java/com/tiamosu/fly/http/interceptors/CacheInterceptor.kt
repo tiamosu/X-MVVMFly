@@ -14,8 +14,8 @@ import java.io.IOException
  * @date 2020/3/11.
  */
 open class CacheInterceptor(
-    protected var cachecontrolvalueOffline: String?,
-    protected var cachecontrolvalueOnline: String?
+    protected var cacheControlValueOffline: String?,
+    protected var cacheControlValueOnline: String?
 ) : Interceptor {
 
     @JvmOverloads
@@ -47,7 +47,7 @@ open class CacheInterceptor(
     }
 
     companion object {
-        //set cahe times is 3 days
+        //set cache times is 3 days
         protected const val maxStale = 60 * 60 * 24 * 3
 
         // read from cache for 60 s

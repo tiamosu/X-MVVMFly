@@ -40,7 +40,7 @@ import javax.net.ssl.HostnameVerifier
  * 5.支持文件上传、下载
  * 6.支持全局公共请求头
  * 7.支持全局公共参数
- * 8.支持okhttp相关参数，包括拦截器
+ * 8.支持okHttp相关参数，包括拦截器
  * 9.支持Retrofit相关参数
  * 10.支持Cookie管理
  *
@@ -56,7 +56,7 @@ class FlyHttp {
     private var commonParams: HttpParams? = null                    //全局公共请求参数
     private var okHttpClientBuilder: OkHttpClient.Builder           //OkHttpClient请求的Builder
     private var retrofitBuilder: Retrofit.Builder                   //Retrofit请求Builder
-    private var cache: Cache? = null                                //Okhttp缓存对象
+    private var cache: Cache? = null                                //OkHttp缓存对象
     private var cacheMode: CacheMode = CacheMode.NO_CACHE           //缓存类型
     private var cacheTime = -1L                                     //缓存时间
     private var cacheDirectory: File? = null                        //缓存目录
@@ -443,7 +443,7 @@ class FlyHttp {
             var baseUrl = instance.baseUrl
             if (TextUtils.isEmpty(baseUrl)) {
                 val httpUrl = getRetrofit().baseUrl()
-                baseUrl = httpUrl.url().toString()
+                baseUrl = httpUrl.toUrl().toString()
             }
             return baseUrl
         }

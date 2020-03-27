@@ -4,6 +4,7 @@ package com.tiamosu.fly.http.utils
 
 import com.tiamosu.fly.http.model.HttpParams
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -60,7 +61,7 @@ fun guessMimeType(fileName: String?): MediaType? {
     newFileName = newFileName.replace("#", "") //解决文件名中含有#号异常的问题
     val contentType =
         fileNameMap.getContentTypeFor(newFileName) ?: return HttpParams.MEDIA_TYPE_STREAM
-    return MediaType.parse(contentType)
+    return contentType.toMediaTypeOrNull()
 }
 
 @Throws(IOException::class)

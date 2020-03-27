@@ -9,8 +9,8 @@ import okhttp3.Response
 import java.io.IOException
 
 /**
- * 描述：支持离线缓存,使用oKhttp自带的缓存功能
- * 配置Okhttp的Cache
+ * 描述：支持离线缓存,使用oKHttp自带的缓存功能
+ * 配置OkHttp的Cache
  * 配置请求头中的cache-control或者统一处理所有请求的请求头
  * 云端配合设置响应头或者自己写拦截器修改响应头中cache-control
  *
@@ -32,7 +32,7 @@ class CacheInterceptorOffline : CacheInterceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         if (!NetworkUtils.isConnected()) {
-            iLog(" no network load cache:" + request.cacheControl().toString())
+            iLog(" no network load cache:" + request.cacheControl.toString())
             request = request.newBuilder()
                 .cacheControl(CacheControl.FORCE_CACHE)
                 .build()
@@ -42,7 +42,7 @@ class CacheInterceptorOffline : CacheInterceptor {
                 .removeHeader(HttpHeaders.HEAD_KEY_CACHE_CONTROL)
                 .header(
                     HttpHeaders.HEAD_KEY_CACHE_CONTROL,
-                    "public, only-if-cached, $cachecontrolvalueOffline"
+                    "public, only-if-cached, $cacheControlValueOffline"
                 )
                 .build()
         }

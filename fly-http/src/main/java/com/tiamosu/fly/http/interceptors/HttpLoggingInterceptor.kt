@@ -4,6 +4,8 @@ import androidx.annotation.IntDef
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.utils.toByteArray
 import okhttp3.*
+import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.internal.http.promisesBody
 import okio.Buffer
 import java.io.IOException
 import java.net.URLDecoder
@@ -76,14 +78,14 @@ class HttpLoggingInterceptor : Interceptor {
         log("------------------------------- request -------------------------------")
         val logBody = level == Level.BODY
         val logHeaders = level == Level.BODY || level == Level.HEADERS
-        val requestBody = request.body()
+        val requestBody = request.body
         val hasRequestBody = requestBody != null
         val protocol = connection?.protocol() ?: Protocol.HTTP_1_1
 
         try {
             val requestStartMessage =
-                "--> " + request.method() + ' ' + URLDecoder.decode(
-                    request.url().url().toString(), UTF8.name()
+                "--> " + request.method + ' ' + URLDecoder.decode(
+                    request.url.toUrl().toString(), UTF8.name()
                 ) + ' ' + protocol
             log(requestStartMessage)
 
@@ -100,9 +102,9 @@ class HttpLoggingInterceptor : Interceptor {
                     }
                 }
 
-                val headers = request.headers()
+                val headers = request.headers
                 var i = 0
-                val count = headers.size()
+                val count = headers.size
                 while (i < count) {
                     val name = headers.name(i)
                     // Skip headers from the request body as they are explicitly logged above.
@@ -126,7 +128,7 @@ class HttpLoggingInterceptor : Interceptor {
         } catch (e: Exception) {
             e(e)
         } finally {
-            log("--> END " + request.method())
+            log("--> END " + request.method)
         }
     }
 
@@ -134,34 +136,34 @@ class HttpLoggingInterceptor : Interceptor {
         log("------------------------------- response -------------------------------")
         val builder = response.newBuilder()
         val clone = builder.build()
-        var responseBody = clone.body()
+        var responseBody = clone.body
         val logBody = level == Level.BODY
         val logHeaders = level == Level.BODY || level == Level.HEADERS
 
         try {
             log(
-                "<-- " + clone.code() + ' ' + clone.message() + ' ' + URLDecoder.decode(
-                    clone.request().url().url().toString(), UTF8.name()
+                "<-- " + clone.code + ' ' + clone.message + ' ' + URLDecoder.decode(
+                    clone.request.url.toUrl().toString(), UTF8.name()
                 ) + " (" + tookMs + "ms）"
             )
             if (logHeaders) {
                 log(" ")
-                val headers = clone.headers()
+                val headers = clone.headers
                 var i = 0
-                val count = headers.size()
+                val count = headers.size
                 while (i < count) {
                     log("\t" + headers.name(i) + ": " + headers.value(i))
                     i++
                 }
                 log(" ")
-                if (logBody && okhttp3.internal.http.HttpHeaders.hasBody(clone)) {
+                if (logBody && clone.promisesBody()) {
                     var contentType: MediaType?
                     if (isPlaintext(responseBody?.contentType().also { contentType = it })) {
                         val bytes = toByteArray(responseBody?.byteStream())
                         val body = bytes?.let { String(it, getCharset(contentType)) }
                         log("\tbody:$body")
 
-                        responseBody = body?.let { ResponseBody.create(contentType, it) }
+                        responseBody = body?.toResponseBody(contentType)
                         return response.newBuilder().body(responseBody).build()
                     } else {
                         log("\tbody: maybe [file part] , too large too print , ignored!")
@@ -181,7 +183,7 @@ class HttpLoggingInterceptor : Interceptor {
     private fun bodyToString(request: Request) {
         try {
             val copy = request.newBuilder().build()
-            val body = copy.body() ?: return
+            val body = copy.body ?: return
             val buffer = Buffer()
             body.writeTo(buffer)
 
@@ -218,10 +220,10 @@ class HttpLoggingInterceptor : Interceptor {
          */
         fun isPlaintext(mediaType: MediaType?): Boolean {
             if (mediaType == null) return false
-            if (mediaType.type() == "text") {
+            if (mediaType.type == "text") {
                 return true
             }
-            var subtype = mediaType.subtype()
+            var subtype = mediaType.subtype
             subtype = subtype.toLowerCase(Locale.ROOT)
             if (subtype.contains("x-www-form-urlencoded") ||
                 subtype.contains("json") ||

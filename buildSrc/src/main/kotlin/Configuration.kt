@@ -12,9 +12,9 @@ object Android {
 
 object Versions {
     const val lifecycle = "2.2.0"
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.71"
     const val retrofit2 = "2.6.4"
-    const val okhttp3 = "3.12.10" //版本3.12.X，兼容Android 4
+    const val okhttp3 = "4.4.1" //版本3.12.X，兼容Android 4
     const val autodispose = "1.4.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.27"

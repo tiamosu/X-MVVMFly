@@ -3,6 +3,7 @@ package com.tiamosu.fly.http.model
 import com.tiamosu.fly.http.utils.escapeParams
 import com.tiamosu.fly.http.utils.guessMimeType
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
 import java.io.Serializable
 import java.util.*
@@ -122,8 +123,8 @@ class HttpParams : Serializable {
     }
 
     companion object {
-        val MEDIA_TYPE_PLAIN = MediaType.parse("text/plain; charset=utf-8")
-        val MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8")
-        val MEDIA_TYPE_STREAM = MediaType.parse("application/octet-stream")
+        val MEDIA_TYPE_PLAIN = "text/plain; charset=utf-8".toMediaTypeOrNull()
+        val MEDIA_TYPE_JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val MEDIA_TYPE_STREAM = "application/octet-stream".toMediaTypeOrNull()
     }
 }

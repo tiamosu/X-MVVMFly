@@ -265,8 +265,8 @@ class RxCache {
             return this
         }
 
-        fun cachekey(cachekey: String?): Builder {
-            this.cachekey = cachekey
+        fun cacheKey(cacheKey: String?): Builder {
+            this.cachekey = cacheKey
             return this
         }
 

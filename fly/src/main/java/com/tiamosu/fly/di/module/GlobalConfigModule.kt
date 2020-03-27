@@ -16,8 +16,9 @@ import dagger.Module
 import dagger.Provides
 import me.jessyan.rxerrorhandler.handler.listener.ResponseErrorListener
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
-import okhttp3.internal.Util
+import okhttp3.internal.threadFactory
 import java.io.File
 import java.util.*
 import java.util.concurrent.*
@@ -159,7 +160,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
     internal fun provideExecutorService(): ExecutorService {
         return mExecutorService ?: ThreadPoolExecutor(
             0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
-            SynchronousQueue(), Util.threadFactory("Fly Executor", false)
+            SynchronousQueue(), threadFactory("Fly Executor", false)
         )
     }
 
@@ -188,7 +189,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
             if (TextUtils.isEmpty(baseUrl)) {
                 throw NullPointerException("BaseUrl can not be empty")
             }
-            this.mApiUrl = HttpUrl.parse(baseUrl)
+            this.mApiUrl = baseUrl.toHttpUrlOrNull()
             return this
         }
 

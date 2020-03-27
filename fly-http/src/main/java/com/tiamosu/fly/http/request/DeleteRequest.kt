@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.request
 
 import com.tiamosu.fly.http.request.base.BaseBodyRequest
 import io.reactivex.Observable
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 
 /**
@@ -17,15 +17,15 @@ class DeleteRequest(url: String) : BaseBodyRequest<DeleteRequest>(url) {
                 return apiService?.deleteBody(url, requestBody!!)
             }
             json != null -> {
-                val body = RequestBody.create(mediaType, json!!)
+                val body = json!!.toRequestBody(mediaType)
                 return apiService?.deleteJson(url, body)
             }
             content != null -> {
-                val body = RequestBody.create(mediaType, content!!)
+                val body = content!!.toRequestBody(mediaType)
                 return apiService?.deleteBody(url, body)
             }
             bytes != null -> {
-                val body = RequestBody.create(mediaType, bytes!!)
+                val body = bytes!!.toRequestBody(mediaType, 0, bytes!!.size)
                 return apiService?.deleteBody(url, body)
             }
             any != null -> {

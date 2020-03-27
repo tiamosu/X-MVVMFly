@@ -6,6 +6,7 @@ import com.tiamosu.fly.http.request.base.ProgressRequestBody.ProgressResponseCal
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 
 /**
@@ -34,7 +35,7 @@ class UploadRequest(url: String) : BaseBodyRequest<UploadRequest>(url) {
         //拼接文件
         for ((key, files) in httpParams.fileParamsMap) {
             files.forEach {
-                val fileBody: RequestBody = RequestBody.create(it.contentType, it.file)
+                val fileBody: RequestBody = it.file.asRequestBody(it.contentType)
                 val body = ProgressRequestBody(fileBody, callback)
                 body.setProgressCallback(progressCallBack)
                 builder.addFormDataPart(key, it.fileName, body)

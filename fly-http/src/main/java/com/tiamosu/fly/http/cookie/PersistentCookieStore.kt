@@ -38,31 +38,31 @@ class PersistentCookieStore {
     }
 
     protected fun getCookieToken(cookie: Cookie): String {
-        return cookie.name() + "@" + cookie.domain()
+        return cookie.name + "@" + cookie.domain
     }
 
     fun add(url: HttpUrl, cookie: Cookie) {
         val name = getCookieToken(cookie)
         // 添加 host key. 否则有可能抛空.
-        val host = url.host()
+        val host = url.host
         if (!cookies.containsKey(host)) {
             cookies[host] = ConcurrentHashMap()
         }
         // 删除已经有的.
-        if (cookies.containsKey(url.host())) {
+        if (cookies.containsKey(url.host)) {
             cookies[host]?.remove(name)
         }
         // 添加新的进去
         cookies[host]?.set(name, cookie)
         // 是否保存到 SP 中
-        if (cookie.persistent()) {
+        if (cookie.persistent) {
             val prefsWriter = cookiePrefs.edit()
             prefsWriter.putString(host, cookies[host]?.keys?.let { TextUtils.join(",", it) })
             prefsWriter.putString(name, encodeCookie(SerializableHttpCookie(cookie)))
             prefsWriter.apply()
         } else {
             val prefsWriter = cookiePrefs.edit()
-            prefsWriter.remove(url.host())
+            prefsWriter.remove(url.host)
             prefsWriter.remove(name)
             prefsWriter.apply()
         }
@@ -70,7 +70,7 @@ class PersistentCookieStore {
 
     fun addCookies(cookies: List<Cookie>) {
         for (cookie in cookies) {
-            val domain = cookie.domain()
+            val domain = cookie.domain
             var domainCookies = this.cookies[domain]
             if (domainCookies == null) {
                 domainCookies = ConcurrentHashMap()
@@ -81,7 +81,7 @@ class PersistentCookieStore {
 
     operator fun get(url: HttpUrl): List<Cookie> {
         val ret = ArrayList<Cookie>()
-        if (cookies.containsKey(url.host())) cookies[url.host()]?.values?.let { ret.addAll(it) }
+        if (cookies.containsKey(url.host)) cookies[url.host]?.values?.let { ret.addAll(it) }
         return ret
     }
 
@@ -95,9 +95,9 @@ class PersistentCookieStore {
 
     fun remove(url: HttpUrl, cookie: Cookie): Boolean {
         val name = getCookieToken(cookie)
-        val host = url.host()
-        return if (cookies.containsKey(url.host()) && cookies[host]?.containsKey(name) == true) {
-            cookies[host]!!.remove(name)
+        val host = url.host
+        return if (cookies.containsKey(url.host) && cookies[host]?.containsKey(name) == true) {
+            cookies[host]?.remove(name)
             val prefsWriter = cookiePrefs.edit()
             if (cookiePrefs.contains(name)) {
                 prefsWriter.remove(name)

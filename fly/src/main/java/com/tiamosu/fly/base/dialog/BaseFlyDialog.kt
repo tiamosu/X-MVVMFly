@@ -18,8 +18,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     themeResId: Int = 0
 ) : Dialog(context, themeResId) {
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected var mActivity: Activity
+    protected var activity: Activity
 
     protected abstract fun bindLayout(): Int
     protected abstract fun initView(dialog: BaseFlyDialog, contentView: View)
@@ -28,12 +27,12 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     init {
         val activity = ActivityUtils.getActivityByContext(context)
             ?: throw IllegalArgumentException("context is not instance of Activity.")
-        mActivity = activity
+        this.activity = activity
     }
 
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
-        val contentView = View.inflate(mActivity, bindLayout(), null)
+        val contentView = View.inflate(activity, bindLayout(), null)
         setContentView(contentView)
         initView(this, contentView)
         setWindowStyle(window)

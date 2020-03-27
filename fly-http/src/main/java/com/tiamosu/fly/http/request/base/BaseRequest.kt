@@ -18,6 +18,7 @@ import com.tiamosu.fly.utils.getAppComponent
 import com.tiamosu.fly.utils.isInitialized
 import io.reactivex.Observable
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.io.File
@@ -92,18 +93,18 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         private set
     var cacheKey: String? = null                    //缓存Key
         private set
-    var diskConverter: IDiskConverter? = null       //设置Rxcache磁盘转换器
+    var diskConverter: IDiskConverter? = null       //设置RxCache磁盘转换器
         private set
-    var rxCache: RxCache? = null                    //rxcache缓存
+    var rxCache: RxCache? = null                    //RxCache缓存
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
         if (!TextUtils.isEmpty(baseUrl)) {
-            httpUrl = HttpUrl.parse(baseUrl!!)
+            httpUrl = baseUrl?.toHttpUrlOrNull()
         }
         if (baseUrl == null && (url.startsWith("http://") || url.startsWith("https://"))) {
-            httpUrl = HttpUrl.parse(url)
-            baseUrl = httpUrl!!.url().protocol + "://" + httpUrl!!.url().host + "/"
+            httpUrl = url.toHttpUrlOrNull()
+            baseUrl = httpUrl?.toUrl()?.protocol + "://" + httpUrl?.toUrl()?.host + "/"
         }
         retryCount = FlyHttp.getRetryCount()
         retryDelay = FlyHttp.getRetryDelay()
@@ -205,7 +206,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     fun addCookie(name: String, value: String): R {
         val builder = Cookie.Builder()
         if (httpUrl != null) {
-            val cookie = builder.name(name).value(value).domain(httpUrl!!.host()).build()
+            val cookie = builder.name(name).value(value).domain(httpUrl!!.host).build()
             cookies.add(cookie)
         }
         return this as R
@@ -223,7 +224,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
 
     fun baseUrl(baseUrl: String): R {
         this.baseUrl = baseUrl
-        if (!TextUtils.isEmpty(baseUrl)) httpUrl = HttpUrl.parse(baseUrl)
+        if (!TextUtils.isEmpty(baseUrl)) httpUrl = baseUrl.toHttpUrlOrNull()
         return this as R
     }
 
@@ -444,13 +445,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
                 interceptors.add(NoCacheInterceptor())
                 return if (diskConverter == null) {
                     rxCacheBuilder.also {
-                        it.cachekey(checkNotNull(cacheKey, "cacheKey == null"))
+                        it.cacheKey(checkNotNull(cacheKey, "cacheKey == null"))
                             .cacheTime(cacheTime)
                     }
                 } else {
                     FlyHttp.getRxCache().newBuilder().also {
                         it.diskConverter(diskConverter)
-                            .cachekey(checkNotNull(cacheKey, "cacheKey == null"))
+                            .cacheKey(checkNotNull(cacheKey, "cacheKey == null"))
                             .cacheTime(cacheTime)
                     }
                 }

@@ -4,6 +4,7 @@ import com.tiamosu.fly.http.utils.UTF8
 import com.tiamosu.fly.http.utils.createUrlFromParams
 import com.tiamosu.fly.http.utils.iLog
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.IOException
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
@@ -47,11 +48,11 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        if (request.method() == "GET") {
-            httpUrl = HttpUrl.parse(parseUrl(request.url().url().toString()))
+        if (request.method == "GET") {
+            httpUrl = parseUrl(request.url.toUrl().toString()).toHttpUrlOrNull()
             request = addGetParamsSign(request)
-        } else if (request.method() == "POST") {
-            httpUrl = request.url()
+        } else if (request.method == "POST") {
+            httpUrl = request.url
             request = addPostParamsSign(request)
         }
         return chain.proceed(request)
@@ -64,24 +65,24 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
     @Throws(UnsupportedEncodingException::class)
     private fun addGetParamsSign(request: Request): Request {
         var newRequest = request
-        var httpUrl = newRequest.url()
+        var httpUrl = newRequest.url
         val newBuilder = httpUrl.newBuilder()
         //获取原有的参数
-        val nameSet = httpUrl.queryParameterNames()
+        val nameSet = httpUrl.queryParameterNames
         val nameList = ArrayList<String>()
         nameList.addAll(nameSet)
 
-        val oldparams = TreeMap<String, String>()
+        val oldParams = TreeMap<String, String>()
         for (i in nameList.indices) {
-            val value =
-                if (httpUrl.queryParameterValues(nameList[i]).size > 0) httpUrl.queryParameterValues(
-                    nameList[i]
-                )[0] else ""
-            oldparams[nameList[i]] = value
+            val values = httpUrl.queryParameterValues(nameList[i])
+            val value = if (values.isNotEmpty()) {
+                values[0] ?: ""
+            } else ""
+            oldParams[nameList[i]] = value
         }
         val nameKeys = listOf(nameList).toString()
         //拼装新的参数
-        val newParams = dynamic(oldparams)
+        val newParams = dynamic(oldParams)
         for ((key, value) in newParams) {
             val urlValue = URLEncoder.encode(value, UTF8.name())
             //原来的URl: https://xxx.xxx.xxx/app/chairdressing/skinAnalyzePower/skinTestResult?appId=10101
@@ -98,40 +99,40 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
     @Throws(UnsupportedEncodingException::class)
     private fun addPostParamsSign(request: Request): Request {
         var newRequest = request
-        if (newRequest.body() is FormBody) {
+        if (newRequest.body is FormBody) {
             val bodyBuilder = FormBody.Builder()
-            var formBody = newRequest.body() as FormBody
+            var formBody = newRequest.body as FormBody
             //原有的参数
-            val oldparams = TreeMap<String, String>()
-            for (i in 0 until formBody.size()) {
-                oldparams[formBody.encodedName(i)] = formBody.encodedValue(i)
+            val oldParams = TreeMap<String, String>()
+            for (i in 0 until formBody.size) {
+                oldParams[formBody.encodedName(i)] = formBody.encodedValue(i)
             }
             //拼装新的参数
-            val newParams = dynamic(oldparams)
+            val newParams = dynamic(oldParams)
             for ((key, value1) in newParams) {
                 val value = URLDecoder.decode(value1, UTF8.name())
                 bodyBuilder.addEncoded(key, value)
             }
-            if (httpUrl != null) {
-                val url = createUrlFromParams(httpUrl!!.url().toString(), newParams)
+            httpUrl?.let {
+                val url = createUrlFromParams(it.toUrl().toString(), newParams)
                 iLog(url)
             }
 
             formBody = bodyBuilder.build()
             newRequest = newRequest.newBuilder().post(formBody).build()
-        } else if (newRequest.body() is MultipartBody) {
-            var multipartBody = newRequest.body() as MultipartBody
+        } else if (newRequest.body is MultipartBody) {
+            var multipartBody = newRequest.body as MultipartBody
             val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-            val oldparts = multipartBody.parts()
+            val oldParts = multipartBody.parts
             //拼装新的参数
-            val newparts: MutableList<MultipartBody.Part> = ArrayList(oldparts)
-            val oldparams = TreeMap<String, String>()
-            val newParams = dynamic(oldparams)
+            val newParts: MutableList<MultipartBody.Part> = ArrayList(oldParts)
+            val oldParams = TreeMap<String, String>()
+            val newParams = dynamic(oldParams)
             for ((key, value) in newParams) {
                 val part = MultipartBody.Part.createFormData(key, value)
-                newparts.add(part)
+                newParts.add(part)
             }
-            for (part in newparts) {
+            for (part in newParts) {
                 bodyBuilder.addPart(part)
             }
             multipartBody = bodyBuilder.build()

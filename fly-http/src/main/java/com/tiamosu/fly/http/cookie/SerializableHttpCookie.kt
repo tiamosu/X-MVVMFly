@@ -22,15 +22,15 @@ class SerializableHttpCookie(@field:Transient private val cookie: Cookie) : Seri
 
     @Throws(IOException::class)
     private fun writeObject(out: ObjectOutputStream) {
-        out.writeObject(cookie.name())
-        out.writeObject(cookie.value())
-        out.writeLong(cookie.expiresAt())
-        out.writeObject(cookie.domain())
-        out.writeObject(cookie.path())
-        out.writeBoolean(cookie.secure())
-        out.writeBoolean(cookie.httpOnly())
-        out.writeBoolean(cookie.hostOnly())
-        out.writeBoolean(cookie.persistent())
+        out.writeObject(cookie.name)
+        out.writeObject(cookie.value)
+        out.writeLong(cookie.expiresAt)
+        out.writeObject(cookie.domain)
+        out.writeObject(cookie.path)
+        out.writeBoolean(cookie.secure)
+        out.writeBoolean(cookie.httpOnly)
+        out.writeBoolean(cookie.hostOnly)
+        out.writeBoolean(cookie.persistent)
     }
 
     @Throws(IOException::class, ClassNotFoundException::class)
