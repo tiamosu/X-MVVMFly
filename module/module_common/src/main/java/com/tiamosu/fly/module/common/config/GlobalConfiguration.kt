@@ -32,7 +32,7 @@ class GlobalConfiguration : ConfigModule {
         //RxJava2 取消订阅后，抛出的异常无法捕获，将导致程序崩溃
         setRxJavaErrorHandler(object : RxJavaErrorHandlerCallback {
             override fun onCallback(throwable: Throwable?): Boolean {
-                //自行处理全局Error，返回true则不继续执行类中默认代码
+                //自行拦截处理，默认返回 false； 若返回 true，则不继续往下执行
                 return false
             }
         })

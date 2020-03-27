@@ -8,11 +8,11 @@ import androidx.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
-import com.bumptech.glide.Glide
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.model.HttpHeaders
+import com.tiamosu.fly.imageloader.glide.GlideFly
 import com.tiamosu.fly.module.common.BuildConfig
 import com.tiamosu.fly.utils.getAppComponent
 import me.yokeyword.fragmentation.Fragmentation
@@ -73,13 +73,13 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
     }
 
     override fun onLowMemory() {
-        Glide.get(Utils.getApp()).clearMemory()
+        GlideFly.get(Utils.getApp()).clearMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Glide.get(Utils.getApp()).clearMemory()
+            GlideFly.get(Utils.getApp()).clearMemory()
         }
-        Glide.get(Utils.getApp()).trimMemory(level)
+        GlideFly.get(Utils.getApp()).trimMemory(level)
     }
 }
