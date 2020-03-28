@@ -14,7 +14,7 @@ enum class CacheMode(val className: String) {
     NO_CACHE("NoStrategy"),
 
     /**
-     * 完全按照HTTP协议的默认缓存规则，走OKhttp的Cache缓存
+     * 完全按照HTTP协议的默认缓存规则，走OkHttp的Cache缓存
      */
     DEFAULT("NoStrategy"),
 

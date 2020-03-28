@@ -43,7 +43,8 @@ abstract class BaseStrategy : IStrategy {
     ): Observable<CacheResult<T>> {
         var observable = source
             .flatMap { t ->
-                rxCache.save(key, t).map { boolean ->
+                rxCache.save(key, t)
+                    .map { boolean ->
                         iLog("save status => $boolean")
                         CacheResult<T>(false, t)
                     }

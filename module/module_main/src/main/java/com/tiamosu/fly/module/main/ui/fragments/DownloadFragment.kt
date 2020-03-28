@@ -30,6 +30,9 @@ class DownloadFragment : BaseFragment() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
             progress_bar.progress = it.fraction * 100
             Log.e("xia", "fraction:" + it.fraction)
+            if (it.fraction.toInt() == 1) {
+                showInfo("下载成功~")
+            }
         })
     }
 

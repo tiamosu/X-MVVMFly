@@ -29,7 +29,7 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
                 callback?.onSuccess(response)
             })
         } catch (throwable: Throwable) {
-            onError(false, throwable)
+            errorHandle(throwable)
         }
     }
 
@@ -37,7 +37,7 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
         if (request.isGlobalErrorHandle) {
             super.onError(t)
         }
-        onError(false, t)
+        errorHandle(t)
     }
 
     override fun onComplete() {
@@ -46,9 +46,9 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
         })
     }
 
-    private fun onError(isFromCache: Boolean, throwable: Throwable?) {
+    private fun errorHandle(throwable: Throwable?) {
         postOnMain(Action {
-            val response = Response.error<T>(isFromCache, throwable)
+            val response = Response.error<T>(false, throwable)
             callback?.onError(response)
             callback?.onFinish()
         })
