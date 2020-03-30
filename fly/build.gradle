@@ -15,7 +15,9 @@ dependencies {
     }
 
     //kotlin
-    api Deps.kotlin_reflect
+    api(Deps.kotlin_reflect) {
+        exclude module: 'kotlin-stdlib'
+    }
 
     //fragment框架
     api Deps.fragmentation_support_androidx
@@ -34,6 +36,7 @@ dependencies {
     api(Deps.retrofit2_adapter_rxjava2) {
         exclude module: 'retrofit'
         exclude module: 'rxjava'
+        exclude module: 'reactive-streams'
     }
     api(Deps.retrofit2_converter_gson) {
         exclude module: 'gson'
@@ -44,7 +47,9 @@ dependencies {
     api Deps.gson
 
     //okhttp3
-    api Deps.okhttp3
+    api(Deps.okhttp3) {
+        exclude group: 'org.jetbrains.kotlin'
+    }
 
     //dagger2
     api Deps.dagger2
