@@ -4,6 +4,9 @@
 
 [详细使用方法及扩展功能，请参照 Wiki (开发前必看!!!)](https://github.com/tiamosu/X-MVVMFly/wiki)
 
+## Requirements
+适用于Android 5.0 + (21 + API级别) 和 Java 8 +。
+
 ## Download
 
 ### fly
