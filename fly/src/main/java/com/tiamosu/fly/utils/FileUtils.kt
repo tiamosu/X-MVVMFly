@@ -2,6 +2,7 @@
 
 package com.tiamosu.fly.utils
 
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.Utils
 import java.io.File
 
@@ -14,21 +15,23 @@ fun createFile(fileDirName: String?, fileName: String): File {
     return File(createDir(fileDirName), fileName)
 }
 
+/**
+ * @return 创建未存在的文件夹
+ */
 fun createDir(fileDirName: String?): File? {
     val fileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath
         ?: Utils.getApp().cacheDir.absolutePath
     val folder = fileDirName ?: Utils.getApp().packageName
     val dir = "$fileDirPath/$folder/"
     val fileDir = File(dir)
-    return createOrExistsDir(fileDir)
+    return createDir(fileDir)
 }
 
 /**
  * @return 创建未存在的文件夹
  */
-fun createOrExistsDir(file: File?): File? {
-    val isExist = file != null && if (file.exists()) file.isDirectory else file.mkdirs()
-    return if (isExist) file else null
+fun createDir(file: File?): File? {
+    return if (FileUtils.createOrExistsDir(file)) file else null
 }
 
 /**

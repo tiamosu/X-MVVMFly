@@ -2,7 +2,6 @@ package com.tiamosu.fly.imageloader.glide
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -18,7 +17,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.tiamosu.fly.imageloader.glide.http.OkHttpUrlLoader
 import com.tiamosu.fly.utils.activityManager
-import com.tiamosu.fly.utils.createOrExistsDir
+import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
 import java.io.File
 import java.io.InputStream
@@ -39,7 +38,7 @@ class GlideConfiguration : AppGlideModule() {
         builder.setDiskCache {
             // Careful: the external cache directory doesn't enforce permissions
             DiskLruCacheWrapper.create(
-                createOrExistsDir(File(appComponent.cacheFile(), "glide")),
+                createDir(File(appComponent.cacheFile(), "glide")),
                 IMAGE_DISK_CACHE_MAX_SIZE.toLong()
             )
         }
@@ -56,9 +55,7 @@ class GlideConfiguration : AppGlideModule() {
 
         val defaultOptions = RequestOptions()
         // Prefer higher quality images unless we're on a low RAM device
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            defaultOptions.format(if (activityManager.isLowRamDevice) PREFER_RGB_565 else PREFER_ARGB_8888)
-        }
+        defaultOptions.format(if (activityManager.isLowRamDevice) PREFER_RGB_565 else PREFER_ARGB_8888)
         // Disable hardware bitmaps as they don't play nicely with Palette
         defaultOptions.disallowHardwareConfig()
         builder.setDefaultRequestOptions(defaultOptions)

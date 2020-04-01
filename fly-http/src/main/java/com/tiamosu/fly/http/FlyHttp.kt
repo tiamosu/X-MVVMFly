@@ -16,7 +16,7 @@ import com.tiamosu.fly.http.utils.debugLog
 import com.tiamosu.fly.http.utils.iLog
 import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
-import com.tiamosu.fly.utils.createOrExistsDir
+import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
 import okhttp3.*
 import retrofit2.CallAdapter
@@ -47,6 +47,7 @@ import javax.net.ssl.HostnameVerifier
  * @author tiamosu
  * @date 2020/2/26.
  */
+@Suppress("unused")
 class FlyHttp {
     private var cookieJar: CookieManger? = null                     //Cookie管理
     private var baseUrl: String? = null                             //全局 BaseUrl
@@ -509,7 +510,7 @@ class FlyHttp {
          */
         @JvmStatic
         fun getCacheDirectory(): File? {
-            return instance.cacheDirectory ?: createOrExistsDir(
+            return instance.cacheDirectory ?: createDir(
                 File(getAppComponent().cacheFile(), "http")
             )
         }
