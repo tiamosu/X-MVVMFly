@@ -2,13 +2,8 @@
 
 package com.tiamosu.fly.utils
 
-import android.net.Uri
-import com.blankj.utilcode.util.CloseUtils
 import com.blankj.utilcode.util.Utils
-import java.io.BufferedOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 /**
  * @author tiamosu
@@ -47,39 +42,4 @@ fun getCacheFile(): File {
     cacheFile = cacheFile ?: createDir(Utils.getApp().packageName)
     //如果获取的文件为空，就使用应用程序内的内部缓存路劲
     return cacheFile ?: Utils.getApp().cacheDir
-}
-
-/**
- * 对于图片选择进行适配（对于媒体资源的访问，返回Uri后，再转为File）
- */
-fun uriToFile(uri: Uri): File? {
-    val imgFile = createOrExistsDir(Utils.getApp().getExternalFilesDir("image"))
-    val file = File(imgFile?.absolutePath + File.separator + System.currentTimeMillis() + ".jpg")
-    var bis: InputStream? = null
-    var fos: FileOutputStream? = null
-    var bos: BufferedOutputStream? = null
-
-    try {
-        // 使用openInputStream(uri)方法获取字节输入流
-        bis = Utils.getApp().contentResolver.openInputStream(uri)
-        fos = FileOutputStream(file)
-        bos = BufferedOutputStream(fos)
-
-        val bytes = ByteArray(1024)
-        var read: Int
-        do {
-            read = bis?.read(bytes) ?: -1
-            if (read == -1) break
-
-            bos.write(bytes, 0, read)
-        } while (true)
-
-        bos.flush()
-        fos.flush()
-    } catch (e: Exception) {
-        return null
-    } finally {
-        CloseUtils.closeIO(bos, fos, bis)
-    }
-    return file
 }

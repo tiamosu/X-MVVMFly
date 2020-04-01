@@ -1,16 +1,16 @@
 package com.tiamosu.fly.base.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.ViewUtils.runOnUiThread
 
 /**
  * @author tiamosu
@@ -22,16 +22,30 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
     protected var dialogCallback: IFlyDialogCallback? = null
     protected var fragmentActivity: FragmentActivity? = null
 
-    fun init(@NonNull activity: FragmentActivity, layoutCallback: IFlyDialogLayoutCallback?): BaseFlyDialogFragment {
-        fragmentActivity = activity
+    fun init(
+        context: Context,
+        layoutCallback: IFlyDialogLayoutCallback?
+    ): BaseFlyDialogFragment {
+        fragmentActivity = getFragmentActivity(context)
         dialogLayoutCallback = layoutCallback
         return this
     }
 
-    fun init(@NonNull activity: FragmentActivity, dialogCallback: IFlyDialogCallback?): BaseFlyDialogFragment {
-        fragmentActivity = activity
+    fun init(
+        context: Context,
+        dialogCallback: IFlyDialogCallback?
+    ): BaseFlyDialogFragment {
+        fragmentActivity = getFragmentActivity(context)
         this.dialogCallback = dialogCallback
         return this
+    }
+
+    private fun getFragmentActivity(context: Context): FragmentActivity? {
+        val activity = ActivityUtils.getActivityByContext(context) ?: return null
+        if (activity is FragmentActivity) {
+            return activity
+        }
+        throw IllegalArgumentException(context.toString() + "not instanceof FragmentActivity")
     }
 
     override fun getTheme(): Int {
@@ -45,9 +59,20 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return if (dialogCallback != null) {
+        val dialog = if (dialogCallback != null) {
             dialogCallback!!.bindDialog(fragmentActivity!!)
-        } else super.onCreateDialog(savedInstanceState)
+        } else {
+            super.onCreateDialog(savedInstanceState)
+        }
+
+        val window = dialog.window ?: return dialog
+        if (dialogCallback != null) {
+            dialogCallback!!.setWindowStyle(window)
+        } else if (dialogLayoutCallback != null) {
+            dialogLayoutCallback!!.setWindowStyle(window)
+        }
+
+        return dialog
     }
 
     override fun onCreateView(
@@ -64,17 +89,6 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
         dialogLayoutCallback?.initView(this, view)
     }
 
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog ?: return
-        val window = dialog.window ?: return
-        if (dialogCallback != null) {
-            dialogCallback!!.setWindowStyle(window)
-        } else if (dialogLayoutCallback != null) {
-            dialogLayoutCallback!!.setWindowStyle(window)
-        }
-    }
-
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         dialogLayoutCallback?.onCancel(this)
@@ -87,7 +101,7 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
 
     @JvmOverloads
     fun show(tag: String? = javaClass.simpleName) {
-        Utils.runOnUiThread {
+        runOnUiThread {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 val fm = fragmentActivity!!.supportFragmentManager
                 val prev = fm.findFragmentByTag(tag)
@@ -100,7 +114,7 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
     }
 
     override fun dismiss() {
-        Utils.runOnUiThread {
+        runOnUiThread {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 super@BaseFlyDialogFragment.dismissAllowingStateLoss()
             }
