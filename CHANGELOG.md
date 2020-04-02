@@ -4,7 +4,7 @@
 * fragmentation 1.1.6 → 1.1.7 
 * utilcode 1.26.0 → 1.27.0
 * BaseFlyDialogFragment 优化
-* createOrExistsDir(file) 改为 createOrExistsDir(file)
+* createOrExistsDir(file) 改为 createDir(file)
 
 ## Requirements
 适用于 Android 5.0 + (21 + API级别) 和 Java 8 +。 
