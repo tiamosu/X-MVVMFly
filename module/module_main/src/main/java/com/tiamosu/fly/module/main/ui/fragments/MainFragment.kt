@@ -4,7 +4,9 @@ import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.module.common.base.BaseDBFragment
 import com.tiamosu.fly.module.common.router.Router
+import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
+import com.tiamosu.fly.module.main.bridge.MainViewModel
 import com.tiamosu.fly.module.main.databinding.FragmentMainBinding
 import com.tiamosu.fly.utils.newInstance
 import me.yokeyword.fragmentation.SupportFragment
@@ -14,6 +16,7 @@ import me.yokeyword.fragmentation.SupportFragment
  * @date 2020/3/13.
  */
 class MainFragment : BaseDBFragment<FragmentMainBinding>() {
+    private val mainViewModel: MainViewModel by lazyViewModel("进行传参测试~~~ ^_^")
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main
@@ -23,7 +26,9 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
         viewDataBinding?.click = ClickProxy(this)
     }
 
-    override fun doBusiness() {}
+    override fun doBusiness() {
+        mainViewModel.print()
+    }
 
     class ClickProxy(private val fragment: SupportFragment) {
 

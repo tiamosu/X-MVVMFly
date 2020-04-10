@@ -58,6 +58,7 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(vararg argumen
     return viewModel(ViewModelProviderFactory(*arguments))
 }
 
+@Suppress("RemoveExplicitTypeArguments")
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arguments: Any): Lazy<VM> {
     return lazy {
         viewModel<VM>(*arguments)
