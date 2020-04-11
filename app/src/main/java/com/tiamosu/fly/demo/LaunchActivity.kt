@@ -31,4 +31,11 @@ class LaunchActivity : ProxyActivity() {
     override fun onCreateFragmentAnimator(): FragmentAnimator? {
         return DefaultVerticalAnimator()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //垃圾回收
+        System.gc()
+        System.runFinalization()
+    }
 }

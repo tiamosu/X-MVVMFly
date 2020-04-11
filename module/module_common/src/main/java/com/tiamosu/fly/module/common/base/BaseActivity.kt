@@ -70,8 +70,10 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     }
 
     override fun hideLoadingDialog() {
-        FlyDialogHelper.safeCloseDialog(loadingDialog)
-        loadingDialog = null
+        if (loadingDialog != null) {
+            FlyDialogHelper.safeCloseDialog(loadingDialog)
+            loadingDialog = null
+        }
     }
 
     override fun showEmpty() {
