@@ -1,5 +1,6 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
+import android.os.Handler
 import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
@@ -16,9 +17,13 @@ class LoadSirFragment : BaseFragment() {
     override fun initView(rootView: View?) {
         setLoadSir(load_ll) {
             showLoading()
-            showSuccess()
+            postDelayed(Runnable { showSuccess() }, 1500)
         }
-        showFailure()
+        postDelayed(Runnable { showFailure() })
+    }
+
+    private fun postDelayed(runnable: Runnable, delayMillis: Long = 1000L) {
+        Handler().postDelayed(runnable, delayMillis)
     }
 
     override fun doBusiness() {}
