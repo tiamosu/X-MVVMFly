@@ -6,8 +6,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //support
     api Deps.androidx_annotation
+    api(Deps.androidx_fragment) {
+        exclude module: 'annotation'
+    }
     api(Deps.androidx_appcompat) {
         exclude module: 'annotation'
+        exclude module: 'fragment'
+        exclude module: 'core'
+        exclude module: 'collection'
     }
     api(Deps.lifecycle_common_java8) {
         exclude module: 'annotation'

@@ -1,10 +1,11 @@
 package com.tiamosu.fly.module.common.base
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import android.widget.FrameLayout
 import androidx.annotation.NonNull
+import androidx.appcompat.widget.ContentFrameLayout
 import com.blankj.utilcode.util.KeyboardUtils
 import com.tiamosu.fly.module.common.R
 import com.tiamosu.fly.utils.checkArgument
@@ -25,9 +26,10 @@ abstract class ProxyActivity : BaseActivity() {
 
     override fun getLayoutId() = 0
 
+    @SuppressLint("RestrictedApi")
     override fun setContentView() {
         if (getLayoutId() <= 0) {
-            rootView = FrameLayout(this)
+            rootView = ContentFrameLayout(this)
             rootView!!.id = R.id.delegate_container
             setContentView(rootView)
         } else {

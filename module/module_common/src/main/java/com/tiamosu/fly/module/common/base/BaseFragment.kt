@@ -9,6 +9,7 @@ import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.ext.loadServiceInit
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 
@@ -19,7 +20,14 @@ import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
-    protected var loadService: LoadService<Any>? = null
+    private var loadService: LoadService<Any>? = null
+
+    /**
+     * 用于多状态页面切换初始化
+     */
+    fun setLoadSir(view: View, onCallback: () -> Unit = {}) {
+        loadService = loadServiceInit(view, onCallback)
+    }
 
     /**
      * 用于初始化数据

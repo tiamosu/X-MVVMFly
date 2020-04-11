@@ -7,10 +7,13 @@ import com.blankj.utilcode.util.ToastUtils
 import com.kingja.loadsir.callback.ProgressCallback
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
+import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.ext.loadServiceInit
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.ui.dialog.LoadingDialog
 
 /**
  * @author tiamosu
@@ -19,7 +22,15 @@ import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
-    protected var loadService: LoadService<*>? = null
+    private var loadService: LoadService<*>? = null
+    private var loadingDialog: LoadingDialog? = null
+
+    /**
+     * 用于多状态页面切换初始化
+     */
+    fun setLoadSir(view: View, onCallback: () -> Unit = {}) {
+        loadService = loadServiceInit(view, onCallback)
+    }
 
     /**
      * 用于初始化数据
@@ -51,9 +62,16 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     }
 
     override fun showLoadingDialog() {
+        if (loadingDialog != null) {
+            hideLoadingDialog()
+        }
+        loadingDialog = LoadingDialog().init(getContext(), Runnable { })
+        FlyDialogHelper.safeShowDialog(loadingDialog)
     }
 
     override fun hideLoadingDialog() {
+        FlyDialogHelper.safeCloseDialog(loadingDialog)
+        loadingDialog = null
     }
 
     override fun showEmpty() {
@@ -82,5 +100,10 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     override fun onNetReConnect() {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
+    }
+
+    override fun onDestroy() {
+        hideLoadingDialog()
+        super.onDestroy()
     }
 }
