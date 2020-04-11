@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.common.router
+package com.tiamosu.fly.module.common.integration.router
 
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tiamosu.fly.module.common.ui.fragment.EmptyFragment

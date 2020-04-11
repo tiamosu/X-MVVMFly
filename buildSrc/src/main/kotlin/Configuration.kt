@@ -96,4 +96,7 @@ object Deps {
     const val fragmentation_support_androidx = "me.xia:fragmentation-with-androidx:${Versions.fragmentation}"
     const val fragmentation_swipeback_androidx = "me.xia:fragmentation-swipeback-androidx:${Versions.fragmentation}"
     const val fragmentation_eventbus_activity_scope_androidx = "me.xia:eventbus-activity-scope-androidx:${Versions.fragmentation}"
+
+    //loadSir
+    const val loadsir = "com.kingja.loadsir:loadsir:1.3.8"
 }

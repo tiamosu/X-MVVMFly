@@ -17,7 +17,7 @@ inline fun BaseViewModel.stringCallback(
 ): StringCallback {
     return object : StringCallback() {
         override fun onStart() {
-            this@stringCallback.showLoading()
+            this@stringCallback.showLoadingDialog()
             onStart()
         }
 
@@ -30,7 +30,7 @@ inline fun BaseViewModel.stringCallback(
         }
 
         override fun onFinish() {
-            this@stringCallback.hideLoading()
+            this@stringCallback.hideLoadingDialog()
             onFinish()
         }
     }
@@ -44,7 +44,7 @@ inline fun <reified T> BaseViewModel.jsonCallback(
 ): JsonCallback<T> {
     return object : JsonCallback<T>() {
         override fun onStart() {
-            this@jsonCallback.showLoading()
+            this@jsonCallback.showLoadingDialog()
             onStart()
         }
 
@@ -57,7 +57,7 @@ inline fun <reified T> BaseViewModel.jsonCallback(
         }
 
         override fun onFinish() {
-            this@jsonCallback.hideLoading()
+            this@jsonCallback.hideLoadingDialog()
             onFinish()
         }
     }

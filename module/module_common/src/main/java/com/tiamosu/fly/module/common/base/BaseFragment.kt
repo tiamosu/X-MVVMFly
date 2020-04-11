@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.kingja.loadsir.callback.ProgressCallback
+import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
+import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 
 /**
  * @author tiamosu
@@ -15,6 +19,7 @@ import com.tiamosu.fly.module.common.ext.getShareViewModel
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    protected var loadService: LoadService<Any>? = null
 
     /**
      * 用于初始化数据
@@ -42,32 +47,36 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
         initEvent()
     }
 
-    override fun showInfo(msg: String?) {
-        (context as BaseActivity).showInfo(msg)
+    override fun showToastInfo(msg: String?) {
+        (context as BaseActivity).showToastInfo(msg)
     }
 
-    override fun showError(msg: String?) {
-        (context as BaseActivity).showError(msg)
+    override fun showToastError(msg: String?) {
+        (context as BaseActivity).showToastError(msg)
+    }
+
+    override fun showLoadingDialog() {
+        (context as BaseActivity).showLoadingDialog()
+    }
+
+    override fun hideLoadingDialog() {
+        (context as BaseActivity).hideLoadingDialog()
+    }
+
+    override fun showEmpty() {
+        loadService?.showCallback(EmptyCallback::class.java)
     }
 
     override fun showLoading() {
-        (context as BaseActivity).showLoading()
+        loadService?.showCallback(ProgressCallback::class.java)
     }
 
-    override fun hideLoading() {
-        (context as BaseActivity).hideLoading()
+    override fun showFailure() {
+        loadService?.showCallback(ErrorCallback::class.java)
     }
 
-    override fun stateEmpty() {
-    }
-
-    override fun stateLoading() {
-    }
-
-    override fun stateFailure() {
-    }
-
-    override fun stateSuccess() {
+    override fun showSuccess() {
+        loadService?.showSuccess()
     }
 
     override fun isCheckNetChanged(): Boolean {

@@ -12,35 +12,35 @@ abstract class BaseViewModel : ViewModel(), IBaseView {
 
     val resource by lazy { MutableLiveData<Resource>() }
 
-    override fun showError(msg: String?) {
+    override fun showToastError(msg: String?) {
         resource.value = Resource.showError(msg)
     }
 
-    override fun showInfo(msg: String?) {
+    override fun showToastInfo(msg: String?) {
         resource.value = Resource.showInfo(msg)
     }
 
-    override fun showLoading() {
+    override fun showLoadingDialog() {
         resource.value = Resource.showLoading()
     }
 
-    override fun hideLoading() {
+    override fun hideLoadingDialog() {
         resource.value = Resource.hideLoading()
     }
 
-    override fun stateEmpty() {
+    override fun showEmpty() {
         resource.value = Resource.stateEmpty()
     }
 
-    override fun stateLoading() {
+    override fun showLoading() {
         resource.value = Resource.stateLoading()
     }
 
-    override fun stateFailure() {
+    override fun showFailure() {
         resource.value = Resource.stateFailure()
     }
 
-    override fun stateSuccess() {
+    override fun showSuccess() {
         resource.value = Resource.stateSuccess()
     }
 }

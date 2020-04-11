@@ -29,14 +29,14 @@ fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
             val observer: Observer<Resource> = Observer { state ->
                 state?.run {
                     when (type) {
-                        StatusType.TOAST_ERROR -> baseView.showError(msg)
-                        StatusType.TOAST_INFO -> baseView.showInfo(msg)
-                        StatusType.SHOW_LOADING -> baseView.showLoading()
-                        StatusType.HIDE_LOADING -> baseView.hideLoading()
-                        StatusType.STATE_EMPTY -> baseView.stateEmpty()
-                        StatusType.STATE_LOADING -> baseView.stateLoading()
-                        StatusType.STATE_FAILURE -> baseView.stateFailure()
-                        StatusType.STATE_SUCCESS -> baseView.stateSuccess()
+                        StatusType.TOAST_ERROR -> baseView.showToastError(msg)
+                        StatusType.TOAST_INFO -> baseView.showToastInfo(msg)
+                        StatusType.SHOW_LOADING -> baseView.showLoadingDialog()
+                        StatusType.HIDE_LOADING -> baseView.hideLoadingDialog()
+                        StatusType.STATE_EMPTY -> baseView.showEmpty()
+                        StatusType.STATE_LOADING -> baseView.showLoading()
+                        StatusType.STATE_FAILURE -> baseView.showFailure()
+                        StatusType.STATE_SUCCESS -> baseView.showSuccess()
                     }
                 }
             }

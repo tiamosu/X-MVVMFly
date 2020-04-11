@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ToastUtils
+import com.kingja.loadsir.callback.ProgressCallback
+import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
+import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 
 /**
  * @author tiamosu
@@ -15,6 +19,7 @@ import com.tiamosu.fly.module.common.ext.getShareViewModel
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    protected var loadService: LoadService<*>? = null
 
     /**
      * 用于初始化数据
@@ -37,30 +42,34 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
         initEvent()
     }
 
-    override fun showInfo(msg: String?) {
+    override fun showToastInfo(msg: String?) {
         ToastUtils.showShort(msg)
     }
 
-    override fun showError(msg: String?) {
+    override fun showToastError(msg: String?) {
         ToastUtils.showShort(msg)
+    }
+
+    override fun showLoadingDialog() {
+    }
+
+    override fun hideLoadingDialog() {
+    }
+
+    override fun showEmpty() {
+        loadService?.showCallback(EmptyCallback::class.java)
     }
 
     override fun showLoading() {
+        loadService?.showCallback(ProgressCallback::class.java)
     }
 
-    override fun hideLoading() {
+    override fun showFailure() {
+        loadService?.showCallback(ErrorCallback::class.java)
     }
 
-    override fun stateEmpty() {
-    }
-
-    override fun stateLoading() {
-    }
-
-    override fun stateFailure() {
-    }
-
-    override fun stateSuccess() {
+    override fun showSuccess() {
+        loadService?.showSuccess()
     }
 
     override fun isCheckNetChanged(): Boolean {

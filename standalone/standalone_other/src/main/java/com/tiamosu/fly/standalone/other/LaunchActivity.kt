@@ -2,7 +2,7 @@ package com.tiamosu.fly.standalone.other
 
 import android.os.Bundle
 import com.tiamosu.fly.module.common.base.ProxyActivity
-import com.tiamosu.fly.module.common.router.Router
+import com.tiamosu.fly.module.common.integration.router.Router
 import me.yokeyword.fragmentation.ISupportFragment
 
 /**

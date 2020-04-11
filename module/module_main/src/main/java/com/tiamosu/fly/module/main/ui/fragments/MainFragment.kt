@@ -3,7 +3,7 @@ package com.tiamosu.fly.module.main.ui.fragments
 import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.module.common.base.BaseDBFragment
-import com.tiamosu.fly.module.common.router.Router
+import com.tiamosu.fly.module.common.integration.router.Router
 import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
 import com.tiamosu.fly.module.main.bridge.MainViewModel
@@ -48,6 +48,10 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
 
         fun startGlide() {
             fragment.start(newInstance(GlideFragment::class.java))
+        }
+
+        fun startLoadSir() {
+            fragment.start(newInstance(LoadSirFragment::class.java))
         }
     }
 
