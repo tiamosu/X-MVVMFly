@@ -13,9 +13,7 @@ import kotlinx.android.synthetic.main.fragment_upload.*
 class UploadFragment : BaseFragment() {
     private val viewModel: UploadViewModel by lazyViewModel()
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_upload
-    }
+    override fun getLayoutId() = R.layout.fragment_upload
 
     override fun initEvent() {
         btn_upload_file.setOnClickListener {

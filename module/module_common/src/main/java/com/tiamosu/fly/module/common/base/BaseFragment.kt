@@ -3,10 +3,10 @@ package com.tiamosu.fly.module.common.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
+import com.tiamosu.fly.module.common.ext.getShareViewModel
 
 /**
  * @author tiamosu
@@ -14,9 +14,7 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
-    protected val shardViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(SharedViewModel::class.java)
-    }
+    protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
 
     /**
      * 用于初始化数据
@@ -44,12 +42,12 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
         initEvent()
     }
 
-    override fun showError(msg: String?) {
-        (context as BaseActivity).showError(msg)
-    }
-
     override fun showInfo(msg: String?) {
         (context as BaseActivity).showInfo(msg)
+    }
+
+    override fun showError(msg: String?) {
+        (context as BaseActivity).showError(msg)
     }
 
     override fun showLoading() {
@@ -58,6 +56,18 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun hideLoading() {
         (context as BaseActivity).hideLoading()
+    }
+
+    override fun stateEmpty() {
+    }
+
+    override fun stateLoading() {
+    }
+
+    override fun stateFailure() {
+    }
+
+    override fun stateSuccess() {
     }
 
     override fun isCheckNetChanged(): Boolean {
@@ -70,9 +80,5 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun onNetReConnect() {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
-    }
-
-    protected fun getAppViewModelProvider(): ViewModelProvider {
-        return (context.applicationContext as BaseApplication).getAppViewModelProvider(context)
     }
 }

@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.fragment_download.*
 class DownloadFragment : BaseFragment() {
     private val viewModel: DownloadViewModel by lazyViewModel()
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_download
-    }
+    override fun getLayoutId() = R.layout.fragment_download
 
     override fun initEvent() {
         btn_download_file.setOnClickListener {

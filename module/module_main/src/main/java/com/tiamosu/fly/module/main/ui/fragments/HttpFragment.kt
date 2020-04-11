@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.fragment_http.*
  */
 class HttpFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_http
-    }
+    override fun getLayoutId() = R.layout.fragment_http
 
     override fun initEvent() {
         btn_basic_request.setOnClickListener {

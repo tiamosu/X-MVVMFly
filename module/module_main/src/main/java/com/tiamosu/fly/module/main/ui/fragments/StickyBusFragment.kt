@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.fragment_sticky_bus.*
  */
 class StickyBusFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_sticky_bus
-    }
+    override fun getLayoutId() = R.layout.fragment_sticky_bus
 
     override fun initEvent() {
         LiveDataBus.withSticky<BusMessage>(EventTag.TAG_WITH_CLASS)?.observe(

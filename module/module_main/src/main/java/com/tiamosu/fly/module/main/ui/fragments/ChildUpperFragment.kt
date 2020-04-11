@@ -10,9 +10,7 @@ import kotlinx.android.synthetic.main.fragment_child_upper.*
  */
 class ChildUpperFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_child_upper
-    }
+    override fun getLayoutId() = R.layout.fragment_child_upper
 
     override fun initEvent() {
         btn_send_msg.setOnClickListener {

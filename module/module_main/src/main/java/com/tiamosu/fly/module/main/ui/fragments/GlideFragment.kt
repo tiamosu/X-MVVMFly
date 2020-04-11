@@ -17,9 +17,7 @@ import kotlinx.android.synthetic.main.fragment_glide.*
  */
 class GlideFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_glide
-    }
+    override fun getLayoutId() = R.layout.fragment_glide
 
     override fun initEvent() {
         btn_load_local_pic.setOnClickListener {

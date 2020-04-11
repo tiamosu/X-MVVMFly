@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.fragment_splash.*
  */
 class SplashFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_splash
-    }
+    override fun getLayoutId() = R.layout.fragment_splash
 
     override fun initEvent() {
         btn_enter_main.setOnClickListener {

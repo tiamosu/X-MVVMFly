@@ -23,9 +23,7 @@ abstract class ProxyActivity : BaseActivity() {
     @NonNull
     protected abstract fun getRootFragment(): Class<out ISupportFragment>
 
-    override fun getLayoutId(): Int {
-        return 0
-    }
+    override fun getLayoutId() = 0
 
     override fun setContentView() {
         if (getLayoutId() <= 0) {

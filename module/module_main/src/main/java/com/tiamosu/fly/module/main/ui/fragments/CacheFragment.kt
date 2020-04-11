@@ -23,9 +23,7 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
     private var cacheMode = CacheMode.FIRSTREMOTE
     private val cacheKey = this.javaClass.name
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_cache
-    }
+    override fun getLayoutId() = R.layout.fragment_cache
 
     @Suppress("DEPRECATION")
     override fun initEvent() {

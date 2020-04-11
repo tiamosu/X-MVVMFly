@@ -18,9 +18,7 @@ import me.yokeyword.fragmentation.SupportFragment
 class MainFragment : BaseDBFragment<FragmentMainBinding>() {
     private val mainViewModel: MainViewModel by lazyViewModel("进行传参测试~~~ ^_^")
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_main
-    }
+    override fun getLayoutId() = R.layout.fragment_main
 
     override fun initData(bundle: Bundle?) {
         viewDataBinding?.click = ClickProxy(this)
