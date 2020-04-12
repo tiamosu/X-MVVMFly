@@ -3,6 +3,7 @@ package com.tiamosu.fly.module.main.ui.fragments
 import android.os.Handler
 import android.view.View
 import com.tiamosu.fly.module.common.base.BaseFragment
+import com.tiamosu.fly.module.common.ext.loadServiceInit
 import com.tiamosu.fly.module.main.R
 import kotlinx.android.synthetic.main.fragment_loadsir.*
 
@@ -15,7 +16,7 @@ class LoadSirFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_loadsir
 
     override fun initView(rootView: View?) {
-        setLoadSir(load_ll) {
+        loadServiceInit(load_ll) {
             showLoading()
             postDelayed(Runnable { showSuccess() }, 1500)
         }

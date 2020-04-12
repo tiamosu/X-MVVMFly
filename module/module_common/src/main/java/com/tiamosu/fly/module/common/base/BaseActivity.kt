@@ -10,7 +10,6 @@ import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
-import com.tiamosu.fly.module.common.ext.loadServiceInit
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
 import com.tiamosu.fly.module.common.ui.dialog.LoadingDialog
@@ -22,15 +21,8 @@ import com.tiamosu.fly.module.common.ui.dialog.LoadingDialog
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
-    private var loadService: LoadService<*>? = null
+    internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
-
-    /**
-     * 用于多状态页面切换初始化
-     */
-    fun setLoadSir(view: View, onCallback: () -> Unit = {}) {
-        loadService = loadServiceInit(view, onCallback)
-    }
 
     /**
      * 用于初始化数据
