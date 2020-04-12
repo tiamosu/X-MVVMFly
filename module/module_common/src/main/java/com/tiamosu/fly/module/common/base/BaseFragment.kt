@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
-import com.kingja.loadsir.callback.ProgressCallback
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.integration.loadsir.LoadingCallback
 
 /**
  * @author tiamosu
@@ -68,7 +68,7 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
     }
 
     override fun showLoading() {
-        loadService?.showCallback(ProgressCallback::class.java)
+        loadService?.showCallback(LoadingCallback::class.java)
     }
 
     override fun showFailure() {

@@ -8,7 +8,6 @@ import androidx.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
-import com.kingja.loadsir.callback.ProgressCallback
 import com.kingja.loadsir.core.LoadSir
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.http.FlyHttp
@@ -19,6 +18,7 @@ import com.tiamosu.fly.module.common.BuildConfig
 import com.tiamosu.fly.module.common.integration.loadsir.CustomCallback
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.integration.loadsir.LoadingCallback
 import com.tiamosu.fly.utils.getAppComponent
 import me.yokeyword.fragmentation.Fragmentation
 import me.yokeyword.fragmentation.helper.ExceptionHandler
@@ -82,15 +82,12 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
     }
 
     private fun initLoadSir() {
-        val progressCallback = ProgressCallback.Builder()
-            .setTitle("Loading")
-            .build()
         LoadSir.beginBuilder()
             .addCallback(EmptyCallback())
             .addCallback(ErrorCallback())
             .addCallback(CustomCallback())
-            .addCallback(progressCallback)
-            .setDefaultCallback(ProgressCallback::class.java)
+            .addCallback(LoadingCallback())
+            .setDefaultCallback(LoadingCallback::class.java)
             .commit()
     }
 

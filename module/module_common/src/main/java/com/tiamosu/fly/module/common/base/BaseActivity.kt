@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ToastUtils
-import com.kingja.loadsir.callback.ProgressCallback
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
@@ -12,6 +11,7 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
 import com.tiamosu.fly.module.common.ext.getShareViewModel
 import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
 import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.integration.loadsir.LoadingCallback
 import com.tiamosu.fly.module.common.ui.dialog.LoadingDialog
 
 /**
@@ -73,7 +73,7 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     }
 
     override fun showLoading() {
-        loadService?.showCallback(ProgressCallback::class.java)
+        loadService?.showCallback(LoadingCallback::class.java)
     }
 
     override fun showFailure() {
