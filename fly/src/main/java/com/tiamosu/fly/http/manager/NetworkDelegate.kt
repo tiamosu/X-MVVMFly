@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.manager
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.base.IFlyBaseView
 import com.tiamosu.fly.utils.isPageVisible
@@ -24,10 +24,9 @@ class NetworkDelegate {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
         if (baseView.isCheckNetChanged()) {
-            NetworkStateManager.instance.networkStateCallback.observe(
-                owner, Observer { isConnected ->
-                    hasNetWork(baseView, isConnected)
-                })
+            NetworkStateManager.instance.networkStateCallback.observe(owner, { isConnected ->
+                hasNetWork(baseView, isConnected)
+            })
         }
     }
 

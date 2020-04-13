@@ -1,7 +1,7 @@
 package com.tiamosu.fly.module.common.base
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tiamosu.fly.integration.bridge.SingleLiveEvent
 import com.tiamosu.fly.module.common.data.Resource
 
 /**
@@ -10,7 +10,7 @@ import com.tiamosu.fly.module.common.data.Resource
  */
 abstract class BaseViewModel : ViewModel(), IBaseView {
 
-    val resource by lazy { MutableLiveData<Resource>() }
+    val resource by lazy { SingleLiveEvent<Resource>() }
 
     override fun showToastError(msg: String?) {
         resource.value = Resource.showError(msg)

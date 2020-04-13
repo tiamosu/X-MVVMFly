@@ -1,7 +1,7 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.tiamosu.fly.livedata.bus.LiveDataBus
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.main.R
@@ -29,7 +29,7 @@ class BusFragment : BaseFragment() {
             start(newInstance(StickyBusFragment::class.java))
         }
 
-        LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)?.observe(viewLifecycleOwner, Observer {
+        LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)?.observe(viewLifecycleOwner, {
             tv_event_content.text = "接收信息：$it"
         })
     }

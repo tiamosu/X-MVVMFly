@@ -1,7 +1,7 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.util.Log
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
@@ -22,10 +22,10 @@ class DownloadFragment : BaseFragment() {
             viewModel.downloadFile()
         }
 
-        viewModel.fileLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.fileLiveData.observe(viewLifecycleOwner, {
             Log.e("xia", "path:" + it.body?.absolutePath)
         })
-        viewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.progressLiveData.observe(viewLifecycleOwner, {
             progress_bar.progress = it.fraction * 100
             Log.e("xia", "fraction:" + it.fraction)
             if (it.fraction.toInt() == 1) {

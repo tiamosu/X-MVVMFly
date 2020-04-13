@@ -2,7 +2,7 @@ package com.tiamosu.fly.module.main.ui.fragments
 
 import android.text.Html
 import android.view.View
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
@@ -69,7 +69,7 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
             })
         }
 
-        viewModel.responseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.responseLiveData.observe(viewLifecycleOwner, {
             val from: String = if (it.isFromCache) "我来自缓存" else "我来自远程网络"
             val spanned = Html.fromHtml(from + "\n" + it.body.toString())
             tv_cache_content.text = spanned

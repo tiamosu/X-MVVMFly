@@ -18,6 +18,7 @@ import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
+import io.reactivex.disposables.Disposable
 import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Converter
@@ -561,6 +562,15 @@ class FlyHttp {
             getRxCache().remove(key)
                 .compose(main())
                 .subscribe({ iLog("removeCache success!!!") }, { iLog("removeCache err!!!") })
+        }
+
+        /**
+         * 取消订阅
+         */
+        fun cancelSubscription(disposable: Disposable?) {
+            if (disposable?.isDisposed == false) {
+                disposable.dispose()
+            }
         }
     }
 

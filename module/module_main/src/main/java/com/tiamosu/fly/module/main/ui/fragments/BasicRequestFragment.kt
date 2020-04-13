@@ -1,7 +1,7 @@
 package com.tiamosu.fly.module.main.ui.fragments
 
 import android.util.Log
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.tiamosu.fly.module.common.base.BaseFragment
 import com.tiamosu.fly.module.common.utils.lazyViewModel
 import com.tiamosu.fly.module.main.R
@@ -35,11 +35,11 @@ class BasicRequestFragment : BaseFragment() {
             viewModel.custom()
         }
 
-        viewModel.getLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.getLiveData.observe(viewLifecycleOwner, {
             Log.e("xia", "result:$it")
         })
 
-        viewModel.customLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.customLiveData.observe(viewLifecycleOwner, {
             Log.e("xia", "result:$it")
         })
     }
