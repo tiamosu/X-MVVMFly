@@ -9,9 +9,7 @@ import com.tiamosu.fly.module.common.base.BaseFragment
  */
 class EmptyFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_empty
-    }
+    override fun getLayoutId() = R.layout.fragment_empty
 
     override fun doBusiness() {
     }

@@ -2,8 +2,7 @@ package com.tiamosu.fly.module.common.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tiamosu.fly.module.common.data.State
-import com.tiamosu.fly.module.common.data.StateType
+import com.tiamosu.fly.module.common.data.Resource
 
 /**
  * @author tiamosu
@@ -11,21 +10,37 @@ import com.tiamosu.fly.module.common.data.StateType
  */
 abstract class BaseViewModel : ViewModel(), IBaseView {
 
-    val state by lazy { MutableLiveData<State>() }
+    val resource by lazy { MutableLiveData<Resource>() }
 
-    override fun showError(msg: String?) {
-        state.value = State(msg, StateType.TOAST_ERROR)
+    override fun showToastError(msg: String?) {
+        resource.value = Resource.showError(msg)
     }
 
-    override fun showInfo(msg: String?) {
-        state.value = State(msg, StateType.TOAST_INFO)
+    override fun showToastInfo(msg: String?) {
+        resource.value = Resource.showInfo(msg)
+    }
+
+    override fun showLoadingDialog() {
+        resource.value = Resource.showLoading()
+    }
+
+    override fun hideLoadingDialog() {
+        resource.value = Resource.hideLoading()
+    }
+
+    override fun showEmpty() {
+        resource.value = Resource.stateEmpty()
     }
 
     override fun showLoading() {
-        state.value = State(type = StateType.SHOW_LOADING)
+        resource.value = Resource.stateLoading()
     }
 
-    override fun hideLoading() {
-        state.value = State(type = StateType.HIDE_LOADING)
+    override fun showFailure() {
+        resource.value = Resource.stateFailure()
+    }
+
+    override fun showSuccess() {
+        resource.value = Resource.stateSuccess()
     }
 }

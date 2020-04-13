@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.fragment_child_lower.*
  */
 class ChildLowerFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_child_lower
-    }
+    override fun getLayoutId() = R.layout.fragment_child_lower
 
     override fun initEvent() {
         shardViewModel.postString.observe(viewLifecycleOwner, Observer {

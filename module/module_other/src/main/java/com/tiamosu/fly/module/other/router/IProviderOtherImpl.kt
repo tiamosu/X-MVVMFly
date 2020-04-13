@@ -2,8 +2,8 @@ package com.tiamosu.fly.module.other.router
 
 import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.tiamosu.fly.module.common.router.IProviderOther
-import com.tiamosu.fly.module.common.router.RouterConstant
+import com.tiamosu.fly.module.common.integration.router.IProviderOther
+import com.tiamosu.fly.module.common.integration.router.RouterConstant
 import com.tiamosu.fly.module.other.ui.OtherFragment
 import me.yokeyword.fragmentation.ISupportFragment
 

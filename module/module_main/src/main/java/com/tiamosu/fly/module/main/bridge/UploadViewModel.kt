@@ -22,14 +22,14 @@ class UploadViewModel : BaseViewModel() {
         }
         HttpRequestManager.uploadFile(object : StringCallback() {
             override fun onSuccess(response: Response<String>) {
-                showInfo("文件上传成功！")
+                showToastInfo("文件上传成功！")
             }
 
             override fun uploadProgress(progress: Progress) {
             }
 
             override fun onError(response: Response<String>) {
-                showError("上传文件失败！")
+                showToastError("上传文件失败！")
             }
         }, progressCallBack, "avatar", File(""))
     }

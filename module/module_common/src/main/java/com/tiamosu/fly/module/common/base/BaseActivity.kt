@@ -3,10 +3,16 @@ package com.tiamosu.fly.module.common.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
+import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
+import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
+import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
+import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.integration.loadsir.LoadingCallback
+import com.tiamosu.fly.module.common.ui.dialog.LoadingDialog
 
 /**
  * @author tiamosu
@@ -14,9 +20,9 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
  */
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
 
-    protected val shardViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(SharedViewModel::class.java)
-    }
+    protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    internal var loadService: LoadService<*>? = null
+    private var loadingDialog: LoadingDialog? = null
 
     /**
      * 用于初始化数据
@@ -39,18 +45,43 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
         initEvent()
     }
 
-    override fun showError(msg: String?) {
+    override fun showToastInfo(msg: String?) {
         ToastUtils.showShort(msg)
     }
 
-    override fun showInfo(msg: String?) {
+    override fun showToastError(msg: String?) {
         ToastUtils.showShort(msg)
+    }
+
+    override fun showLoadingDialog() {
+        if (loadingDialog != null) {
+            hideLoadingDialog()
+        }
+        loadingDialog = LoadingDialog().init(getContext(), Runnable { })
+        FlyDialogHelper.safeShowDialog(loadingDialog)
+    }
+
+    override fun hideLoadingDialog() {
+        if (loadingDialog != null) {
+            FlyDialogHelper.safeCloseDialog(loadingDialog)
+            loadingDialog = null
+        }
+    }
+
+    override fun showEmpty() {
+        loadService?.showCallback(EmptyCallback::class.java)
     }
 
     override fun showLoading() {
+        loadService?.showCallback(LoadingCallback::class.java)
     }
 
-    override fun hideLoading() {
+    override fun showFailure() {
+        loadService?.showCallback(ErrorCallback::class.java)
+    }
+
+    override fun showSuccess() {
+        loadService?.showSuccess()
     }
 
     override fun isCheckNetChanged(): Boolean {
@@ -65,7 +96,8 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
     }
 
-    protected fun getAppViewModelProvider(): ViewModelProvider {
-        return (applicationContext as BaseApplication).getAppViewModelProvider(getContext())
+    override fun onDestroy() {
+        hideLoadingDialog()
+        super.onDestroy()
     }
 }

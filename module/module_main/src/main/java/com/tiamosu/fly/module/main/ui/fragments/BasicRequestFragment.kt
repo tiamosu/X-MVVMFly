@@ -16,9 +16,7 @@ class BasicRequestFragment : BaseFragment() {
 
     private val viewModel: BasicRequestViewModel by lazyViewModel()
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_basic_request
-    }
+    override fun getLayoutId() = R.layout.fragment_basic_request
 
     override fun initEvent() {
         btn_request_get.setOnClickListener {

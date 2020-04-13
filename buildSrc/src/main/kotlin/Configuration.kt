@@ -23,7 +23,7 @@ object Versions {
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.0.4" //版本号
+    const val publishVersion = "1.0.5" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
@@ -34,10 +34,11 @@ object Deps {
     //support
     const val androidx_annotation = "androidx.annotation:annotation:1.1.0"
     const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
-    const val androidx_fragment = "androidx.fragment:fragment:1.2.0"
+    const val androidx_fragment = "androidx.fragment:fragment:1.2.4"
     const val androidx_recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
+    const val androidx_core_ktx = "androidx.core:core-ktx:1.2.0"
 
     //lifecycle
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
@@ -45,6 +46,7 @@ object Deps {
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel:${Versions.lifecycle}"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:${Versions.lifecycle}"
+    const val lifecycle_livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
 
     //kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
@@ -96,4 +98,7 @@ object Deps {
     const val fragmentation_support_androidx = "me.xia:fragmentation-with-androidx:${Versions.fragmentation}"
     const val fragmentation_swipeback_androidx = "me.xia:fragmentation-swipeback-androidx:${Versions.fragmentation}"
     const val fragmentation_eventbus_activity_scope_androidx = "me.xia:eventbus-activity-scope-androidx:${Versions.fragmentation}"
+
+    //loadSir
+    const val loadsir = "com.kingja.loadsir:loadsir:1.3.8"
 }

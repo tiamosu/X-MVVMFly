@@ -9,9 +9,7 @@ import com.tiamosu.fly.module.other.R
  */
 class OtherFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_other
-    }
+    override fun getLayoutId() = R.layout.fragment_other
 
     override fun doBusiness() {}
 }

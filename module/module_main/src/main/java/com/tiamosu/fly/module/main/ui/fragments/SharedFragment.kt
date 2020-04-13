@@ -11,9 +11,7 @@ import com.tiamosu.fly.utils.newInstance
  */
 class SharedFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_shared
-    }
+    override fun getLayoutId() = R.layout.fragment_shared
 
     override fun doBusiness() {}
 

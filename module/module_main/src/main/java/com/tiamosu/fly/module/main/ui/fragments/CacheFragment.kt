@@ -23,9 +23,7 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
     private var cacheMode = CacheMode.FIRSTREMOTE
     private val cacheKey = this.javaClass.name
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_cache
-    }
+    override fun getLayoutId() = R.layout.fragment_cache
 
     @Suppress("DEPRECATION")
     override fun initEvent() {
@@ -60,13 +58,13 @@ class CacheFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 override fun onNext(t: String) {
-                    showInfo("获取缓存成功：$t")
+                    showToastInfo("获取缓存成功：$t")
                     val spanned = Html.fromHtml("我来自缓存\n$t")
                     tv_cache_content.text = spanned
                 }
 
                 override fun onError(t: Throwable) {
-                    showError("获取缓存失败：" + t.message)
+                    showToastError("获取缓存失败：" + t.message)
                 }
             })
         }

@@ -3,10 +3,14 @@ package com.tiamosu.fly.module.common.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
+import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.module.common.bridge.SharedViewModel
+import com.tiamosu.fly.module.common.ext.getShareViewModel
+import com.tiamosu.fly.module.common.integration.loadsir.EmptyCallback
+import com.tiamosu.fly.module.common.integration.loadsir.ErrorCallback
+import com.tiamosu.fly.module.common.integration.loadsir.LoadingCallback
 
 /**
  * @author tiamosu
@@ -14,9 +18,8 @@ import com.tiamosu.fly.module.common.bridge.SharedViewModel
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
-    protected val shardViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(SharedViewModel::class.java)
-    }
+    protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    internal var loadService: LoadService<Any>? = null
 
     /**
      * 用于初始化数据
@@ -44,20 +47,36 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
         initEvent()
     }
 
-    override fun showError(msg: String?) {
-        (context as BaseActivity).showError(msg)
+    override fun showToastInfo(msg: String?) {
+        (context as BaseActivity).showToastInfo(msg)
     }
 
-    override fun showInfo(msg: String?) {
-        (context as BaseActivity).showInfo(msg)
+    override fun showToastError(msg: String?) {
+        (context as BaseActivity).showToastError(msg)
+    }
+
+    override fun showLoadingDialog() {
+        (context as BaseActivity).showLoadingDialog()
+    }
+
+    override fun hideLoadingDialog() {
+        (context as BaseActivity).hideLoadingDialog()
+    }
+
+    override fun showEmpty() {
+        loadService?.showCallback(EmptyCallback::class.java)
     }
 
     override fun showLoading() {
-        (context as BaseActivity).showLoading()
+        loadService?.showCallback(LoadingCallback::class.java)
     }
 
-    override fun hideLoading() {
-        (context as BaseActivity).hideLoading()
+    override fun showFailure() {
+        loadService?.showCallback(ErrorCallback::class.java)
+    }
+
+    override fun showSuccess() {
+        loadService?.showSuccess()
     }
 
     override fun isCheckNetChanged(): Boolean {
@@ -70,9 +89,5 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun onNetReConnect() {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
-    }
-
-    protected fun getAppViewModelProvider(): ViewModelProvider {
-        return (context.applicationContext as BaseApplication).getAppViewModelProvider(context)
     }
 }

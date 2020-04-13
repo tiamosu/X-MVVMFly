@@ -16,9 +16,7 @@ import kotlinx.android.synthetic.main.fragment_bus.*
  */
 class BusFragment : BaseFragment() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_bus
-    }
+    override fun getLayoutId() = R.layout.fragment_bus
 
     @SuppressLint("SetTextI18n")
     override fun initEvent() {

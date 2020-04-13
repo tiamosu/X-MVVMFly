@@ -3,8 +3,8 @@ package com.tiamosu.fly.module.common.utils
 import androidx.lifecycle.*
 import com.tiamosu.fly.module.common.base.BaseViewModel
 import com.tiamosu.fly.module.common.base.IBaseView
-import com.tiamosu.fly.module.common.data.State
-import com.tiamosu.fly.module.common.data.StateType
+import com.tiamosu.fly.module.common.data.Resource
+import com.tiamosu.fly.module.common.data.StatusType
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 
@@ -26,17 +26,21 @@ fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     return ViewModelProvider(this, factory).get(clazz).also {
         if (it is BaseViewModel && this is IBaseView) {
             val baseView: IBaseView = this
-            val observer: Observer<State> = Observer { state ->
+            val observer: Observer<Resource> = Observer { state ->
                 state?.run {
                     when (type) {
-                        StateType.TOAST_ERROR -> baseView.showError(msg)
-                        StateType.TOAST_INFO -> baseView.showInfo(msg)
-                        StateType.SHOW_LOADING -> baseView.showLoading()
-                        StateType.HIDE_LOADING -> baseView.hideLoading()
+                        StatusType.TOAST_ERROR -> baseView.showToastError(msg)
+                        StatusType.TOAST_INFO -> baseView.showToastInfo(msg)
+                        StatusType.SHOW_LOADING -> baseView.showLoadingDialog()
+                        StatusType.HIDE_LOADING -> baseView.hideLoadingDialog()
+                        StatusType.STATE_EMPTY -> baseView.showEmpty()
+                        StatusType.STATE_LOADING -> baseView.showLoading()
+                        StatusType.STATE_FAILURE -> baseView.showFailure()
+                        StatusType.STATE_SUCCESS -> baseView.showSuccess()
                     }
                 }
             }
-            it.state.observe(this as LifecycleOwner, observer)
+            it.resource.observe(this as LifecycleOwner, observer)
         }
     }
 }

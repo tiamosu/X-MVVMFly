@@ -1,4 +1,4 @@
-package com.tiamosu.fly.module.common.router
+package com.tiamosu.fly.module.common.integration.router
 
 import com.alibaba.android.arouter.facade.template.IProvider
 import me.yokeyword.fragmentation.ISupportFragment

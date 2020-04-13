@@ -1,3 +1,8 @@
+# 新版本1.0.5
+* okhttp3 4.4.1 → 4.5.0
+* utilcode 1.27.2 → 1.27.6
+* fragment 依赖配置
+
 # 新版本1.0.4
 * fragmentation 1.1.7 → 1.1.8
 * utilcode 1.27.7 → 1.27.2
