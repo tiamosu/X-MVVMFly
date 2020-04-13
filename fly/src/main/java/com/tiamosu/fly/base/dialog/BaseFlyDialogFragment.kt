@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ViewUtils.runOnUiThread
+import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 
 /**
  * @author tiamosu
@@ -24,10 +24,10 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
 
     fun init(
         context: Context,
-        layoutCallback: IFlyDialogLayoutCallback?
+        dialogLayoutCallback: IFlyDialogLayoutCallback?
     ): BaseFlyDialogFragment {
         fragmentActivity = getFragmentActivity(context)
-        dialogLayoutCallback = layoutCallback
+        this.dialogLayoutCallback = dialogLayoutCallback
         return this
     }
 
@@ -71,7 +71,6 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
         } else if (dialogLayoutCallback != null) {
             dialogLayoutCallback!!.setWindowStyle(window)
         }
-
         return dialog
     }
 
@@ -104,11 +103,10 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
         runOnUiThread {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 val fm = fragmentActivity!!.supportFragmentManager
-                val prev = fm.findFragmentByTag(tag)
-                if (prev != null) {
-                    fm.beginTransaction().remove(prev)
+                fm.findFragmentByTag(tag)?.also {
+                    fm.beginTransaction().remove(it)
                 }
-                super@BaseFlyDialogFragment.showNow(fm, tag)
+                super@BaseFlyDialogFragment.show(fm, tag)
             }
         }
     }

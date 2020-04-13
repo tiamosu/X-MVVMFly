@@ -57,7 +57,7 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
         if (loadingDialog != null) {
             hideLoadingDialog()
         }
-        loadingDialog = LoadingDialog().init(getContext(), Runnable { })
+        loadingDialog = LoadingDialog().init(getContext())
         FlyDialogHelper.safeShowDialog(loadingDialog)
     }
 

@@ -16,7 +16,7 @@ import com.tiamosu.fly.module.common.R
  */
 class LoadingDialog : BaseFlyDialogFragment() {
 
-    fun init(context: Context, onCancelListener: Runnable?): LoadingDialog {
+    fun init(context: Context, onCancelListener: Runnable? = null): LoadingDialog {
         super.init(context, object : IFlyDialogLayoutCallback {
             override fun bindTheme(): Int {
                 return R.style.LoadingDialogStyle
