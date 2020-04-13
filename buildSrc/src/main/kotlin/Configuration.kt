@@ -78,7 +78,7 @@ object Deps {
     const val rxerrorhandler = "me.jessyan:rxerrorhandler:2.1.1"
 
     //utilcode
-    const val utilcode = "com.blankj:utilcodex:1.27.6"
+    const val utilcode = "com.blankj:utilcodex:1.28.0"
 
     //disklrucache
     const val disklrucache = "com.jakewharton:disklrucache:2.0.2"
