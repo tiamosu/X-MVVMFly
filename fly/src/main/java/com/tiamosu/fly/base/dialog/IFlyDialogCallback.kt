@@ -1,9 +1,7 @@
 package com.tiamosu.fly.base.dialog
 
-import android.app.Activity
-import android.app.Dialog
+import android.view.View
 import android.view.Window
-import androidx.annotation.NonNull
 
 /**
  * @author tiamosu
@@ -11,8 +9,15 @@ import androidx.annotation.NonNull
  */
 interface IFlyDialogCallback {
 
-    @NonNull
-    fun bindDialog(activity: Activity): Dialog
+    fun bindTheme(): Int
 
-    fun setWindowStyle(window: Window)
+    fun bindLayout(): Int
+
+    fun initView(dialog: BaseFlyDialogFragment, contentView: View)
+
+    fun setWindowStyle(window: Window) {}
+
+    fun onCancel(dialog: BaseFlyDialogFragment) {}
+
+    fun onDismiss(dialog: BaseFlyDialogFragment) {}
 }

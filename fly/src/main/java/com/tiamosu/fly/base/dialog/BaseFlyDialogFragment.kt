@@ -18,18 +18,8 @@ import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
  */
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFlyDialogFragment : DialogFragment() {
-    protected var dialogLayoutCallback: IFlyDialogLayoutCallback? = null
     protected var dialogCallback: IFlyDialogCallback? = null
     protected var fragmentActivity: FragmentActivity? = null
-
-    fun init(
-        context: Context,
-        dialogLayoutCallback: IFlyDialogLayoutCallback?
-    ): BaseFlyDialogFragment {
-        fragmentActivity = getFragmentActivity(context)
-        this.dialogLayoutCallback = dialogLayoutCallback
-        return this
-    }
 
     fun init(
         context: Context,
@@ -49,28 +39,18 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
     }
 
     override fun getTheme(): Int {
-        if (dialogLayoutCallback != null) {
-            val theme = dialogLayoutCallback!!.bindTheme()
-            if (theme != View.NO_ID) {
-                return theme
-            }
+        var theme = View.NO_ID
+        if (dialogCallback?.bindTheme()?.also { theme = it } != View.NO_ID) {
+            return theme
         }
         return super.getTheme()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = if (dialogCallback != null) {
-            dialogCallback!!.bindDialog(fragmentActivity!!)
-        } else {
-            super.onCreateDialog(savedInstanceState)
-        }
-
+        //解决内存泄漏问题（注意：无法监听 Dialog 的 onShow、onDismiss 事件；直接在 DialogFragment 层面进行监听）
+        val dialog = MyDialog()
         val window = dialog.window ?: return dialog
-        if (dialogCallback != null) {
-            dialogCallback!!.setWindowStyle(window)
-        } else if (dialogLayoutCallback != null) {
-            dialogLayoutCallback!!.setWindowStyle(window)
-        }
+        dialogCallback?.setWindowStyle(window)
         return dialog
     }
 
@@ -79,23 +59,23 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (dialogLayoutCallback != null) {
-            inflater.inflate(dialogLayoutCallback!!.bindLayout(), container, false)
+        return if (dialogCallback != null) {
+            inflater.inflate(dialogCallback!!.bindLayout(), container, false)
         } else super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        dialogLayoutCallback?.initView(this, view)
+        dialogCallback?.initView(this, view)
     }
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        dialogLayoutCallback?.onCancel(this)
+        dialogCallback?.onCancel(this)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        dialogLayoutCallback?.onDismiss(this)
+        dialogCallback?.onDismiss(this)
     }
 
     @JvmOverloads
@@ -116,6 +96,17 @@ abstract class BaseFlyDialogFragment : DialogFragment() {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 super@BaseFlyDialogFragment.dismissAllowingStateLoss()
             }
+        }
+    }
+
+    private inner class MyDialog : Dialog(requireContext(), theme) {
+        override fun setOnCancelListener(listener: DialogInterface.OnCancelListener?) {
+        }
+
+        override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
+        }
+
+        override fun setOnShowListener(listener: DialogInterface.OnShowListener?) {
         }
     }
 }

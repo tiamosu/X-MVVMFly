@@ -7,7 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import com.blankj.utilcode.util.BarUtils
 import com.tiamosu.fly.base.dialog.BaseFlyDialogFragment
-import com.tiamosu.fly.base.dialog.IFlyDialogLayoutCallback
+import com.tiamosu.fly.base.dialog.IFlyDialogCallback
 import com.tiamosu.fly.module.common.R
 
 /**
@@ -17,7 +17,7 @@ import com.tiamosu.fly.module.common.R
 class LoadingDialog : BaseFlyDialogFragment() {
 
     fun init(context: Context, onCancelListener: Runnable? = null): LoadingDialog {
-        super.init(context, object : IFlyDialogLayoutCallback {
+        super.init(context, object : IFlyDialogCallback {
             override fun bindTheme(): Int {
                 return R.style.LoadingDialogStyle
             }
@@ -44,8 +44,6 @@ class LoadingDialog : BaseFlyDialogFragment() {
             override fun onCancel(dialog: BaseFlyDialogFragment) {
                 onCancelListener?.run()
             }
-
-            override fun onDismiss(dialog: BaseFlyDialogFragment) {}
         })
         return this
     }
