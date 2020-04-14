@@ -1,13 +1,7 @@
-include ':app'
+include ':app',
+        ':easy-core'
 
 include ':fly',
         ':fly-http',
         ':fly-imageloader-glide',
         ':fly-livedata-bus'
-
-include ':module:module_common',
-        ':module:module_main',
-        ':module:module_other'
-
-include ':standalone:standalone_main',
-        ':standalone:standalone_other'

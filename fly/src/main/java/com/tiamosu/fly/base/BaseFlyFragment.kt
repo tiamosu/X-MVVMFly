@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
-import me.yokeyword.fragmentation.SupportFragment
 
 /**
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
+abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
+    private val networkDelegate by lazy { NetworkDelegate() }
     var inflater: LayoutInflater? = null
     var container: ViewGroup? = null
     var rootView: View? = null
-
-    private val networkDelegate by lazy { NetworkDelegate() }
 
     //保证转场动画的流畅性，进行延迟加载
     private var isOnSupportVisible = false
@@ -27,14 +25,7 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     //防止多次加载数据
     private var isDataLoaded = false
 
-    /**
-     * 若当前 Fragment 是 ChildFragment， 且想以父页面（ParentFragment）开启新页面时，
-     * 可使用 [getParentDelegate] .startX()、popX()、find/getX() 等相关 api
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun <T : SupportFragment> getParentDelegate(): T {
-        return (parentFragment ?: this) as T
-    }
+    override fun getContext(): AppCompatActivity = activity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,13 +57,12 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initAny()
-
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
     }
 
-    @CallSuper
-    override fun onSupportVisible() {
+    override fun onFlySupportVisible() {
+        super.onFlySupportVisible()
         isOnSupportVisible = true
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
@@ -82,35 +72,17 @@ abstract class BaseFlyFragment : SupportFragment(), IFlyBaseView {
         }
     }
 
-    override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
-        isOnEnterAnimationEnd = true
-        if (isOnSupportVisible) {
-            tryLoadData()
-        }
-    }
-
-    override fun isNeedReload(): Boolean {
-        return false
-    }
+//    override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
+//        isOnEnterAnimationEnd = true
+//        if (isOnSupportVisible) {
+//            tryLoadData()
+//        }
+//    }
 
     private fun tryLoadData() {
         if (isNeedReload() || !isDataLoaded) {
             doBusiness()
             isDataLoaded = true
         }
-    }
-
-    override fun isCheckNetChanged(): Boolean {
-        return false
-    }
-
-    override fun onNetworkStateChanged(isConnected: Boolean) {}
-    override fun onNetReConnect() {}
-
-    override fun onDestroyView() {
-        isOnSupportVisible = false
-        isOnEnterAnimationEnd = false
-        isDataLoaded = false
-        super.onDestroyView()
     }
 }

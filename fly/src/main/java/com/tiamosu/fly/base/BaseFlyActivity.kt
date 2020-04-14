@@ -2,28 +2,21 @@ package com.tiamosu.fly.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
-import me.yokeyword.fragmentation.SupportActivity
 
 /**
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
-    var rootView: View? = null
-
+abstract class BaseFlyActivity : AppCompatActivity(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
+    var rootView: View? = null
 
     //防止多次加载数据
     private var isDataLoaded = false
 
-    override fun isNeedReload(): Boolean {
-        return false
-    }
-
-    override fun isCheckNetChanged(): Boolean {
-        return false
-    }
+    override fun getContext(): AppCompatActivity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +54,5 @@ abstract class BaseFlyActivity : SupportActivity(), IFlyBaseView {
             }
             isDataLoaded = false
         }
-    }
-
-    override fun onNetworkStateChanged(isConnected: Boolean) {}
-    override fun onNetReConnect() {}
-
-    override fun onDestroy() {
-        isDataLoaded = false
-        super.onDestroy()
     }
 }

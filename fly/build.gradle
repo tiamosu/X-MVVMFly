@@ -4,7 +4,7 @@ apply {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //support
+    //androidx
     api Deps.androidx_annotation
     api(Deps.androidx_appcompat) {
         exclude module: 'annotation'
@@ -27,6 +27,17 @@ dependencies {
         exclude module: 'core'
         exclude module: 'kotlin-stdlib'
     }
+    api(Deps.androidx_navigation_runtime) {
+        exclude module: 'annotation'
+        exclude module: 'core'
+        exclude module: 'collection'
+        exclude module: 'activity'
+        exclude module: 'lifecycle-viewmodel'
+        exclude module: 'lifecycle-viewmodel-savedstate'
+        exclude module: 'savedstate'
+    }
+
+    //lifecycle
     api(Deps.lifecycle_common_java8) {
         exclude module: 'annotation'
         exclude module: 'lifecycle-common'
@@ -38,6 +49,7 @@ dependencies {
         exclude module: 'lifecycle-livedata-core'
     }
     api(Deps.lifecycle_extensions) {
+        exclude module: 'annotation'
         exclude module: 'fragment'
         exclude module: 'core-common'
     }
@@ -46,9 +58,6 @@ dependencies {
     api(Deps.kotlin_reflect) {
         exclude module: 'kotlin-stdlib'
     }
-
-    //fragment框架
-    api Deps.fragmentation_support_androidx
 
     //rx
     api Deps.rxjava2

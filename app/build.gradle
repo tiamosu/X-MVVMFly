@@ -4,6 +4,5 @@ apply {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':module:module_main')
-    implementation project(':module:module_other')
+    implementation project(':easy-core')
 }

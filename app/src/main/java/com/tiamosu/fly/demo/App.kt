@@ -1,6 +1,6 @@
 package com.tiamosu.fly.demo
 
-import com.tiamosu.fly.module.common.base.BaseApplication
+import com.tiamosu.fly.core.base.BaseApplication
 
 /**
  * @author tiamosu

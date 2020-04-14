@@ -12,12 +12,6 @@ android {
         targetSdkVersion Android.targetSdkVersion
         versionCode Android.versionCode
         versionName Android.versionName
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
     }
     buildTypes {
         release {
@@ -39,9 +33,4 @@ android {
     dataBinding {
         enabled = true
     }
-}
-
-dependencies {
-    api Deps.arouter_api
-    kapt Deps.arouter_compiler
 }

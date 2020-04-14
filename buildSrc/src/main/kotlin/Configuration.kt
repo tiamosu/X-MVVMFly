@@ -18,6 +18,7 @@ object Versions {
     const val glide = "4.11.0"
     const val dagger2 = "2.27"
     const val fragmentation = "1.1.8"
+    const val navigation = "2.2.1"
 }
 
 object Publish {
@@ -39,6 +40,9 @@ object Deps {
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
     const val androidx_core_ktx = "androidx.core:core-ktx:1.2.0"
+    const val androidx_navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val androidx_navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val androidx_navigation_runtime = "androidx.navigation:navigation-runtime:${Versions.navigation}"
 
     //lifecycle
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
