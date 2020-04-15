@@ -1,4 +1,4 @@
-# 新版本1.0.6
+# 新版本1.0.6（大改版）
 * 添加 SingleLiveEvent 
 * DialogFragment 优化
 * 移除 fragmentation 框架，改用 navigation 实现 Fragment 页面导航
