@@ -1,68 +1,94 @@
 package com.tiamosu.fly.integration.ext
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
+import androidx.navigation.*
 import androidx.navigation.fragment.NavHostFragment
 
 /**
  * @author tiamosu
  * @date 2020/4/14.
  */
-fun Fragment.nav(): NavController {
+
+fun Activity.navController(@IdRes viewId: Int): NavController {
+    return Navigation.findNavController(this, viewId)
+}
+
+fun Activity.navController(view: View): NavController {
+    return Navigation.findNavController(view)
+}
+
+fun Fragment.navController(view: View? = null): NavController {
+    if (view != null) {
+        return Navigation.findNavController(view)
+    }
     return NavHostFragment.findNavController(this)
 }
 
-fun Fragment.navigateUp(): Boolean {
-    return nav().navigateUp()
+fun Fragment.navigateUp(view: View? = null): Boolean {
+    return navController(view).navigateUp()
 }
 
-fun Fragment.navigate(@IdRes resId: Int) {
-    navigate(resId, null)
+fun Fragment.navigate(@IdRes resId: Int, view: View? = null) {
+    navigate(resId, null, view)
 }
 
-fun Fragment.navigate(@IdRes resId: Int, args: Bundle?) {
-    navigate(resId, args, null)
-}
-
-fun Fragment.navigate(@IdRes resId: Int, args: Bundle?, navOptions: NavOptions?) {
-    navigate(resId, args, navOptions, null)
+fun Fragment.navigate(@IdRes resId: Int, args: Bundle?, view: View? = null) {
+    navigate(resId, args, null, view)
 }
 
 fun Fragment.navigate(
     @IdRes resId: Int,
     args: Bundle?,
     navOptions: NavOptions?,
-    navigatorExtras: Navigator.Extras?
+    view: View? = null
 ) {
-    nav().navigate(resId, args, navOptions, navigatorExtras)
+    navigate(resId, args, navOptions, null, view)
 }
 
-fun Fragment.navigate(deepLink: Uri) {
-    navigate(deepLink, null)
+fun Fragment.navigate(
+    @IdRes resId: Int,
+    args: Bundle?,
+    navOptions: NavOptions?,
+    navigatorExtras: Navigator.Extras?,
+    view: View? = null
+) {
+    navController(view).navigate(resId, args, navOptions, navigatorExtras)
 }
 
-fun Fragment.navigate(deepLink: Uri, navOptions: NavOptions?) {
-    navigate(deepLink, navOptions, null)
+fun Fragment.navigate(deepLink: Uri, view: View? = null) {
+    navigate(deepLink, null, view)
 }
 
-fun Fragment.navigate(deepLink: Uri, navOptions: NavOptions?, navigatorExtras: Navigator.Extras?) {
-    nav().navigate(deepLink, navOptions, navigatorExtras)
+fun Fragment.navigate(deepLink: Uri, navOptions: NavOptions?, view: View? = null) {
+    navigate(deepLink, navOptions, null, view)
 }
 
-fun Fragment.navigate(directions: NavDirections) {
-    nav().navigate(directions)
+fun Fragment.navigate(
+    deepLink: Uri,
+    navOptions: NavOptions?,
+    navigatorExtras: Navigator.Extras?,
+    view: View? = null
+) {
+    navController(view).navigate(deepLink, navOptions, navigatorExtras)
 }
 
-fun Fragment.navigate(directions: NavDirections, navOptions: NavOptions?) {
-    nav().navigate(directions, navOptions)
+fun Fragment.navigate(directions: NavDirections, view: View? = null) {
+    navigate(directions, null, view)
 }
 
-fun Fragment.navigate(directions: NavDirections, navigatorExtras: Navigator.Extras) {
-    nav().navigate(directions, navigatorExtras)
+fun Fragment.navigate(directions: NavDirections, navOptions: NavOptions?, view: View? = null) {
+    navController(view).navigate(directions, navOptions)
+}
+
+fun Fragment.navigate(
+    directions: NavDirections,
+    navigatorExtras: Navigator.Extras,
+    view: View? = null
+) {
+    navController(view).navigate(directions, navigatorExtras)
 }

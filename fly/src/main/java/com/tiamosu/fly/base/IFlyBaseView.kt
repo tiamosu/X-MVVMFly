@@ -1,6 +1,8 @@
 package com.tiamosu.fly.base
 
 import android.content.Context
+import android.os.Bundle
+import android.view.View
 
 /**
  * @author tiamosu
@@ -24,9 +26,19 @@ interface IFlyBaseView {
     fun getContext(): Context
 
     /**
-     * 用于初始化数据
+     * 用于初始化参数
      */
-    fun initAny()
+    fun initParameters(bundle: Bundle?)
+
+    /**
+     * 用于初始化 View
+     */
+    fun initView(rootView: View?)
+
+    /**
+     * 用于绑定事件
+     */
+    fun initEvent()
 
     /**
      * 再次可见时，是否重新请求数据，默认为false则只请求一次数据

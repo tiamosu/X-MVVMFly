@@ -9,10 +9,10 @@ import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.core.bridge.SharedViewModel
 import com.tiamosu.fly.core.ext.getShareViewModel
+import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
 import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
-import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 
 /**
  * @author tiamosu
@@ -24,26 +24,9 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
 
-    /**
-     * 用于初始化数据
-     */
-    protected open fun initData(bundle: Bundle?) {}
-
-    /**
-     * 用于初始化View
-     */
-    protected open fun initView(rootView: View?) {}
-
-    /**
-     * 用于初始化事件
-     */
-    protected open fun initEvent() {}
-
-    override fun initAny() {
-        initData(intent.extras)
-        initView(rootView)
-        initEvent()
-    }
+    override fun initParameters(bundle: Bundle?) {}
+    override fun initView(rootView: View?) {}
+    override fun initEvent() {}
 
     override fun showToastInfo(msg: String?) {
         ToastUtils.showShort(msg)

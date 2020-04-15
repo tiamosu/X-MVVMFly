@@ -20,12 +20,13 @@ abstract class BaseFlyActivity : AppCompatActivity(), IFlyBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView()
-        initAny()
-
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
 
+        initParameters(intent.extras)
+        setContentView()
+        initView(rootView)
+        initEvent()
         tryLoadData(true)
     }
 

@@ -19,26 +19,9 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
     protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<Any>? = null
 
-    /**
-     * 用于初始化数据
-     */
-    protected open fun initData(bundle: Bundle?) {}
-
-    /**
-     * 用于初始化View
-     */
-    protected open fun initView(rootView: View?) {}
-
-    /**
-     * 用于初始化事件
-     */
-    protected open fun initEvent() {}
-
-    override fun initAny() {
-        initData(arguments)
-        initView(rootView)
-        initEvent()
-    }
+    override fun initParameters(bundle: Bundle?) {}
+    override fun initView(rootView: View?) {}
+    override fun initEvent() {}
 
     override fun showToastInfo(msg: String?) {
         (context as BaseActivity).showToastInfo(msg)

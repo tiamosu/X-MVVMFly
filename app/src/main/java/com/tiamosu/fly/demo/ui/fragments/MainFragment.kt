@@ -1,15 +1,11 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.core.base.BaseDBFragment
 import com.tiamosu.fly.core.utils.lazyViewModel
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.MainViewModel
 import com.tiamosu.fly.demo.databinding.FragmentMainBinding
+import com.tiamosu.fly.integration.ext.navigate
 
 /**
  * @author tiamosu
@@ -20,50 +16,34 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
 
     override fun getLayoutId() = R.layout.fragment_main
 
-    override fun initData(bundle: Bundle?) {
-        viewDataBinding?.click = ClickProxy(this)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val isStarted = lifecycle.currentState == Lifecycle.State.STARTED
-        Log.e("tiamosu", "isStarted1:$isStarted")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val isStarted = lifecycle.currentState == Lifecycle.State.STARTED
-        Log.e("tiamosu", "isStarted2:$isStarted")
+    override fun initEvent() {
+        viewDataBinding?.click = ClickProxy()
     }
 
     override fun doBusiness() {
         mainViewModel.print()
     }
 
-    class ClickProxy(private val fragment: Fragment) {
-
-        fun startOther() {
-//            fragment.start(newInstance(Router.obtainFragmentOtherCls()))
-        }
+    inner class ClickProxy {
 
         fun startShared() {
-//            fragment.start(newInstance(SharedFragment::class.java))
+            navigate(R.id.action_mainFragment_to_sharedFragment)
         }
 
         fun startBus() {
-//            fragment.start(newInstance(BusFragment::class.java))
+            navigate(R.id.action_mainFragment_to_busFragment)
         }
 
         fun startHttp() {
-//            fragment.start(newInstance(HttpFragment::class.java))
+            navigate(R.id.action_mainFragment_to_httpFragment)
         }
 
         fun startGlide() {
-//            fragment.start(newInstance(GlideFragment::class.java))
+            navigate(R.id.action_mainFragment_to_glideFragment)
         }
 
         fun startLoadSir() {
-//            fragment.start(newInstance(LoadSirFragment::class.java))
+            navigate(R.id.action_mainFragment_to_loadSirFragment)
         }
     }
 

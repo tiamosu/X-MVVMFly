@@ -1,217 +1,154 @@
 package com.tiamosu.fly.base.delegate
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import com.tiamosu.fly.base.FlySupportFragment
 
 /**
  * @author tiamosu
- * @date 2020/4/13.
+ * @date 2020/4/14.
  */
 class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
-    private var isSupportVisible = false
-    private var needDispatch = true
-    private var invisibleWhenLeave = false
-    private var isFirstVisible = true
-    private var compatReplace = true
-    private var abortInitVisible = false
-    private var savedInstanceState: Bundle? = null
-    private var taskDispatchSupportVisible: Runnable? = null
-    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
+    private var isViewCreated = false           //布局是否创建完成
+    private var currentVisibleState = false     //当前可见状态
+    private var isFirstVisible = true           //是否第一次可见
 
-    fun onCreate(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            this.savedInstanceState = savedInstanceState
-            // setUserVisibleHint() may be called before onCreate()
-            invisibleWhenLeave = savedInstanceState.getBoolean(FRAGMENT_STATE_INVISIBLE_WHEN_LEAVE)
-            compatReplace = savedInstanceState.getBoolean(FRAGMENT_STATE_COMPAT_REPLACE)
+    fun onCreateView() {
+        isViewCreated = true
+    }
+
+    fun onViewCreated() {
+        if (isFragmentVisible(fragment)) {
+            // 可见状态,进行事件分发
+            dispatchUserVisibleHint(true)
         }
     }
 
-    fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(FRAGMENT_STATE_INVISIBLE_WHEN_LEAVE, invisibleWhenLeave)
-        outState.putBoolean(FRAGMENT_STATE_COMPAT_REPLACE, compatReplace)
-    }
-
-    fun onActivityCreated() {
-        if (!compatReplace
-            && fragment.tag?.startsWith("android:switcher:") == true
-        ) {
-            return
-        }
-        if (compatReplace) {
-            compatReplace = false
-        }
-        initVisible()
-    }
-
-    fun onResume() {
-        if (!isFirstVisible) {
-            if (!isSupportVisible && !invisibleWhenLeave && isFragmentVisible(fragment)) {
-                needDispatch = false
-                dispatchSupportVisible(true)
-            }
-        } else {
-            if (abortInitVisible) {
-                abortInitVisible = false
-                initVisible()
+    /**
+     * 修改 Fragment 的可见性 setUserVisibleHint 被调用有两种情况：
+     * 1）在切换 tab 的时候，会先于所有 fragment 的其他生命周期，先调用这个函数
+     * 2) 对于之前已经调用过 setUserVisibleHint 方法的 fragment 后，让 fragment 从可见到不可见之间状态的变化
+     */
+    fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        // 对于情况 1）不予处理，用 isViewCreated 进行判断，如果 isViewCreated = false，说明它没有被创建
+        if (isViewCreated) {
+            // 对于情况 2），需要分情况考虑，如果是不可见 -> 可见 2.1
+            // 如果是可见 -> 不可见 2.2
+            // 对于 2.1）我们需要如何判断呢？首先必须是可见的（isVisibleToUser 为 true）
+            // 而且只有当可见状态进行改变的时候才需要切换，否则会出现反复调用的情况
+            // 从而导致事件分发带来的多次更新
+            if (isVisibleToUser && !currentVisibleState) {
+                // 从不可见 -> 可见
+                dispatchUserVisibleHint(true)
+            } else if (!isVisibleToUser && currentVisibleState) {
+                dispatchUserVisibleHint(false)
             }
         }
     }
 
-    fun onPause() {
-        if (taskDispatchSupportVisible != null) {
-            handler.removeCallbacks(taskDispatchSupportVisible!!)
-            abortInitVisible = true
-            return
-        }
-
-        if (isSupportVisible && isFragmentVisible(fragment)) {
-            needDispatch = false
-            invisibleWhenLeave = false
-            dispatchSupportVisible(false)
-        } else {
-            invisibleWhenLeave = true
-        }
-    }
-
+    /**
+     * 用 FragmentTransaction 来控制 fragment 的 hide 和 show 时，
+     * 那么这个方法就会被调用。每当你对某个 Fragment 使用 hide 或者是 show 的时候，那么这个 Fragment 就会自动调用这个方法。
+     */
     fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden && !fragment.isResumed) {
-            //if fragment is shown but not resumed, ignore...
-            onFragmentShownWhenNotResumed()
-            return
-        }
+        // 这里的可见返回为false
         if (hidden) {
-            safeDispatchUserVisibleHint(false)
+            dispatchUserVisibleHint(false)
         } else {
-            enqueueDispatchVisible()
+            dispatchUserVisibleHint(true)
+        }
+    }
+
+    /**
+     * 在滑动或者跳转的过程中，第一次创建 fragment 的时候均会调用 onResume 方法
+     */
+    fun onResume() {
+        // 如果不是第一次可见
+        if (!isFirstVisible) {
+            // 如果此时进行 Activity 跳转,会将所有的缓存的 fragment 进行 onResume 生命周期的重复
+            // 只需要对可见的 fragment 进行加载,
+            if (isFragmentVisible(fragment) && !currentVisibleState) {
+                dispatchUserVisibleHint(true)
+            }
+        }
+    }
+
+    /**
+     * 只有当当前页面由可见状态转变到不可见状态时才需要调用 dispatchUserVisibleHint currentVisibleState &&
+     * getUserVisibleHint() 能够限定是当前可见的 Fragment 当前 Fragment 包含子 Fragment 的时候
+     * dispatchUserVisibleHint 内部本身就会通知子 Fragment 不可见 子 fragment 走到这里的时候自身又会调用一遍
+     */
+    @Suppress("DEPRECATION")
+    fun onPause() {
+        if (currentVisibleState && fragment.userVisibleHint) {
+            dispatchUserVisibleHint(false)
         }
     }
 
     fun onDestroyView() {
-        isFirstVisible = true
-    }
-
-    fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if (fragment.isResumed || (!fragment.isAdded && isVisibleToUser)) {
-            if (!isSupportVisible && isVisibleToUser) {
-                safeDispatchUserVisibleHint(true)
-            } else if (isSupportVisible && !isVisibleToUser) {
-                dispatchSupportVisible(false)
-            }
-        }
+        isViewCreated = false
     }
 
     fun isSupportVisible(): Boolean {
-        return isSupportVisible
+        return currentVisibleState
     }
 
-    private fun initVisible() {
-        if (!invisibleWhenLeave && isFragmentVisible(fragment)) {
-            val parentFragment = fragment.parentFragment
-            if (parentFragment == null || isFragmentVisible(parentFragment)) {
-                needDispatch = false
-                safeDispatchUserVisibleHint(true)
-            }
-        }
-    }
-
-    private fun onFragmentShownWhenNotResumed() {
-        invisibleWhenLeave = false
-        dispatchChildOnFragmentShownWhenNotResumed()
-    }
-
-    private fun dispatchChildOnFragmentShownWhenNotResumed() {
-        val fragmentManager = fragment.childFragmentManager
-        val childFragments = fragmentManager.fragments
-        for (child in childFragments) {
-            if (child is FlySupportFragment && isFragmentVisible(child)) {
-                child.visibleDelegate.onFragmentShownWhenNotResumed()
-            }
-        }
-    }
-
-    private fun safeDispatchUserVisibleHint(visible: Boolean) {
-        if (isFirstVisible) {
-            if (!visible) return
-            enqueueDispatchVisible()
-        } else {
-            dispatchSupportVisible(visible)
-        }
-    }
-
-    private fun enqueueDispatchVisible() {
-        taskDispatchSupportVisible = Runnable {
-            taskDispatchSupportVisible = null
-            dispatchSupportVisible(true)
-        }
-        taskDispatchSupportVisible?.let(handler::post)
-    }
-
-    private fun dispatchSupportVisible(visible: Boolean) {
-        if (visible && isParentInvisible()) return
-
-        if (isSupportVisible == visible) {
-            needDispatch = true
+    /**
+     * 统一处理用户可见事件分发
+     */
+    private fun dispatchUserVisibleHint(isVisible: Boolean) {
+        // 首先考虑一下 fragment 嵌套 fragment 的情况(只考虑2层嵌套)
+        if (isVisible && isParentInvisible) {
+            // 父 Fragment 此时不可见,直接 return 不做处理
             return
         }
-        isSupportVisible = visible
-
-        if (visible) {
-            if (checkAddState()) return
-            fragment.onFlySupportVisible()
-
+        // 为了代码严谨,如果当前状态与需要设置的状态本来就一致了,就不处理了
+        if (currentVisibleState == isVisible) {
+            return
+        }
+        currentVisibleState = isVisible
+        if (isVisible) {
             if (isFirstVisible) {
                 isFirstVisible = false
-                fragment.onFlyLazyInitView(savedInstanceState)
+                // 第一次可见，进行全局初始化
+                fragment.onFlyLazyInitView()
             }
-            dispatchChild(true)
+            fragment.onFlySupportVisible()
+            // 分发事件给内嵌的 Fragment
+            dispatchChildVisibleState(true)
         } else {
-            dispatchChild(false)
             fragment.onFlySupportInvisible()
+            dispatchChildVisibleState(false)
         }
     }
 
-    private fun dispatchChild(visible: Boolean) {
-        if (!needDispatch) {
-            needDispatch = true
-        } else {
-            if (checkAddState()) return
+    private val isParentInvisible: Boolean
+        get() {
+            val parentFragment = fragment.parentFragment
+            if (parentFragment is FlySupportFragment) {
+                return !parentFragment.isFlySupportVisible()
+            }
+            return false
+        }
 
-            val fragmentManager = fragment.childFragmentManager
-            val childFragments = fragmentManager.fragments
-            for (child in childFragments) {
-                if (child is FlySupportFragment && isFragmentVisible(child)) {
-                    child.visibleDelegate.dispatchSupportVisible(visible)
-                }
+    /**
+     * 在双重 ViewPager 嵌套的情况下，第一次滑到 Fragment 嵌套 ViewPager(fragment)的场景的时候
+     * 此时只会加载外层 Fragment 的数据，而不会加载内嵌 viewPager 中的 fragment 的数据，因此，我们
+     * 需要在此增加一个当外层 Fragment 可见的时候，分发可见事件给自己内嵌的所有 Fragment 显示
+     */
+    private fun dispatchChildVisibleState(visible: Boolean) {
+        val fragmentManager =
+            fragment.childFragmentManager
+        val fragments =
+            fragmentManager.fragments
+        for (fragment in fragments) {
+            if (fragment is FlySupportFragment && isFragmentVisible(fragment)) {
+                fragment.visibleDelegate.dispatchUserVisibleHint(visible)
             }
         }
-    }
-
-    private fun isParentInvisible(): Boolean {
-        val parentFragment = fragment.parentFragment
-        return if (parentFragment is FlySupportFragment) {
-            !parentFragment.isFlySupportVisible()
-        } else parentFragment?.isVisible == false
-    }
-
-    private fun checkAddState(): Boolean {
-        if (!fragment.isAdded) {
-            isSupportVisible = !isSupportVisible
-            return true
-        }
-        return false
     }
 
     @Suppress("DEPRECATION")
     private fun isFragmentVisible(fragment: Fragment): Boolean {
         return !fragment.isHidden && fragment.userVisibleHint
-    }
-
-    companion object {
-        private const val FRAGMENT_STATE_INVISIBLE_WHEN_LEAVE = "fragmentation_invisible_when_leave"
-        private const val FRAGMENT_STATE_COMPAT_REPLACE = "fragmentation_compat_replace"
     }
 }
