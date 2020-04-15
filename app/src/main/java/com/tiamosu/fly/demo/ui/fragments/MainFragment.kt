@@ -1,5 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
+import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseDBFragment
 import com.tiamosu.fly.core.utils.lazyViewModel
@@ -34,7 +35,10 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
     inner class ClickProxy {
 
         fun startShared() {
-            navigate(R.id.action_mainFragment_to_sharedFragment)
+            val bundle = Bundle().apply {
+                putString(SharedFragment.KEY, "传参测试~~~")
+            }
+            navigate(R.id.action_mainFragment_to_sharedFragment, args = bundle)
         }
 
         fun startBus() {

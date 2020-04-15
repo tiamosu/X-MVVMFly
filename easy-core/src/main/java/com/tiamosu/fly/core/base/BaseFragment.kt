@@ -7,6 +7,7 @@ import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.core.bridge.SharedViewModel
 import com.tiamosu.fly.core.ext.getShareViewModel
+import com.tiamosu.fly.core.ext.showCallback
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
 import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
@@ -40,15 +41,15 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
     }
 
     override fun showEmpty() {
-        loadService?.showCallback(EmptyCallback::class.java)
+        loadService?.showCallback<EmptyCallback>()
     }
 
     override fun showLoading() {
-        loadService?.showCallback(LoadingCallback::class.java)
+        loadService?.showCallback<LoadingCallback>()
     }
 
     override fun showFailure() {
-        loadService?.showCallback(ErrorCallback::class.java)
+        loadService?.showCallback<ErrorCallback>()
     }
 
     override fun showSuccess() {

@@ -2,6 +2,7 @@ package com.tiamosu.fly.core.ext
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
+import com.kingja.loadsir.callback.Callback
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.tiamosu.fly.core.R
@@ -37,4 +38,8 @@ fun LoadService<*>.setErrorText(error: String) {
     setCallBack(ErrorCallback::class.java) { _, view ->
         view.findViewById<AppCompatTextView>(R.id.error_text).text = error
     }
+}
+
+inline fun <reified T : Callback> LoadService<*>.showCallback() {
+    return showCallback(T::class.java)
 }

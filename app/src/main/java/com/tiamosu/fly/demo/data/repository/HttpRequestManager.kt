@@ -44,7 +44,7 @@ object HttpRequestManager : IRemoteRequest {
 
     override fun <T> custom(callback: Callback<T>) {
         FlyHttp.custom(APIs.FRIEND_JSON).also {
-            val observable = it.create(CustomApiService::class.java)?.getFriend(it.url)
+            val observable = it.create<CustomApiService>()?.getFriend(it.url)
             it.apiCall(observable, callback)
         }
     }

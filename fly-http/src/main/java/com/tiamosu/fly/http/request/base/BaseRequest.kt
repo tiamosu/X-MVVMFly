@@ -13,6 +13,7 @@ import com.tiamosu.fly.http.interceptors.*
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
+import com.tiamosu.fly.integration.obtainRetrofitService
 import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
 import com.tiamosu.fly.utils.isInitialized
@@ -472,7 +473,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         }
         retrofit = retrofitBuilder.build()
         apiService = getAppComponent().repositoryManager()
-            .obtainRetrofitService(ApiService::class.java, retrofit)
+            .obtainRetrofitService<ApiService>(retrofit)
         return RequestCall(this)
     }
 

@@ -25,3 +25,7 @@ interface IRepositoryManager {
         fun <T> createRetrofitService(retrofit: Retrofit?, serviceClass: Class<T>?): T?
     }
 }
+
+inline fun <reified T> IRepositoryManager.obtainRetrofitService(retrofit: Retrofit?): T? {
+    return obtainRetrofitService(T::class.java, retrofit)
+}

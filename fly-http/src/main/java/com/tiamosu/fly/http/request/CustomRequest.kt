@@ -15,6 +15,10 @@ import okhttp3.ResponseBody
 open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
     private var observable: Observable<ResponseBody>? = null
 
+    inline fun <reified R> create(): R? {
+        return create(R::class.java)
+    }
+
     fun <R> create(serviceClass: Class<R>): R? {
         checkValidate()
         return getAppComponent().repositoryManager()

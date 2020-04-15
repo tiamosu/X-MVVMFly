@@ -21,9 +21,11 @@ constructor() : IRepositoryManager {
     @JvmField
     @Inject
     internal var retrofit: Lazy<Retrofit>? = null
+
     @JvmField
     @Inject
     internal var cacheFactory: Cache.Factory<String, Any?>? = null
+
     @JvmField
     @Inject
     internal var obtainServiceDelegate: IRepositoryManager.ObtainServiceDelegate? = null

@@ -32,55 +32,30 @@ fun Fragment.navigateUp(view: View? = null): Boolean {
     return navController(view).navigateUp()
 }
 
-fun Fragment.navigate(@IdRes resId: Int, view: View? = null) {
-    navigate(resId, null, view)
-}
-
-fun Fragment.navigate(@IdRes resId: Int, args: Bundle?, view: View? = null) {
-    navigate(resId, args, null, view)
-}
-
 fun Fragment.navigate(
     @IdRes resId: Int,
-    args: Bundle?,
-    navOptions: NavOptions?,
-    view: View? = null
-) {
-    navigate(resId, args, navOptions, null, view)
-}
-
-fun Fragment.navigate(
-    @IdRes resId: Int,
-    args: Bundle?,
-    navOptions: NavOptions?,
-    navigatorExtras: Navigator.Extras?,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null,
     view: View? = null
 ) {
     navController(view).navigate(resId, args, navOptions, navigatorExtras)
 }
 
-fun Fragment.navigate(deepLink: Uri, view: View? = null) {
-    navigate(deepLink, null, view)
-}
-
-fun Fragment.navigate(deepLink: Uri, navOptions: NavOptions?, view: View? = null) {
-    navigate(deepLink, navOptions, null, view)
-}
-
 fun Fragment.navigate(
     deepLink: Uri,
-    navOptions: NavOptions?,
-    navigatorExtras: Navigator.Extras?,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null,
     view: View? = null
 ) {
     navController(view).navigate(deepLink, navOptions, navigatorExtras)
 }
 
-fun Fragment.navigate(directions: NavDirections, view: View? = null) {
-    navigate(directions, null, view)
-}
-
-fun Fragment.navigate(directions: NavDirections, navOptions: NavOptions?, view: View? = null) {
+fun Fragment.navigate(
+    directions: NavDirections,
+    navOptions: NavOptions? = null,
+    view: View? = null
+) {
     navController(view).navigate(directions, navOptions)
 }
 

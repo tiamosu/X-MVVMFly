@@ -74,13 +74,13 @@ class ViewModelProviderFactory(private vararg val arguments: Any) : ViewModelPro
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val constructors = modelClass.constructors
-        val constructor =
-            find(constructors, object : Predicate<Constructor<*>> {
-                override fun test(element: Constructor<*>): Boolean {
-                    return element.parameterTypes.size == arguments.size
-                }
-            })
-                ?: throw RuntimeException("$this constructor arguments do not match the $modelClass constructor arguments.")
+        val constructor = find(constructors, object : Predicate<Constructor<*>> {
+            override fun test(element: Constructor<*>): Boolean {
+                return element.parameterTypes.size == arguments.size
+            }
+        }) ?: throw RuntimeException(
+            "$this constructor arguments do not match the $modelClass constructor arguments."
+        )
         return try {
             constructor.newInstance(*arguments) as T
         } catch (e: IllegalAccessException) {
