@@ -1,3 +1,11 @@
+# 新版本1.0.6
+* 添加 SingleLiveEvent 
+* DialogFragment 优化
+* 移除 fragmentation 框架，改用 navigation 实现 Fragment 页面导航
+* 添加 Navigation 扩展
+* 移除 initAny，新增 initParameters、initView、initEvent
+* 对 Fragment 显示隐藏逻辑进行优化，支持 fragment 返回监听处理事件
+
 # 新版本1.0.5
 * okhttp3 4.4.1 → 4.5.0
 * utilcode 1.27.2 → 1.27.6

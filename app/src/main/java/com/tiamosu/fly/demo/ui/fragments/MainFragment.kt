@@ -14,14 +14,20 @@ import com.tiamosu.fly.integration.ext.navigate
  */
 class MainFragment : BaseDBFragment<FragmentMainBinding>() {
     private val mainViewModel: MainViewModel by lazyViewModel("进行传参测试~~~ ^_^")
+    private var isReloadData = false
 
     override fun getLayoutId() = R.layout.fragment_main
+
+    override fun isNeedReload() = isReloadData
 
     override fun initEvent() {
         viewDataBinding?.click = ClickProxy()
     }
 
     override fun doBusiness() {
+        if (isReloadData) {
+            isReloadData = false
+        }
         mainViewModel.print()
     }
 
@@ -33,6 +39,7 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
 
         fun startBus() {
             navigate(R.id.action_mainFragment_to_busFragment)
+            isReloadData = true
         }
 
         fun startHttp() {
