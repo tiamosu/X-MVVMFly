@@ -2,7 +2,6 @@ package com.tiamosu.fly.base
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -24,38 +23,22 @@ abstract class FlySupportFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(fragmentTag, "onAttach")
         activity = context as AppCompatActivity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(fragmentTag, "onCreate")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(fragmentTag, "onCreateView")
         visibleDelegate.onCreateView()
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d(fragmentTag, "onViewCreated")
         visibleDelegate.onViewCreated()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Log.d(fragmentTag, "onActivityCreated")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(fragmentTag, "onResume")
         visibleDelegate.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(fragmentTag, "onPause")
         visibleDelegate.onPause()
     }
 
@@ -66,14 +49,12 @@ abstract class FlySupportFragment : Fragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        Log.d(fragmentTag, "onHiddenChanged：$hidden")
         visibleDelegate.onHiddenChanged(hidden)
     }
 
     @Suppress("DEPRECATION")
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        Log.d(fragmentTag, "setUserVisibleHint：$isVisibleToUser")
         visibleDelegate.setUserVisibleHint(isVisibleToUser)
     }
 
@@ -87,7 +68,6 @@ abstract class FlySupportFragment : Fragment() {
      */
     @CallSuper
     open fun onFlyLazyInitView() {
-        Log.d(fragmentTag, "onFlyLazyInitView 第一次可见，可执行 View 初始化等")
     }
 
     /**
@@ -95,7 +75,6 @@ abstract class FlySupportFragment : Fragment() {
      */
     @CallSuper
     open fun onFlySupportVisible() {
-        Log.d(fragmentTag, "onFlySupportVisible 真正的 Resume，开始相关操作")
     }
 
     /**
@@ -103,6 +82,5 @@ abstract class FlySupportFragment : Fragment() {
      */
     @CallSuper
     open fun onFlySupportInvisible() {
-        Log.d(fragmentTag, "onFlySupportInvisible 真正的 Pause，结束相关操作")
     }
 }
