@@ -6,6 +6,7 @@ import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.data.bean.BusMessage
 import com.tiamosu.fly.demo.data.constant.EventTag
+import com.tiamosu.fly.integration.ext.navigate
 import com.tiamosu.fly.livedata.bus.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_bus.*
 
@@ -25,7 +26,7 @@ class BusFragment : BaseFragment() {
         btn_send_sticky_event.setOnClickListener {
             val busMessage = BusMessage("这是一条粘性事件信息，请查收~")
             LiveDataBus.withSticky<BusMessage>(EventTag.TAG_WITH_CLASS)?.value = busMessage
-//            start(newInstance(StickyBusFragment::class.java))
+            navigate(R.id.action_busFragment_to_stickyBusFragment)
         }
 
         LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)?.observe(viewLifecycleOwner, {

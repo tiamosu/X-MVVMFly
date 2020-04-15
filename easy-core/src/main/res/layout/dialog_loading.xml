@@ -10,7 +10,7 @@
         android:layout_height="80dp"
         android:background="@drawable/shape_loading_bg">
 
-        <com.tiamosu.fly.module.common.ui.view.RotateView
+        <com.tiamosu.fly.core.ui.view.RotateView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

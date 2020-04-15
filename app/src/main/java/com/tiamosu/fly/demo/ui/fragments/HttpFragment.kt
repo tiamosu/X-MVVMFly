@@ -2,6 +2,7 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.integration.ext.navigate
 import kotlinx.android.synthetic.main.fragment_http.*
 
 /**
@@ -14,16 +15,16 @@ class HttpFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_basic_request.setOnClickListener {
-//            start(newInstance(BasicRequestFragment::class.java))
+            navigate(R.id.action_httpFragment_to_basicRequestFragment)
         }
         btn_upload.setOnClickListener {
-//            start(newInstance(UploadFragment::class.java))
+            navigate(R.id.action_httpFragment_to_uploadFragment)
         }
         btn_download.setOnClickListener {
-//            start(newInstance(DownloadFragment::class.java))
+            navigate(R.id.action_httpFragment_to_downloadFragment)
         }
         btn_request_cache.setOnClickListener {
-//            start(newInstance(CacheFragment::class.java))
+            navigate(R.id.action_httpFragment_to_cacheFragment)
         }
     }
 

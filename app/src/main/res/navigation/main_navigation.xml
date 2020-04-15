@@ -75,12 +75,79 @@
     <fragment
         android:id="@+id/busFragment"
         android:name="com.tiamosu.fly.demo.ui.fragments.BusFragment"
-        tools:layout="@layout/fragment_bus" />
+        tools:layout="@layout/fragment_bus">
+
+        <action
+            android:id="@+id/action_busFragment_to_stickyBusFragment"
+            app:destination="@id/stickyBusFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stickyBusFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.StickyBusFragment"
+        tools:layout="@layout/fragment_sticky_bus" />
 
     <fragment
         android:id="@+id/httpFragment"
         android:name="com.tiamosu.fly.demo.ui.fragments.HttpFragment"
-        tools:layout="@layout/fragment_http" />
+        tools:layout="@layout/fragment_http">
+
+        <action
+            android:id="@+id/action_httpFragment_to_basicRequestFragment"
+            app:destination="@id/basicRequestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_httpFragment_to_uploadFragment"
+            app:destination="@id/uploadFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_httpFragment_to_downloadFragment"
+            app:destination="@id/downloadFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_httpFragment_to_cacheFragment"
+            app:destination="@id/cacheFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/basicRequestFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.BasicRequestFragment"
+        tools:layout="@layout/fragment_basic_request" />
+
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.UploadFragment"
+        tools:layout="@layout/fragment_upload" />
+
+    <fragment
+        android:id="@+id/downloadFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.DownloadFragment"
+        tools:layout="@layout/fragment_download" />
+
+    <fragment
+        android:id="@+id/cacheFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.CacheFragment"
+        tools:layout="@layout/fragment_cache" />
 
     <fragment
         android:id="@+id/glideFragment"
