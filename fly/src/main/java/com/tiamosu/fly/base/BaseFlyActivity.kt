@@ -3,13 +3,14 @@ package com.tiamosu.fly.base
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.tiamosu.fly.fragmentation.FlySupportActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyActivity : AppCompatActivity(), IFlyBaseView {
+abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
     var rootView: View? = null
 

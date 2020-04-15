@@ -1,26 +1,63 @@
-package com.tiamosu.fly.base.delegate
+package com.tiamosu.fly.fragmentation
 
 import androidx.fragment.app.Fragment
-import com.tiamosu.fly.base.FlySupportFragment
 
 /**
  * @author tiamosu
  * @date 2020/4/14.
  */
-class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
+class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     private var isViewCreated = false           //布局是否创建完成
     private var currentVisibleState = false     //当前可见状态
     private var isFirstVisible = true           //是否第一次可见
+    private var fragment: Fragment
+
+    init {
+        if (supportF !is Fragment) {
+            throw RuntimeException("${supportF.javaClass.simpleName} must extends Fragment")
+        }
+        fragment = supportF
+    }
 
     fun onCreateView() {
         isViewCreated = true
     }
 
     fun onViewCreated() {
-        if (isFragmentVisible(fragment)) {
+        if (FlySupportHelper.isFragmentVisible(fragment)) {
             // 可见状态,进行事件分发
             dispatchUserVisibleHint(true)
         }
+    }
+
+    /**
+     * 在滑动或者跳转的过程中，第一次创建 fragment 的时候均会调用 onResume 方法
+     */
+    fun onResume() {
+        // 如果不是第一次可见
+        if (!isFirstVisible) {
+            // 如果此时进行 Activity 跳转,会将所有的缓存的 fragment 进行 onResume 生命周期的重复
+            // 只需要对可见的 fragment 进行加载,
+            if (FlySupportHelper.isFragmentVisible(fragment) && !currentVisibleState) {
+                dispatchUserVisibleHint(true)
+            }
+        }
+    }
+
+    /**
+     * 只有当当前页面由可见状态转变到不可见状态时才需要调用 dispatchUserVisibleHint currentVisibleState &&
+     * getUserVisibleHint() 能够限定是当前可见的 Fragment 当前 Fragment 包含子 Fragment 的时候
+     * dispatchUserVisibleHint 内部本身就会通知子 Fragment 不可见 子 fragment 走到这里的时候自身又会调用一遍
+     */
+    @Suppress("DEPRECATION")
+    fun onPause() {
+        if (currentVisibleState && fragment.userVisibleHint) {
+            dispatchUserVisibleHint(false)
+        }
+    }
+
+    fun onDestroyView() {
+        isViewCreated = false
     }
 
     /**
@@ -58,39 +95,7 @@ class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
         }
     }
 
-    /**
-     * 在滑动或者跳转的过程中，第一次创建 fragment 的时候均会调用 onResume 方法
-     */
-    fun onResume() {
-        // 如果不是第一次可见
-        if (!isFirstVisible) {
-            // 如果此时进行 Activity 跳转,会将所有的缓存的 fragment 进行 onResume 生命周期的重复
-            // 只需要对可见的 fragment 进行加载,
-            if (isFragmentVisible(fragment) && !currentVisibleState) {
-                dispatchUserVisibleHint(true)
-            }
-        }
-    }
-
-    /**
-     * 只有当当前页面由可见状态转变到不可见状态时才需要调用 dispatchUserVisibleHint currentVisibleState &&
-     * getUserVisibleHint() 能够限定是当前可见的 Fragment 当前 Fragment 包含子 Fragment 的时候
-     * dispatchUserVisibleHint 内部本身就会通知子 Fragment 不可见 子 fragment 走到这里的时候自身又会调用一遍
-     */
-    @Suppress("DEPRECATION")
-    fun onPause() {
-        if (currentVisibleState && fragment.userVisibleHint) {
-            dispatchUserVisibleHint(false)
-        }
-    }
-
-    fun onDestroyView() {
-        isViewCreated = false
-    }
-
-    fun isSupportVisible(): Boolean {
-        return currentVisibleState
-    }
+    fun isSupportVisible() = currentVisibleState
 
     /**
      * 统一处理用户可见事件分发
@@ -110,13 +115,13 @@ class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
             if (isFirstVisible) {
                 isFirstVisible = false
                 // 第一次可见，进行全局初始化
-                fragment.onFlyLazyInitView()
+                supportF.onLazyInitView()
             }
-            fragment.onFlySupportVisible()
+            supportF.onSupportVisible()
             // 分发事件给内嵌的 Fragment
             dispatchChildVisibleState(true)
         } else {
-            fragment.onFlySupportInvisible()
+            supportF.onSupportInvisible()
             dispatchChildVisibleState(false)
         }
     }
@@ -125,7 +130,7 @@ class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
         get() {
             val parentFragment = fragment.parentFragment
             if (parentFragment is FlySupportFragment) {
-                return !parentFragment.isFlySupportVisible()
+                return !parentFragment.isSupportVisible()
             }
             return false
         }
@@ -136,19 +141,12 @@ class FlyVisibleDelegate(private val fragment: FlySupportFragment) {
      * 需要在此增加一个当外层 Fragment 可见的时候，分发可见事件给自己内嵌的所有 Fragment 显示
      */
     private fun dispatchChildVisibleState(visible: Boolean) {
-        val fragmentManager =
-            fragment.childFragmentManager
-        val fragments =
-            fragmentManager.fragments
+        val fragmentManager = fragment.childFragmentManager
+        val fragments = fragmentManager.fragments
         for (fragment in fragments) {
-            if (fragment is FlySupportFragment && isFragmentVisible(fragment)) {
-                fragment.visibleDelegate.dispatchUserVisibleHint(visible)
+            if (fragment is FlySupportFragment && FlySupportHelper.isFragmentVisible(fragment)) {
+                fragment.getSupportDelegate().visibleDelegate.dispatchUserVisibleHint(visible)
             }
         }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun isFragmentVisible(fragment: Fragment): Boolean {
-        return !fragment.isHidden && fragment.userVisibleHint
     }
 }

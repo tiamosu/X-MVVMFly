@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
@@ -46,15 +47,15 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         }
     }
 
-    override fun onFlyLazyInitView() {
-        super.onFlyLazyInitView()
+    override fun onLazyInitView() {
+        super.onLazyInitView()
         initView(rootView)
         initEvent()
         tryLoadData()
     }
 
-    override fun onFlySupportVisible() {
-        super.onFlySupportVisible()
+    override fun onSupportVisible() {
+        super.onSupportVisible()
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }

@@ -1,10 +1,10 @@
 package com.tiamosu.fly.integration.ext
 
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.*
 import androidx.navigation.fragment.NavHostFragment
@@ -13,12 +13,11 @@ import androidx.navigation.fragment.NavHostFragment
  * @author tiamosu
  * @date 2020/4/14.
  */
-
-fun Activity.navController(@IdRes viewId: Int): NavController {
+fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
     return Navigation.findNavController(this, viewId)
 }
 
-fun Activity.navController(view: View): NavController {
+fun AppCompatActivity.navController(view: View): NavController {
     return Navigation.findNavController(view)
 }
 

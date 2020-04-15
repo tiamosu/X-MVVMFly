@@ -1,5 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseDBFragment
 import com.tiamosu.fly.core.utils.lazyViewModel
 import com.tiamosu.fly.demo.R
@@ -47,15 +48,15 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
         }
     }
 
-//    override fun onBackPressedSupport(): Boolean {
-//        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
-//            context.finish()
-//        } else {
-//            TOUCH_TIME = System.currentTimeMillis()
-//            ToastUtils.showShort("再按一次退出")
-//        }
-//        return true
-//    }
+    override fun onBackPressedSupport(): Boolean {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            context.finish()
+        } else {
+            TOUCH_TIME = System.currentTimeMillis()
+            ToastUtils.showShort("再按一次退出")
+        }
+        return true
+    }
 
     companion object {
         // 再点一次退出程序时间设置

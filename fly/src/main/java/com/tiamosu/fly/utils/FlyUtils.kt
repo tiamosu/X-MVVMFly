@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.base.FlySupportFragment
+import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.base.IFlyApp
 import com.tiamosu.fly.di.component.AppComponent
 import kotlin.reflect.KProperty0
@@ -42,7 +42,7 @@ fun isPageVisible(owner: LifecycleOwner): Boolean {
             ActivityUtils.getTopActivity() == owner
         }
         is FlySupportFragment -> {
-            owner.isFlySupportVisible()
+            owner.isSupportVisible()
         }
         is Fragment -> {
             owner.isVisible
