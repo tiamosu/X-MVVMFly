@@ -37,7 +37,6 @@ implementation 'me.tiamosu:fly-livedata-bus:1.0.6'
 
 ## *特别感谢*
 * [MVPArms](https://github.com/JessYanCoding/MVPArms)
-* [Fragmentation](https://github.com/YoKeyword/Fragmentation)
 * [RxJava](https://github.com/ReactiveX/RxJava)
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [Retrofit](https://github.com/square/retrofit)
@@ -49,4 +48,3 @@ implementation 'me.tiamosu:fly-livedata-bus:1.0.6'
 * [Dagger2](https://github.com/google/dagger)
 * [Glide](https://github.com/bumptech/glide)
 * [LeakCanary](https://github.com/square/leakcanary)
-* [ARouter](https://github.com/alibaba/ARouter)
