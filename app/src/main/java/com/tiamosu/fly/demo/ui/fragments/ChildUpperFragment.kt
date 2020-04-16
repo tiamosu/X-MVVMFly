@@ -15,7 +15,7 @@ class ChildUpperFragment : BaseFragment() {
     override fun initEvent() {
         btn_send_msg.setOnClickListener {
             val msg: String? = et_msg.text.toString().trim()
-            shardViewModel.postString.value = msg
+            sharedViewModel.shared.value = msg
         }
     }
 

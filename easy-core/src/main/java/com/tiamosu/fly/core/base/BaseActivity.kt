@@ -21,7 +21,7 @@ import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
  */
 @Suppress("unused")
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
-    protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    protected val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
 

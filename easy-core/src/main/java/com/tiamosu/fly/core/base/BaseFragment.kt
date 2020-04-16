@@ -17,7 +17,7 @@ import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
  * @date 2020/2/20.
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
-    protected val shardViewModel: SharedViewModel by lazy { getShareViewModel() }
+    protected val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<Any>? = null
 
     override fun initParameters(bundle: Bundle?) {}

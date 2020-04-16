@@ -14,7 +14,7 @@ class ChildLowerFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_child_lower
 
     override fun initEvent() {
-        shardViewModel.postString.observe(viewLifecycleOwner, {
+        sharedViewModel.shared.observe(viewLifecycleOwner, {
             tv_received_msg.text = it
         })
     }

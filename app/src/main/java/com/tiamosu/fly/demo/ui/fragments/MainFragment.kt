@@ -14,7 +14,7 @@ import com.tiamosu.fly.integration.ext.navigate
  * @date 2020/3/13.
  */
 class MainFragment : BaseDBFragment<FragmentMainBinding>() {
-    private val mainViewModel: MainViewModel by lazyViewModel("进行传参测试~~~ ^_^")
+    private val mainViewModel: MainViewModel by lazyViewModel("ViewModel 初始化入参测试~~~ ^_^")
     private var isReloadData = false
 
     override fun getLayoutId() = R.layout.fragment_main
@@ -35,8 +35,9 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
     inner class ClickProxy {
 
         fun startShared() {
+            sharedViewModel.param.value = "SharedViewModel 共享数据传参测试~ ^_^"
             val bundle = Bundle().apply {
-                putString(SharedFragment.KEY, "传参测试~~~")
+                putString(SharedFragment.KEY, "Fragment 跳转传参测试~~~")
             }
             navigate(R.id.action_mainFragment_to_sharedFragment, args = bundle)
         }
