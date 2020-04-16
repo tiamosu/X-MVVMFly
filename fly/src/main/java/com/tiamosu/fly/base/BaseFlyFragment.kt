@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import androidx.appcompat.app.AppCompatActivity
 import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
@@ -42,8 +43,17 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     }
 
     override fun setContentView() {
-        if (getLayoutId() > 0) {
-            rootView = inflater?.inflate(getLayoutId(), container, false)
+        if (rootView == null) {
+            if (getLayoutId() > 0) {
+                rootView = inflater?.inflate(getLayoutId(), container, false)
+            }
+        } else {
+            // 缓存的 rootView 需要判断是否已经被加过 parent，如果有 parent 需要从 parent 删除，
+            // 要不然会发生这个 rootView 已经有 parent 的错误。
+            var viewParent: ViewParent
+            if (rootView!!.parent.also { viewParent = it } is ViewGroup) {
+                (viewParent as ViewGroup).removeView(rootView)
+            }
         }
     }
 
