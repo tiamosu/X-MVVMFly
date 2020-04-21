@@ -21,7 +21,7 @@ import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
  */
 @Suppress("unused")
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
-    protected val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
+    val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
 
@@ -67,8 +67,6 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     override fun showSuccess() {
         loadService?.showSuccess()
     }
-
-    override fun isCheckNetChanged() = true
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
         Log.e("xia", "页面====：${javaClass.simpleName}   网络是否连接=====：$isConnected")

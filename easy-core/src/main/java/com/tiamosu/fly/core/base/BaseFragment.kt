@@ -17,7 +17,7 @@ import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
  * @date 2020/2/20.
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
-    protected val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
+    val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<Any>? = null
 
     override fun initParameters(bundle: Bundle?) {}
@@ -54,10 +54,6 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun showSuccess() {
         loadService?.showSuccess()
-    }
-
-    override fun isCheckNetChanged(): Boolean {
-        return true
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {

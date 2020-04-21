@@ -12,7 +12,7 @@ object Android {
 
 object Versions {
     const val lifecycle = "2.2.0"
-    const val kotlin = "1.3.71"
+    const val kotlin = "1.3.72"
     const val retrofit2 = "2.8.1"
     const val okhttp3 = "4.5.0"
     const val glide = "4.11.0"
@@ -84,7 +84,7 @@ object Deps {
     const val rxerrorhandler = "me.jessyan:rxerrorhandler:2.1.1"
 
     //utilcode
-    const val utilcode = "com.blankj:utilcodex:1.28.0"
+    const val utilcode = "com.blankj:utilcodex:1.28.1"
 
     //disklrucache
     const val disklrucache = "com.jakewharton:disklrucache:2.0.2"

@@ -2,18 +2,19 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.core.base.BaseDBFragment
+import com.tiamosu.fly.core.base.BaseVmDbFragment
+import com.tiamosu.fly.core.base.DataBindingConfig
 import com.tiamosu.fly.core.utils.lazyViewModel
+import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.MainViewModel
-import com.tiamosu.fly.demo.databinding.FragmentMainBinding
 import com.tiamosu.fly.integration.ext.navigate
 
 /**
  * @author tiamosu
  * @date 2020/3/13.
  */
-class MainFragment : BaseDBFragment<FragmentMainBinding>() {
+class MainFragment : BaseVmDbFragment() {
     private val mainViewModel: MainViewModel by lazyViewModel("ViewModel 初始化入参测试~~~ ^_^")
     private var isReloadData = false
 
@@ -21,8 +22,11 @@ class MainFragment : BaseDBFragment<FragmentMainBinding>() {
 
     override fun isNeedReload() = isReloadData
 
-    override fun initEvent() {
-        viewDataBinding?.click = ClickProxy()
+    override fun isCheckNetChanged() = true
+
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig()
+            .addBindingParam(BR.click, ClickProxy())
     }
 
     override fun doBusiness() {
