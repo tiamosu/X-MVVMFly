@@ -18,7 +18,7 @@ abstract class BaseVmDbFragment : BaseFragment() {
             val dataBinding: ViewDataBinding? = inflater?.let {
                 DataBindingUtil.inflate(it, getLayoutId(), container, false)
             }
-            dataBinding?.lifecycleOwner = this
+            dataBinding?.lifecycleOwner = viewLifecycleOwner
             val bindingParams = dataBindingConfig.getBindingParams()
             bindingParams.forEach { key, value ->
                 dataBinding?.setVariable(key, value)
