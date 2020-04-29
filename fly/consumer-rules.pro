@@ -12,6 +12,9 @@
 }
 -dontnote rx.internal.util.PlatformDependent
 
+# RxAndroid
+-keepclassmembers class rx.android.** { *; }
+
 # RxErrorHandler
 -keep class me.jessyan.rxerrorhandler.** { *; }
 -keep interface me.jessyan.rxerrorhandler.** { *; }
@@ -103,5 +106,3 @@
 
 # 保留全局配置类
 -keep public class * implements com.tiamosu.fly.integration.ConfigModule
--keep class com.tiamosu.fly.** { *; }
--dontwarn com.tiamosu.fly.**

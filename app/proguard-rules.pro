@@ -24,5 +24,5 @@
 -dontwarn com.kingja.loadsir.**
 -keep class com.kingja.loadsir.** { *; }
 
--keep class com.tiamosu.fly.core.** { *; }
--keep class com.tiamosu.fly.demo.** { *; }
+-keep class com.tiamosu.fly.demo.bridge.** { *; }
+-keep class com.tiamosu.fly.demo.data.bean.** { *; }
