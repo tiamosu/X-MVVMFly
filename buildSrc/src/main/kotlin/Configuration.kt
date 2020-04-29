@@ -14,7 +14,7 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val kotlin = "1.3.72"
     const val retrofit2 = "2.8.1"
-    const val okhttp3 = "4.5.0"
+    const val okhttp3 = "4.6.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.27"
     const val fragmentation = "1.1.8"
