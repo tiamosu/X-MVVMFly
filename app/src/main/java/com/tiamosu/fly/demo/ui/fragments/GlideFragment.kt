@@ -1,8 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.graphics.drawable.Drawable
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
@@ -11,7 +9,6 @@ import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
 import com.tiamosu.fly.imageloader.glide.TranscodeType
-import com.tiamosu.fly.integration.handler.WeakHandler
 import kotlinx.android.synthetic.main.fragment_glide.*
 
 /**
@@ -51,21 +48,6 @@ class GlideFragment : BaseFragment() {
                             super.onResourceReady(resource, transition)
                             //图片加载完成，可执行相关操作
                             ToastUtils.showShort("图片加载完成！")
-
-                            WeakHandler().postDelayed(Runnable {
-                                val animation = ScaleAnimation(
-                                    0f, 1f, 0f, 1f,
-                                    Animation.RELATIVE_TO_SELF, 0.5f, 1, 0.5f
-                                )
-
-                                //设置持续时间
-                                animation.duration = 2000
-                                //设置动画结束之后的状态是否是动画的最终状态，true，表示是保持动画结束时的最终状态
-                                animation.fillAfter = true
-                                //设置循环次数，0为1次
-                                animation.repeatCount = 100
-                                iv.startAnimation(animation)
-                            }, 1000)
                         }
                     })
                     .build()
