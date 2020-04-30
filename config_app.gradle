@@ -23,7 +23,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -79,8 +81,4 @@ static def configApkName(Project project) {
             output.outputFileName = "fly_v${variant.versionName}.apk"
         }
     }
-}
-
-dependencies {
-
 }

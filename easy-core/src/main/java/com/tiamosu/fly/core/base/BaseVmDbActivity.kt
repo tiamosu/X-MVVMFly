@@ -26,4 +26,9 @@ abstract class BaseVmDbActivity : BaseActivity() {
             rootView = dataBinding.root
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding?.unbind()
+    }
 }

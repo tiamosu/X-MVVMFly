@@ -28,4 +28,9 @@ abstract class BaseVmDbFragment : BaseFragment() {
             rootView = dataBinding?.root
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding?.unbind()
+    }
 }
