@@ -14,121 +14,121 @@ import java.util.concurrent.locks.ReentrantLock
  */
 @Suppress("unused")
 class WeakHandler {
-    private val callback: Handler.Callback? //hard reference to Callback. We need to keep callback in memory
-    private val execHandler: ExecHandler
-    private val lock by lazy { ReentrantLock() }
+    private val handlerCallback: Handler.Callback?//hard reference to Callback. We need to keep callback in memory
+    private val exec: ExecHandler
+    private val reentrantLock = ReentrantLock()
 
     @VisibleForTesting
-    private val chainedRef by lazy { ChainedRef(lock, null) }
+    private val chainedRef = ChainedRef(reentrantLock, null)
 
     constructor() {
-        callback = null
-        execHandler = ExecHandler()
+        handlerCallback = null
+        exec = ExecHandler()
     }
 
     constructor(callback: Handler.Callback) {
-        this.callback = callback
-        execHandler = ExecHandler(WeakReference(callback))
+        handlerCallback = callback
+        exec = ExecHandler(WeakReference(callback))
     }
 
     constructor(looper: Looper) {
-        callback = null
-        execHandler = ExecHandler(looper)
+        handlerCallback = null
+        exec = ExecHandler(looper)
     }
 
     constructor(looper: Looper, callback: Handler.Callback) {
-        this.callback = callback
-        execHandler = ExecHandler(looper, WeakReference(callback))
+        handlerCallback = callback
+        exec = ExecHandler(looper, WeakReference(callback))
     }
 
     fun getLooper(): Looper {
-        return execHandler.looper
+        return exec.looper
     }
 
     fun post(r: Runnable): Boolean {
-        return execHandler.post(wrapRunnable(r))
+        return exec.post(wrapRunnable(r))
     }
 
     fun postAtTime(r: Runnable, uptimeMillis: Long): Boolean {
-        return execHandler.postAtTime(wrapRunnable(r), uptimeMillis)
+        return exec.postAtTime(wrapRunnable(r), uptimeMillis)
     }
 
     fun postAtTime(r: Runnable, token: Any?, uptimeMillis: Long): Boolean {
-        return execHandler.postAtTime(wrapRunnable(r), token, uptimeMillis)
+        return exec.postAtTime(wrapRunnable(r), token, uptimeMillis)
     }
 
     fun postDelayed(r: Runnable, delayMillis: Long): Boolean {
-        return execHandler.postDelayed(wrapRunnable(r), delayMillis)
+        return exec.postDelayed(wrapRunnable(r), delayMillis)
     }
 
     fun postAtFrontOfQueue(r: Runnable): Boolean {
-        return execHandler.postAtFrontOfQueue(wrapRunnable(r))
+        return exec.postAtFrontOfQueue(wrapRunnable(r))
     }
 
     fun removeCallbacks(r: Runnable) {
         val runnable = chainedRef.remove(r)
         if (runnable != null) {
-            execHandler.removeCallbacks(runnable)
+            exec.removeCallbacks(runnable)
         }
     }
 
     fun removeCallbacks(r: Runnable, token: Any?) {
         val runnable = chainedRef.remove(r)
         if (runnable != null) {
-            execHandler.removeCallbacks(runnable, token)
+            exec.removeCallbacks(runnable, token)
         }
     }
 
     fun sendMessage(msg: Message): Boolean {
-        return execHandler.sendMessage(msg)
+        return exec.sendMessage(msg)
     }
 
     fun sendEmptyMessage(what: Int): Boolean {
-        return execHandler.sendEmptyMessage(what)
+        return exec.sendEmptyMessage(what)
     }
 
     fun sendEmptyMessageDelayed(what: Int, delayMillis: Long): Boolean {
-        return execHandler.sendEmptyMessageDelayed(what, delayMillis)
+        return exec.sendEmptyMessageDelayed(what, delayMillis)
     }
 
     fun sendEmptyMessageAtTime(what: Int, uptimeMillis: Long): Boolean {
-        return execHandler.sendEmptyMessageAtTime(what, uptimeMillis)
+        return exec.sendEmptyMessageAtTime(what, uptimeMillis)
     }
 
     fun sendMessageDelayed(msg: Message, delayMillis: Long): Boolean {
-        return execHandler.sendMessageDelayed(msg, delayMillis)
+        return exec.sendMessageDelayed(msg, delayMillis)
     }
 
     fun sendMessageAtTime(msg: Message, uptimeMillis: Long): Boolean {
-        return execHandler.sendMessageAtTime(msg, uptimeMillis)
+        return exec.sendMessageAtTime(msg, uptimeMillis)
     }
 
     fun sendMessageAtFrontOfQueue(msg: Message): Boolean {
-        return execHandler.sendMessageAtFrontOfQueue(msg)
+        return exec.sendMessageAtFrontOfQueue(msg)
     }
 
     fun removeMessages(what: Int) {
-        execHandler.removeMessages(what)
+        exec.removeMessages(what)
     }
 
     fun removeMessages(what: Int, `object`: Any?) {
-        execHandler.removeMessages(what, `object`)
+        exec.removeMessages(what, `object`)
     }
 
     fun removeCallbacksAndMessages(token: Any?) {
-        execHandler.removeCallbacksAndMessages(token)
+        exec.removeCallbacksAndMessages(token)
     }
 
     fun hasMessages(what: Int): Boolean {
-        return execHandler.hasMessages(what)
+        return exec.hasMessages(what)
     }
 
     fun hasMessages(what: Int, `object`: Any?): Boolean {
-        return execHandler.hasMessages(what, `object`)
+        return exec.hasMessages(what, `object`)
     }
 
     private fun wrapRunnable(r: Runnable): WeakRunnable {
-        val hardRef = ChainedRef(lock, r)
+        val hardRef = ChainedRef(reentrantLock, r)
         chainedRef.insertAfter(hardRef)
         return hardRef.wrapper
     }
@@ -136,19 +136,19 @@ class WeakHandler {
     private class ExecHandler : Handler {
         private val callback: WeakReference<Callback>?
 
-        internal constructor() {
+        constructor() {
             callback = null
         }
 
-        internal constructor(callback: WeakReference<Callback>) {
+        constructor(callback: WeakReference<Callback>) {
             this.callback = callback
         }
 
-        internal constructor(looper: Looper) : super(looper) {
+        constructor(looper: Looper) : super(looper) {
             callback = null
         }
 
-        internal constructor(looper: Looper, callback: WeakReference<Callback>) : super(looper) {
+        constructor(looper: Looper, callback: WeakReference<Callback>) : super(looper) {
             this.callback = callback
         }
 
@@ -157,23 +157,23 @@ class WeakHandler {
         }
     }
 
-    private class WeakRunnable internal constructor(
+    private class WeakRunnable constructor(
         private val delegate: WeakReference<Runnable?>,
         private val reference: WeakReference<ChainedRef>
     ) : Runnable {
 
         override fun run() {
-            reference.get()?.remove()
-            delegate.get()?.run()
+            val delegate = delegate.get()
+            val reference = reference.get()
+            reference?.remove()
+            delegate?.run()
         }
     }
 
-    private class ChainedRef(internal val lock: Lock, internal val runnable: Runnable?) {
-        internal var next: ChainedRef? = null
-        internal var prev: ChainedRef? = null
-        internal val wrapper by lazy {
-            WeakRunnable(WeakReference(runnable), WeakReference(this))
-        }
+    private class ChainedRef(val lock: Lock, val runnable: Runnable?) {
+        var next: ChainedRef? = null
+        var prev: ChainedRef? = null
+        val wrapper = WeakRunnable(WeakReference(runnable), WeakReference(this))
 
         fun remove(): WeakRunnable {
             lock.lock()

@@ -11,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 abstract class BaseVmDbActivity : BaseActivity() {
 
     protected abstract fun getDataBindingConfig(): DataBindingConfig
+    protected var binding: ViewDataBinding? = null
 
     override fun setContentView() {
         if (getLayoutId() > 0) {
@@ -21,6 +22,7 @@ abstract class BaseVmDbActivity : BaseActivity() {
             bindingParams.forEach { key, value ->
                 dataBinding.setVariable(key, value)
             }
+            binding = dataBinding
             rootView = dataBinding.root
         }
     }

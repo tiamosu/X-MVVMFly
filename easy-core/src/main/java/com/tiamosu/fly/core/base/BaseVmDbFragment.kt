@@ -11,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 abstract class BaseVmDbFragment : BaseFragment() {
 
     protected abstract fun getDataBindingConfig(): DataBindingConfig
+    protected var binding: ViewDataBinding? = null
 
     override fun setContentView() {
         if (getLayoutId() > 0) {
@@ -23,6 +24,7 @@ abstract class BaseVmDbFragment : BaseFragment() {
             bindingParams.forEach { key, value ->
                 dataBinding?.setVariable(key, value)
             }
+            binding = dataBinding
             rootView = dataBinding?.root
         }
     }

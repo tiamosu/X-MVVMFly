@@ -1,3 +1,8 @@
+# 新版本1.0.7
+* utilcode 1.28.0 → 1.28.3
+* okhttp3 4.5.0 → 4.6.0
+* Navigation 扩展优化
+
 # 新版本1.0.6（大改版）
 * 添加 SingleLiveEvent 
 * DialogFragment 优化
