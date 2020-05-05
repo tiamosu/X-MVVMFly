@@ -19,6 +19,7 @@ object Versions {
     const val dagger2 = "2.27"
     const val fragmentation = "1.1.8"
     const val navigation = "2.2.1"
+    const val utilcode = "1.28.4"
 }
 
 object Publish {
@@ -84,7 +85,7 @@ object Deps {
     const val rxerrorhandler = "me.jessyan:rxerrorhandler:2.1.1"
 
     //utilcode
-    const val utilcode = "com.blankj:utilcodex:1.28.3"
+    const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"
 
     //disklrucache
     const val disklrucache = "com.jakewharton:disklrucache:2.0.2"
