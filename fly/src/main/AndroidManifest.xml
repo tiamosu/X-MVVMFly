@@ -10,8 +10,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
+        android:hasFragileUserData="true"
         android:networkSecurityConfig="@xml/network_security_config"
-        tools:targetApi="n">
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q">
 
         <!-- 9.0 http使用适配-->
         <uses-library

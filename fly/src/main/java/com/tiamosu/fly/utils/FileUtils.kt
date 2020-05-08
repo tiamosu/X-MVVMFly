@@ -36,7 +36,8 @@ fun createDir(file: File?): File? {
 
 /**
  * 返回缓存文件夹
- * 应用在卸载后，会将App-specific目录下的数据删除，如果在AndroidManifest.xml中声明：android:hasFragileUserData="true"用户可以选择是否保留。
+ * 应用在卸载后，会将 App-specific 目录下的数据删除。
+ * Android Q 前提下，如果在 AndroidManifest.xml 中声明：android:hasFragileUserData="true" 用户可以选择是否保留。
  */
 fun getCacheFile(): File {
     //获取应用程序内的外部缓存路劲
