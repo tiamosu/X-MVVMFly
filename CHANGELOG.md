@@ -1,3 +1,10 @@
+# 新版本1.0.8
+* utilcode 1.28.3 → 1.28.4
+* 混淆配置优化
+* 添加声明：
+  android:hasFragileUserData="true"，Android Q 前提下，应用卸载时会提示用户是否保留 App-specific 目录下的数据。
+  android:requestLegacyExternalStorage="true"，请求使用旧的存储模式
+
 # 新版本1.0.7
 * utilcode 1.28.0 → 1.28.3
 * okhttp3 4.5.0 → 4.6.0
