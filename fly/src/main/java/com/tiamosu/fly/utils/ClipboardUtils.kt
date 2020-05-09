@@ -20,7 +20,7 @@ import com.blankj.utilcode.util.Utils
  * @param text 文本
  */
 fun copyText(text: CharSequence) {
-    clipboardManager.setPrimaryClip(ClipData.newPlainText("text", text))
+    clipboardManager?.setPrimaryClip(ClipData.newPlainText("text", text))
 }
 
 /**
@@ -29,10 +29,7 @@ fun copyText(text: CharSequence) {
  * @return 剪贴板的文本
  */
 fun getText(): CharSequence? {
-    val clip: ClipData? = clipboardManager.primaryClip
-    return if (clip != null && clip.itemCount > 0) {
-        clip.getItemAt(0).coerceToText(Utils.getApp())
-    } else null
+    return getClipDataItem()?.coerceToText(Utils.getApp())
 }
 
 /**
@@ -41,7 +38,7 @@ fun getText(): CharSequence? {
  * @param uri uri
  */
 fun copyUri(uri: Uri) {
-    clipboardManager.setPrimaryClip(ClipData.newUri(Utils.getApp().contentResolver, "uri", uri))
+    clipboardManager?.setPrimaryClip(ClipData.newUri(Utils.getApp().contentResolver, "uri", uri))
 }
 
 /**
@@ -50,10 +47,7 @@ fun copyUri(uri: Uri) {
  * @return 剪贴板的uri
  */
 fun getUri(): Uri? {
-    val clip: ClipData? = clipboardManager.primaryClip
-    return if (clip != null && clip.itemCount > 0) {
-        clip.getItemAt(0).uri
-    } else null
+    return getClipDataItem()?.uri
 }
 
 /**
@@ -62,7 +56,7 @@ fun getUri(): Uri? {
  * @param intent 意图
  */
 fun copyIntent(intent: Intent) {
-    clipboardManager.setPrimaryClip(ClipData.newIntent("intent", intent))
+    clipboardManager?.setPrimaryClip(ClipData.newIntent("intent", intent))
 }
 
 /**
@@ -71,8 +65,11 @@ fun copyIntent(intent: Intent) {
  * @return 剪贴板的意图
  */
 fun getIntent(): Intent? {
-    val clip: ClipData? = clipboardManager.primaryClip
-    return if (clip != null && clip.itemCount > 0) {
-        clip.getItemAt(0).intent
-    } else null
+    return getClipDataItem()?.intent
 }
+
+private val getClipDataItem: () -> ClipData.Item?
+    get() = {
+        val clip: ClipData? = clipboardManager?.primaryClip
+        if (clip != null && clip.itemCount > 0) clip.getItemAt(0) else null
+    }

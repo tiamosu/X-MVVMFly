@@ -53,12 +53,12 @@ class GlideConfiguration : AppGlideModule() {
         builder.setMemoryCache(LruResourceCache(customMemoryCacheSize.toLong()))
         builder.setBitmapPool(LruBitmapPool(customBitmapPoolSize.toLong()))
 
-        val defaultOptions = RequestOptions()
-        // Prefer higher quality images unless we're on a low RAM device
-        defaultOptions.format(if (activityManager.isLowRamDevice) PREFER_RGB_565 else PREFER_ARGB_8888)
-        // Disable hardware bitmaps as they don't play nicely with Palette
-        defaultOptions.disallowHardwareConfig()
-        builder.setDefaultRequestOptions(defaultOptions)
+        RequestOptions().apply {
+            // Prefer higher quality images unless we're on a low RAM device
+            format(if (activityManager?.isLowRamDevice == true) PREFER_RGB_565 else PREFER_ARGB_8888)
+            // Disable hardware bitmaps as they don't play nicely with Palette
+            disallowHardwareConfig()
+        }.let(builder::setDefaultRequestOptions)
 
         //将配置 Glide 的机会转交给 GlideImageLoaderStrategy,如你觉得框架提供的 GlideImageLoaderStrategy
         //并不能满足自己的需求,想自定义 BaseImageLoaderStrategy,那请你最好实现 GlideAppliesOptions

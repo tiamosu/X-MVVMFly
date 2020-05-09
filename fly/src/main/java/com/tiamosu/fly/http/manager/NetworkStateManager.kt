@@ -30,7 +30,7 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
 
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                connectivityManager.registerDefaultNetworkCallback(networkCallback)
+                connectivityManager?.registerDefaultNetworkCallback(networkCallback)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest(
                 connectivityManager
@@ -46,7 +46,7 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
 
     override fun onPause(owner: LifecycleOwner) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            connectivityManager.unregisterNetworkCallback(networkCallback)
+            connectivityManager?.unregisterNetworkCallback(networkCallback)
         } else {
             Utils.getApp()?.unregisterReceiver(networkReceiver)
         }

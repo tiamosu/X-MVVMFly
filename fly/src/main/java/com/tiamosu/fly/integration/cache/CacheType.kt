@@ -38,7 +38,8 @@ interface CacheType {
 
             override fun calculateCacheSize(context: Context): Int {
                 val targetMemoryCacheSize =
-                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                    (activityManager?.memoryClass?.toFloat()
+                        ?: 0F * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
@@ -55,7 +56,8 @@ interface CacheType {
 
             override fun calculateCacheSize(context: Context): Int {
                 val targetMemoryCacheSize =
-                    (activityManager.memoryClass.toFloat() * MAX_SIZE_MULTIPLIER * 1024f).toInt()
+                    (activityManager?.memoryClass?.toFloat()
+                        ?: 0F * MAX_SIZE_MULTIPLIER * 1024f).toInt()
                 return if (targetMemoryCacheSize >= MAX_SIZE) {
                     MAX_SIZE
                 } else targetMemoryCacheSize
