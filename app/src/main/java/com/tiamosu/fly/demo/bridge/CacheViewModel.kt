@@ -16,7 +16,7 @@ class CacheViewModel : BaseViewModel() {
     val responseLiveData by lazy { MutableLiveData<Response<String>>() }
 
     fun request(cacheMode: CacheMode, cacheKey: String) {
-        HttpRequestManager.requestCache(stringCallback(onSuccess = {
+        HttpRequestManager.instance.requestCache(stringCallback(onSuccess = {
             Log.e("xia", it.toString())
             responseLiveData.postValue(it)
         }, onError = {

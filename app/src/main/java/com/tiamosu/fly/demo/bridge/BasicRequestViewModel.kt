@@ -17,32 +17,32 @@ class BasicRequestViewModel : BaseViewModel() {
     val customLiveData by lazy { MutableLiveData<Response<String>>() }
 
     fun get() {
-        HttpRequestManager.getFriend(jsonCallback<Friend>(onSuccess = {
+        HttpRequestManager.instance.getFriend(jsonCallback<Friend>(onSuccess = {
             showToastInfo("get请求成功！")
             getLiveData.postValue(it)
         }))
     }
 
     fun post() {
-        HttpRequestManager.post(stringCallback(onSuccess = {
+        HttpRequestManager.instance.post(stringCallback(onSuccess = {
             showToastInfo("post请求成功")
         }))
     }
 
     fun put() {
-        HttpRequestManager.put(stringCallback(onSuccess = {
+        HttpRequestManager.instance.put(stringCallback(onSuccess = {
             showToastInfo("put请求成功")
         }))
     }
 
     fun delete() {
-        HttpRequestManager.delete(stringCallback(onSuccess = {
+        HttpRequestManager.instance.delete(stringCallback(onSuccess = {
             showToastInfo("delete请求成功")
         }))
     }
 
     fun custom() {
-        HttpRequestManager.custom(stringCallback(onSuccess = {
+        HttpRequestManager.instance.custom(stringCallback(onSuccess = {
             showToastInfo("custom请求成功！")
             customLiveData.postValue(it)
         }))

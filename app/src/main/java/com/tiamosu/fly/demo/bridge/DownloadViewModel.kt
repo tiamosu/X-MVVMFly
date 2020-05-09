@@ -17,7 +17,7 @@ class DownloadViewModel : BaseViewModel() {
     val progressLiveData by lazy { MutableLiveData<Progress>() }
 
     fun downloadFile() {
-        HttpRequestManager.downloadFile(object : FileCallback("test.apk") {
+        HttpRequestManager.instance.downloadFile(object : FileCallback("test.apk") {
             override fun onSuccess(response: Response<File>) {
                 fileLiveData.postValue(response)
             }

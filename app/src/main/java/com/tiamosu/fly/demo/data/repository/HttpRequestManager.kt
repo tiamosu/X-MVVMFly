@@ -13,7 +13,13 @@ import java.io.File
  * @author tiamosu
  * @date 2020/3/17.
  */
-object HttpRequestManager : IRemoteRequest {
+class HttpRequestManager : IRemoteRequest {
+
+    companion object {
+        val instance: HttpRequestManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            HttpRequestManager()
+        }
+    }
 
     override fun <T> getFriend(callback: Callback<T>) {
         FlyHttp[APIs.FRIEND_JSON]
