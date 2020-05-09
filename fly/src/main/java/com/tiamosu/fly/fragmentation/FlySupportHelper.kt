@@ -2,6 +2,7 @@ package com.tiamosu.fly.fragmentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 
 /**
  * @author tiamosu
@@ -23,7 +24,7 @@ object FlySupportHelper {
         }
         for (i in fragmentList.indices.reversed()) {
             val fragment = fragmentList[i]
-            if ((fragment is IFlySupportFragment || fragment is Fragment)
+            if ((fragment is IFlySupportFragment || fragment is NavHostFragment)
                 && fragment.isResumed && isFragmentVisible(fragment)
             ) {
                 return getAddedFragment(
