@@ -65,6 +65,14 @@
 -keep interface android.support.** { *; }
 -dontwarn android.support.**
 
+-keep class androidx.** { *; }
+-keep public class * extends androidx.**
+-keep interface androidx.** { *; }
+-dontwarn androidx.**
+-keep class com.google.android.material.** { *; }
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+
 # 保留继承的
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**

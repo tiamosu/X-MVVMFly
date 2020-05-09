@@ -3,7 +3,5 @@
 -dontwarn com.jakewharton.disklrucache.**
 
 # fly-http
--keep class com.tiamosu.fly.http.model.** { *; }
--keep class com.tiamosu.fly.http.cache.model.** { *; }
--keep class com.tiamosu.fly.http.cache.stategy.** { *; }
--keep class com.tiamosu.fly.http.request.base.** { *; }
+-keep class com.tiamosu.fly.http.** { *; }
+-dontwarn com.tiamosu.fly.http.**
