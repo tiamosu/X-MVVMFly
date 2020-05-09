@@ -49,14 +49,10 @@ abstract class FileCallback : ResultCallback<File> {
 
             val bytes = ByteArray(1024 * 8)
             var read: Int
-            do {
-                read = bis.read(bytes)
-                if (read == -1) break
-
+            while (bis.read(bytes).also { read = it } != -1) {
                 bos.write(bytes, 0, read)
                 onProgress(progress, read)
-            } while (true)
-
+            }
             bos.flush()
             fos.flush()
         } catch (e: IOException) {
