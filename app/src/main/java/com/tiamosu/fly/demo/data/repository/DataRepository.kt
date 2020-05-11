@@ -13,11 +13,11 @@ import java.io.File
  * @author tiamosu
  * @date 2020/3/17.
  */
-class HttpRequestManager : IRemoteRequest {
+class DataRepository : IRemoteRequest {
 
     companion object {
-        val instance: HttpRequestManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            HttpRequestManager()
+        val instance: DataRepository by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            DataRepository()
         }
     }
 

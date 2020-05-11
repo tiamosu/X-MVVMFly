@@ -1,7 +1,7 @@
 package com.tiamosu.fly.demo.bridge
 
 import com.tiamosu.fly.core.base.BaseViewModel
-import com.tiamosu.fly.demo.data.repository.HttpRequestManager
+import com.tiamosu.fly.demo.data.repository.DataRepository
 import com.tiamosu.fly.http.callback.StringCallback
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
@@ -20,7 +20,7 @@ class UploadViewModel : BaseViewModel() {
                 //与 uploadProgress(progress: Progress) 返回一致，二选一
             }
         }
-        HttpRequestManager.instance.uploadFile(object : StringCallback() {
+        DataRepository.instance.uploadFile(object : StringCallback() {
             override fun onSuccess(response: Response<String>) {
                 showToastInfo("文件上传成功！")
             }

@@ -5,7 +5,7 @@ import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.utils.jsonCallback
 import com.tiamosu.fly.core.utils.stringCallback
 import com.tiamosu.fly.demo.data.bean.Friend
-import com.tiamosu.fly.demo.data.repository.HttpRequestManager
+import com.tiamosu.fly.demo.data.repository.DataRepository
 import com.tiamosu.fly.http.model.Response
 
 /**
@@ -17,32 +17,32 @@ class BasicRequestViewModel : BaseViewModel() {
     val customLiveData by lazy { MutableLiveData<Response<String>>() }
 
     fun get() {
-        HttpRequestManager.instance.getFriend(jsonCallback<Friend>(onSuccess = {
+        DataRepository.instance.getFriend(jsonCallback<Friend>(onSuccess = {
             showToastInfo("get请求成功！")
             getLiveData.postValue(it)
         }))
     }
 
     fun post() {
-        HttpRequestManager.instance.post(stringCallback(onSuccess = {
+        DataRepository.instance.post(stringCallback(onSuccess = {
             showToastInfo("post请求成功")
         }))
     }
 
     fun put() {
-        HttpRequestManager.instance.put(stringCallback(onSuccess = {
+        DataRepository.instance.put(stringCallback(onSuccess = {
             showToastInfo("put请求成功")
         }))
     }
 
     fun delete() {
-        HttpRequestManager.instance.delete(stringCallback(onSuccess = {
+        DataRepository.instance.delete(stringCallback(onSuccess = {
             showToastInfo("delete请求成功")
         }))
     }
 
     fun custom() {
-        HttpRequestManager.instance.custom(stringCallback(onSuccess = {
+        DataRepository.instance.custom(stringCallback(onSuccess = {
             showToastInfo("custom请求成功！")
             customLiveData.postValue(it)
         }))
