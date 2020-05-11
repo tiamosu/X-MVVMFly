@@ -64,12 +64,12 @@ class GlobalConfigModule private constructor(builder: Builder) {
     }
 
     /**
-     * 提供 BaseUrl
+     * 提供 BaseUrl，默认使用 https://api.github.com/
      */
     @Singleton
     @Provides
     internal fun provideBaseUrl(): HttpUrl? {
-        return mBaseUrl?.url() ?: mApiUrl
+        return mBaseUrl?.url() ?: mApiUrl ?: "https://api.github.com/".toHttpUrlOrNull()
     }
 
     /**
