@@ -1,58 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="all">
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="click"
-            type="com.tiamosu.fly.demo.ui.fragments.MainFragment.ClickProxy" />
-    </data>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/main_viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->click.startShared()}"
-            android:text="SharedViewModel 应用"
-            android:textAllCaps="false" />
+    <com.tiamosu.fly.core.ui.view.tabview.TabBarLayout
+        android:id="@+id/main_tabBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:onClick="@{()->click.startBus()}"
-            android:text="LiveDataBus 应用"
-            android:textAllCaps="false" />
+        <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            android:layout_width="0pt"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:tbi_selected="true"
+            app:tbi_text="首页"
+            app:tbi_textNormalColor="@android:color/white"
+            app:tbi_textSelectedColor="@color/colorAccent"
+            app:tbi_textSize="12dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:onClick="@{()->click.startHttp()}"
-            android:text="Http应用页面"
-            android:textAllCaps="false" />
+        <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            android:layout_width="0pt"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:tbi_text="发现"
+            app:tbi_textNormalColor="@android:color/white"
+            app:tbi_textSelectedColor="@color/colorAccent"
+            app:tbi_textSize="12dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:onClick="@{()->click.startGlide()}"
-            android:text="Glide应用页面"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:onClick="@{()->click.startLoadSir()}"
-            android:text="LoadSir应用页面"
-            android:textAllCaps="false" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-</layout>
+        <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            android:layout_width="0pt"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:tbi_text="我的"
+            app:tbi_textNormalColor="@android:color/white"
+            app:tbi_textSelectedColor="@color/colorAccent"
+            app:tbi_textSize="12dp" />
+    </com.tiamosu.fly.core.ui.view.tabview.TabBarLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,82 +1,46 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import android.os.Bundle
-import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.core.base.BaseVmDbFragment
-import com.tiamosu.fly.core.base.DataBindingConfig
-import com.tiamosu.fly.core.utils.lazyViewModel
-import com.tiamosu.fly.demo.BR
+import android.util.Log
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.init
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.demo.bridge.MainViewModel
-import com.tiamosu.fly.integration.ext.navigate
+import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * @author tiamosu
  * @date 2020/3/13.
  */
-class MainFragment : BaseVmDbFragment() {
-    private val mainViewModel: MainViewModel by lazyViewModel("ViewModel 初始化入参测试~~~ ^_^")
-    private var isReloadData = false
+class MainFragment : BaseFragment() {
+
+    private val fragments by lazy {
+        arrayListOf<Fragment>().apply {
+            add(HomeFragment())
+            add(SearchFragment())
+            add(MyFragment())
+        }
+    }
 
     override fun getLayoutId() = R.layout.fragment_main
 
-    override fun isNeedReload() = isReloadData
+    override fun initView(rootView: View?) {
+        main_viewPager.init(this, fragments, true).run {
+            offscreenPageLimit = fragments.size
+        }
+        main_tabBarLayout.setViewPager2(main_viewPager)
+    }
 
-    override fun isCheckNetChanged() = true
-
-    override fun getDataBindingConfig(): DataBindingConfig {
-        return DataBindingConfig()
-            .addBindingParam(BR.click, ClickProxy())
+    override fun initEvent() {
+        main_tabBarLayout.setOnItemSelectedListener(onItemSelected = { position, prePosition ->
+            Log.e("xia", "onItemSelected:$position  prePosition:$prePosition")
+        }, onItemUnselected = { position ->
+            Log.e("xia", "onItemUnselected:$position")
+        }, onItemReselected = { position ->
+            Log.e("xia", "onItemReselected:$position")
+        })
     }
 
     override fun doBusiness() {
-        if (isReloadData) {
-            isReloadData = false
-        }
-        mainViewModel.print()
-    }
-
-    inner class ClickProxy {
-
-        fun startShared() {
-            sharedViewModel.param.value = "SharedViewModel 共享数据传参测试~ ^_^"
-            val bundle = Bundle().apply {
-                putString(SharedFragment.KEY, "Fragment 跳转传参测试~~~")
-            }
-            navigate(R.id.action_mainFragment_to_sharedFragment, args = bundle)
-        }
-
-        fun startBus() {
-            navigate(R.id.action_mainFragment_to_busFragment)
-            isReloadData = true
-        }
-
-        fun startHttp() {
-            navigate(R.id.action_mainFragment_to_httpFragment)
-        }
-
-        fun startGlide() {
-            navigate(R.id.action_mainFragment_to_glideFragment)
-        }
-
-        fun startLoadSir() {
-            navigate(R.id.action_mainFragment_to_loadSirFragment)
-        }
-    }
-
-    override fun onBackPressedSupport(): Boolean {
-        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
-            context.finish()
-        } else {
-            TOUCH_TIME = System.currentTimeMillis()
-            ToastUtils.showShort("再按一次退出")
-        }
-        return true
-    }
-
-    companion object {
-        // 再点一次退出程序时间设置
-        private const val WAIT_TIME = 2000L
-        private var TOUCH_TIME: Long = 0
     }
 }

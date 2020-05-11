@@ -44,6 +44,7 @@ object Deps {
     const val androidx_navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val androidx_navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val androidx_navigation_runtime = "androidx.navigation:navigation-runtime:${Versions.navigation}"
+    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
 
     //lifecycle
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"

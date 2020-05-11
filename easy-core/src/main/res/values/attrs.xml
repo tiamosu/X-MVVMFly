@@ -14,4 +14,32 @@
         <attr name="tpb_offset" format="dimension" />
         <attr name="tpb_linearGradient" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="TabBarItem">
+        <!-- 普通状态时的图标资源 -->
+        <attr name="tbi_iconNormal" format="integer" />
+        <!-- 选中状态时的图标资源 -->
+        <attr name="tbi_iconSelected" format="integer" />
+        <!-- 普通状态时的图标颜色 -->
+        <attr name="tbi_iconNormalColor" format="color" />
+        <!-- 选中状态时的图标颜色 -->
+        <attr name="tbi_iconSelectedColor" format="color" />
+        <!-- 图标的宽度 -->
+        <attr name="tbi_iconWidth" format="dimension" />
+        <!-- 图标的高度 -->
+        <attr name="tbi_iconHeight" format="dimension" />
+
+        <!-- 文本内容 -->
+        <attr name="tbi_text" format="string" />
+        <!-- 文本内容字体大小 -->
+        <attr name="tbi_textSize" format="dimension" />
+        <!-- 普通状态时的文本内容字体颜色 -->
+        <attr name="tbi_textNormalColor" format="color" />
+        <!-- 选中状态时的文本内容字体颜色 -->
+        <attr name="tbi_textSelectedColor" format="color" />
+        <!-- 文本内容与图标的间距 -->
+        <attr name="tbi_drawablePadding" format="dimension" />
+        <!-- 是否选中状态 -->
+        <attr name="tbi_selected" format="boolean" />
+    </declare-styleable>
 </resources>
