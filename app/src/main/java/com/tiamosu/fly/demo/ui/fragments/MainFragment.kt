@@ -25,10 +25,11 @@ class MainFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_main
 
     override fun initView(rootView: View?) {
-        main_viewPager.init(this, fragments, true).run {
-            offscreenPageLimit = fragments.size
+        main_viewPager.also {
+            it.offscreenPageLimit = 1
+            it.init(this, fragments, true)
+            main_tabBarLayout.setViewPager2(it)
         }
-        main_tabBarLayout.setViewPager2(main_viewPager)
     }
 
     override fun initEvent() {
