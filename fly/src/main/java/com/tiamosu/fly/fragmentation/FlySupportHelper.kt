@@ -2,7 +2,7 @@ package com.tiamosu.fly.fragmentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.NavHostFragment
+import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
  * @author tiamosu

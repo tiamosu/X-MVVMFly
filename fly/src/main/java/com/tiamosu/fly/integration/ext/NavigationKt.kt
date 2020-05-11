@@ -7,7 +7,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.*
-import androidx.navigation.fragment.NavHostFragment
+import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
  * @author tiamosu

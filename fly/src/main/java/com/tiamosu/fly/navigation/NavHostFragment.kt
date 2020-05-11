@@ -1,4 +1,4 @@
-package androidx.navigation.fragment
+package com.tiamosu.fly.navigation
 
 import android.content.Context
 import android.os.Bundle
@@ -30,7 +30,7 @@ import com.tiamosu.fly.R
  * android:layout_width="match_parent"
  * android:layout_height="match_parent"
  * android:id="@+id/my_nav_host_fragment"
- * android:name="androidx.navigation.fragment.NavHostFragment"
+ * android:name="com.tiamosu.fly.navigation.NavHostFragment"
  * app:navGraph="@navigation/nav_sample"
  * app:defaultNavHost="true" /&gt;
  * &lt;android.support.design.widget.NavigationView

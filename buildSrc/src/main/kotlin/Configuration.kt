@@ -18,14 +18,14 @@ object Versions {
     const val glide = "4.11.0"
     const val dagger2 = "2.27"
     const val fragmentation = "1.1.8"
-    const val navigation = "2.2.1"
+    const val navigation = "2.2.2"
     const val utilcode = "1.28.4"
 }
 
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.0.8" //版本号
+    const val publishVersion = "1.1.0" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"

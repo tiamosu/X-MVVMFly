@@ -25,7 +25,7 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     val networkStateCallback = UnPeekLiveData<Boolean>()
 
     @Suppress("DEPRECATION")
-    override fun onStart(owner: LifecycleOwner) {
+    override fun onResume(owner: LifecycleOwner) {
         updateConnection(null)
 
         when {
@@ -88,10 +88,8 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     }
 
     companion object {
-        val instance = Holder.INSTANCE
-    }
-
-    private object Holder {
-        val INSTANCE = NetworkStateManager()
+        val instance: NetworkStateManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            NetworkStateManager()
+        }
     }
 }

@@ -2,7 +2,7 @@ package com.tiamosu.fly.demo.bridge
 
 import androidx.lifecycle.MutableLiveData
 import com.tiamosu.fly.core.base.BaseViewModel
-import com.tiamosu.fly.demo.data.repository.HttpRequestManager
+import com.tiamosu.fly.demo.data.repository.DataRepository
 import com.tiamosu.fly.http.callback.FileCallback
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
@@ -17,7 +17,7 @@ class DownloadViewModel : BaseViewModel() {
     val progressLiveData by lazy { MutableLiveData<Progress>() }
 
     fun downloadFile() {
-        HttpRequestManager.instance.downloadFile(object : FileCallback("test.apk") {
+        DataRepository.instance.downloadFile(object : FileCallback("test.apk") {
             override fun onSuccess(response: Response<File>) {
                 fileLiveData.postValue(response)
             }
