@@ -22,7 +22,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     //防止多次加载数据
     private var isDataLoaded = false
 
-    override fun getContext(): AppCompatActivity = activity
+    final override fun getContext(): AppCompatActivity = activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

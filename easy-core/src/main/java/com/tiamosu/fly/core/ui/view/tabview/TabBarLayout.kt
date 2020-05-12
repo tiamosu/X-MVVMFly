@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.viewpager2.widget.ViewPager2
 import java.util.*
@@ -15,9 +14,9 @@ import java.util.*
  */
 @Suppress("unused")
 class TabBarLayout @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : LinearLayoutCompat(context, attrs, defStyleAttr) {
 
     private var viewPager2: ViewPager2? = null
@@ -31,7 +30,7 @@ class TabBarLayout @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        tabParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        tabParams = LayoutParams(-1, -1)
         tabParams.weight = 1f
     }
 
@@ -81,16 +80,10 @@ class TabBarLayout @JvmOverloads constructor(
     fun setViewPager2(viewPager2: ViewPager2) {
         this.viewPager2 = viewPager2
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
             override fun onPageSelected(position: Int) {
                 if (!isItemClick) {
                     barItemClick(getChildAt(position) as? TabBarItem)
                 }
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
             }
         })
     }
@@ -122,9 +115,9 @@ class TabBarLayout @JvmOverloads constructor(
     }
 
     fun setOnItemSelectedListener(
-            onItemSelected: (position: Int, prePosition: Int) -> Unit,
-            onItemUnselected: (position: Int) -> Unit = {},
-            onItemReselected: (position: Int) -> Unit = {}
+        onItemSelected: (position: Int, prePosition: Int) -> Unit,
+        onItemUnselected: (position: Int) -> Unit = {},
+        onItemReselected: (position: Int) -> Unit = {}
     ) {
         this.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(position: Int, prePosition: Int) {

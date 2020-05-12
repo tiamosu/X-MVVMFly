@@ -17,7 +17,7 @@ abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
     //防止多次加载数据
     private var isDataLoaded = false
 
-    override fun getContext(): AppCompatActivity = this
+    final override fun getContext(): AppCompatActivity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

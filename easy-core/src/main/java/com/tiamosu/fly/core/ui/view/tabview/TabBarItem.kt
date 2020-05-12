@@ -140,7 +140,7 @@ class TabBarItem @JvmOverloads constructor(
         containerLayout.orientation = LinearLayout.VERTICAL
         containerLayout.gravity = Gravity.CENTER
 
-        val containerParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        val containerParams = LayoutParams(-2, -2)
         containerParams.gravity = Gravity.CENTER
         containerLayout.layoutParams = containerParams
 
@@ -160,7 +160,7 @@ class TabBarItem @JvmOverloads constructor(
                 if (textNormalColor != -1) {
                     it.setTextColor(textNormalColor)
                 }
-                val textParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+                val textParams = LayoutParams(-2, -2)
                 textParams.topMargin = drawablePadding
                 it.layoutParams = textParams
                 containerLayout.addView(it)
