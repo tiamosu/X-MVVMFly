@@ -62,8 +62,19 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     }
 
     override fun onDestroyView() {
+        Log.d(fragmentTag, "onDestroyView")
         delegate.onDestroyView()
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(fragmentTag, "onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d(fragmentTag, "onDetach")
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

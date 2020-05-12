@@ -17,6 +17,7 @@ class MainFragment : BaseFragment() {
     private val fragments by lazy {
         arrayListOf<Fragment>().apply {
             add(HomeFragment())
+            add(NewsFragment())
             add(SearchFragment())
             add(MyFragment())
         }
@@ -26,7 +27,7 @@ class MainFragment : BaseFragment() {
 
     override fun initView(rootView: View?) {
         main_viewPager.also {
-            it.offscreenPageLimit = 1
+            it.offscreenPageLimit = fragments.size
             it.init(this, fragments, true)
             main_tabBarLayout.setViewPager2(it)
         }
