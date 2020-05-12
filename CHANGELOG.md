@@ -1,3 +1,6 @@
+# 新版本1.1.1
+* ViewPager2 懒加载适配
+
 # 新版本1.1.0
 * 类文件冲突处理：androidx.navigation.fragment.NavHostFragment → com.tiamosu.fly.navigation.NavHostFragment
 
