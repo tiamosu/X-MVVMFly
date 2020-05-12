@@ -2,6 +2,7 @@ package com.tiamosu.fly.fragmentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
@@ -18,7 +19,7 @@ object FlySupportHelper {
         fragmentManager: FragmentManager,
         parentFragment: IFlySupportFragment?
     ): IFlySupportFragment? {
-        val fragmentList = fragmentManager.fragments
+        val fragmentList = getAddedFragments(fragmentManager)
         if (fragmentList.isEmpty()) {
             return parentFragment
         }
@@ -36,8 +37,11 @@ object FlySupportHelper {
         return parentFragment
     }
 
-    @Suppress("DEPRECATION")
     fun isFragmentVisible(fragment: Fragment): Boolean {
-        return !fragment.isHidden && fragment.userVisibleHint
+        return fragment.lifecycle.currentState == Lifecycle.State.STARTED
+    }
+
+    fun getAddedFragments(fragmentManager: FragmentManager): List<Fragment> {
+        return fragmentManager.fragments
     }
 }

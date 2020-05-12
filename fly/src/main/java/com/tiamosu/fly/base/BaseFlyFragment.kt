@@ -10,6 +10,11 @@ import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
+ * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
+ * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onFlyLazyInitView]
+ * → [initEvent] → [onFlySupportVisible] → [onPause] → [onFlySupportInvisible]
+ * → [onDestroyView] → [onDestroy] → [onDetach]
+ *
  * @author tiamosu
  * @date 2020/2/18.
  */
@@ -57,15 +62,19 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         }
     }
 
-    override fun onLazyInitView() {
-        super.onLazyInitView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView(rootView)
+    }
+
+    override fun onFlyLazyInitView() {
+        super.onFlyLazyInitView()
         initEvent()
         tryLoadData()
     }
 
-    override fun onSupportVisible() {
-        super.onSupportVisible()
+    override fun onFlySupportVisible() {
+        super.onFlySupportVisible()
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
