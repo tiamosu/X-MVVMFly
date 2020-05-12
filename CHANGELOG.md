@@ -1,5 +1,5 @@
 # 新版本1.1.0
-* 类文件冲突处理
+* 类文件冲突处理：androidx.navigation.fragment.NavHostFragment → com.tiamosu.fly.navigation.NavHostFragment
 
 # 新版本1.0.9
 * 新增各类服务获取
