@@ -3,7 +3,6 @@ package com.tiamosu.fly.fragmentation
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.tiamosu.fly.navigation.NavHostFragment
 
@@ -50,11 +49,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onActivityCreated() {
-        Log.e(
-            "tiamosu", "onActivityCreated:$firstCreateViewCompatReplace"
-                    + "   startWithAndroidSwitcher:" + (fragment.tag?.startsWith("android:switcher:") == true)
-        )
-
         if (!firstCreateViewCompatReplace
             && fragment.tag?.startsWith("android:switcher:") == true
         ) {
@@ -67,16 +61,7 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun initVisible() {
-        Log.e("tiamosu", "initVisible")
-
-        Log.e(
-            "tiamosu", "invisibleWhenLeave:" + invisibleWhenLeave
-                    + "   isFragmentVisible:" + FlySupportHelper.isFragmentVisible(fragment)
-        )
-
         if (!invisibleWhenLeave && FlySupportHelper.isFragmentVisible(fragment)) {
-            Log.e("tiamosu", "initVisible1")
-
             if (fragment.parentFragment == null
                 || FlySupportHelper.isFragmentVisible(fragment.requireParentFragment())
             ) {
@@ -87,8 +72,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onResume() {
-        Log.e("tiamosu", "onResume")
-
         if (!isFirstVisible) {
             if (!isSupportVisible && !invisibleWhenLeave && FlySupportHelper.isFragmentVisible(
                     fragment
@@ -109,8 +92,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onPause() {
-        Log.e("tiamosu", "onPause")
-
         if (taskDispatchSupportVisible != null) {
             handler.removeCallbacks(taskDispatchSupportVisible!!)
             abortInitVisible = true
@@ -127,8 +108,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onHiddenChanged(hidden: Boolean) {
-        Log.e("tiamosu", "onHiddenChanged:$hidden")
-
         if (!hidden && !fragment.isResumed) {
             //if fragment is shown but not resumed, ignore...
             onFragmentShownWhenNotResumed()
@@ -142,15 +121,11 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun onFragmentShownWhenNotResumed() {
-        Log.e("tiamosu", "onFragmentShownWhenNotResumed")
-
         invisibleWhenLeave = false
         dispatchChildOnFragmentShownWhenNotResumed()
     }
 
     private fun dispatchChildOnFragmentShownWhenNotResumed() {
-        Log.e("tiamosu", "dispatchChildOnFragmentShownWhenNotResumed")
-
         val fragmentManager = fragment.childFragmentManager
         val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
         for (child in childFragments) {
@@ -165,8 +140,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        Log.e("tiamosu", "setUserVisibleHint:$isVisibleToUser")
-
         if (fragment.isResumed || (!fragment.isAdded && isVisibleToUser)) {
             if (!isSupportVisible && isVisibleToUser) {
                 safeDispatchUserVisibleHint(true)
@@ -177,8 +150,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun safeDispatchUserVisibleHint(visible: Boolean) {
-        Log.e("tiamosu", "safeDispatchUserVisibleHint:$visible")
-
         if (isFirstVisible) {
             if (!visible) return
             enqueueDispatchVisible()
@@ -188,8 +159,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun enqueueDispatchVisible() {
-        Log.e("tiamosu", "enqueueDispatchVisible")
-
         taskDispatchSupportVisible = Runnable {
             taskDispatchSupportVisible = null
             dispatchSupportVisible(true)
@@ -198,20 +167,14 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun dispatchSupportVisible(visible: Boolean) {
-        Log.e("tiamosu", "dispatchSupportVisible:$visible")
-
         if (visible && isParentInvisible()) return
-        Log.e("tiamosu", "dispatchSupportVisible111")
-
         if (isSupportVisible == visible) {
             needDispatch = true
             return
         }
         isSupportVisible = visible
-        Log.e("tiamosu", "dispatchSupportVisible222")
 
         if (visible) {
-            Log.e("tiamosu", "addState:" + checkAddState())
             if (checkAddState()) return
 
             if (isFirstVisible) {
@@ -227,8 +190,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun dispatchChild(visible: Boolean) {
-        Log.e("tiamosu", "dispatchChild:$visible   needDispatch:$needDispatch")
-
         if (!needDispatch) {
             needDispatch = true
         } else {
@@ -239,12 +200,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
             for (child in childFragments) {
                 if (child is IFlySupportFragment) {
                     val childVisibleDelegate = child.getSupportDelegate().visibleDelegate
-                    Log.e(
-                        "tiamosu",
-                        "simpleName:" + child.javaClass.simpleName
-                                + "   isSupportVisible:" + childVisibleDelegate.isSupportVisible
-                    )
-
                     if (visible) {
                         if (childVisibleDelegate.isNeedDispatchRecord) {
                             childVisibleDelegate.isNeedDispatchRecord = false
@@ -276,10 +231,8 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     private fun checkAddState(): Boolean {
         if (!fragment.isAdded) {
             isSupportVisible = !isSupportVisible
-            Log.e("tiamosu", "checkAddState: true")
             return true
         }
-        Log.e("tiamosu", "checkAddState: false")
         return false
     }
 
