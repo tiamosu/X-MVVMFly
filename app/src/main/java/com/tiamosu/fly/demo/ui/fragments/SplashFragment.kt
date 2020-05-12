@@ -14,6 +14,7 @@ class SplashFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_splash
 
     override fun initEvent() {
+        super.initEvent()
         btn_enter_main.setOnClickListener {
             navigate(R.id.action_splashFragment_to_mainFragment)
         }

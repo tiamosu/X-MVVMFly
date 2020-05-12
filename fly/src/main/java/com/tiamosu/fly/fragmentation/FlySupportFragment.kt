@@ -9,15 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 /**
- * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [onCreateView]
- * → [onViewCreated] → [onLazyInitView] → [onSupportVisible]
- * → [onActivityCreated] → [onResume] → [onPause] → [onSupportInvisible]
- *
  * @author tiamosu
  * @date 2020/4/13.
  */
 open class FlySupportFragment : Fragment(), IFlySupportFragment {
-    private val fragmentTag by lazy { this.javaClass.simpleName }
+    protected val fragmentTag by lazy { this.javaClass.simpleName }
     private val delegate by lazy { FlySupportFragmentDelegate(this) }
     internal lateinit var activity: AppCompatActivity
 
@@ -36,10 +32,7 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(fragmentTag, "onCreateView")
-        delegate.onCreateView()
         super.onViewCreated(view, savedInstanceState)
-
         Log.d(fragmentTag, "onViewCreated")
         delegate.onViewCreated()
     }
@@ -63,7 +56,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
 
     override fun onDestroyView() {
         Log.d(fragmentTag, "onDestroyView")
-        delegate.onDestroyView()
         super.onDestroyView()
     }
 
@@ -87,7 +79,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         Log.d(fragmentTag, "setUserVisibleHint：$isVisibleToUser")
-        delegate.setUserVisibleHint(isVisibleToUser)
     }
 
     /**
@@ -95,7 +86,7 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
      */
     @CallSuper
     override fun onLazyInitView() {
-        Log.d(fragmentTag, "onFlyLazyInitView 第一次可见，可执行 View 初始化等")
+        Log.d(fragmentTag, "onFlyLazyInitView 用于某些场景懒加载，比如 FragmentAdapter 的懒加载、同级 Fragment 切换的懒加载")
     }
 
     /**

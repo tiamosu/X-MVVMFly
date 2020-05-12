@@ -1,6 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseVmDbFragment
 import com.tiamosu.fly.core.base.DataBindingConfig
@@ -34,6 +35,7 @@ class HomeFragment : BaseVmDbFragment() {
             isReloadData = false
         }
         viewModel.print()
+        Log.e(fragmentTag, "doBusiness")
     }
 
     inner class ClickProxy {
@@ -49,6 +51,7 @@ class HomeFragment : BaseVmDbFragment() {
         fun startBus() {
             navigate(R.id.action_mainFragment_to_busFragment)
             isReloadData = true
+            Log.e("xia", "isReloadData:$isReloadData")
         }
 
         fun startHttp() {

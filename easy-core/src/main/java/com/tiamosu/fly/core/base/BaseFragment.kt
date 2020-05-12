@@ -20,9 +20,17 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
     val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
     internal var loadService: LoadService<Any>? = null
 
-    override fun initParameters(bundle: Bundle?) {}
-    override fun initView(rootView: View?) {}
-    override fun initEvent() {}
+    override fun initParameters(bundle: Bundle?) {
+        Log.e(fragmentTag, "initParameters")
+    }
+
+    override fun initView(rootView: View?) {
+        Log.e(fragmentTag, "initView")
+    }
+
+    override fun initEvent() {
+        Log.e(fragmentTag, "initEvent")
+    }
 
     override fun showToastInfo(msg: String?) {
         (context as BaseActivity).showToastInfo(msg)

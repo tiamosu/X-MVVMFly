@@ -30,10 +30,6 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
         this.activity = activity
     }
 
-    fun onCreateView() {
-        visibleDelegate.onCreateView()
-    }
-
     fun onViewCreated() {
         visibleDelegate.onViewCreated()
     }
@@ -44,14 +40,6 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
 
     fun onPause() {
         visibleDelegate.onPause()
-    }
-
-    fun onDestroyView() {
-        visibleDelegate.onDestroyView()
-    }
-
-    fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        visibleDelegate.setUserVisibleHint(isVisibleToUser)
     }
 
     fun onHiddenChanged(hidden: Boolean) {

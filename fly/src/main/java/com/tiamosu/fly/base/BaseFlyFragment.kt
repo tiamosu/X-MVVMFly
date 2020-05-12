@@ -1,6 +1,7 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,10 @@ import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
+ * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
+ * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onLazyInitView]
+ * → [initEvent] → [onSupportVisible] → [onPause] → [onSupportInvisible]
+ *
  * @author tiamosu
  * @date 2020/2/18.
  */
@@ -57,15 +62,23 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView(rootView)
+    }
+
     override fun onLazyInitView() {
         super.onLazyInitView()
-        initView(rootView)
+        Log.e(fragmentTag, "onLazyInitView")
+
         initEvent()
         tryLoadData()
     }
 
     override fun onSupportVisible() {
         super.onSupportVisible()
+        Log.e(fragmentTag, "onSupportVisible")
+
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
@@ -74,6 +87,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     private fun tryLoadData() {
         if (isNeedReload() || !isDataLoaded) {
+            Log.e(fragmentTag, "tryLoadData")
             doBusiness()
             isDataLoaded = true
         }
