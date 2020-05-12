@@ -55,10 +55,6 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
         visibleDelegate.onDestroyView()
     }
 
-    fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        visibleDelegate.setUserVisibleHint(isVisibleToUser)
-    }
-
     fun onHiddenChanged(hidden: Boolean) {
         visibleDelegate.onHiddenChanged(hidden)
     }

@@ -139,16 +139,6 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
         isFirstVisible = true
     }
 
-    fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if (fragment.isResumed || (!fragment.isAdded && isVisibleToUser)) {
-            if (!isSupportVisible && isVisibleToUser) {
-                safeDispatchUserVisibleHint(true)
-            } else if (isSupportVisible && !isVisibleToUser) {
-                dispatchSupportVisible(false)
-            }
-        }
-    }
-
     private fun safeDispatchUserVisibleHint(visible: Boolean) {
         if (isFirstVisible) {
             if (!visible) return

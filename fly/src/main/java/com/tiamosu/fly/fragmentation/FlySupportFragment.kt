@@ -83,13 +83,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
         delegate.onHiddenChanged(hidden)
     }
 
-    @Suppress("DEPRECATION")
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        Log.d(fragmentTag, "setUserVisibleHint：$isVisibleToUser")
-        delegate.setUserVisibleHint(isVisibleToUser)
-    }
-
     /**
      * 用于某些场景的懒加载，比如 FragmentAdapter 的懒加载、同级 Fragment 切换的懒加载
      */
