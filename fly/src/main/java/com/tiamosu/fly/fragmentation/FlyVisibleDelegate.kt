@@ -188,18 +188,19 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
             val fragmentManager = fragment.childFragmentManager
             val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
             for (child in childFragments) {
-                if (child is IFlySupportFragment) {
-                    val childVisibleDelegate = child.getSupportDelegate().visibleDelegate
-                    if (visible) {
-                        if (childVisibleDelegate.isNeedDispatchRecord) {
-                            childVisibleDelegate.isNeedDispatchRecord = false
-                            childVisibleDelegate.dispatchSupportVisible(true)
-                        }
-                    } else {
-                        if (childVisibleDelegate.isSupportVisible) {
-                            childVisibleDelegate.isNeedDispatchRecord = true
-                            childVisibleDelegate.dispatchSupportVisible(false)
-                        }
+                if (child !is IFlySupportFragment) {
+                    continue
+                }
+                val childVisibleDelegate = child.getSupportDelegate().visibleDelegate
+                if (visible) {
+                    if (childVisibleDelegate.isNeedDispatchRecord) {
+                        childVisibleDelegate.isNeedDispatchRecord = false
+                        childVisibleDelegate.dispatchSupportVisible(true)
+                    }
+                } else {
+                    if (childVisibleDelegate.isSupportVisible) {
+                        childVisibleDelegate.isNeedDispatchRecord = true
+                        childVisibleDelegate.dispatchSupportVisible(false)
                     }
                 }
             }
