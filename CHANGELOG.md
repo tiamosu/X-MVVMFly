@@ -1,5 +1,10 @@
 # 新版本1.1.1
 * ViewPager2 懒加载适配
+* 以下几个函数重命名：
+onLazyInitView() → onFlyLazyInitView()
+onSupportVisible() → onFlySupportVisible()
+onSupportInvisible() → onFlySupportInvisible()
+isSupportVisible(): Boolean → isFlySupportVisible(): Boolean
 
 # 新版本1.1.0
 * 类文件冲突处理：androidx.navigation.fragment.NavHostFragment → com.tiamosu.fly.navigation.NavHostFragment
