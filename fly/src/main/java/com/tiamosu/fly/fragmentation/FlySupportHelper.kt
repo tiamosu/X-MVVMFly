@@ -37,7 +37,6 @@ object FlySupportHelper {
         return parentFragment
     }
 
-    @Suppress("DEPRECATION")
     fun isFragmentVisible(fragment: Fragment): Boolean {
         return fragment.lifecycle.currentState == Lifecycle.State.STARTED
     }

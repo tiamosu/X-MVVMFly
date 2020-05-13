@@ -21,15 +21,15 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
     internal var loadService: LoadService<Any>? = null
 
     override fun initParameters(bundle: Bundle?) {
-        Log.e(fragmentTag, "initParameters")
+        Log.d(fragmentTag, "initParameters")
     }
 
     override fun initView(rootView: View?) {
-        Log.e(fragmentTag, "initView")
+        Log.d(fragmentTag, "initView")
     }
 
     override fun initEvent() {
-        Log.e(fragmentTag, "initEvent")
+        Log.d(fragmentTag, "initEvent")
     }
 
     override fun showToastInfo(msg: String?) {

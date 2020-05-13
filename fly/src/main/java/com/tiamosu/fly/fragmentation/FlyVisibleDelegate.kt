@@ -1,99 +1,236 @@
 package com.tiamosu.fly.fragmentation
 
-import android.util.Log
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
+import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
  * @author tiamosu
- * @date 2020/4/14.
+ * @date 2020/5/12.
  */
 class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
-    private var currentVisibleState = false     //当前可见状态
-    private var isFirstVisible = true           //是否第一次可见
-    private var isChangedState = false
+    // SupportVisible相关
+    private var isSupportVisible = false
+    private var needDispatch = true
+    private var invisibleWhenLeave = false
+    private var isFirstVisible = true
+    private var firstCreateViewCompatReplace = true
+    private var abortInitVisible = false
+    private var isNeedDispatchRecord = false
+    private var taskDispatchSupportVisible: Runnable? = null
+
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
+    private var saveInstanceState: Bundle? = null
     private var fragment: Fragment
 
     init {
         if (supportF !is Fragment) {
-            throw RuntimeException("${supportF.javaClass.simpleName} must extends Fragment")
+            throw RuntimeException("Must extends Fragment")
         }
         fragment = supportF
     }
 
-    fun onViewCreated() {
-        if (FlySupportHelper.isFragmentVisible(fragment)) {
-            dispatchUserVisibleHint(true)
+    fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            saveInstanceState = savedInstanceState
+            // setUserVisibleHint() may be called before onCreate()
+            invisibleWhenLeave =
+                savedInstanceState.getBoolean(FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE)
+            firstCreateViewCompatReplace =
+                savedInstanceState.getBoolean(FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE)
+        }
+    }
+
+    fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE, invisibleWhenLeave)
+        outState.putBoolean(FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE, firstCreateViewCompatReplace)
+    }
+
+    fun onActivityCreated() {
+        if (!firstCreateViewCompatReplace
+            && fragment.tag?.startsWith("android:switcher:") == true
+        ) {
+            return
+        }
+        if (firstCreateViewCompatReplace) {
+            firstCreateViewCompatReplace = false
+        }
+        initVisible()
+    }
+
+    private fun initVisible() {
+        if (!invisibleWhenLeave && FlySupportHelper.isFragmentVisible(fragment)) {
+            if (fragment.parentFragment == null
+                || FlySupportHelper.isFragmentVisible(fragment.requireParentFragment())
+            ) {
+                needDispatch = false
+                safeDispatchUserVisibleHint(true)
+            }
         }
     }
 
     fun onResume() {
-        if (FlySupportHelper.isFragmentVisible(fragment) && !currentVisibleState) {
-            dispatchUserVisibleHint(true)
+        if (!isFirstVisible) {
+            if (!isSupportVisible && !invisibleWhenLeave && FlySupportHelper.isFragmentVisible(
+                    fragment
+                )
+            ) {
+                needDispatch = false
+                dispatchSupportVisible(true)
+            }
+        } else {
+            if (abortInitVisible) {
+                abortInitVisible = false
+                initVisible()
+            } else {
+                needDispatch = false
+                dispatchSupportVisible(true)
+            }
         }
     }
 
     fun onPause() {
-        if (FlySupportHelper.isFragmentVisible(fragment) && currentVisibleState) {
-            dispatchUserVisibleHint(false)
+        if (taskDispatchSupportVisible != null) {
+            handler.removeCallbacks(taskDispatchSupportVisible!!)
+            abortInitVisible = true
+            return
+        }
+
+        if (isSupportVisible && FlySupportHelper.isFragmentVisible(fragment)) {
+            needDispatch = false
+            invisibleWhenLeave = false
+            dispatchSupportVisible(false)
+        } else {
+            invisibleWhenLeave = true
         }
     }
 
     fun onHiddenChanged(hidden: Boolean) {
-        // 这里的可见返回为false
+        if (!hidden && !fragment.isResumed) {
+            //if fragment is shown but not resumed, ignore...
+            onFragmentShownWhenNotResumed()
+            return
+        }
         if (hidden) {
-            dispatchUserVisibleHint(false)
+            safeDispatchUserVisibleHint(false)
         } else {
-            dispatchUserVisibleHint(true)
+            enqueueDispatchVisible()
         }
     }
 
-    fun isSupportVisible() = currentVisibleState
+    private fun onFragmentShownWhenNotResumed() {
+        invisibleWhenLeave = false
+        dispatchChildOnFragmentShownWhenNotResumed()
+    }
 
-    /**
-     * 统一处理用户可见事件分发
-     */
-    private fun dispatchUserVisibleHint(isVisible: Boolean) {
-        // 为了代码严谨,如果当前状态与需要设置的状态本来就一致了,就不处理了
-        if (currentVisibleState == isVisible) return
-        currentVisibleState = isVisible
-        if (isVisible) {
+    private fun dispatchChildOnFragmentShownWhenNotResumed() {
+        val fragmentManager = fragment.childFragmentManager
+        val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
+        for (child in childFragments) {
+            if (child is IFlySupportFragment && FlySupportHelper.isFragmentVisible(child)) {
+                child.getSupportDelegate().visibleDelegate.onFragmentShownWhenNotResumed()
+            }
+        }
+    }
+
+    fun onDestroyView() {
+        isFirstVisible = true
+    }
+
+    private fun safeDispatchUserVisibleHint(visible: Boolean) {
+        if (isFirstVisible) {
+            if (!visible) return
+            enqueueDispatchVisible()
+        } else {
+            dispatchSupportVisible(visible)
+        }
+    }
+
+    private fun enqueueDispatchVisible() {
+        taskDispatchSupportVisible = Runnable {
+            taskDispatchSupportVisible = null
+            dispatchSupportVisible(true)
+        }
+        taskDispatchSupportVisible?.let(handler::post)
+    }
+
+    private fun dispatchSupportVisible(visible: Boolean) {
+        if (visible && isParentInvisible()) return
+        if (isSupportVisible == visible) {
+            needDispatch = true
+            return
+        }
+        isSupportVisible = visible
+
+        if (visible) {
+            if (checkAddState()) return
+
             if (isFirstVisible) {
                 isFirstVisible = false
-                supportF.onLazyInitView()
+                supportF.onFlyLazyInitView()
             }
-            supportF.onSupportVisible()
-            dispatchChildVisibleState(true)
+            supportF.onFlySupportVisible()
+            dispatchChild(true)
         } else {
-            supportF.onSupportInvisible()
-            Log.e("xia", "Pause currentVisibleState:$currentVisibleState")
-            dispatchChildVisibleState(false)
+            dispatchChild(false)
+            supportF.onFlySupportInvisible()
         }
     }
 
-    /**
-     * 分发事件给内嵌的 Fragment
-     */
-    private fun dispatchChildVisibleState(visible: Boolean) {
-        val fragments = FlySupportHelper.getAddedFragments(fragment.childFragmentManager)
-        Log.e("xia", "dispatchChildVisibleState:$visible" + "   size:" + fragments.size)
+    private fun dispatchChild(visible: Boolean) {
+        if (!needDispatch) {
+            needDispatch = true
+        } else {
+            if (checkAddState()) return
 
-        for (fragment in fragments) {
-            if (fragment !is FlySupportFragment) {
-                continue
-            }
-
-            val delegate = fragment.getSupportDelegate().visibleDelegate
-            if (visible) {
-                if (delegate.isChangedState) {
-                    delegate.isChangedState = false
-                    delegate.dispatchUserVisibleHint(visible)
-                }
-            } else {
-                if (delegate.currentVisibleState) {
-                    delegate.isChangedState = true
-                    delegate.dispatchUserVisibleHint(visible)
+            val fragmentManager = fragment.childFragmentManager
+            val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
+            for (child in childFragments) {
+                if (child is IFlySupportFragment) {
+                    val childVisibleDelegate = child.getSupportDelegate().visibleDelegate
+                    if (visible) {
+                        if (childVisibleDelegate.isNeedDispatchRecord) {
+                            childVisibleDelegate.isNeedDispatchRecord = false
+                            childVisibleDelegate.dispatchSupportVisible(true)
+                        }
+                    } else {
+                        if (childVisibleDelegate.isSupportVisible) {
+                            childVisibleDelegate.isNeedDispatchRecord = true
+                            childVisibleDelegate.dispatchSupportVisible(false)
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private fun isParentInvisible(): Boolean {
+        return when (val parentFragment = fragment.parentFragment) {
+            is IFlySupportFragment -> {
+                !parentFragment.isFlySupportVisible()
+            }
+            is NavHostFragment -> {
+                false
+            }
+            else -> parentFragment?.isVisible == false
+        }
+    }
+
+    private fun checkAddState(): Boolean {
+        if (!fragment.isAdded) {
+            isSupportVisible = !isSupportVisible
+            return true
+        }
+        return false
+    }
+
+    fun isSupportVisible() = isSupportVisible
+
+    companion object {
+        private const val FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE =
+            "fragmentation_invisible_when_leave"
+        private const val FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE = "fragmentation_compat_replace"
     }
 }

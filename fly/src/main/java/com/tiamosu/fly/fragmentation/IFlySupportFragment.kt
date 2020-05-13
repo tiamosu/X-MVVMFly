@@ -8,13 +8,13 @@ interface IFlySupportFragment {
 
     fun getSupportDelegate(): FlySupportFragmentDelegate
 
-    fun onLazyInitView()
+    fun onFlyLazyInitView()
 
-    fun onSupportVisible()
+    fun onFlySupportVisible()
 
-    fun onSupportInvisible()
+    fun onFlySupportInvisible()
 
-    fun isSupportVisible(): Boolean
+    fun isFlySupportVisible(): Boolean
 
     fun onBackPressedSupport(): Boolean
 }

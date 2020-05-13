@@ -1,5 +1,6 @@
 package com.tiamosu.fly.fragmentation
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
@@ -30,8 +31,16 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
         this.activity = activity
     }
 
-    fun onViewCreated() {
-        visibleDelegate.onViewCreated()
+    fun onCreate(savedInstanceState: Bundle?) {
+        visibleDelegate.onCreate(savedInstanceState)
+    }
+
+    fun onSaveInstanceState(outState: Bundle) {
+        visibleDelegate.onSaveInstanceState(outState)
+    }
+
+    fun onActivityCreated() {
+        visibleDelegate.onActivityCreated()
     }
 
     fun onResume() {
@@ -40,6 +49,10 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
 
     fun onPause() {
         visibleDelegate.onPause()
+    }
+
+    fun onDestroyView() {
+        visibleDelegate.onDestroyView()
     }
 
     fun onHiddenChanged(hidden: Boolean) {

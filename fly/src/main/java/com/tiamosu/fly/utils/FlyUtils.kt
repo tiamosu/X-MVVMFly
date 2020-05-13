@@ -42,7 +42,7 @@ fun isPageVisible(owner: LifecycleOwner): Boolean {
             ActivityUtils.getTopActivity() == owner
         }
         is FlySupportFragment -> {
-            owner.isSupportVisible()
+            owner.isFlySupportVisible()
         }
         is Fragment -> {
             owner.isVisible

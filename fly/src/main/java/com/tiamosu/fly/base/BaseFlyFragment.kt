@@ -1,7 +1,6 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,9 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
- * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onLazyInitView]
- * → [initEvent] → [onSupportVisible] → [onPause] → [onSupportInvisible]
+ * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onFlyLazyInitView]
+ * → [initEvent] → [onFlySupportVisible] → [onPause] → [onFlySupportInvisible]
+ * → [onDestroyView] → [onDestroy] → [onDetach]
  *
  * @author tiamosu
  * @date 2020/2/18.
@@ -67,18 +67,14 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         initView(rootView)
     }
 
-    override fun onLazyInitView() {
-        super.onLazyInitView()
-        Log.e(fragmentTag, "onLazyInitView")
-
+    override fun onFlyLazyInitView() {
+        super.onFlyLazyInitView()
         initEvent()
         tryLoadData()
     }
 
-    override fun onSupportVisible() {
-        super.onSupportVisible()
-        Log.e(fragmentTag, "onSupportVisible")
-
+    override fun onFlySupportVisible() {
+        super.onFlySupportVisible()
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
@@ -87,7 +83,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     private fun tryLoadData() {
         if (isNeedReload() || !isDataLoaded) {
-            Log.e(fragmentTag, "tryLoadData")
             doBusiness()
             isDataLoaded = true
         }
