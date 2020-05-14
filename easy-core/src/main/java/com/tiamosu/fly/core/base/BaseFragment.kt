@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.core.bridge.SharedViewModel
-import com.tiamosu.fly.core.ext.getAppViewModel
+import com.tiamosu.fly.core.ext.lazyAppViewModel
 import com.tiamosu.fly.core.ext.showCallback
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
@@ -18,7 +18,7 @@ import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
  * @date 2020/2/20.
  */
 abstract class BaseFragment : BaseFlyFragment(), IBaseView {
-    val sharedViewModel: SharedViewModel by getAppViewModel()
+    val sharedViewModel: SharedViewModel by lazyAppViewModel()
     internal var loadService: LoadService<Any>? = null
 
     override fun initParameters(bundle: Bundle?) {

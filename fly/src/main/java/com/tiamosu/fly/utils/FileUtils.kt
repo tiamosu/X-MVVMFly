@@ -7,16 +7,14 @@ import com.blankj.utilcode.util.Utils
 import java.io.File
 
 /**
- * @author tiamosu
- * @date 2020/3/18.
+ * 根据文件目录和文件名创建文件
  */
-
 fun createFile(fileDirName: String?, fileName: String): File {
     return File(createDir(fileDirName), fileName)
 }
 
 /**
- * @return 创建未存在的文件夹
+ * 创建未存在的文件夹
  */
 fun createDir(fileDirName: String?): File? {
     val fileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath
@@ -28,7 +26,7 @@ fun createDir(fileDirName: String?): File? {
 }
 
 /**
- * @return 创建未存在的文件夹
+ * 创建未存在的文件夹
  */
 fun createDir(file: File?): File? {
     return if (FileUtils.createOrExistsDir(file)) file else null

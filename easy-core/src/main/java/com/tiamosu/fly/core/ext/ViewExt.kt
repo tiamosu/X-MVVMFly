@@ -4,7 +4,7 @@ import android.view.View
 import com.tiamosu.fly.utils.isValid
 
 /**
- *防止重复点击事件，默认0.5秒内不可重复点击
+ * 防止重复点击事件，默认0.5秒内不可重复点击
  */
 fun View.clickNoRepeat(
     interval: Long = 500,
@@ -18,7 +18,7 @@ fun View.clickNoRepeat(
 }
 
 /**
- *防止重复点击事件，默认0.5秒内不可重复点击
+ * 防止重复点击事件，默认0.5秒内不可重复点击
  */
 fun clickNoRepeat(
     interval: Long = 500,

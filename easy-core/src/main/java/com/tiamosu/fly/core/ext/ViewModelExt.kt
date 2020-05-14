@@ -11,7 +11,7 @@ import com.tiamosu.fly.core.data.StatusType
 /**
  * 获取 Application 级别的 ViewModel
  */
-inline fun <reified VM : ViewModel> getAppViewModel(): Lazy<VM> {
+inline fun <reified VM : ViewModel> lazyAppViewModel(): Lazy<VM> {
     return lazy {
         (Utils.getApp() as BaseApplication).getAppViewModelProvider().get(VM::class.java)
     }
