@@ -1,9 +1,10 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.util.Log
-import androidx.lifecycle.observe
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.utils.lazyViewModel
+import com.tiamosu.fly.core.ext.addObserve
+import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.core.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.DownloadViewModel
 import kotlinx.android.synthetic.main.fragment_download.*
@@ -18,20 +19,22 @@ class DownloadFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_download
 
     override fun initEvent() {
-        btn_download_file.setOnClickListener {
+        btn_download_file.clickNoRepeat {
             viewModel.downloadFile()
         }
+    }
 
-        viewModel.fileLiveData.observe(viewLifecycleOwner, {
+    override fun createObserver() {
+        addObserve(viewModel.fileLiveData) {
             Log.e("xia", "path:" + it.body?.absolutePath)
-        })
-        viewModel.progressLiveData.observe(viewLifecycleOwner, {
+        }
+        addObserve(viewModel.progressLiveData) {
             progress_bar.progress = it.fraction * 100
             Log.e("xia", "fraction:" + it.fraction)
             if (it.fraction.toInt() == 1) {
                 showToastInfo("下载成功~")
             }
-        })
+        }
     }
 
     override fun doBusiness() {}

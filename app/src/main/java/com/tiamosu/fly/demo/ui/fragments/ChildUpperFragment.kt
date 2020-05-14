@@ -1,6 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
 import kotlinx.android.synthetic.main.fragment_child_upper.*
 
@@ -13,7 +14,7 @@ class ChildUpperFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_child_upper
 
     override fun initEvent() {
-        btn_send_msg.setOnClickListener {
+        btn_send_msg.clickNoRepeat {
             val msg: String? = et_msg.text.toString().trim()
             sharedViewModel.shared.value = msg
         }

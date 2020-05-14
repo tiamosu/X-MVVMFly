@@ -11,7 +11,7 @@ import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.core.bridge.SharedViewModel
-import com.tiamosu.fly.core.ext.getShareViewModel
+import com.tiamosu.fly.core.ext.getAppViewModel
 import com.tiamosu.fly.core.ext.showCallback
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
@@ -25,7 +25,7 @@ import com.tiamosu.fly.utils.inputMethodManager
  */
 @Suppress("unused")
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
-    val sharedViewModel: SharedViewModel by lazy { getShareViewModel() }
+    val sharedViewModel: SharedViewModel by getAppViewModel()
     internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import com.tiamosu.fly.core.base.BaseVmDbFragment
 import com.tiamosu.fly.core.base.DataBindingConfig
-import com.tiamosu.fly.core.utils.lazyViewModel
+import com.tiamosu.fly.core.ext.lazyViewModel
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.HomeViewModel

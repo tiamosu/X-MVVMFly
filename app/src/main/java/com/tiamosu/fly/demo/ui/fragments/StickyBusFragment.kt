@@ -1,7 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import androidx.lifecycle.observe
 import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.addObserve
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.data.bean.BusMessage
 import com.tiamosu.fly.demo.data.constant.EventTag
@@ -16,10 +16,10 @@ class StickyBusFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_sticky_bus
 
-    override fun initEvent() {
-        LiveDataBus.withSticky<BusMessage>(EventTag.TAG_WITH_CLASS)?.observe(viewLifecycleOwner, {
+    override fun createObserver() {
+        addObserve(LiveDataBus.withSticky<BusMessage>(EventTag.TAG_WITH_CLASS)) {
             tv_event_content.text = it.toString()
-        })
+        }
     }
 
     override fun doBusiness() {}

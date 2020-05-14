@@ -11,6 +11,5 @@ class MyFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_my
 
-    override fun doBusiness() {
-    }
+    override fun doBusiness() {}
 }

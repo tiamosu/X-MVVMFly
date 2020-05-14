@@ -2,8 +2,8 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.observe
 import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.addObserve
 import com.tiamosu.fly.demo.R
 
 /**
@@ -18,8 +18,8 @@ class SharedFragment : BaseFragment() {
         Log.e("xia", "param:" + bundle?.getString(KEY))
     }
 
-    override fun initEvent() {
-        sharedViewModel.param.observe(viewLifecycleOwner) {
+    override fun createObserver() {
+        addObserve(sharedViewModel.param) {
             Log.e("xia", "it:$it")
         }
     }

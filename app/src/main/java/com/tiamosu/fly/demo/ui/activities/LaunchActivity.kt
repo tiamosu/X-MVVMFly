@@ -14,13 +14,6 @@ class LaunchActivity : BaseActivity() {
     override fun getLayoutId() = R.layout.activity_launch
 
     override fun isCheckNetChanged() = true
-    
-    override fun doBusiness() {}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //垃圾回收
-        System.gc()
-        System.runFinalization()
-    }
+    override fun doBusiness() {}
 }

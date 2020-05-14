@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.init
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.ext.init
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -27,11 +27,11 @@ class MainFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_main
 
     override fun initView(rootView: View?) {
-        main_viewPager.also {
-            it.offscreenPageLimit = fragments.size
-            it.init(this, fragments, true)
-            main_tabBarLayout.setViewPager2(it)
-        }
+        main_viewPager.init(this, fragments)
+            .also {
+                it.offscreenPageLimit = fragments.size
+            }
+            .let(main_tabBarLayout::setViewPager2)
     }
 
     override fun initEvent() {
@@ -44,8 +44,7 @@ class MainFragment : BaseFragment() {
         })
     }
 
-    override fun doBusiness() {
-    }
+    override fun doBusiness() {}
 
     override fun onBackPressedSupport(): Boolean {
         if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {

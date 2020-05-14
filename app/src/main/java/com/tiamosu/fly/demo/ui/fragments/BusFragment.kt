@@ -1,8 +1,9 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.observe
 import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.addObserve
+import com.tiamosu.fly.core.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.data.bean.BusMessage
 import com.tiamosu.fly.demo.data.constant.EventTag
@@ -20,18 +21,20 @@ class BusFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     override fun initEvent() {
-        btn_send_event.setOnClickListener {
+        btn_send_event.clickNoRepeat {
             LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)?.value = "随机生成一个数：${Math.random()}"
         }
-        btn_send_sticky_event.setOnClickListener {
+        btn_send_sticky_event.clickNoRepeat {
             val busMessage = BusMessage("这是一条粘性事件信息，请查收~")
             LiveDataBus.withSticky<BusMessage>(EventTag.TAG_WITH_CLASS)?.value = busMessage
             navigate(R.id.action_busFragment_to_stickyBusFragment)
         }
+    }
 
-        LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)?.observe(viewLifecycleOwner, {
+    override fun createObserver() {
+        addObserve(LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)) {
             tv_event_content.text = "接收信息：$it"
-        })
+        }
     }
 
     override fun doBusiness() {}

@@ -1,27 +1,31 @@
 package com.tiamosu.fly.core.ext
 
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import android.view.View
+import com.tiamosu.fly.utils.isValid
 
 /**
- * @author tiamosu
- * @date 2020/5/12.
+ *防止重复点击事件，默认0.5秒内不可重复点击
  */
-/**
- * ViewPager2 初始化
- */
-fun ViewPager2.init(
-    fragment: Fragment,
-    fragments: ArrayList<Fragment>,
-    isUserInputEnabled: Boolean = true
-): ViewPager2 {
-    //是否可滑动
-    this.isUserInputEnabled = isUserInputEnabled
-    //设置适配器
-    adapter = object : FragmentStateAdapter(fragment) {
-        override fun createFragment(position: Int) = fragments[position]
-        override fun getItemCount() = fragments.size
+fun View.clickNoRepeat(
+    interval: Long = 500,
+    block: (view: View) -> Unit
+) {
+    setOnClickListener {
+        if (isValid(it, interval)) {
+            block.invoke(it)
+        }
     }
-    return this
+}
+
+/**
+ *防止重复点击事件，默认0.5秒内不可重复点击
+ */
+fun clickNoRepeat(
+    interval: Long = 500,
+    vararg views: View,
+    block: (view: View) -> Unit
+) {
+    views.forEach {
+        it.clickNoRepeat(interval, block)
+    }
 }

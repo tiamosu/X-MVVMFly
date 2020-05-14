@@ -11,6 +11,5 @@ class NewsFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_news
 
-    override fun doBusiness() {
-    }
+    override fun doBusiness() {}
 }

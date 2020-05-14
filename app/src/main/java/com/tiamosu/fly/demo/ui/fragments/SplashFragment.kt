@@ -1,6 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.core.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.integration.ext.navigate
 import kotlinx.android.synthetic.main.fragment_splash.*
@@ -15,7 +16,7 @@ class SplashFragment : BaseFragment() {
 
     override fun initEvent() {
         super.initEvent()
-        btn_enter_main.setOnClickListener {
+        btn_enter_main.clickNoRepeat {
             navigate(R.id.action_splashFragment_to_mainFragment)
         }
     }

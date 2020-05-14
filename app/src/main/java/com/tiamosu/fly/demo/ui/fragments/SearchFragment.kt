@@ -11,6 +11,5 @@ class SearchFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_search
 
-    override fun doBusiness() {
-    }
+    override fun doBusiness() {}
 }
