@@ -10,60 +10,21 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //androidx
-    api Deps.androidx_annotation
-    api(Deps.androidx_appcompat) {
-        exclude module: 'annotation'
-        exclude module: 'fragment'
-        exclude module: 'lifecycle-runtime'
-    }
-    api(Deps.androidx_fragment) {
-        exclude module: 'annotation'
-        exclude module: 'core'
-        exclude module: 'collection'
-        exclude module: 'customview'
-        exclude module: 'lifecycle-common'
-        exclude module: 'lifecycle-runtime'
-        exclude module: 'lifecycle-livedata'
-        exclude module: 'lifecycle-livedata-core'
-        exclude module: 'lifecycle-viewmodel'
-    }
-    api(Deps.androidx_core_ktx) {
-        exclude module: 'annotation'
-        exclude module: 'core'
-        exclude module: 'kotlin-stdlib'
-    }
-    api(Deps.androidx_navigation_runtime) {
-        exclude module: 'annotation'
-        exclude module: 'core'
-        exclude module: 'collection'
-        exclude module: 'activity'
-        exclude module: 'lifecycle-viewmodel'
-        exclude module: 'lifecycle-viewmodel-savedstate'
-        exclude module: 'savedstate'
-    }
+    //kotlin
+    api Deps.kotlin_stdlib_jdk8
+    api Deps.kotlin_ktx
+    api Deps.kotlin_reflect
 
     //lifecycle
-    api(Deps.lifecycle_common_java8) {
-        exclude module: 'annotation'
-        exclude module: 'lifecycle-common'
-    }
-    api(Deps.lifecycle_livedata_ktx) {
-        exclude module: 'kotlin-stdlib'
-        exclude module: 'kotlin-stdlib-common'
-        exclude module: 'lifecycle-livedata'
-        exclude module: 'lifecycle-livedata-core'
-    }
-    api(Deps.lifecycle_extensions) {
-        exclude module: 'annotation'
-        exclude module: 'fragment'
-        exclude module: 'core-common'
-    }
+    api Deps.lifecycle_runtime
+    api Deps.lifecycle_common_java8
+    api Deps.lifecycle_extensions
+    api Deps.lifecycle_viewmodel_ktx
+    api Deps.lifecycle_livedata_ktx
 
-    //kotlin
-    api(Deps.kotlin_reflect) {
-        exclude module: 'kotlin-stdlib'
-    }
+    //navigation
+    api Deps.androidx_navigation_fragment_ktx
+    api Deps.androidx_navigation_ui_ktx
 
     //rx
     api Deps.rxjava2
@@ -82,12 +43,8 @@ dependencies {
         exclude module: 'reactive-streams'
     }
     api(Deps.retrofit2_converter_gson) {
-        exclude module: 'gson'
         exclude module: 'retrofit'
     }
-
-    //gson
-    api Deps.gson
 
     //okhttp3
     api(Deps.okhttp3) {
@@ -100,13 +57,6 @@ dependencies {
 
     //常用的util库
     api Deps.utilcode
-
-    //glide
-    compileOnly(Deps.glide) {
-        exclude group: 'androidx.annotation'
-        exclude group: 'androidx.fragment'
-        exclude group: 'androidx.vectordrawable'
-    }
 }
 
 apply from: "${rootDir.path}/config_bintray.gradle"
