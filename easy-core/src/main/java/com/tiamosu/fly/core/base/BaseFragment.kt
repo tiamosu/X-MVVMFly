@@ -3,6 +3,7 @@ package com.tiamosu.fly.core.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.blankj.utilcode.util.KeyboardUtils
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.core.bridge.SharedViewModel
@@ -30,6 +31,10 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun initEvent() {
         Log.d(fragmentTag, "initEvent")
+    }
+
+    override fun createObserver() {
+        Log.d(fragmentTag, "createObserver")
     }
 
     override fun showToastInfo(msg: String?) {
@@ -70,5 +75,10 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
 
     override fun onNetReConnect() {
         Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        KeyboardUtils.hideSoftInput(context)
     }
 }
