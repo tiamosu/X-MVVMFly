@@ -1,7 +1,7 @@
 package com.tiamosu.fly.livedata.bus
 
 import androidx.lifecycle.Observer
-import com.tiamosu.fly.integration.bridge.UnPeekLiveData
+import com.tiamosu.fly.integration.bridge.callback.livedata.UnPeekLiveData
 import java.util.*
 
 /**

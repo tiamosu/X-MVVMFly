@@ -2,6 +2,12 @@ apply {
     from "${rootDir.path}/config_lib.gradle"
 }
 
+android {
+    dataBinding {
+        enabled = true
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //androidx

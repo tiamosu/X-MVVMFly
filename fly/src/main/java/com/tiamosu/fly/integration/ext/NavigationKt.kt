@@ -13,6 +13,10 @@ import com.tiamosu.fly.navigation.NavHostFragment
  * @author tiamosu
  * @date 2020/4/14.
  */
+fun navController(view: View): NavController {
+    return Navigation.findNavController(view)
+}
+
 fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
     return Navigation.findNavController(this, viewId)
 }

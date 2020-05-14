@@ -1,8 +1,8 @@
 package com.tiamosu.fly.core.bridge
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tiamosu.fly.integration.bridge.UnPeekLiveData
+import com.tiamosu.fly.integration.bridge.callback.livedata.StringLiveData
+import com.tiamosu.fly.integration.bridge.callback.livedata.UnPeekLiveData
 
 /**
  * 描述：Application 级的全局共享 VM
@@ -11,5 +11,5 @@ import com.tiamosu.fly.integration.bridge.UnPeekLiveData
  */
 class SharedViewModel : ViewModel() {
     val shared: UnPeekLiveData<String?> = UnPeekLiveData()
-    val param: MutableLiveData<String?> = MutableLiveData()
+    val param = StringLiveData()
 }
