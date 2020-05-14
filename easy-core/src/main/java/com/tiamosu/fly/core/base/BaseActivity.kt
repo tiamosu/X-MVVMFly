@@ -79,5 +79,8 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     override fun onDestroy() {
         hideLoadingDialog()
         super.onDestroy()
+        //垃圾回收
+        System.gc()
+        System.runFinalization()
     }
 }

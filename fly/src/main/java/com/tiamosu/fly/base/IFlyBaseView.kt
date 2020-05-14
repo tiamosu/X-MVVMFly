@@ -41,6 +41,11 @@ interface IFlyBaseView {
     fun initEvent()
 
     /**
+     * 创建观察者
+     */
+    fun createObserver()
+
+    /**
      * 再次可见时，是否重新请求数据，默认为false则只请求一次数据
      */
     fun isNeedReload() = false

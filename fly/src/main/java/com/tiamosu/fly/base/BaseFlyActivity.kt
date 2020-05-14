@@ -7,6 +7,10 @@ import com.tiamosu.fly.fragmentation.FlySupportActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
+ * 描述：生命周期调用顺序：[onCreate] → [initParameters] → [initView] → [initEvent]
+ * → [createObserver] → [doBusiness] → [onStart] → [onResume] → [onPause]
+ * → [onStop] → [onDestroy]
+ *
  * @author tiamosu
  * @date 2020/2/18.
  */
@@ -28,6 +32,7 @@ abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
         setContentView()
         initView(rootView)
         initEvent()
+        createObserver()
         tryLoadData(true)
     }
 
