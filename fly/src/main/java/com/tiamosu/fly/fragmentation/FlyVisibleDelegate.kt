@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
-import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
  * @author tiamosu
@@ -73,9 +72,8 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
 
     fun onResume() {
         if (!isFirstVisible) {
-            if (!isSupportVisible && !invisibleWhenLeave && FlySupportHelper.isFragmentVisible(
-                    fragment
-                )
+            if (!isSupportVisible && !invisibleWhenLeave
+                && FlySupportHelper.isFragmentVisible(fragment)
             ) {
                 needDispatch = false
                 dispatchSupportVisible(true)
@@ -208,14 +206,17 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun isParentInvisible(): Boolean {
-        return when (val parentFragment = fragment.parentFragment) {
-            is IFlySupportFragment -> {
+        val parentFragment = fragment.parentFragment
+        return when {
+            parentFragment is IFlySupportFragment -> {
                 !parentFragment.isFlySupportVisible()
             }
-            is NavHostFragment -> {
+            FlySupportHelper.isNavHostFragment(parentFragment) -> {
                 false
             }
-            else -> parentFragment?.isVisible == false
+            else -> {
+                parentFragment?.isVisible == false
+            }
         }
     }
 

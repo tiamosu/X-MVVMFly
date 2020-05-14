@@ -3,7 +3,6 @@ package com.tiamosu.fly.fragmentation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
-import com.tiamosu.fly.navigation.NavHostFragment
 
 /**
  * @author tiamosu
@@ -25,12 +24,12 @@ object FlySupportHelper {
         }
         for (i in fragmentList.indices.reversed()) {
             val fragment = fragmentList[i]
-            if ((fragment is IFlySupportFragment || fragment is NavHostFragment)
-                && fragment.isResumed && isFragmentVisible(fragment)
-            ) {
+            val isBool = ((fragment is IFlySupportFragment && fragment.isFlySupportVisible())
+                    || isNavHostFragment(fragment)) && fragment.isResumed
+
+            if (isBool) {
                 return getAddedFragment(
-                    fragment.childFragmentManager,
-                    fragment as? IFlySupportFragment
+                    fragment.childFragmentManager, fragment as? IFlySupportFragment
                 )
             }
         }
@@ -39,6 +38,11 @@ object FlySupportHelper {
 
     fun isFragmentVisible(fragment: Fragment): Boolean {
         return fragment.lifecycle.currentState == Lifecycle.State.STARTED
+    }
+
+    fun isNavHostFragment(fragment: Fragment?): Boolean {
+        fragment ?: return false
+        return fragment.javaClass.simpleName.contains("NavHostFragment")
     }
 
     fun getAddedFragments(fragmentManager: FragmentManager): List<Fragment> {

@@ -12,7 +12,7 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 /**
  * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
  * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onFlyLazyInitView]
- * → [initEvent] → [onFlySupportVisible] → [onPause] → [onFlySupportInvisible]
+ * → [initEvent] → [doBusiness] → [onFlySupportVisible] → [onPause] → [onFlySupportInvisible]
  * → [onDestroyView] → [onDestroy] → [onDetach]
  *
  * @author tiamosu

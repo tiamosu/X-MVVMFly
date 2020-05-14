@@ -3,6 +3,7 @@ package com.tiamosu.fly.demo.ui.fragments
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.core.ext.init
 import com.tiamosu.fly.demo.R
@@ -44,5 +45,21 @@ class MainFragment : BaseFragment() {
     }
 
     override fun doBusiness() {
+    }
+
+    override fun onBackPressedSupport(): Boolean {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            context.finish()
+        } else {
+            TOUCH_TIME = System.currentTimeMillis()
+            ToastUtils.showShort("再按一次退出")
+        }
+        return true
+    }
+
+    companion object {
+        // 再点一次退出程序时间设置
+        private const val WAIT_TIME = 2000L
+        private var TOUCH_TIME: Long = 0
     }
 }
