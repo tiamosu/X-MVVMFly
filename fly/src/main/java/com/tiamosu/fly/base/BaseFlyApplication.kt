@@ -16,7 +16,7 @@ import com.tiamosu.fly.utils.checkState
  * @author tiamosu
  * @date 2018/7/2.
  */
-open class BaseFlyApp : Application(), IFlyApp, ViewModelStoreOwner {
+open class BaseFlyApplication : Application(), IFlyApp, ViewModelStoreOwner {
     private var appDelegate: IFlyAppLifecycles? = null
 
     //可借助 Application 来管理一个应用级的 ViewModel，

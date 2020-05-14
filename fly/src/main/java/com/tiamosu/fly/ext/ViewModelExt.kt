@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.base.BaseFlyApp
+import com.tiamosu.fly.base.BaseFlyApplication
 import com.tiamosu.fly.integration.ViewModelProviderFactory
 
 /**
@@ -12,7 +12,7 @@ import com.tiamosu.fly.integration.ViewModelProviderFactory
  */
 inline fun <reified VM : ViewModel> lazyAppViewModel(): Lazy<VM> {
     return lazy {
-        (Utils.getApp() as BaseFlyApp).getAppViewModelProvider().get(VM::class.java)
+        (Utils.getApp() as BaseFlyApplication).getAppViewModelProvider().get(VM::class.java)
     }
 }
 
