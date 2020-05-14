@@ -3,6 +3,8 @@
 package com.tiamosu.fly.utils
 
 /**
+ * 描述：用于检查是否满足条件，否则抛异常
+ *
  * @author tiamosu
  * @date 2020/3/18.
  */

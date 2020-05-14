@@ -23,7 +23,26 @@ inline fun <reified VM : ViewModel> lazyAppViewModel(): Lazy<VM> {
 @Suppress("RemoveExplicitTypeArguments")
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arguments: Any): Lazy<VM> {
     return lazy {
-        viewModel<VM>(*arguments)
+        viewModel<VM>(*arguments).also {
+            if (it is BaseViewModel && this is IBaseView) {
+                val baseView: IBaseView = this
+                val observer: Observer<Resource> = Observer { state ->
+                    state?.run {
+                        when (type) {
+                            StatusType.TOAST_ERROR -> baseView.showToastError(msg)
+                            StatusType.TOAST_INFO -> baseView.showToastInfo(msg)
+                            StatusType.SHOW_LOADING -> baseView.showLoadingDialog()
+                            StatusType.HIDE_LOADING -> baseView.hideLoadingDialog()
+                            StatusType.STATE_EMPTY -> baseView.showEmpty()
+                            StatusType.STATE_LOADING -> baseView.showLoading()
+                            StatusType.STATE_FAILURE -> baseView.showFailure()
+                            StatusType.STATE_SUCCESS -> baseView.showSuccess()
+                        }
+                    }
+                }
+                it.resource.observe(this as LifecycleOwner, observer)
+            }
+        }
     }
 }
 
@@ -54,24 +73,5 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(factory: ViewM
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelProviderFactory()
 ): VM {
-    return ViewModelProvider(this, factory).get(clazz).also {
-        if (it is BaseViewModel && this is IBaseView) {
-            val baseView: IBaseView = this
-            val observer: Observer<Resource> = Observer { state ->
-                state?.run {
-                    when (type) {
-                        StatusType.TOAST_ERROR -> baseView.showToastError(msg)
-                        StatusType.TOAST_INFO -> baseView.showToastInfo(msg)
-                        StatusType.SHOW_LOADING -> baseView.showLoadingDialog()
-                        StatusType.HIDE_LOADING -> baseView.hideLoadingDialog()
-                        StatusType.STATE_EMPTY -> baseView.showEmpty()
-                        StatusType.STATE_LOADING -> baseView.showLoading()
-                        StatusType.STATE_FAILURE -> baseView.showFailure()
-                        StatusType.STATE_SUCCESS -> baseView.showSuccess()
-                    }
-                }
-            }
-            it.resource.observe(this as LifecycleOwner, observer)
-        }
-    }
+    return ViewModelProvider(this, factory).get(clazz)
 }

@@ -8,6 +8,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Action
 
 /**
+ * 描述：可用于切换线程执行
+ *
  * @author tiamosu
  * @date 2020/3/18.
  */

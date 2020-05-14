@@ -10,6 +10,8 @@ import java.io.IOException
 import java.net.SocketException
 
 /**
+ * 描述：设置 RxJava2 全局错误处理，防止抛异常
+ *
  * @author tiamosu
  * @date 2020/3/18.
  */

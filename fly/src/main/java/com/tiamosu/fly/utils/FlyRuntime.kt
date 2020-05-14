@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.Utils
 
 /**
+ * 描述：提供各种系统服务
+ *
  * @author tiamosu
  * @date 2020/2/22.
  */
