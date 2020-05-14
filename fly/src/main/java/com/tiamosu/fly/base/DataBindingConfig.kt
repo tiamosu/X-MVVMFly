@@ -1,10 +1,10 @@
-package com.tiamosu.fly.core.base
+package com.tiamosu.fly.base
 
 import android.util.SparseArray
 
 /**
  * @author tiamosu
- * @date 2020/4/21.
+ * @date 2020/5/15.
  */
 class DataBindingConfig {
     private val bindingParams: SparseArray<Any> = SparseArray<Any>()

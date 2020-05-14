@@ -2,7 +2,7 @@ package com.tiamosu.fly.core.base
 
 import androidx.lifecycle.ViewModel
 import com.tiamosu.fly.core.data.Resource
-import com.tiamosu.fly.integration.bridge.callback.livedata.UnPeekLiveData
+import com.tiamosu.fly.bridge.livedata.UnPeekLiveData
 
 /**
  * @author tiamosu

@@ -1,7 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.addObserve
+import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.data.bean.BusMessage
 import com.tiamosu.fly.demo.data.constant.EventTag

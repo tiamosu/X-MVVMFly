@@ -1,4 +1,4 @@
-package com.tiamosu.fly.integration.bridge.callback.livedata
+package com.tiamosu.fly.bridge.livedata
 
 import androidx.lifecycle.MutableLiveData
 

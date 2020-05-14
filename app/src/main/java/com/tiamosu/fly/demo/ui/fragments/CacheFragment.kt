@@ -2,8 +2,8 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.text.Html
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.addObserve
-import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.ext.addObserve
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.core.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.CacheViewModel
@@ -103,6 +103,7 @@ class CacheFragment : BaseFragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun createObserver() {
         addObserve(viewModel.responseLiveData) {
             val from: String = if (it.isFromCache) "我来自缓存" else "我来自远程网络"

@@ -13,10 +13,10 @@ import com.tiamosu.fly.http.interceptors.*
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
+import com.tiamosu.fly.ext.isInitialized
 import com.tiamosu.fly.integration.obtainRetrofitService
 import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
-import com.tiamosu.fly.utils.isInitialized
 import io.reactivex.Observable
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull

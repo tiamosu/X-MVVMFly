@@ -1,4 +1,6 @@
-package com.tiamosu.fly.integration.ext
+@file:Suppress("unused")
+
+package com.tiamosu.fly.ext
 
 import android.net.Uri
 import android.os.Bundle

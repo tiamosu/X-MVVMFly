@@ -1,4 +1,4 @@
-package com.tiamosu.fly.core.ext
+package com.tiamosu.fly.ext
 
 import android.view.View
 import com.tiamosu.fly.utils.isValid

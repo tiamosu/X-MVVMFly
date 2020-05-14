@@ -1,4 +1,4 @@
-package com.tiamosu.fly.integration.bridge.callback.databind
+package com.tiamosu.fly.bridge.databind
 
 import androidx.databinding.ObservableField
 

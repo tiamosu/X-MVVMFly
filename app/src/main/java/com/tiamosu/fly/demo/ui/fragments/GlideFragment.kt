@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl

@@ -2,8 +2,8 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.util.Log
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.addObserve
-import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.ext.addObserve
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.core.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.DownloadViewModel

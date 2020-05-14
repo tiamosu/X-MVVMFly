@@ -3,7 +3,7 @@ package com.tiamosu.fly.demo.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.addObserve
+import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.demo.R
 
 /**

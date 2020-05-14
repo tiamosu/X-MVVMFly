@@ -11,12 +11,12 @@ import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.core.bridge.SharedViewModel
-import com.tiamosu.fly.core.ext.lazyAppViewModel
 import com.tiamosu.fly.core.ext.showCallback
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
 import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
+import com.tiamosu.fly.ext.lazyAppViewModel
 import com.tiamosu.fly.utils.inputMethodManager
 
 /**

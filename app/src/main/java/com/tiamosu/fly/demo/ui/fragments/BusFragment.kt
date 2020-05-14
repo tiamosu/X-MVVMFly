@@ -2,12 +2,12 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.annotation.SuppressLint
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.addObserve
-import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.ext.addObserve
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.data.bean.BusMessage
 import com.tiamosu.fly.demo.data.constant.EventTag
-import com.tiamosu.fly.integration.ext.navigate
+import com.tiamosu.fly.ext.navigate
 import com.tiamosu.fly.livedata.bus.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_bus.*
 
@@ -33,7 +33,8 @@ class BusFragment : BaseFragment() {
 
     override fun createObserver() {
         addObserve(LiveDataBus.with<String>(EventTag.TAG_WITH_STRING)) {
-            tv_event_content.text = "接收信息：$it"
+            val content = "接收信息：$it"
+            tv_event_content.text = content
         }
     }
 

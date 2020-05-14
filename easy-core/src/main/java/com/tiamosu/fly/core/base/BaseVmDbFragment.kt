@@ -1,36 +1,23 @@
 package com.tiamosu.fly.core.base
 
-import androidx.core.util.forEach
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import android.os.Bundle
+import android.view.View
+import com.tiamosu.fly.base.BaseFlyVmDbFragment
+import com.tiamosu.fly.core.bridge.SharedViewModel
+import com.tiamosu.fly.ext.lazyAppViewModel
 
 /**
  * @author tiamosu
- * @date 2020/3/26.
+ * @date 2020/5/15.
  */
-abstract class BaseVmDbFragment : BaseFragment() {
+abstract class BaseVmDbFragment : BaseFlyVmDbFragment() {
+    val sharedViewModel: SharedViewModel by lazyAppViewModel()
 
-    protected abstract fun getDataBindingConfig(): DataBindingConfig
-    protected var binding: ViewDataBinding? = null
+    override fun initParameters(bundle: Bundle?) {}
 
-    override fun setContentView() {
-        if (getLayoutId() > 0) {
-            val dataBindingConfig = getDataBindingConfig()
-            val dataBinding: ViewDataBinding? = inflater?.let {
-                DataBindingUtil.inflate(it, getLayoutId(), container, false)
-            }
-            dataBinding?.lifecycleOwner = viewLifecycleOwner
-            val bindingParams = dataBindingConfig.getBindingParams()
-            bindingParams.forEach { key, value ->
-                dataBinding?.setVariable(key, value)
-            }
-            binding = dataBinding
-            rootView = dataBinding?.root
-        }
-    }
+    override fun initView(rootView: View?) {}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding?.unbind()
-    }
+    override fun initEvent() {}
+
+    override fun createObserver() {}
 }

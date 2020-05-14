@@ -1,9 +1,9 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.clickNoRepeat
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.integration.ext.navigate
+import com.tiamosu.fly.ext.navigate
 import kotlinx.android.synthetic.main.fragment_http.*
 
 /**

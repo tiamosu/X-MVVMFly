@@ -1,4 +1,4 @@
-package com.tiamosu.fly.core.ext
+package com.tiamosu.fly.integration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,11 +14,14 @@ class ViewModelProviderFactory(private vararg val arguments: Any) : ViewModelPro
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val constructors = modelClass.constructors
-        val constructor = find(constructors, object : Predicate<Constructor<*>> {
-            override fun test(element: Constructor<*>): Boolean {
-                return element.parameterTypes.size == arguments.size
-            }
-        }) ?: throw RuntimeException(
+        val constructor = find(
+            constructors,
+            object :
+                Predicate<Constructor<*>> {
+                override fun test(element: Constructor<*>): Boolean {
+                    return element.parameterTypes.size == arguments.size
+                }
+            }) ?: throw RuntimeException(
             "$this constructor arguments do not match the $modelClass constructor arguments."
         )
         return try {
