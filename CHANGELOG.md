@@ -1,3 +1,16 @@
+# 新版本1.2.0
+* 新增 BaseFlyVmDbActivity、BaseFlyVmDbFragment，支持 dataBinding；想使用 dataBinding 时，请在 app 的 build.gradle 中进行开启
+```gradle
+android {
+    dataBinding {
+        enabled = true 
+    }
+}
+```
+
+* 添加一些扩展函数
+* 注意：此版本改动了一些包结构，需要注意下引用路劲
+
 # 新版本1.1.3
 * 支持 dataBinding
 * 添加一些扩展函数
