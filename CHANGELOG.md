@@ -1,3 +1,6 @@
+# 新版本1.2.1
+* BaseFlyDialogFragment 抽象类改为 open
+
 # 新版本1.2.0
 * 新增 BaseFlyVmDbActivity、BaseFlyVmDbFragment，支持 dataBinding；想使用 dataBinding 时，请在 app 的 build.gradle 中进行开启
 ```gradle
