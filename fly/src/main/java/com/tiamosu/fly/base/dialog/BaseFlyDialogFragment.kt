@@ -17,7 +17,7 @@ import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
  * @date 2020/2/19.
  */
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseFlyDialogFragment : DialogFragment() {
+open class BaseFlyDialogFragment : DialogFragment() {
     protected var dialogCallback: IFlyDialogCallback? = null
     protected var fragmentActivity: FragmentActivity? = null
 
