@@ -35,7 +35,7 @@ fun BaseFragment.loadServiceInit(view: View, onCallback: () -> Unit): LoadServic
 }
 
 fun LoadService<*>.setErrorText(error: String) {
-    setCallBack(ErrorCallback::class.java) { _, view ->
+    setCallBack(ErrorCallback::class.java) { _, view, _ ->
         view.findViewById<AppCompatTextView>(R.id.error_text).text = error
     }
 }
