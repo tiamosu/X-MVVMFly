@@ -69,14 +69,14 @@ object Deps {
     //retrofit2
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2_adapter_rxjava2 =
-        "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit2}"
+        "com.squareup.retrofit2:adapter-rxjava3:${Versions.retrofit2}"
     const val retrofit2_converter_gson =
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
     //rx
-    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.19"
-    const val rxandroid2 = "io.reactivex.rxjava2:rxandroid:2.1.1"
-    const val rxerrorhandler = "me.jessyan:rxerrorhandler:2.1.1"
+    const val rxjava2 = "io.reactivex.rxjava3:rxjava:3.0.4"
+    const val rxandroid2 = "io.reactivex.rxjava3:rxandroid:3.0.0"
+    const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:3.0.2"
 
     //utilcode
     const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"

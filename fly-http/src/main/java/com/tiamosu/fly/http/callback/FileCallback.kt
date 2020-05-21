@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.CloseUtils
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.functions.Action
+import io.reactivex.rxjava3.functions.Action
 import okhttp3.ResponseBody
 import java.io.*
 

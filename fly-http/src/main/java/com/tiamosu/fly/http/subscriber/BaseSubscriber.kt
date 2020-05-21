@@ -1,14 +1,14 @@
 package com.tiamosu.fly.http.subscriber
 
 import com.tiamosu.fly.utils.getAppComponent
-import io.reactivex.disposables.Disposable
-import io.reactivex.internal.disposables.DisposableHelper
-import io.reactivex.internal.util.EndConsumerHelper
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.internal.disposables.DisposableHelper
+import io.reactivex.rxjava3.internal.util.EndConsumerHelper
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * 参考[io.reactivex.observers.DisposableObserver]
+ * 参考[io.reactivex.rxjava3.observers.DisposableObserver]
  *
  * @author tiamosu
  * @date 2020/3/11.

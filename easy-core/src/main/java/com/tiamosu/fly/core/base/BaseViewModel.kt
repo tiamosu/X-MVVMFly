@@ -1,8 +1,8 @@
 package com.tiamosu.fly.core.base
 
 import androidx.lifecycle.ViewModel
+import com.tiamosu.fly.bridge.callback.SingleLiveEvent
 import com.tiamosu.fly.core.data.Resource
-import com.tiamosu.fly.bridge.livedata.UnPeekLiveData
 
 /**
  * @author tiamosu
@@ -10,7 +10,7 @@ import com.tiamosu.fly.bridge.livedata.UnPeekLiveData
  */
 abstract class BaseViewModel : ViewModel(), IBaseView {
 
-    val resource by lazy { UnPeekLiveData<Resource>() }
+    val resource by lazy { SingleLiveEvent<Resource>() }
 
     override fun showToastError(msg: String?) {
         resource.value = Resource.showError(msg)

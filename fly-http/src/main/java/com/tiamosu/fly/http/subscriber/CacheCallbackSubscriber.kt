@@ -5,7 +5,7 @@ import com.tiamosu.fly.http.callback.CacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.functions.Action
+import io.reactivex.rxjava3.functions.Action
 
 /**
  * @author tiamosu

@@ -11,11 +11,11 @@ import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.cache.stategy.IStrategy
 import com.tiamosu.fly.http.utils.eLog
 import com.tiamosu.fly.http.utils.iLog
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.ObservableTransformer
-import io.reactivex.exceptions.Exceptions
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
+import io.reactivex.rxjava3.core.ObservableTransformer
+import io.reactivex.rxjava3.exceptions.Exceptions
 import java.io.File
 
 /**

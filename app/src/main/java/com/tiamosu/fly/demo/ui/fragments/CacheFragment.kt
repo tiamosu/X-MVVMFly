@@ -11,7 +11,7 @@ import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.subscriber.BaseSubscriber
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.android.synthetic.main.fragment_cache.*
 
 /**

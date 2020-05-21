@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.cache.stategy
 
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.model.CacheResult
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * 描述：先使用缓存，不管是否存在，仍然请求网络，会回调两次

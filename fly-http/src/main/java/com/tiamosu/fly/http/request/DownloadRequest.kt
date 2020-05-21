@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.request
 
 import com.tiamosu.fly.http.request.base.BaseRequest
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 
 /**

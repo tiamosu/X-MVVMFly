@@ -3,9 +3,7 @@ package com.tiamosu.fly.http.cache.stategy
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.model.CacheResult
 import com.tiamosu.fly.http.utils.iLog
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Function
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * 描述：实现缓存策略的基类
@@ -28,8 +26,7 @@ abstract class BaseStrategy : IStrategy {
                 } else Observable.just(CacheResult<T>(true, t))
             }
         if (needEmpty) {
-            observable = observable
-                .onErrorResumeNext(Function<Throwable, ObservableSource<out CacheResult<T>>> { Observable.empty() })
+            observable = observable.onErrorResumeNext { Observable.empty() }
         }
         return observable
     }
@@ -54,8 +51,7 @@ abstract class BaseStrategy : IStrategy {
                     }
             }
         if (needEmpty) {
-            observable = observable
-                .onErrorResumeNext(Function<Throwable, ObservableSource<out CacheResult<T>>> { Observable.empty() })
+            observable = observable.onErrorResumeNext { Observable.empty() }
         }
         return observable
     }

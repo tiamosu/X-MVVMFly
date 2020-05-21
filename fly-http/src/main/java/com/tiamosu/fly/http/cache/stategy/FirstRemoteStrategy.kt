@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.cache.stategy
 
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.model.CacheResult
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * 描述：先请求网络，请求网络失败后再加载缓存

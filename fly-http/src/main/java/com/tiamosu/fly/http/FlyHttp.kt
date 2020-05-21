@@ -18,7 +18,7 @@ import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 import okhttp3.*
 import retrofit2.CallAdapter
 import retrofit2.Converter

@@ -14,7 +14,7 @@ import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.TimeUnit
@@ -77,7 +77,7 @@ abstract class ClientModule {
             builder
                 .baseUrl(httpUrl!!)//域名
                 .client(client)//设置 OkHttp
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//使用 RxJava
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())//使用 RxJava
                 .addConverterFactory(GsonConverterFactory.create(gson))//使用 Gson
 
             configuration?.configRetrofit(application, builder)

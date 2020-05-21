@@ -1,7 +1,7 @@
 package com.tiamosu.fly.integration
 
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Retrofit
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method

@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.request
 import com.tiamosu.fly.http.request.base.BaseBodyRequest
 import com.tiamosu.fly.http.request.base.ProgressRequestBody
 import com.tiamosu.fly.http.request.base.ProgressRequestBody.ProgressResponseCallBack
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody

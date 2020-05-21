@@ -9,7 +9,7 @@ import com.tiamosu.fly.http.subscriber.CacheCallbackSubscriber
 import com.tiamosu.fly.http.subscriber.CallbackSubscriber
 import com.tiamosu.fly.http.utils.io
 import com.tiamosu.fly.http.utils.main
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
 import okhttp3.ResponseBody
 

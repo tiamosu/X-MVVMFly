@@ -9,7 +9,7 @@ import android.util.Log
  * @date 2020/3/18.
  */
 
-private var isLogEnable = true
+private var isLogEnable = false
 private var tag = "FlyHttp"
 
 fun debugLog(isEnable: Boolean) {

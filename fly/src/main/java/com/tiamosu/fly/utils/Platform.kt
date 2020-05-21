@@ -2,10 +2,10 @@
 
 package com.tiamosu.fly.utils
 
-import io.reactivex.Completable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Action
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.functions.Action
 
 /**
  * 描述：可用于切换线程执行

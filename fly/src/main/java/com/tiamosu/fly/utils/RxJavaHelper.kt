@@ -3,9 +3,9 @@
 package com.tiamosu.fly.utils
 
 import android.util.Log
-import io.reactivex.exceptions.UndeliverableException
-import io.reactivex.functions.Consumer
-import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.exceptions.UndeliverableException
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import java.io.IOException
 import java.net.SocketException
 

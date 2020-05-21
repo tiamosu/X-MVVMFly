@@ -4,7 +4,7 @@ import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.utils.eLog
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.functions.Action
+import io.reactivex.rxjava3.functions.Action
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.*

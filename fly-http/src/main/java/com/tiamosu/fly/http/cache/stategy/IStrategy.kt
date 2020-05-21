@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.cache.stategy
 
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.model.CacheResult
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * 描述：实现缓存策略的接口，可以自定义缓存实现方式，只要实现该接口就可以了
