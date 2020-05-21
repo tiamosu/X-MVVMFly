@@ -18,7 +18,7 @@ object Versions {
     const val glide = "4.11.0"
     const val dagger2 = "2.27"
     const val navigation = "2.2.2"
-    const val utilcode = "1.28.4"
+    const val utilcode = "1.28.5"
 }
 
 object Publish {
