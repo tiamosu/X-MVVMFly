@@ -65,6 +65,7 @@
 -keep interface android.support.** { *; }
 -dontwarn android.support.**
 
+# androidx
 -keep class androidx.** { *; }
 -keep public class * extends androidx.**
 -keep interface androidx.** { *; }
