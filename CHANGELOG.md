@@ -1,3 +1,9 @@
+# 新版本1.2.2 （大改动）
+* RxJava2 → RxJava3
+* retrofit2 2.8.1 → 2.9.0
+* okhttp3 4.6.0 → 4.7.2
+* utilcode 1.28.4 → 1.28.5
+
 # 新版本1.2.1
 * BaseFlyDialogFragment 抽象类改为 open
 
