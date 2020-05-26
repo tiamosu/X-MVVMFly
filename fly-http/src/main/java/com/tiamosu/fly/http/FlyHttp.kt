@@ -65,7 +65,7 @@ class FlyHttp {
     private var cacheMaxSize = 0L                                   //缓存大小
     private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
     private var loggingInterceptor: HttpLoggingInterceptor? = null  //日志拦截器
-    private var isGlobalErrorHandle = false
+    private var isGlobalErrorHandle = false                         //是否进行全局错误统一处理
 
     init {
         okHttpClientBuilder = getAppComponent().okHttpClient().newBuilder()
