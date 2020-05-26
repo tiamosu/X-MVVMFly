@@ -65,6 +65,7 @@ class FlyHttp {
     private var cacheMaxSize = 0L                                   //缓存大小
     private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
     private var loggingInterceptor: HttpLoggingInterceptor? = null  //日志拦截器
+    private var isGlobalErrorHandle = false
 
     init {
         okHttpClientBuilder = getAppComponent().okHttpClient().newBuilder()
@@ -349,6 +350,14 @@ class FlyHttp {
         return this
     }
 
+    /**
+     * 是否进行全局错误统一处理
+     */
+    fun setGlobalErrorHandle(isGlobalErrorHandle: Boolean): FlyHttp {
+        this.isGlobalErrorHandle = isGlobalErrorHandle
+        return this
+    }
+
     companion object {
         const val DEFAULT_RETRY_COUNT = 0           //默认重试次数
         const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
@@ -542,6 +551,11 @@ class FlyHttp {
             return instance.loggingInterceptor
         }
 
+        @JvmStatic
+        fun isGlobalErrorHandle(): Boolean {
+            return instance.isGlobalErrorHandle
+        }
+
         /**
          * 清空缓存
          */
@@ -567,6 +581,7 @@ class FlyHttp {
         /**
          * 取消订阅
          */
+        @JvmStatic
         fun cancelSubscription(disposable: Disposable?) {
             if (disposable?.isDisposed == false) {
                 disposable.dispose()

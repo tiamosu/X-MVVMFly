@@ -79,7 +79,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         private set
     var okHttpClient: OkHttpClient? = null
         private set
-    var isGlobalErrorHandle = true                    //是否进行全局错误统一处理
+    var isGlobalErrorHandle = false                    //是否进行全局错误统一处理
         private set
 
     private val okHttpBuilder by lazy { FlyHttp.getOkHttpClient().newBuilder() }
@@ -112,6 +112,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         cacheMode = FlyHttp.getCacheMode()
         cacheTime = FlyHttp.getCacheTime()
         cache = FlyHttp.getHttpCache()
+        isGlobalErrorHandle = FlyHttp.isGlobalErrorHandle()
 
         //默认添加 Accept-Language
         val acceptLanguage = HttpHeaders.acceptLanguage
