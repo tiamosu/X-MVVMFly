@@ -34,69 +34,65 @@ import javax.net.ssl.HostnameVerifier
  */
 @Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
 abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
-    var readTimeOut = 0L                                //读超时，单位 ms
-        private set
-    var writeTimeOut = 0L                               //写超时，单位 ms
-        private set
-    var connectTimeout = 0L                             //链接超时，单位 ms
-        private set
-    var proxy: Proxy? = null                            //代理
-        private set
-    var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
-        private set
-    var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
-        private set
-    var sign = false                                    //是否需要签名
-        private set
-    var timeStamp = false                               //是否需要追加时间戳
-        private set
-    var accessToken = false                             //是否需要追加 token
-        private set
-    var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
-        private set
-    val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
-    val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
+    internal var readTimeOut = 0L                                //读超时，单位 ms
+    internal var writeTimeOut = 0L                               //写超时，单位 ms
+    internal var connectTimeout = 0L                             //链接超时，单位 ms
+    internal var proxy: Proxy? = null                            //代理
+    internal var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
+    internal var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
+    internal var sign = false                                    //是否需要签名
+    internal var timeStamp = false                               //是否需要追加时间戳
+    internal var accessToken = false                             //是否需要追加 token
+    internal var cookies: MutableList<Cookie> = mutableListOf()  //用户手动添加的 Cookie
+    internal val interceptors: MutableList<Interceptor> = mutableListOf()        //拦截器
+    internal val networkInterceptors: MutableList<Interceptor> = mutableListOf() //网络拦截器
 
-    var baseUrl: String? = null
-        private set
-    var httpUrl: HttpUrl? = null
-        private set
-    var retryCount = 0                                  //超时重试次数，默认0次
-        private set
-    var retryDelay = 0                                  //超时重试延时，单位 s
-        private set
-    var isSyncRequest = false                           //是否是同步请求，默认为异步请求
-        private set
-    val converterFactories: MutableList<retrofit2.Converter.Factory> = mutableListOf()    //转换器
-    val adapterFactories: MutableList<CallAdapter.Factory> = mutableListOf()    //适配器
+    internal var baseUrl: String? = null
+    internal var httpUrl: HttpUrl? = null
+    internal var retryCount = 0                                  //超时重试次数，默认0次
+    internal var retryDelay = 0                                  //超时重试延时，单位 s
+    internal var isSyncRequest = false                           //是否是同步请求，默认为异步请求
+    internal var isGlobalErrorHandle = false                     //是否进行全局错误统一处理
+    internal val converterFactories:
+            MutableList<retrofit2.Converter.Factory> = mutableListOf()    //转换器
+    internal val adapterFactories:
+            MutableList<CallAdapter.Factory> = mutableListOf()            //适配器
 
-    val httpHeaders by lazy { HttpHeaders() }           //添加的 header
-    val httpParams by lazy { HttpParams() }             //添加的 param
+    internal var cache: Cache? = null
+    internal var cacheMode: CacheMode = NO_CACHE             //默认无缓存
+    internal var cacheTime = -1L                             //缓存时间
+    internal var cacheKey: String? = null                    //缓存Key
+    internal var diskConverter: IDiskConverter? = null       //设置RxCache磁盘转换器
 
-    var retrofit: Retrofit? = null
-        private set
-    var apiService: ApiService? = null
-        private set
-    var okHttpClient: OkHttpClient? = null
-        private set
-    var isGlobalErrorHandle = false                    //是否进行全局错误统一处理
-        private set
+    internal val httpHeaders by lazy { HttpHeaders() }       //添加的 header
+    internal val httpParams by lazy { HttpParams() }         //添加的 param
 
-    private val okHttpBuilder by lazy { FlyHttp.getOkHttpClient().newBuilder() }
+    private val okHttpNewBuilder by lazy { FlyHttp.getOkHttpClient().newBuilder() }
+
+    internal val okHttpClient: OkHttpClient by lazy {
+        generateOkClient().apply {
+            if (cacheMode === DEFAULT && cache != null) {
+                this.cache(cache)
+            }
+        }.build()
+    }
+
+    internal val retrofit: Retrofit by lazy {
+        generateRetrofit().apply {
+            client(okHttpClient)
+        }.build()
+    }
+
+    internal val apiService: ApiService? by lazy {
+        getAppComponent().repositoryManager()
+            .obtainRetrofitService<ApiService>(retrofit)
+    }
+
+    internal val rxCache: RxCache by lazy {
+        generateRxCache().build()
+    }
 
     internal var callback: Callback<*>? = null
-
-    var cache: Cache? = null
-        private set
-    var cacheMode: CacheMode = NO_CACHE             //默认无缓存
-        private set
-    var cacheTime = -1L                             //缓存时间
-        private set
-    var cacheKey: String? = null                    //缓存Key
-        private set
-    var diskConverter: IDiskConverter? = null       //设置RxCache磁盘转换器
-        private set
-    var rxCache: RxCache? = null                    //RxCache缓存
 
     init {
         baseUrl = FlyHttp.getBaseUrl()
@@ -360,24 +356,27 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
      * 根据当前的请求参数，生成对应的 OkHttpClient
      */
     private fun generateOkClient(): OkHttpClient.Builder {
-        if (readTimeOut > 0) okHttpBuilder.readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
-        if (writeTimeOut > 0) okHttpBuilder.writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
-        if (connectTimeout > 0) okHttpBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+        if (readTimeOut > 0) okHttpNewBuilder.readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
+        if (writeTimeOut > 0) okHttpNewBuilder.writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
+        if (connectTimeout > 0) okHttpNewBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
         if (cookies.size > 0) FlyHttp.getCookieJar()?.addCookies(cookies)
-        hostnameVerifier?.let(okHttpBuilder::hostnameVerifier)
-        sslParams?.let { okHttpBuilder.sslSocketFactory(it.sslSocketFactory, it.trustManager) }
-        proxy?.let(okHttpBuilder::proxy)
+
+        hostnameVerifier?.let(okHttpNewBuilder::hostnameVerifier)
+        sslParams?.let { okHttpNewBuilder.sslSocketFactory(it.sslSocketFactory, it.trustManager) }
+        proxy?.let(okHttpNewBuilder::proxy)
 
         //添加头  头添加放在最前面方便其他拦截器可能会用到
         if (!httpHeaders.isEmpty()) {
-            okHttpBuilder.addInterceptor(HeadersInterceptor(httpHeaders))
+            okHttpNewBuilder.addInterceptor(HeadersInterceptor(httpHeaders))
         }
-        interceptors.forEach { okHttpBuilder.addInterceptor(it) }
-        networkInterceptors.forEach { okHttpBuilder.addNetworkInterceptor(it) }
+        interceptors.forEach { okHttpNewBuilder.addInterceptor(it) }
+        networkInterceptors.forEach { okHttpNewBuilder.addNetworkInterceptor(it) }
 
         val globalOkHttpBuilder = FlyHttp.getOkHttpClientBuilder()
-        val newOkHttpBuilder =
-            if (this::okHttpBuilder.isInitialized()) okHttpBuilder else globalOkHttpBuilder
+        val newOkHttpBuilder = if (this::okHttpNewBuilder.isInitialized())
+            okHttpNewBuilder
+        else
+            globalOkHttpBuilder
 
         newOkHttpBuilder.interceptors().forEach {
             if (it is BaseDynamicInterceptor<*>) {
@@ -463,18 +462,6 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     }
 
     fun build(): RequestCall {
-        rxCache = generateRxCache().build()
-        val okHttpClientBuilder = generateOkClient()
-        if (cacheMode === DEFAULT && cache != null) {
-            okHttpClientBuilder.cache(cache)
-        }
-        val retrofitBuilder = generateRetrofit()
-        okHttpClient = okHttpClientBuilder.build().also {
-            it.let(retrofitBuilder::client)
-        }
-        retrofit = retrofitBuilder.build()
-        apiService = getAppComponent().repositoryManager()
-            .obtainRetrofitService<ApiService>(retrofit)
         return RequestCall(this)
     }
 

@@ -447,7 +447,7 @@ class FlyHttp {
         }
 
         /**
-         * 获取全局baseurl
+         * 获取全局 BaseUrl
          */
         @JvmStatic
         fun getBaseUrl(): String? {

@@ -20,22 +20,13 @@ open class CustomRequest(url: String) : BaseRequest<CustomRequest>(url) {
     }
 
     fun <R> create(serviceClass: Class<R>): R? {
-        checkValidate()
         return getAppComponent().repositoryManager()
             .obtainRetrofitService(serviceClass, retrofit)
     }
 
     fun <T> apiCall(observable: Observable<ResponseBody>?, callback: Callback<T>) {
-        checkValidate()
         this.observable = observable
-        RequestCall(this)
-            .execute(callback)
-    }
-
-    private fun checkValidate() {
-        if (retrofit == null) {
-            build()
-        }
+        build().execute(callback)
     }
 
     override fun generateRequest(): Observable<ResponseBody>? {
