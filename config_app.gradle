@@ -74,11 +74,11 @@ def configAppSigning(Project project) {
 
 static def configApkName(Project project) {
     project.android.applicationVariants.all { variant ->
-        if (variant.buildType.name != "debug") {//防止AS无法安装debug包(apk)
-            variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.path + "/apk")
-        }
-        variant.getPackageApplicationProvider().get().outputScope.apkDatas.forEach { output ->
-            output.outputFileName = "fly_v${variant.versionName}.apk"
+        variant.outputs.all { output ->
+            if (variant.buildType.name != "debug") {//防止AS无法安装debug包(apk)
+                variant.getPackageApplication().outputDirectory = new File(project.rootDir.path + "/apk")
+            }
+            outputFileName = "fly_v${variant.versionName}.apk"
         }
     }
 }
