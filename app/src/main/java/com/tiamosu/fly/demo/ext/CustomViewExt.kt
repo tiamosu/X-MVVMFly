@@ -9,14 +9,14 @@ import androidx.viewpager2.widget.ViewPager2
  */
 fun ViewPager2.init(
     fragment: Fragment,
-    fragments: ArrayList<Fragment>,
+    fragments: ArrayList<Class<out Fragment>>,
     isUserInputEnabled: Boolean = true
 ): ViewPager2 {
     //是否可滑动
     this.isUserInputEnabled = isUserInputEnabled
     //设置适配器
     adapter = object : FragmentStateAdapter(fragment) {
-        override fun createFragment(position: Int) = fragments[position]
+        override fun createFragment(position: Int) = fragments[position].newInstance()
         override fun getItemCount() = fragments.size
     }
     return this
