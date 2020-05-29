@@ -67,19 +67,24 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         initView(rootView)
     }
 
-    override fun onFlyLazyInitView() {
-        super.onFlyLazyInitView()
+    final override fun onLazyInitView() {
+        onFlyLazyInitView()
         initEvent()
         createObserver()
         tryLoadData()
     }
 
-    override fun onFlySupportVisible() {
-        super.onFlySupportVisible()
+    final override fun onSupportVisible() {
+        onFlySupportVisible()
+
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
         tryLoadData()
+    }
+
+    final override fun onSupportInvisible() {
+        onFlySupportInvisible()
     }
 
     private fun tryLoadData() {

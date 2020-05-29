@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
@@ -83,10 +82,13 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
         delegate.onHiddenChanged(hidden)
     }
 
+    override fun onLazyInitView() {}
+    override fun onSupportVisible() {}
+    override fun onSupportInvisible() {}
+
     /**
      * 用于某些场景的懒加载，比如 FragmentAdapter 的懒加载、同级 Fragment 切换的懒加载
      */
-    @CallSuper
     override fun onFlyLazyInitView() {
         Log.d(
             fragmentTag,
@@ -97,7 +99,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     /**
      * Fragment 对用户可见时
      */
-    @CallSuper
     override fun onFlySupportVisible() {
         Log.d(fragmentTag, "onFlySupportVisible 真正的 Resume，开始相关操作")
     }
@@ -105,7 +106,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     /**
      * Fragment 对用户不可见时
      */
-    @CallSuper
     override fun onFlySupportInvisible() {
         Log.d(fragmentTag, "onFlySupportInvisible 真正的 Pause，结束相关操作")
     }

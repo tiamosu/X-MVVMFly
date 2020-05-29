@@ -167,13 +167,13 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
 
             if (isFirstVisible) {
                 isFirstVisible = false
-                supportF.onFlyLazyInitView()
+                supportF.onLazyInitView()
             }
-            supportF.onFlySupportVisible()
+            supportF.onSupportVisible()
             dispatchChild(true)
         } else {
             dispatchChild(false)
-            supportF.onFlySupportInvisible()
+            supportF.onSupportInvisible()
         }
     }
 

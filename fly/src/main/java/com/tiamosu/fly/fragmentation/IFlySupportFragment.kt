@@ -8,6 +8,12 @@ interface IFlySupportFragment {
 
     fun getSupportDelegate(): FlySupportFragmentDelegate
 
+    fun onLazyInitView()
+
+    fun onSupportVisible()
+
+    fun onSupportInvisible()
+
     fun onFlyLazyInitView()
 
     fun onFlySupportVisible()
