@@ -2,6 +2,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
@@ -15,16 +16,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-    }
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-        }
-        tasks.withType(Javadoc) {//防止编码问题
-            options.addStringOption('Xdoclint:none', '-quiet')
-            options.addStringOption('encoding', 'UTF-8')
-            options.addStringOption('charSet', 'UTF-8')
-        }
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
 }
 

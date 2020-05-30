@@ -11,8 +11,8 @@ object Android {
 }
 
 object Versions {
+    const val kotlin = "1.4-M1"
     const val lifecycle = "2.2.0"
-    const val kotlin = "1.3.72"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.7.2"
     const val glide = "4.11.0"

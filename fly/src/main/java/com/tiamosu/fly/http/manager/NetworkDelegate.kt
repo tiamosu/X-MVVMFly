@@ -2,7 +2,6 @@ package com.tiamosu.fly.http.manager
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.observe
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.base.IFlyBaseView
 import com.tiamosu.fly.utils.isPageVisible

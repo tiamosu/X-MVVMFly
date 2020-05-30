@@ -3,7 +3,6 @@ package com.tiamosu.fly.ext
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.observe
 
 /**
  * 添加 LiveData 观察者

@@ -62,18 +62,16 @@ class ProgressRequestBody(
         @Throws(IOException::class)
         override fun write(source: Buffer, byteCount: Long) {
             super.write(source, byteCount)
-            Progress.changeProgress(progress, byteCount, object : Progress.Action {
-                override fun call(progress: Progress) {
-                    postOnMain(Action {
-                        progressCallBack?.onResponseProgress(progress)
-                        callback?.uploadProgress(progress)
-                    })
-                }
+            Progress.changeProgress(progress, byteCount, Progress.Action { progress ->
+                postOnMain(Action {
+                    progressCallBack?.onResponseProgress(progress)
+                    callback?.uploadProgress(progress)
+                })
             })
         }
     }
 
-    interface ProgressResponseCallBack {
+    fun interface ProgressResponseCallBack {
 
         /**
          * 回调进度

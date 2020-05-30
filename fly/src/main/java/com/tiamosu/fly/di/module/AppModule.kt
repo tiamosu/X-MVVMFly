@@ -26,7 +26,7 @@ abstract class AppModule {
     @Binds
     abstract fun bindRepositoryManager(repositoryManager: RepositoryManager): IRepositoryManager
 
-    interface GsonConfiguration {
+    fun interface GsonConfiguration {
         fun configGson(context: Context, builder: GsonBuilder)
     }
 

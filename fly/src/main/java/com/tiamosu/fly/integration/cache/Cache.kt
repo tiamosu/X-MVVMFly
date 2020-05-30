@@ -10,7 +10,7 @@ package com.tiamosu.fly.integration.cache
  */
 interface Cache<K, V> {
 
-    interface Factory<K, V> {
+    fun interface Factory<K, V> {
         /**
          * Returns a new cache
          *

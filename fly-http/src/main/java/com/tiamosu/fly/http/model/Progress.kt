@@ -47,7 +47,7 @@ class Progress : Serializable {
         return sum / speedBuffer.size
     }
 
-    interface Action {
+    fun interface Action {
         fun call(progress: Progress)
     }
 

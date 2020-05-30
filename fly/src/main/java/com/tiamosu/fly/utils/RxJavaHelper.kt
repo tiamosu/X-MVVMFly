@@ -57,6 +57,6 @@ fun setRxJavaErrorHandler(handlerCallback: RxJavaErrorHandlerCallback? = null) {
     })
 }
 
-interface RxJavaErrorHandlerCallback {
+fun interface RxJavaErrorHandlerCallback {
     fun onCallback(throwable: Throwable?): Boolean
 }

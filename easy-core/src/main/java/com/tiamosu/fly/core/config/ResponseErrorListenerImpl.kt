@@ -54,7 +54,8 @@ class ResponseErrorListenerImpl : ResponseErrorListener {
     private fun convertStatusCode(httpException: HttpException): String {
         return when (httpException.code()) {
             UNAUTHORIZED, FORBIDDEN, NOT_FOUND, REQUEST_TIMEOUT, GATEWAY_TIMEOUT,
-            INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE -> "连接服务器超时"
+            INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE,
+            -> "连接服务器超时"
             else -> "连接服务器超时"
         }
     }

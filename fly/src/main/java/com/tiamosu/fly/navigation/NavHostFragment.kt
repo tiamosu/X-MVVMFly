@@ -303,7 +303,7 @@ class NavHostFragment : Fragment(), NavHost {
                 return Navigation.findNavController(view)
             }
             throw IllegalStateException(
-                "Fragment " + fragment + " does not have a NavController set"
+                "Fragment $fragment does not have a NavController set"
             )
         }
 

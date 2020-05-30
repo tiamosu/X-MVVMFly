@@ -206,7 +206,7 @@ object HttpsUtils {
     }
 
     private class MyTrustManager @Throws(NoSuchAlgorithmException::class, KeyStoreException::class)
-    internal constructor(private val localTrustManager: X509TrustManager?) : X509TrustManager {
+    constructor(private val localTrustManager: X509TrustManager?) : X509TrustManager {
         private val defaultTrustManager: X509TrustManager?
 
         init {

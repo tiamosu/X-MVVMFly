@@ -33,14 +33,14 @@ abstract class ClientModule {
     /**
      * [Retrofit] 自定义配置接口
      */
-    interface RetrofitConfiguration {
+    fun interface RetrofitConfiguration {
         fun configRetrofit(context: Context, retrofitBuilder: Retrofit.Builder)
     }
 
     /**
      * [OkHttpClient] 自定义配置接口
      */
-    interface OkHttpConfiguration {
+    fun interface OkHttpConfiguration {
         fun configOkHttp(context: Context, okHttpBuilder: OkHttpClient.Builder)
     }
 

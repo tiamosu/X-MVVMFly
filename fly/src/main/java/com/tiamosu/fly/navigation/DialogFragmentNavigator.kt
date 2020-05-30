@@ -151,8 +151,7 @@ class DialogFragmentNavigator internal constructor(
             navigatorProvider.getNavigator<DialogFragmentNavigator>(
                 DialogFragmentNavigator::class.java
             )
-        ) {
-        }
+        )
 
         @CallSuper
         override fun onInflate(
