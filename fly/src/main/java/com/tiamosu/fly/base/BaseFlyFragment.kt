@@ -11,9 +11,9 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
- * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [onFlyLazyInitView]
- * → [initEvent] → [createObserver] → [doBusiness] → [onFlySupportVisible] → [onPause]
- * → [onFlySupportInvisible] → [onDestroyView] → [onDestroy] → [onDetach]
+ * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [initEvent]
+ * → [createObserver] → [onFlyLazyInitView] → [doBusiness] → [onFlySupportVisible]
+ * → [onPause] → [onFlySupportInvisible] → [onDestroyView] → [onDestroy] → [onDetach]
  *
  * @author tiamosu
  * @date 2020/2/18.
@@ -68,9 +68,9 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     }
 
     final override fun onLazyInitView() {
-        onFlyLazyInitView()
         initEvent()
         createObserver()
+        onFlyLazyInitView()
         tryLoadData()
     }
 
