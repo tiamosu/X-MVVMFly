@@ -22,7 +22,7 @@ fun View.clickNoRepeat(
  */
 fun clickNoRepeat(
     interval: Long = 500,
-    vararg views: View,
+    views: Array<out View>,
     block: (view: View) -> Unit
 ) {
     views.forEach {

@@ -15,10 +15,10 @@
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
     </fragment>
 
     <fragment
@@ -29,32 +29,42 @@
         <action
             android:id="@+id/action_mainFragment_to_sharedFragment"
             app:destination="@id/sharedFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_mainFragment_to_busFragment"
             app:destination="@id/busFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_mainFragment_to_httpFragment"
             app:destination="@id/httpFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_mainFragment_to_glideFragment"
             app:destination="@id/glideFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_mainFragment_to_loadSirFragment"
             app:destination="@id/loadSirFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
     </fragment>
 
     <fragment
@@ -70,10 +80,10 @@
         <action
             android:id="@+id/action_busFragment_to_stickyBusFragment"
             app:destination="@id/stickyBusFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
     </fragment>
 
     <fragment
@@ -89,34 +99,34 @@
         <action
             android:id="@+id/action_httpFragment_to_basicRequestFragment"
             app:destination="@id/basicRequestFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_httpFragment_to_uploadFragment"
             app:destination="@id/uploadFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_httpFragment_to_downloadFragment"
             app:destination="@id/downloadFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
             android:id="@+id/action_httpFragment_to_cacheFragment"
             app:destination="@id/cacheFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit" />
     </fragment>
 
     <fragment
