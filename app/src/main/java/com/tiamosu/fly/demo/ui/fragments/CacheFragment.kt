@@ -32,7 +32,7 @@ class CacheFragment : BaseFragment() {
             btn_only_remote, btn_only_cache, btn_cache_remote,
             btn_cache_remote_distinct
         )
-        clickNoRepeat(views = *views) {
+        clickNoRepeat(views = views) {
             when (it) {
                 btn_default_cache -> {
                     //默认缓存，走的是okHttp cacheH

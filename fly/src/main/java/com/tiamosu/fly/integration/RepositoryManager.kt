@@ -15,8 +15,7 @@ import javax.inject.Singleton
  * @date 2018/9/14.
  */
 @Singleton
-class RepositoryManager @Inject
-constructor() : IRepositoryManager {
+class RepositoryManager @Inject constructor() : IRepositoryManager {
 
     @JvmField
     @Inject

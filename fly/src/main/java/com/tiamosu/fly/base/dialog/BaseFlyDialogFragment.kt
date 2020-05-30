@@ -3,7 +3,6 @@ package com.tiamosu.fly.base.dialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.DialogInterface.OnShowListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
-import java.lang.ref.WeakReference
+import com.tiamosu.fly.base.dialog.weak.WeakDialog
 
 /**
  * @author tiamosu
@@ -50,7 +49,7 @@ open class BaseFlyDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //解决内存泄漏问题（注意：无法监听 Dialog 的 onShow、onDismiss 事件；直接在 DialogFragment 层面进行监听）
-        val dialog = WeakDialog()
+        val dialog = WeakDialog(requireContext(), theme)
         val window = dialog.window ?: return dialog
         dialogCallback?.setWindowStyle(window)
         return dialog
@@ -98,49 +97,6 @@ open class BaseFlyDialogFragment : DialogFragment() {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 super@BaseFlyDialogFragment.dismissAllowingStateLoss()
             }
-        }
-    }
-
-    private inner class WeakDialog : Dialog(requireContext(), theme) {
-        override fun setOnCancelListener(listener: DialogInterface.OnCancelListener?) {
-            super.setOnCancelListener(WeakOnCancelListener(listener))
-        }
-
-        override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
-            super.setOnDismissListener(WeakOnDismissListener(listener))
-        }
-
-        override fun setOnShowListener(listener: OnShowListener?) {
-            super.setOnShowListener(WeakOnShowListener(listener))
-        }
-    }
-
-    private inner class WeakOnCancelListener(real: DialogInterface.OnCancelListener?) :
-        DialogInterface.OnCancelListener {
-        private var ref = WeakReference(real)
-
-        override fun onCancel(dialog: DialogInterface?) {
-            val real = ref.get()
-            real?.onCancel(dialog)
-        }
-    }
-
-    private inner class WeakOnDismissListener(real: DialogInterface.OnDismissListener?) :
-        DialogInterface.OnDismissListener {
-        private var ref = WeakReference(real)
-
-        override fun onDismiss(dialog: DialogInterface?) {
-            val real = ref.get()
-            real?.onDismiss(dialog)
-        }
-    }
-
-    private inner class WeakOnShowListener(real: OnShowListener?) : OnShowListener {
-        private var ref = WeakReference(real)
-
-        override fun onShow(dialog: DialogInterface?) {
-            val real = ref.get()
-            real?.onShow(dialog)
         }
     }
 }

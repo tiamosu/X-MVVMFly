@@ -73,7 +73,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
     }
 
     /**
-     * 提供图片加载框架, 默认使用 [com.bumptech.glide.Glide]
+     * 提供图片加载框架, 默认使用 Glide
      */
     @Singleton
     @Provides
