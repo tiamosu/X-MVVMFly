@@ -1,3 +1,7 @@
+# 新版本1.2.5
+* DialogFragment 内存泄漏优化
+* 注意：onFlyLazyInitView() 调至 createObserver()后面比较合理
+
 # 新版本1.2.4
 * 点击防抖优化
 * Visible 生命周期函数调整优化
