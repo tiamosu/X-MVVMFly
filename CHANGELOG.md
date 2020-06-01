@@ -1,6 +1,6 @@
-# 新版本1.2.5
+# 新版本1.2.5（注意）
 * DialogFragment 内存泄漏优化
-* 注意：onFlyLazyInitView() 调至 createObserver()后面比较合理
+* 注意：onFlyLazyInitView() 调至 createObserver() 后面比较合理
 
 # 新版本1.2.4
 * 点击防抖优化
@@ -19,7 +19,7 @@
 # 新版本1.2.1
 * BaseFlyDialogFragment 抽象类改为 open
 
-# 新版本1.2.0
+# 新版本1.2.0（大改动）
 * 新增 BaseFlyVmDbActivity、BaseFlyVmDbFragment，支持 dataBinding；想使用 dataBinding 时，请在 app 的 build.gradle 中进行开启
 ```gradle
 android {
