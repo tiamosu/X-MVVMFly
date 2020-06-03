@@ -11,7 +11,7 @@ fun View.clickNoRepeat(
     block: (view: View) -> Unit
 ) {
     setOnClickListener {
-        if (isValid(it, interval)) {
+        if (isValid(interval)) {
             block.invoke(it)
         }
     }
