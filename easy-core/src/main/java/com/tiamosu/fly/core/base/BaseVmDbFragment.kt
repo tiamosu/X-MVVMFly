@@ -1,6 +1,7 @@
 package com.tiamosu.fly.core.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.tiamosu.fly.base.BaseFlyVmDbFragment
 import com.tiamosu.fly.core.bridge.SharedViewModel
@@ -20,4 +21,12 @@ abstract class BaseVmDbFragment : BaseFlyVmDbFragment() {
     override fun initEvent() {}
 
     override fun createObserver() {}
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        Log.e("xia", "页面====：${javaClass.simpleName}   网络是否连接=====：$isConnected")
+    }
+
+    override fun onNetReConnect() {
+        Log.e("xia", "页面====：${javaClass.simpleName}   进行重新连接")
+    }
 }
