@@ -9,9 +9,9 @@ import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
-import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.core.bridge.SharedViewModel
 import com.tiamosu.fly.core.ext.showCallback
+import com.tiamosu.fly.core.ui.dialog.Loader
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
@@ -43,18 +43,11 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     }
 
     override fun showLoadingDialog() {
-        if (loadingDialog != null) {
-            hideLoadingDialog()
-        }
-        loadingDialog = LoadingDialog().init(getContext())
-        FlyDialogHelper.safeShowDialog(loadingDialog)
+        Loader.showLoading()
     }
 
     override fun hideLoadingDialog() {
-        if (loadingDialog != null) {
-            FlyDialogHelper.safeCloseDialog(loadingDialog)
-            loadingDialog = null
-        }
+        Loader.hideLoading()
     }
 
     override fun showEmpty() {
