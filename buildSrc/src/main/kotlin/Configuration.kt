@@ -16,7 +16,7 @@ object Versions {
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.7.2"
     const val glide = "4.11.0"
-    const val dagger2 = "2.27"
+    const val dagger2 = "2.28"
     const val navigation = "2.2.2"
     const val utilcode = "1.28.6"
 }

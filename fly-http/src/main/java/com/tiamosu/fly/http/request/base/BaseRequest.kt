@@ -140,6 +140,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    fun timeOut(timeOut: Long): R {
+        this.readTimeOut = timeOut
+        this.writeTimeOut = timeOut
+        this.connectTimeout = timeOut
+        return this as R
+    }
+
     /**
      * 设置代理
      */
