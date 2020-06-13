@@ -1,13 +1,11 @@
 package com.tiamosu.fly.core.ext
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.base.IBaseView
-import com.tiamosu.fly.core.data.Resource
-import com.tiamosu.fly.core.data.StatusType
+import com.tiamosu.fly.core.state.ResultState
 import com.tiamosu.fly.ext.viewModel
 
 /**
@@ -19,21 +17,18 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arg
         viewModel<VM>(*arguments).also {
             if (it is BaseViewModel && this is IBaseView) {
                 val baseView: IBaseView = this
-                val observer: Observer<Resource> = Observer { state ->
-                    state?.run {
-                        when (type) {
-                            StatusType.TOAST_ERROR -> baseView.showToastError(msg)
-                            StatusType.TOAST_INFO -> baseView.showToastInfo(msg)
-                            StatusType.SHOW_LOADING -> baseView.showLoadingDialog()
-                            StatusType.HIDE_LOADING -> baseView.hideLoadingDialog()
-                            StatusType.STATE_EMPTY -> baseView.showEmpty()
-                            StatusType.STATE_LOADING -> baseView.showLoading()
-                            StatusType.STATE_FAILURE -> baseView.showFailure()
-                            StatusType.STATE_SUCCESS -> baseView.showSuccess()
-                        }
+                it.resultState.observe(this as LifecycleOwner, { resultState ->
+                    when (resultState) {
+                        is ResultState.Toast -> baseView.showToast(resultState.msg)
+                        is ResultState.LoadingShow -> baseView.showLoading()
+                        is ResultState.LoadingHide -> baseView.hideLoading()
+                        is ResultState.ViewLoading -> baseView.showViewLoading()
+                        is ResultState.ViewSuccess -> baseView.showViewSuccess()
+                        is ResultState.ViewEmpty -> baseView.showViewEmpty()
+                        is ResultState.ViewError -> baseView.showViewError()
+
                     }
-                }
-                it.resource.observe(this as LifecycleOwner, observer)
+                })
             }
         }
     }

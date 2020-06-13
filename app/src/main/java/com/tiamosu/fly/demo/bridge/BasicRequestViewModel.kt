@@ -18,32 +18,32 @@ class BasicRequestViewModel : BaseViewModel() {
 
     fun get() {
         DataRepository.instance.getFriend(jsonCallback<Friend>(onSuccess = {
-            showToastInfo("get请求成功！")
+            showToast("get请求成功！")
             getLiveData.postValue(it)
         }))
     }
 
     fun post() {
         DataRepository.instance.post(stringCallback(onSuccess = {
-            showToastInfo("post请求成功")
+            showToast("post请求成功")
         }))
     }
 
     fun put() {
         DataRepository.instance.put(stringCallback(onSuccess = {
-            showToastInfo("put请求成功")
+            showToast("put请求成功")
         }))
     }
 
     fun delete() {
         DataRepository.instance.delete(stringCallback(onSuccess = {
-            showToastInfo("delete请求成功")
+            showToast("delete请求成功")
         }))
     }
 
     fun custom() {
         DataRepository.instance.custom(stringCallback(onSuccess = {
-            showToastInfo("custom请求成功！")
+            showToast("custom请求成功！")
             customLiveData.postValue(it)
         }))
     }

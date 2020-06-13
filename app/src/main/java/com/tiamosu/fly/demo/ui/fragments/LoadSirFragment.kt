@@ -17,10 +17,10 @@ class LoadSirFragment : BaseFragment() {
 
     override fun initView(rootView: View?) {
         loadServiceInit(load_ll) {
-            showLoading()
-            postDelayed(Runnable { showSuccess() }, 1500)
+            showViewLoading()
+            postDelayed({ showViewSuccess() }, 1500)
         }
-        postDelayed(Runnable { showFailure() })
+        postDelayed({ showViewError() })
     }
 
     private fun postDelayed(runnable: Runnable, delayMillis: Long = 1000L) {

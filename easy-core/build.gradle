@@ -9,7 +9,6 @@ dependencies {
     api project(':fly-imageloader-glide')
     api project(':fly-livedata-bus')
 
-    api Deps.androidx_multidex
     api Deps.androidx_constraint_layout
     api Deps.androidx_viewpager2
     api Deps.loadsir

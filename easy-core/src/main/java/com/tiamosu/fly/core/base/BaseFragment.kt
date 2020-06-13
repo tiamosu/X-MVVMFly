@@ -37,35 +37,31 @@ abstract class BaseFragment : BaseFlyFragment(), IBaseView {
         Log.d(fragmentTag, "createObserver")
     }
 
-    override fun showToastInfo(msg: String?) {
-        (context as BaseActivity).showToastInfo(msg)
-    }
-
-    override fun showToastError(msg: String?) {
-        (context as BaseActivity).showToastError(msg)
-    }
-
-    override fun showLoadingDialog() {
-        (context as BaseActivity).showLoadingDialog()
-    }
-
-    override fun hideLoadingDialog() {
-        (context as BaseActivity).hideLoadingDialog()
-    }
-
-    override fun showEmpty() {
-        loadService?.showCallback<EmptyCallback>()
+    override fun showToast(msg: String?) {
+        (context as BaseActivity).showToast(msg)
     }
 
     override fun showLoading() {
+        (context as BaseActivity).showLoading()
+    }
+
+    override fun hideLoading() {
+        (context as BaseActivity).hideLoading()
+    }
+
+    override fun showViewEmpty() {
+        loadService?.showCallback<EmptyCallback>()
+    }
+
+    override fun showViewLoading() {
         loadService?.showCallback<LoadingCallback>()
     }
 
-    override fun showFailure() {
+    override fun showViewError() {
         loadService?.showCallback<ErrorCallback>()
     }
 
-    override fun showSuccess() {
+    override fun showViewSuccess() {
         loadService?.showSuccess()
     }
 

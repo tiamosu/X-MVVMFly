@@ -32,7 +32,7 @@ class DownloadFragment : BaseFragment() {
             progress_bar.progress = it.fraction * 100
             Log.e("xia", "fraction:" + it.fraction)
             if (it.fraction.toInt() == 1) {
-                showToastInfo("下载成功~")
+                showToast("下载成功~")
             }
         }
     }

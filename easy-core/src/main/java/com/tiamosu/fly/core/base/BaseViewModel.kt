@@ -2,7 +2,7 @@ package com.tiamosu.fly.core.base
 
 import androidx.lifecycle.ViewModel
 import com.tiamosu.fly.bridge.callback.SingleLiveEvent
-import com.tiamosu.fly.core.data.Resource
+import com.tiamosu.fly.core.state.ResultState
 
 /**
  * @author tiamosu
@@ -10,37 +10,33 @@ import com.tiamosu.fly.core.data.Resource
  */
 abstract class BaseViewModel : ViewModel(), IBaseView {
 
-    val resource by lazy { SingleLiveEvent<Resource>() }
+    val resultState by lazy { SingleLiveEvent<ResultState>() }
 
-    override fun showToastError(msg: String?) {
-        resource.value = Resource.showError(msg)
-    }
-
-    override fun showToastInfo(msg: String?) {
-        resource.value = Resource.showInfo(msg)
-    }
-
-    override fun showLoadingDialog() {
-        resource.value = Resource.showLoading()
-    }
-
-    override fun hideLoadingDialog() {
-        resource.value = Resource.hideLoading()
-    }
-
-    override fun showEmpty() {
-        resource.value = Resource.stateEmpty()
+    override fun showToast(msg: String?) {
+        resultState.value = ResultState.showToast(msg)
     }
 
     override fun showLoading() {
-        resource.value = Resource.stateLoading()
+        resultState.value = ResultState.showLoading()
     }
 
-    override fun showFailure() {
-        resource.value = Resource.stateFailure()
+    override fun hideLoading() {
+        resultState.value = ResultState.hideLoading()
     }
 
-    override fun showSuccess() {
-        resource.value = Resource.stateSuccess()
+    override fun showViewLoading() {
+        resultState.value = ResultState.showViewLoading()
+    }
+
+    override fun showViewSuccess() {
+        resultState.value = ResultState.showViewSuccess()
+    }
+
+    override fun showViewEmpty() {
+        resultState.value = ResultState.showViewEmpty()
+    }
+
+    override fun showViewError() {
+        resultState.value = ResultState.showViewError()
     }
 }

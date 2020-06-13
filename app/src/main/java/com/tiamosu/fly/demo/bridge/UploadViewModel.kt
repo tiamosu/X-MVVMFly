@@ -15,21 +15,19 @@ import java.io.File
 class UploadViewModel : BaseViewModel() {
 
     fun uploadFile() {
-        val progressCallBack = object : ProgressRequestBody.ProgressResponseCallBack {
-            override fun onResponseProgress(progress: Progress) {
-                //与 uploadProgress(progress: Progress) 返回一致，二选一
-            }
+        val progressCallBack = ProgressRequestBody.ProgressResponseCallBack {
+            //与 uploadProgress(progress: Progress) 返回一致，二选一
         }
         DataRepository.instance.uploadFile(object : StringCallback() {
             override fun onSuccess(response: Response<String>) {
-                showToastInfo("文件上传成功！")
+                showToast("文件上传成功！")
             }
 
             override fun uploadProgress(progress: Progress) {
             }
 
             override fun onError(response: Response<String>) {
-                showToastError("上传文件失败！")
+                showToast("上传文件失败！")
             }
         }, progressCallBack, "avatar", File(""))
     }

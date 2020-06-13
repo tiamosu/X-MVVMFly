@@ -6,19 +6,17 @@ package com.tiamosu.fly.core.base
  */
 interface IBaseView {
 
-    fun showToastInfo(msg: String?)
-
-    fun showToastError(msg: String?)
-
-    fun showLoadingDialog()
-
-    fun hideLoadingDialog()
-
-    fun showEmpty()
+    fun showToast(msg: String?)
 
     fun showLoading()
 
-    fun showFailure()
+    fun hideLoading()
 
-    fun showSuccess()
+    fun showViewEmpty()
+
+    fun showViewLoading()
+
+    fun showViewError()
+
+    fun showViewSuccess()
 }

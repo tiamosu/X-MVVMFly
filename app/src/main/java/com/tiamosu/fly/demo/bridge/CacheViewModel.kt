@@ -20,7 +20,7 @@ class CacheViewModel : BaseViewModel() {
             Log.e("xia", it.toString())
             responseLiveData.postValue(it)
         }, onError = {
-            showToastError("请求失败：" + it.exception?.message)
+            showToast("请求失败：" + it.exception?.message)
         }), cacheMode, cacheKey)
     }
 }

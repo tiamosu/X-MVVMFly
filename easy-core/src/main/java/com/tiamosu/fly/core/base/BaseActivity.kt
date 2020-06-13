@@ -7,15 +7,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
-import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.core.bridge.SharedViewModel
-import com.tiamosu.fly.core.ext.showCallback
 import com.tiamosu.fly.core.ui.dialog.Loader
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
-import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
-import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
-import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
 import com.tiamosu.fly.ext.lazyAppViewModel
 import com.tiamosu.fly.utils.inputMethodManager
 
@@ -26,7 +21,6 @@ import com.tiamosu.fly.utils.inputMethodManager
 @Suppress("unused")
 abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
-    internal var loadService: LoadService<*>? = null
     private var loadingDialog: LoadingDialog? = null
 
     override fun initParameters(bundle: Bundle?) {}
@@ -34,36 +28,28 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     override fun initEvent() {}
     override fun createObserver() {}
 
-    override fun showToastInfo(msg: String?) {
+    override fun showToast(msg: String?) {
         ToastUtils.showShort(msg)
-    }
-
-    override fun showToastError(msg: String?) {
-        ToastUtils.showShort(msg)
-    }
-
-    override fun showLoadingDialog() {
-        Loader.showLoading()
-    }
-
-    override fun hideLoadingDialog() {
-        Loader.hideLoading()
-    }
-
-    override fun showEmpty() {
-        loadService?.showCallback<EmptyCallback>()
     }
 
     override fun showLoading() {
-        loadService?.showCallback<LoadingCallback>()
+        Loader.showLoading()
     }
 
-    override fun showFailure() {
-        loadService?.showCallback<ErrorCallback>()
+    override fun hideLoading() {
+        Loader.hideLoading()
     }
 
-    override fun showSuccess() {
-        loadService?.showSuccess()
+    override fun showViewEmpty() {
+    }
+
+    override fun showViewLoading() {
+    }
+
+    override fun showViewError() {
+    }
+
+    override fun showViewSuccess() {
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
@@ -75,7 +61,7 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     }
 
     override fun onDestroy() {
-        hideLoadingDialog()
+        hideLoading()
         super.onDestroy()
         //垃圾回收
         System.gc()

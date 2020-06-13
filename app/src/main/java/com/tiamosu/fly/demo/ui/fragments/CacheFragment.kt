@@ -91,13 +91,13 @@ class CacheFragment : BaseFragment() {
                 }
 
                 override fun onNext(t: String) {
-                    showToastInfo("获取缓存成功：$t")
+                    showToast("获取缓存成功：$t")
                     val spanned = Html.fromHtml("我来自缓存\n$t")
                     tv_cache_content.text = spanned
                 }
 
                 override fun onError(t: Throwable) {
-                    showToastError("获取缓存失败：" + t.message)
+                    showToast("获取缓存失败：" + t.message)
                 }
             })
         }

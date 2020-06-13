@@ -11,7 +11,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.4-M1"
+    const val kotlin = "1.4-M2"
     const val lifecycle = "2.2.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.7.2"
@@ -33,14 +33,18 @@ object Publish {
 
 object Deps {
     //androidx
-    const val androidx_multidex = "androidx.multidex:multidex:2.0.1"
+    const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
-    const val androidx_core_ktx = "androidx.core:core-ktx:1.2.0"
+    const val androidx_core_ktx = "androidx.core:core-ktx:1.3.0"
+    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
+
     const val androidx_navigation_fragment_ktx =
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val androidx_navigation_ui_ktx =
         "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
-    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+    const val androidx_navigation_runtime =
+        "androidx.navigation:navigation-runtime:${Versions.navigation}"
 
     //lifecycle
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"

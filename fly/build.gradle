@@ -15,16 +15,17 @@ dependencies {
     api Deps.kotlin_ktx
     api Deps.kotlin_reflect
 
+    //androidx
+    api Deps.androidx_appcompat
+    api Deps.androidx_fragment_ktx
+    api Deps.androidx_navigation_runtime
+
     //lifecycle
     api Deps.lifecycle_runtime
     api Deps.lifecycle_common_java8
     api Deps.lifecycle_extensions
     api Deps.lifecycle_viewmodel_ktx
     api Deps.lifecycle_livedata_ktx
-
-    //navigation
-    api Deps.androidx_navigation_fragment_ktx
-    api Deps.androidx_navigation_ui_ktx
 
     //rx
     api Deps.rxjava2

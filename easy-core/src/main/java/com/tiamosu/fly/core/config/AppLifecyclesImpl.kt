@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.res.Configuration
-import androidx.multidex.MultiDex
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.kingja.loadsir.core.LoadSir
@@ -29,7 +28,6 @@ import java.net.Proxy
 class AppLifecyclesImpl : IFlyAppLifecycles {
 
     override fun attachBaseContext(context: Context) {
-        MultiDex.install(context)
     }
 
     override fun onCreate(application: Application) {
