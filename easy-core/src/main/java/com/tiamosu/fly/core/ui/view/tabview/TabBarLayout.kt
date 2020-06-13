@@ -63,16 +63,12 @@ class TabBarLayout @JvmOverloads constructor(
         if (barItem !is TabBarItem) {
             return
         }
-        if (currentItemPosition == -1) {
-            currentItemPosition = 0
-            return
-        }
         val pos = barItem.tabPosition
         if (currentItemPosition == pos) {
             onItemSelectedListener?.onItemReselected(pos)
         } else {
-            onItemSelectedListener?.onItemSelected(pos, currentItemPosition)
             barItem.isSelected = true
+            onItemSelectedListener?.onItemSelected(pos, currentItemPosition)
             onItemSelectedListener?.onItemUnselected(currentItemPosition)
             if (currentItemPosition >= 0 && currentItemPosition < barItems.size) {
                 barItems[currentItemPosition].isSelected = false
