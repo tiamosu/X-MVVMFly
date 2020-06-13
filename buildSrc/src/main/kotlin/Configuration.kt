@@ -18,13 +18,13 @@ object Versions {
     const val glide = "4.11.0"
     const val dagger2 = "2.28"
     const val navigation = "2.2.2"
-    const val utilcode = "1.28.6"
+    const val utilcode = "1.29.0"
 }
 
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.2.6" //版本号
+    const val publishVersion = "1.3.0" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
@@ -39,6 +39,7 @@ object Deps {
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
     const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
 
+    //navigation
     const val androidx_navigation_fragment_ktx =
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val androidx_navigation_ui_ktx =
@@ -78,8 +79,8 @@ object Deps {
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
     //rx
-    const val rxjava2 = "io.reactivex.rxjava3:rxjava:3.0.4"
-    const val rxandroid2 = "io.reactivex.rxjava3:rxandroid:3.0.0"
+    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.4"
+    const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:3.0.0"
     const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:3.0.2"
 
     //utilcode

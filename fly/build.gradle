@@ -28,8 +28,8 @@ dependencies {
     api Deps.lifecycle_livedata_ktx
 
     //rx
-    api Deps.rxjava2
-    api(Deps.rxandroid2) {
+    api Deps.rxjava3
+    api(Deps.rxandroid3) {
         exclude module: 'rxjava'
     }
     api Deps.rxerrorhandler

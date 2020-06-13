@@ -1,3 +1,10 @@
+# 新版本1.3.0（大改动）
+* dagger2 2.27 → 2.28
+* utilcode 1.28.6 → 1.29.0
+* 依赖调整
+* 移除 LiveDataBus，用全局 SharedViewModel.kt 替代
+* 添加 EventLiveData.kt 用于替代 UnPeekLiveData 和 SingleLiveEvent，用于解决 LiveData “数据倒灌”问题
+
 # 新版本1.2.6
 * 点击防抖优化
 
