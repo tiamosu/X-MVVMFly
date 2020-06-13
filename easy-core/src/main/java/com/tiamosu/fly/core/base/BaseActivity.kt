@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.BaseFlyActivity
-import com.tiamosu.fly.core.bridge.SharedViewModel
+import com.tiamosu.fly.core.callback.SharedViewModel
 import com.tiamosu.fly.core.ui.dialog.Loader
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
 import com.tiamosu.fly.ext.lazyAppViewModel

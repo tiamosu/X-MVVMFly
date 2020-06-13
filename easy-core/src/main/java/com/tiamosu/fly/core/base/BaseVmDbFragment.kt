@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.tiamosu.fly.base.BaseFlyVmDbFragment
-import com.tiamosu.fly.core.bridge.SharedViewModel
+import com.tiamosu.fly.core.callback.SharedViewModel
 import com.tiamosu.fly.ext.lazyAppViewModel
 
 /**

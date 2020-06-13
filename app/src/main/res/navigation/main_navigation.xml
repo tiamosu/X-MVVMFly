@@ -35,14 +35,6 @@
             app:popExitAnim="@anim/h_fragment_pop_exit" />
 
         <action
-            android:id="@+id/action_mainFragment_to_busFragment"
-            app:destination="@id/busFragment"
-            app:enterAnim="@anim/h_fragment_enter"
-            app:exitAnim="@anim/h_fragment_exit"
-            app:popEnterAnim="@anim/h_fragment_pop_enter"
-            app:popExitAnim="@anim/h_fragment_pop_exit" />
-
-        <action
             android:id="@+id/action_mainFragment_to_httpFragment"
             app:destination="@id/httpFragment"
             app:enterAnim="@anim/h_fragment_enter"
@@ -71,25 +63,6 @@
         android:id="@+id/sharedFragment"
         android:name="com.tiamosu.fly.demo.ui.fragments.SharedFragment"
         tools:layout="@layout/fragment_shared" />
-
-    <fragment
-        android:id="@+id/busFragment"
-        android:name="com.tiamosu.fly.demo.ui.fragments.BusFragment"
-        tools:layout="@layout/fragment_bus">
-
-        <action
-            android:id="@+id/action_busFragment_to_stickyBusFragment"
-            app:destination="@id/stickyBusFragment"
-            app:enterAnim="@anim/h_fragment_enter"
-            app:exitAnim="@anim/h_fragment_exit"
-            app:popEnterAnim="@anim/h_fragment_pop_enter"
-            app:popExitAnim="@anim/h_fragment_pop_exit" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/stickyBusFragment"
-        android:name="com.tiamosu.fly.demo.ui.fragments.StickyBusFragment"
-        tools:layout="@layout/fragment_sticky_bus" />
 
     <fragment
         android:id="@+id/httpFragment"

@@ -3,5 +3,4 @@ include ':app',
 
 include ':fly',
         ':fly-http',
-        ':fly-imageloader-glide',
-        ':fly-livedata-bus'
+        ':fly-imageloader-glide'

@@ -1,7 +1,7 @@
 package com.tiamosu.fly.core.base
 
 import androidx.lifecycle.ViewModel
-import com.tiamosu.fly.bridge.callback.SingleLiveEvent
+import com.tiamosu.fly.callback.EventLiveData
 import com.tiamosu.fly.core.state.ResultState
 
 /**
@@ -10,7 +10,7 @@ import com.tiamosu.fly.core.state.ResultState
  */
 abstract class BaseViewModel : ViewModel(), IBaseView {
 
-    val resultState by lazy { SingleLiveEvent<ResultState>() }
+    val resultState by lazy { EventLiveData<ResultState>() }
 
     override fun showToast(msg: String?) {
         resultState.value = ResultState.showToast(msg)

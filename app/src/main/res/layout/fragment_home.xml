@@ -27,14 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:onClick="@{()->click.startBus()}"
-            android:text="LiveDataBus 应用"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:onClick="@{()->click.startHttp()}"
             android:text="Http应用页面"
             android:textAllCaps="false" />

@@ -14,7 +14,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.bridge.callback.SingleLiveEvent
+import com.tiamosu.fly.callback.EventLiveData
 import com.tiamosu.fly.utils.connectivityManager
 
 /**
@@ -22,7 +22,7 @@ import com.tiamosu.fly.utils.connectivityManager
  * @date 2020/2/20.
  */
 class NetworkStateManager private constructor() : DefaultLifecycleObserver {
-    val networkStateCallback = SingleLiveEvent<Boolean>()
+    val networkStateCallback = EventLiveData<Boolean>()
 
     @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {

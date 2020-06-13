@@ -51,6 +51,9 @@ class TabBarLayout @JvmOverloads constructor(
             barItemClick(barItem, viewPager2)
             isItemClick = false
         }
+        if (barItem.isSelected) {
+            currentItemPosition = tabPosition
+        }
         barItem.tabPosition = tabPosition
         barItem.layoutParams = tabParams
         barItems.add(barItem)
@@ -71,7 +74,9 @@ class TabBarLayout @JvmOverloads constructor(
             onItemSelectedListener?.onItemSelected(pos, currentItemPosition)
             barItem.isSelected = true
             onItemSelectedListener?.onItemUnselected(currentItemPosition)
-            barItems[currentItemPosition].isSelected = false
+            if (currentItemPosition >= 0 && currentItemPosition < barItems.size) {
+                barItems[currentItemPosition].isSelected = false
+            }
             viewPager2?.setCurrentItem(pos, smoothScroll)
             currentItemPosition = pos
         }

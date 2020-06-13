@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : BaseFragment() {
 
     private val fragments by lazy {
-        arrayListOf<Class<out Fragment>>().apply {
-            add(HomeFragment::class.java)
-            add(NewsFragment::class.java)
-            add(SearchFragment::class.java)
-            add(MyFragment::class.java)
+        arrayListOf<Fragment>().apply {
+            add(HomeFragment())
+            add(NewsFragment())
+            add(SearchFragment())
+            add(MyFragment())
         }
     }
 
@@ -28,9 +28,6 @@ class MainFragment : BaseFragment() {
 
     override fun initView(rootView: View?) {
         main_viewPager.init(this, fragments)
-            .also {
-                it.offscreenPageLimit = fragments.size
-            }
             .let(main_tabBarLayout::setViewPager2)
     }
 
