@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.cache.converter
 
 import com.blankj.utilcode.util.CloseUtils
-import com.tiamosu.fly.http.utils.eLog
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import java.io.*
 
 /**
@@ -22,9 +22,9 @@ class SerializableDiskConverter : IDiskConverter {
             oin = ObjectInputStream(source)
             value = oin.readObject() as? T
         } catch (e: IOException) {
-            eLog(e.message)
+            FlyHttpLog.eLog(e.message)
         } catch (e: ClassNotFoundException) {
-            eLog(e.message)
+            FlyHttpLog.eLog(e.message)
         } finally {
             CloseUtils.closeIO(oin)
         }
@@ -39,7 +39,7 @@ class SerializableDiskConverter : IDiskConverter {
             oos.flush()
             return true
         } catch (e: IOException) {
-            eLog(e.message)
+            FlyHttpLog.eLog(e.message)
         } finally {
             CloseUtils.closeIO(oos)
         }

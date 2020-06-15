@@ -4,7 +4,6 @@ import com.tiamosu.fly.http.callback.ResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.rxjava3.functions.Action
 
 /**
  * @author tiamosu
@@ -16,18 +15,18 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
     private val callback = request.callback as? ResultCallback<T>
 
     override fun onStart() {
-        postOnMain(Action {
+        postOnMain {
             callback?.onStart()
-        })
+        }
     }
 
     override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            postOnMain(Action {
+            postOnMain {
                 val response = Response.success(false, body)
                 callback?.onSuccess(response)
-            })
+            }
         } catch (throwable: Throwable) {
             errorHandle(throwable)
         }
@@ -41,16 +40,16 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
     }
 
     override fun onComplete() {
-        postOnMain(Action {
+        postOnMain {
             callback?.onFinish()
-        })
+        }
     }
 
     private fun errorHandle(throwable: Throwable?) {
-        postOnMain(Action {
+        postOnMain {
             val response = Response.error<T>(false, throwable)
             callback?.onError(response)
             callback?.onFinish()
-        })
+        }
     }
 }

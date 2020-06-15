@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.interceptors
 
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.http.utils.UTF8
-import com.tiamosu.fly.http.utils.iLog
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.Response
@@ -31,7 +31,7 @@ abstract class BaseExpiredInterceptor : Interceptor {
             charset = contentType.charset(UTF8)!!
         }
         val bodyString = buffer?.clone()?.readString(charset)
-        iLog("网络拦截器:" + bodyString + " host:" + request.url.toString())
+        FlyHttpLog.iLog("网络拦截器:" + bodyString + " host:" + request.url.toString())
         val isText = isText(contentType)
         if (!isText) {
             return response

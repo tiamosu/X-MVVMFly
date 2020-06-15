@@ -2,7 +2,6 @@ package com.tiamosu.fly.integration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 
 /**
@@ -15,8 +14,8 @@ class ViewModelProviderFactory(private vararg val arguments: Any) : ViewModelPro
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val constructors = modelClass.constructors
         val constructor = find(
-            constructors,
-            Predicate<Constructor<*>> { element -> element.parameterTypes.size == arguments.size })
+            constructors
+        ) { element -> element.parameterTypes.size == arguments.size }
             ?: throw RuntimeException(
                 "$this constructor arguments do not match the $modelClass constructor arguments."
             )

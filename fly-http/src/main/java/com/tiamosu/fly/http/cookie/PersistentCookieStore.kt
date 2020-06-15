@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.cookie
 
 import android.text.TextUtils
 import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.http.utils.dLog
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import okhttp3.Cookie
 import okhttp3.HttpUrl
 import java.io.*
@@ -129,7 +129,7 @@ class PersistentCookieStore {
             val outputStream = ObjectOutputStream(os)
             outputStream.writeObject(cookie)
         } catch (e: IOException) {
-            dLog("IOException in encodeCookie" + e.message)
+            FlyHttpLog.dLog("IOException in encodeCookie" + e.message)
             return null
         }
         return byteArrayToHexString(os.toByteArray())
@@ -146,9 +146,9 @@ class PersistentCookieStore {
             val objectInputStream = ObjectInputStream(byteArrayInputStream)
             cookie = (objectInputStream.readObject() as? SerializableHttpCookie)?.getCookie()
         } catch (e: IOException) {
-            dLog("IOException in decodeCookie" + e.message)
+            FlyHttpLog.dLog("IOException in decodeCookie" + e.message)
         } catch (e: ClassNotFoundException) {
-            dLog("ClassNotFoundException in decodeCookie" + e.message)
+            FlyHttpLog.dLog("ClassNotFoundException in decodeCookie" + e.message)
         }
         return cookie
     }

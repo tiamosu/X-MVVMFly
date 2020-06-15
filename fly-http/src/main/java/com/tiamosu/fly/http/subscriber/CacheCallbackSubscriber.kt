@@ -5,7 +5,6 @@ import com.tiamosu.fly.http.callback.CacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.rxjava3.functions.Action
 
 /**
  * @author tiamosu
@@ -18,18 +17,18 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     private val callback = request.callback as? CacheResultCallback<T>
 
     override fun onStart() {
-        postOnMain(Action {
+        postOnMain {
             callback?.onStart()
-        })
+        }
     }
 
     override fun onNext(t: CacheResult<String>) {
         try {
             val body = callback?.convertResponse(t.data)
-            postOnMain(Action {
+            postOnMain {
                 val response = Response.success(t.isFromCache, body)
                 callback?.onSuccess(response)
-            })
+            }
         } catch (throwable: Throwable) {
             onError(t.isFromCache, throwable)
         }
@@ -43,16 +42,16 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     }
 
     override fun onComplete() {
-        postOnMain(Action {
+        postOnMain {
             callback?.onFinish()
-        })
+        }
     }
 
     private fun onError(isFromCache: Boolean, throwable: Throwable?) {
-        postOnMain(Action {
+        postOnMain {
             val response = Response.error<T>(isFromCache, throwable)
             callback?.onError(response)
             callback?.onFinish()
-        })
+        }
     }
 }

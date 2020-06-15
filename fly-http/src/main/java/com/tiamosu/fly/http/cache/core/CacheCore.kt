@@ -1,6 +1,6 @@
 package com.tiamosu.fly.http.cache.core
 
-import com.tiamosu.fly.http.utils.dLog
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import okio.ByteString
 
 /**
@@ -19,7 +19,7 @@ class CacheCore(private val disk: LruDiskCache) {
     @Synchronized
     fun <T> load(key: String?, time: Long): T? {
         val cacheKey = key?.let { ByteString.of(*it.toByteArray()).md5().hex() }
-        dLog("loadCache  key=$cacheKey")
+        FlyHttpLog.dLog("loadCache  key=$cacheKey")
         return disk.load(cacheKey, time)
     }
 
@@ -29,7 +29,7 @@ class CacheCore(private val disk: LruDiskCache) {
     @Synchronized
     fun <T> save(key: String?, value: T): Boolean {
         val cacheKey = key?.let { ByteString.of(*it.toByteArray()).md5().hex() }
-        dLog("saveCache  key=$cacheKey")
+        FlyHttpLog.dLog("saveCache  key=$cacheKey")
         return disk.save(cacheKey, value)
     }
 
@@ -39,7 +39,7 @@ class CacheCore(private val disk: LruDiskCache) {
     @Synchronized
     fun containsKey(key: String?): Boolean {
         val cacheKey = key?.let { ByteString.of(*it.toByteArray()).md5().hex() }
-        dLog("containsCache  key=$cacheKey")
+        FlyHttpLog.dLog("containsCache  key=$cacheKey")
         return disk.containsKey(cacheKey)
     }
 
@@ -49,7 +49,7 @@ class CacheCore(private val disk: LruDiskCache) {
     @Synchronized
     fun remove(key: String?): Boolean {
         val cacheKey = key?.let { ByteString.of(*it.toByteArray()).md5().hex() }
-        dLog("removeCache  key=$cacheKey")
+        FlyHttpLog.dLog("removeCache  key=$cacheKey")
         return disk.remove(cacheKey)
     }
 

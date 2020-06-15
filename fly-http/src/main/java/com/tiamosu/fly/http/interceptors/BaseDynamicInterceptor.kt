@@ -1,8 +1,8 @@
 package com.tiamosu.fly.http.interceptors
 
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.http.utils.UTF8
 import com.tiamosu.fly.http.utils.createUrlFromParams
-import com.tiamosu.fly.http.utils.iLog
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.IOException
@@ -115,7 +115,7 @@ abstract class BaseDynamicInterceptor<R : BaseDynamicInterceptor<R>> : Intercept
             }
             httpUrl?.let {
                 val url = createUrlFromParams(it.toUrl().toString(), newParams)
-                iLog(url)
+                FlyHttpLog.iLog(url)
             }
 
             formBody = bodyBuilder.build()

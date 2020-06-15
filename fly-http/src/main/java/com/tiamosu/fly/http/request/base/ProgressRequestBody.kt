@@ -2,9 +2,8 @@ package com.tiamosu.fly.http.request.base
 
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.model.Progress
-import com.tiamosu.fly.http.utils.eLog
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.rxjava3.functions.Action
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.*
@@ -39,7 +38,7 @@ class ProgressRequestBody(
         return try {
             requestBody.contentLength()
         } catch (e: IOException) {
-            eLog(e.message)
+            FlyHttpLog.eLog(e.message)
             -1L
         }
     }
@@ -62,12 +61,12 @@ class ProgressRequestBody(
         @Throws(IOException::class)
         override fun write(source: Buffer, byteCount: Long) {
             super.write(source, byteCount)
-            Progress.changeProgress(progress, byteCount, Progress.Action { progress ->
-                postOnMain(Action {
+            Progress.changeProgress(progress, byteCount) { progress ->
+                postOnMain {
                     progressCallBack?.onResponseProgress(progress)
                     callback?.uploadProgress(progress)
-                })
-            })
+                }
+            }
         }
     }
 

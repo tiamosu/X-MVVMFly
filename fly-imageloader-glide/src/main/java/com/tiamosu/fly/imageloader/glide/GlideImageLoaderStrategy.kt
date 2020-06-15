@@ -15,7 +15,6 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
 import com.tiamosu.fly.utils.post
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.rxjava3.functions.Action
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
@@ -167,11 +166,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         if (config.isClearDiskCache) {//清除本地缓存
-            post(Schedulers.io(), Action { Glide.get(context).clearDiskCache() })
+            post(Schedulers.io()) { Glide.get(context).clearDiskCache() }
         }
 
         if (config.isClearMemory) {//清除内存缓存
-            postOnMain(Action { Glide.get(context).clearMemory() })
+            postOnMain { Glide.get(context).clearMemory() }
         }
     }
 

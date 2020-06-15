@@ -5,7 +5,6 @@ import com.blankj.utilcode.util.CloseUtils
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.postOnMain
-import io.reactivex.rxjava3.functions.Action
 import okhttp3.ResponseBody
 import java.io.*
 
@@ -64,12 +63,10 @@ abstract class FileCallback : ResultCallback<File> {
     }
 
     private fun onProgress(progress: Progress, read: Int) {
-        Progress.changeProgress(progress, read.toLong(), object : Progress.Action {
-            override fun call(progress: Progress) {
-                postOnMain(Action {
-                    downloadProgress(progress) //进度回调的方法
-                })
+        Progress.changeProgress(progress, read.toLong()) {
+            postOnMain {
+                downloadProgress(it) //进度回调的方法
             }
-        })
+        }
     }
 }

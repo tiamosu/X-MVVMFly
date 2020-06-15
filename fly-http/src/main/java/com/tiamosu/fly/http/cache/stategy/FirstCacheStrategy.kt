@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Observable
  * @date 2020/3/10.
  */
 @Suppress("unused")
-class FirstCacheStategy : BaseStrategy() {
+class FirstCacheStrategy : BaseStrategy() {
 
     override fun <T> execute(
         rxCache: RxCache,

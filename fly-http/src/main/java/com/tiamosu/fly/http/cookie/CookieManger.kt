@@ -10,7 +10,7 @@ import okhttp3.HttpUrl
  * @author tiamosu
  * @date 2020/3/1.
  */
-class CookieManger() : CookieJar {
+class CookieManger : CookieJar {
 
     private val cookieStore: PersistentCookieStore by lazy { PersistentCookieStore() }
 

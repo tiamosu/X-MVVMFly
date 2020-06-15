@@ -2,7 +2,7 @@ package com.tiamosu.fly.http.interceptors
 
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.http.model.HttpHeaders
-import com.tiamosu.fly.http.utils.iLog
+import com.tiamosu.fly.http.utils.FlyHttpLog
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -22,8 +22,11 @@ import java.io.IOException
  * @date 2020/3/11.
  */
 class CacheInterceptorOffline : CacheInterceptor {
+
     constructor() : super()
+
     constructor(cacheControlValue: String?) : super(cacheControlValue)
+
     constructor(cacheControlValue: String?, cacheOnlineControlValue: String?) : super(
         cacheControlValue, cacheOnlineControlValue
     )
@@ -32,7 +35,7 @@ class CacheInterceptorOffline : CacheInterceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         if (!NetworkUtils.isConnected()) {
-            iLog(" no network load cache:" + request.cacheControl.toString())
+            FlyHttpLog.iLog(" no network load cache:" + request.cacheControl.toString())
             request = request.newBuilder()
                 .cacheControl(CacheControl.FORCE_CACHE)
                 .build()
