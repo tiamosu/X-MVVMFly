@@ -421,10 +421,6 @@ class FlyHttp {
             return CustomRequest(url)
         }
 
-        internal fun getOkHttpClientBuilder(): OkHttpClient.Builder {
-            return instance.okHttpClientBuilder
-        }
-
         internal fun getOkHttpClient(): OkHttpClient {
             return instance.okHttpClientBuilder.build()
         }

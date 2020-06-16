@@ -13,7 +13,6 @@ import com.tiamosu.fly.http.interceptors.*
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
-import com.tiamosu.fly.ext.isInitialized
 import com.tiamosu.fly.integration.obtainRetrofitService
 import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
@@ -365,7 +364,10 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     private fun generateOkClient(): OkHttpClient.Builder {
         if (readTimeOut > 0) okHttpNewBuilder.readTimeout(readTimeOut, TimeUnit.MILLISECONDS)
         if (writeTimeOut > 0) okHttpNewBuilder.writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)
-        if (connectTimeout > 0) okHttpNewBuilder.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+        if (connectTimeout > 0) okHttpNewBuilder.connectTimeout(
+            connectTimeout,
+            TimeUnit.MILLISECONDS
+        )
         if (cookies.size > 0) FlyHttp.getCookieJar()?.addCookies(cookies)
 
         hostnameVerifier?.let(okHttpNewBuilder::hostnameVerifier)
@@ -379,20 +381,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         interceptors.forEach { okHttpNewBuilder.addInterceptor(it) }
         networkInterceptors.forEach { okHttpNewBuilder.addNetworkInterceptor(it) }
 
-        val globalOkHttpBuilder = FlyHttp.getOkHttpClientBuilder()
-        val newOkHttpBuilder = if (this::okHttpNewBuilder.isInitialized())
-            okHttpNewBuilder
-        else
-            globalOkHttpBuilder
-
-        newOkHttpBuilder.interceptors().forEach {
+        okHttpNewBuilder.interceptors().forEach {
             if (it is BaseDynamicInterceptor<*>) {
                 it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
             }
         }
-        FlyHttp.getLoggingInterceptor()?.let(newOkHttpBuilder::addInterceptor)
-
-        return newOkHttpBuilder
+        FlyHttp.getLoggingInterceptor()?.let(okHttpNewBuilder::addInterceptor)
+        return okHttpNewBuilder
     }
 
     /**
