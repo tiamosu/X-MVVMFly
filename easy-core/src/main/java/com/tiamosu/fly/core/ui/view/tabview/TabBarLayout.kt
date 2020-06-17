@@ -51,7 +51,7 @@ class TabBarLayout @JvmOverloads constructor(
             barItemClick(barItem, viewPager2)
             isItemClick = false
         }
-        if (barItem.isSelected) {
+        if (barItem.isSelected && currentItemPosition == -1) {
             currentItemPosition = tabPosition
         }
         barItem.tabPosition = tabPosition
@@ -70,9 +70,7 @@ class TabBarLayout @JvmOverloads constructor(
             barItem.isSelected = true
             onItemSelectedListener?.onItemSelected(pos, currentItemPosition)
             onItemSelectedListener?.onItemUnselected(currentItemPosition)
-            if (currentItemPosition >= 0 && currentItemPosition < barItems.size) {
-                barItems[currentItemPosition].isSelected = false
-            }
+            setItemSelected(currentItemPosition, false)
             viewPager2?.setCurrentItem(pos, smoothScroll)
             currentItemPosition = pos
         }
@@ -101,9 +99,12 @@ class TabBarLayout @JvmOverloads constructor(
         post { getChildAt(position).performClick() }
     }
 
-    fun setItemSelected(index: Int) {
+    fun setItemSelected(index: Int, isSelected: Boolean = true) {
         if (index >= 0 && index < barItems.size) {
-            barItems[index].isSelected = true
+            barItems[index].isSelected = isSelected
+            if (isSelected) {
+                currentItemPosition = index
+            }
         }
     }
 
@@ -145,6 +146,9 @@ class TabBarLayout @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         if (state is Bundle) {
             currentItemPosition = state.getInt(INSTANCE_POSITION)
+            for (index in barItems.indices) {
+                setItemSelected(index, index == currentItemPosition)
+            }
             super.onRestoreInstanceState(state.getParcelable(INSTANCE_STATE))
         } else {
             super.onRestoreInstanceState(state)

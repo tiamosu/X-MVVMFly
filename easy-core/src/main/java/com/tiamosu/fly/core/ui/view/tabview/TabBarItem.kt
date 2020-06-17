@@ -172,8 +172,8 @@ class TabBarItem @JvmOverloads constructor(
     }
 
     override fun setSelected(selected: Boolean) {
-        super.setSelected(selected)
         setSelectedStatus(selected)
+        super.setSelected(selected)
     }
 
     fun setSelectedStatus(selected: Boolean) {
