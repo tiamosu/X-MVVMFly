@@ -23,19 +23,13 @@ fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
     return Navigation.findNavController(this, viewId)
 }
 
-fun AppCompatActivity.navController(view: View): NavController {
-    return Navigation.findNavController(view)
-}
-
-fun Fragment.navController(view: View? = null): NavController {
-    if (view != null) {
-        return Navigation.findNavController(view)
-    }
+fun Fragment.navController(): NavController {
     return NavHostFragment.findNavController(this)
 }
 
 fun Fragment.navigateUp(view: View? = null): Boolean {
-    return navController(view).navigateUp()
+    val nav = if (view != null) navController(view) else navController()
+    return nav.navigateUp()
 }
 
 fun Fragment.navigate(
@@ -45,7 +39,8 @@ fun Fragment.navigate(
     navigatorExtras: Navigator.Extras? = null,
     view: View? = null
 ) {
-    navController(view).navigate(resId, args, navOptions, navigatorExtras)
+    val nav = if (view != null) navController(view) else navController()
+    nav.navigate(resId, args, navOptions, navigatorExtras)
 }
 
 fun Fragment.navigate(
@@ -54,7 +49,8 @@ fun Fragment.navigate(
     navigatorExtras: Navigator.Extras? = null,
     view: View? = null
 ) {
-    navController(view).navigate(deepLink, navOptions, navigatorExtras)
+    val nav = if (view != null) navController(view) else navController()
+    nav.navigate(deepLink, navOptions, navigatorExtras)
 }
 
 fun Fragment.navigate(
@@ -62,7 +58,8 @@ fun Fragment.navigate(
     navOptions: NavOptions? = null,
     view: View? = null
 ) {
-    navController(view).navigate(directions, navOptions)
+    val nav = if (view != null) navController(view) else navController()
+    nav.navigate(directions, navOptions)
 }
 
 fun Fragment.navigate(
@@ -70,5 +67,6 @@ fun Fragment.navigate(
     navigatorExtras: Navigator.Extras,
     view: View? = null
 ) {
-    navController(view).navigate(directions, navigatorExtras)
+    val nav = if (view != null) navController(view) else navController()
+    nav.navigate(directions, navigatorExtras)
 }
