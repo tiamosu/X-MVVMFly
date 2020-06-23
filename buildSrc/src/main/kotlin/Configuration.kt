@@ -16,7 +16,7 @@ object Versions {
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.7.2"
     const val glide = "4.11.0"
-    const val dagger2 = "2.28"
+    const val dagger2 = "2.28.1"
     const val navigation = "2.2.2"
     const val utilcode = "1.29.0"
 }
@@ -62,14 +62,14 @@ object Deps {
     const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-    const val kotlin_ktx = "androidx.core:core-ktx:1.2.0"
+    const val kotlin_ktx = "androidx.core:core-ktx:1.3.0"
 
     //dagger2
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
     const val dagger2_apt = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
 
     //leakcanary
-    const val leakcanary_android = "com.squareup.leakcanary:leakcanary-android:2.3"
+    const val leakcanary_android = "com.squareup.leakcanary:leakcanary-android:2.4"
 
     //retrofit2
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"

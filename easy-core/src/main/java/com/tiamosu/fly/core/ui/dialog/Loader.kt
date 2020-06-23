@@ -1,7 +1,5 @@
 package com.tiamosu.fly.core.ui.dialog
 
-import com.tiamosu.fly.base.dialog.FlyDialogHelper
-
 /**
  * @author tiamosu
  * @date 2020/6/3.
@@ -13,13 +11,12 @@ object Loader {
         if (loadingDialog != null) {
             hideLoading()
         }
-        loadingDialog = LoadingDialog().init()
-        FlyDialogHelper.safeShowDialog(loadingDialog)
+        loadingDialog = LoadingDialog().init()?.apply { showDialog() }
     }
 
     fun hideLoading() {
         if (loadingDialog != null) {
-            FlyDialogHelper.safeCloseDialog(loadingDialog)
+            loadingDialog!!.hideDialog()
             loadingDialog = null
         }
     }

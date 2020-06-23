@@ -13,7 +13,6 @@ dependencies {
     //kotlin
     api Deps.kotlin_stdlib_jdk8
     api Deps.kotlin_ktx
-    api Deps.kotlin_reflect
 
     //androidx
     api Deps.androidx_appcompat
