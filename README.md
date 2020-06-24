@@ -42,3 +42,4 @@ implementation 'me.tiamosu:fly-imageloader-glide:1.3.1'
 * [Glide](https://github.com/bumptech/glide)
 * [Dagger2](https://github.com/google/dagger)
 * [LeakCanary](https://github.com/square/leakcanary)
+* [Jetpack-MVVM-Best-Practice](https://github.com/KunMinX/Jetpack-MVVM-Best-Practice)
