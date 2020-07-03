@@ -15,21 +15,16 @@ import androidx.lifecycle.LifecycleOwner
  * @date 2020/6/13.
  */
 abstract class EventBaseLiveData<T> {
-    /* synthetic access */
     private val dataLock = Any()
 
     @SuppressLint("RestrictedApi")
     private val observers = SafeIterableMap<EventObserver<T>, ObserverWrapper>()
 
-    // how many observers are in active state
-    private var activeCount/* synthetic access */ = 0
+    private var activeCount = 0
 
     @Volatile
     private var data: Any? = null
 
-    // when setData is called, we set the pending data and actual data swap happens on the main
-    // thread
-    /* synthetic access */
     @Volatile
     var pendingData = NOT_SET
     private var version = 0
@@ -67,7 +62,8 @@ abstract class EventBaseLiveData<T> {
         version = START_VERSION
     }
 
-    private fun considerNotify(observer: ObserverWrapper, data: T?) {
+    @Suppress("UNCHECKED_CAST")
+    private fun considerNotify(observer: ObserverWrapper) {
         if (!observer.active) {
             return
         }
@@ -84,8 +80,8 @@ abstract class EventBaseLiveData<T> {
             return
         }
         observer.lastVersion = version
-        if (data != null) {
-            observer.eventObserver.onReceived(data)
+        (data as? Event<T>)?.getContent()?.apply {
+            observer.eventObserver.onReceived(this)
         }
     }
 
@@ -102,20 +98,15 @@ abstract class EventBaseLiveData<T> {
         do {
             dispatchInvalidated = false
             if (initiator != null) {
-                considerNotify(initiator, null)
+                considerNotify(initiator)
                 initiator = null
             } else {
-                val data: T? = (data as? Event<T>)?.getContent()
-                (this.data as? Event<T>)?.setContentNull()
-
-                data?.apply {
-                    val iterator: Iterator<Map.Entry<EventObserver<T>, ObserverWrapper>> =
-                        observers.iteratorWithAdditions()
-                    while (iterator.hasNext()) {
-                        considerNotify(iterator.next().value, data)
-                        if (dispatchInvalidated) {
-                            break
-                        }
+                val iterator: Iterator<Map.Entry<EventObserver<T>, ObserverWrapper>> =
+                    observers.iteratorWithAdditions()
+                while (iterator.hasNext()) {
+                    considerNotify(iterator.next().value)
+                    if (dispatchInvalidated) {
+                        break
                     }
                 }
             }
@@ -234,9 +225,9 @@ abstract class EventBaseLiveData<T> {
     @MainThread
     open fun removeObservers(owner: LifecycleOwner) {
         assertMainThread("removeObservers")
-        for (entry: Map.Entry<EventObserver<T>, ObserverWrapper> in observers) {
-            if (entry.value.isAttachedTo(owner)) {
-                removeObserver(entry.key)
+        for ((key, value) in observers) {
+            if (value.isAttachedTo(owner)) {
+                removeObserver(key)
             }
         }
     }
