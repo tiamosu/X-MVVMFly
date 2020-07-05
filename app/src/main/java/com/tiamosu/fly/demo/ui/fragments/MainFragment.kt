@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : BaseFragment() {
 
     private val fragments by lazy {
-        arrayListOf<Fragment>().apply {
-            add(HomeFragment())
-            add(NewsFragment())
-            add(SearchFragment())
-            add(MyFragment())
+        arrayListOf<Class<out Fragment>>().apply {
+            add(HomeFragment::class.java)
+            add(NewsFragment::class.java)
+            add(SearchFragment::class.java)
+            add(MyFragment::class.java)
         }
     }
 
