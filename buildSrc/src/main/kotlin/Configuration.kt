@@ -1,10 +1,10 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
 object Android {
-    const val compileSdkVersion = 29
-    const val buildToolsVersion = "29.0.3"
+    const val compileSdkVersion = 30
+    const val buildToolsVersion = "30.0.0"
     const val minSdkVersion = 21
-    const val targetSdkVersion = 29
+    const val targetSdkVersion = 30
 
     const val versionName = "1.0"
     const val versionCode = 1
@@ -17,14 +17,14 @@ object Versions {
     const val okhttp3 = "4.7.2"
     const val glide = "4.11.0"
     const val dagger2 = "2.28.1"
-    const val navigation = "2.2.2"
+    const val navigation = "2.3.0"
     const val utilcode = "1.29.0"
 }
 
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.3.2" //版本号
+    const val publishVersion = "1.3.3" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"

@@ -33,14 +33,14 @@ abstract class EventBaseLiveData<T> {
     private var dispatchInvalidated = false
 
     @Suppress("UNCHECKED_CAST")
-    private val postValueRunnable: Runnable by lazy {
+    private val postValueRunnable by lazy {
         Runnable {
             var newValue: Any
             synchronized(dataLock) {
                 newValue = pendingData
                 pendingData = NOT_SET
             }
-            setEvent(newValue as? Event<T>)
+            setValue(newValue as? Event<T>)
         }
     }
 
@@ -89,12 +89,12 @@ abstract class EventBaseLiveData<T> {
     @SuppressLint("RestrictedApi")
     @Suppress("UNCHECKED_CAST")
     open fun dispatchingValue(wrapper: ObserverWrapper?) {
-        var initiator = wrapper
         if (dispatchingValue) {
             dispatchInvalidated = true
             return
         }
         dispatchingValue = true
+        var initiator = wrapper
         do {
             dispatchInvalidated = false
             if (initiator != null) {
@@ -156,8 +156,7 @@ abstract class EventBaseLiveData<T> {
             return
         }
         val wrapper = LifecycleBoundObserver(owner, eventObserver)
-        val existing: EventBaseLiveData<T>.ObserverWrapper? =
-            observers.putIfAbsent(eventObserver, wrapper)
+        val existing: ObserverWrapper? = observers.putIfAbsent(eventObserver, wrapper)
         if (existing != null && !existing.isAttachedTo(owner)) {
             throw IllegalArgumentException(
                 "Cannot add the same observer with different lifecycles"
@@ -189,8 +188,7 @@ abstract class EventBaseLiveData<T> {
     open fun observeForever(eventObserver: EventObserver<T>) {
         assertMainThread("observeForever")
         val wrapper = AlwaysActiveObserver(eventObserver)
-        val existing: EventBaseLiveData<T>.ObserverWrapper? =
-            observers.putIfAbsent(eventObserver, wrapper)
+        val existing: ObserverWrapper? = observers.putIfAbsent(eventObserver, wrapper)
         if (existing is LifecycleBoundObserver) {
             throw IllegalArgumentException(
                 "Cannot add the same observer with different lifecycles"
@@ -249,7 +247,7 @@ abstract class EventBaseLiveData<T> {
      * @param value The new value
      */
     @SuppressLint("RestrictedApi")
-    protected open fun postEvent(value: Event<T>) {
+    protected open fun postValue(value: Event<T>) {
         var postTask: Boolean
         synchronized(dataLock) {
             postTask = pendingData === NOT_SET
@@ -271,7 +269,7 @@ abstract class EventBaseLiveData<T> {
      * @param value The new value
      */
     @MainThread
-    protected open fun setEvent(value: Event<T>?) {
+    protected open fun setValue(value: Event<T>?) {
         assertMainThread("setValue")
         version++
         data = value
@@ -372,9 +370,7 @@ abstract class EventBaseLiveData<T> {
 
         abstract fun shouldBeActive(): Boolean
 
-        open fun isAttachedTo(owner: LifecycleOwner): Boolean {
-            return false
-        }
+        open fun isAttachedTo(owner: LifecycleOwner) = false
 
         open fun detachObserver() {}
 

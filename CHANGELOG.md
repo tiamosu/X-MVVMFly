@@ -1,3 +1,7 @@
+# 新版本1.3.3
+* EventLiveData 优化
+* navigation 2.2.2 → 2.3.0
+
 # 新版本1.3.2
 * dagger2 2.28 → 2.28.1
 * kotlin_ktx 1.2.0 → 1.3.0

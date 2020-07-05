@@ -63,11 +63,11 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     private val networkCallback: ConnectivityManager.NetworkCallback by lazy {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network?) {
+            override fun onAvailable(network: Network) {
                 updateConnection(true)
             }
 
-            override fun onLost(network: Network?) {
+            override fun onLost(network: Network) {
                 updateConnection(false)
             }
         }

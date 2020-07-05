@@ -22,10 +22,10 @@ class EventLiveData<T> : EventBaseLiveData<T> {
     constructor() : super()
 
     fun postValue(value: T) {
-        super.postEvent(Event(value))
+        super.postValue(Event(value))
     }
 
     var value: T?
         get() = super.getValue()?.getContent()
-        set(value) = super.setEvent(Event(value))
+        set(value) = super.setValue(Event(value))
 }
