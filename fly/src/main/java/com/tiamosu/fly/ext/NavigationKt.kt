@@ -15,32 +15,35 @@ import com.tiamosu.fly.navigation.NavHostFragment
  * @author tiamosu
  * @date 2020/4/14.
  */
-fun navController(view: View): NavController {
-    return Navigation.findNavController(view)
-}
-
 fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
     return Navigation.findNavController(this, viewId)
 }
 
-fun Fragment.navController(): NavController {
+fun Fragment.navController(view: View?): NavController {
+    if (view != null) {
+        return Navigation.findNavController(view)
+    }
     return NavHostFragment.findNavController(this)
 }
 
 fun Fragment.navigateUp(view: View? = null): Boolean {
-    val nav = if (view != null) navController(view) else navController()
-    return nav.navigateUp()
+    return navController(view).navigateUp()
 }
 
+private var lastNavTime = 0L
 fun Fragment.navigate(
     @IdRes resId: Int,
     args: Bundle? = null,
     navOptions: NavOptions? = null,
     navigatorExtras: Navigator.Extras? = null,
-    view: View? = null
+    view: View? = null,
+    interval: Long = 500
 ) {
-    val nav = if (view != null) navController(view) else navController()
-    nav.navigate(resId, args, navOptions, navigatorExtras)
+    val currentTime = System.currentTimeMillis()
+    if (currentTime >= lastNavTime + interval) {
+        lastNavTime = currentTime
+        navController(view).navigate(resId, args, navOptions, navigatorExtras)
+    }
 }
 
 fun Fragment.navigate(
@@ -49,8 +52,7 @@ fun Fragment.navigate(
     navigatorExtras: Navigator.Extras? = null,
     view: View? = null
 ) {
-    val nav = if (view != null) navController(view) else navController()
-    nav.navigate(deepLink, navOptions, navigatorExtras)
+    navController(view).navigate(deepLink, navOptions, navigatorExtras)
 }
 
 fun Fragment.navigate(
@@ -58,8 +60,7 @@ fun Fragment.navigate(
     navOptions: NavOptions? = null,
     view: View? = null
 ) {
-    val nav = if (view != null) navController(view) else navController()
-    nav.navigate(directions, navOptions)
+    navController(view).navigate(directions, navOptions)
 }
 
 fun Fragment.navigate(
@@ -67,6 +68,5 @@ fun Fragment.navigate(
     navigatorExtras: Navigator.Extras,
     view: View? = null
 ) {
-    val nav = if (view != null) navController(view) else navController()
-    nav.navigate(directions, navigatorExtras)
+    navController(view).navigate(directions, navigatorExtras)
 }
