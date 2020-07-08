@@ -1,3 +1,6 @@
+# 新版本1.3.4
+* 修复短时间内多次快速跳转 Fragment 出现的 bug
+
 # 新版本1.3.3
 * EventLiveData 优化
 * navigation 2.2.2 → 2.3.0
