@@ -1,8 +1,8 @@
 package com.tiamosu.fly.fragmentation
 
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
-import android.os.MessageQueue
 import androidx.fragment.app.Fragment
 
 /**
@@ -11,17 +11,16 @@ import androidx.fragment.app.Fragment
  */
 class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     // SupportVisible相关
-    private var currentVisible = false
+    private var isSupportVisible = false
     private var needDispatch = true
-    private var visibleWhenLeave = true
-
-    //true = 曾经可见，也就是onLazyInitView 执行过一次
-    private var isOnceVisible = false
+    private var invisibleWhenLeave = false
+    private var isFirstVisible = true
     private var firstCreateViewCompatReplace = true
     private var abortInitVisible = false
     private var isNeedDispatchRecord = false
+    private var taskDispatchSupportVisible: Runnable? = null
 
-    private var idleDispatchSupportVisible: MessageQueue.IdleHandler? = null
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
     private var saveInstanceState: Bundle? = null
     private var fragment: Fragment
 
@@ -36,15 +35,15 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
         if (savedInstanceState != null) {
             saveInstanceState = savedInstanceState
             // setUserVisibleHint() may be called before onCreate()
-            visibleWhenLeave =
-                savedInstanceState.getBoolean(FRAGMENTATION_STATE_SAVE_IS_VISIBLE_WHEN_LEAVE)
+            invisibleWhenLeave =
+                savedInstanceState.getBoolean(FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE)
             firstCreateViewCompatReplace =
                 savedInstanceState.getBoolean(FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE)
         }
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(FRAGMENTATION_STATE_SAVE_IS_VISIBLE_WHEN_LEAVE, visibleWhenLeave)
+        outState.putBoolean(FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE, invisibleWhenLeave)
         outState.putBoolean(FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE, firstCreateViewCompatReplace)
     }
 
@@ -61,23 +60,23 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun initVisible() {
-        if (visibleWhenLeave && FlySupportHelper.isFragmentVisible(fragment)) {
+        if (!invisibleWhenLeave && FlySupportHelper.isFragmentVisible(fragment)) {
             if (fragment.parentFragment == null
                 || FlySupportHelper.isFragmentVisible(fragment.requireParentFragment())
             ) {
                 needDispatch = false
-                enqueueDispatchVisible()
+                safeDispatchUserVisibleHint(true)
             }
         }
     }
 
     fun onResume() {
-        if (isOnceVisible) {
-            if (!currentVisible && visibleWhenLeave
+        if (!isFirstVisible) {
+            if (!isSupportVisible && !invisibleWhenLeave
                 && FlySupportHelper.isFragmentVisible(fragment)
             ) {
                 needDispatch = false
-                enqueueDispatchVisible()
+                dispatchSupportVisible(true)
             }
         } else {
             if (abortInitVisible) {
@@ -91,45 +90,36 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onPause() {
-        //界面还没有执行到initVisible 发出的任务taskDispatchSupportVisible，界面就已经pause。
-        //为了让下次resume 时候，能正常的执行需要设置mAbortInitVisible ，来确保在resume的时候，可以执行完整initVisible
-
-        //界面还没有执行到initVisible 发出的任务taskDispatchSupportVisible，界面就已经pause。
-        //为了让下次resume 时候，能正常的执行需要设置mAbortInitVisible ，来确保在resume的时候，可以执行完整initVisible
-
-        if (idleDispatchSupportVisible != null) {
-            Looper.myQueue().removeIdleHandler(idleDispatchSupportVisible!!)
+        if (taskDispatchSupportVisible != null) {
+            handler.removeCallbacks(taskDispatchSupportVisible!!)
             abortInitVisible = true
             return
         }
 
-        if (currentVisible && FlySupportHelper.isFragmentVisible(fragment)) {
+        if (isSupportVisible && FlySupportHelper.isFragmentVisible(fragment)) {
             needDispatch = false
-            visibleWhenLeave = true
+            invisibleWhenLeave = false
             dispatchSupportVisible(false)
         } else {
-            visibleWhenLeave = false
+            invisibleWhenLeave = true
         }
     }
 
     fun onHiddenChanged(hidden: Boolean) {
         if (!hidden && !fragment.isResumed) {
-            //Activity 不是resumed 状态，不用显示其下的fragment，只需设置标志位，待OnResume时 显示出来
             //if fragment is shown but not resumed, ignore...
             onFragmentShownWhenNotResumed()
             return
         }
         if (hidden) {
-            dispatchSupportVisible(false)
+            safeDispatchUserVisibleHint(false)
         } else {
-            safeDispatchUserVisibleHint(true)
+            enqueueDispatchVisible()
         }
     }
 
     private fun onFragmentShownWhenNotResumed() {
-        //fragment 需要显示，但是Activity状态不是resumed，下次resumed的时候 fragment 需要显示， 所以可以认为离开的时候可见
-        visibleWhenLeave = true
-        abortInitVisible = true
+        invisibleWhenLeave = false
         dispatchChildOnFragmentShownWhenNotResumed()
     }
 
@@ -144,40 +134,39 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onDestroyView() {
-        isOnceVisible = false
+        isFirstVisible = true
     }
 
     private fun safeDispatchUserVisibleHint(visible: Boolean) {
-        if (visible) {
+        if (isFirstVisible) {
+            if (!visible) return
             enqueueDispatchVisible()
-        } else if (isOnceVisible) {
-            dispatchSupportVisible(false)
+        } else {
+            dispatchSupportVisible(visible)
         }
     }
 
     private fun enqueueDispatchVisible() {
-        idleDispatchSupportVisible = MessageQueue.IdleHandler {
+        taskDispatchSupportVisible = Runnable {
+            taskDispatchSupportVisible = null
             dispatchSupportVisible(true)
-            idleDispatchSupportVisible = null
-            false
-        }.apply {
-            Looper.myQueue().addIdleHandler(this)
         }
+        taskDispatchSupportVisible?.let(handler::post)
     }
 
     private fun dispatchSupportVisible(visible: Boolean) {
         if (visible && isParentInvisible()) return
-        if (currentVisible == visible) {
+        if (isSupportVisible == visible) {
             needDispatch = true
             return
         }
-        currentVisible = visible
+        isSupportVisible = visible
 
         if (visible) {
             if (checkAddState()) return
 
-            if (!isOnceVisible) {
-                isOnceVisible = true
+            if (isFirstVisible) {
+                isFirstVisible = false
                 supportF.onLazyInitView()
             }
             supportF.onSupportVisible()
@@ -207,7 +196,7 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
                         childVisibleDelegate.dispatchSupportVisible(true)
                     }
                 } else {
-                    if (childVisibleDelegate.currentVisible) {
+                    if (childVisibleDelegate.isSupportVisible) {
                         childVisibleDelegate.isNeedDispatchRecord = true
                         childVisibleDelegate.dispatchSupportVisible(false)
                     }
@@ -233,17 +222,17 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
 
     private fun checkAddState(): Boolean {
         if (!fragment.isAdded) {
-            currentVisible = !currentVisible
+            isSupportVisible = !isSupportVisible
             return true
         }
         return false
     }
 
-    fun isSupportVisible() = currentVisible
+    fun isSupportVisible() = isSupportVisible
 
     companion object {
-        private const val FRAGMENTATION_STATE_SAVE_IS_VISIBLE_WHEN_LEAVE =
-            "fragmentation_visible_when_leave"
+        private const val FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE =
+            "fragmentation_invisible_when_leave"
         private const val FRAGMENTATION_STATE_SAVE_COMPAT_REPLACE = "fragmentation_compat_replace"
     }
 }
