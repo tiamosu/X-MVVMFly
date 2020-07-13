@@ -1,3 +1,7 @@
+# 新版本1.3.5
+* okhttp3 4.7.2 → 4.8.0
+* 修复 Navigation 使用 popUpTo 报错问题
+
 # 新版本1.3.4
 * 修复短时间内多次快速跳转 Fragment 出现的 bug
 
