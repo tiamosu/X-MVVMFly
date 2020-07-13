@@ -124,7 +124,7 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     private fun dispatchChildOnFragmentShownWhenNotResumed() {
-        val fragmentManager = fragment.childFragmentManager
+        val fragmentManager = FlySupportHelper.getChildFragmentManager(fragment)
         val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
         for (child in childFragments) {
             if (child is IFlySupportFragment && FlySupportHelper.isFragmentVisible(child)) {
@@ -183,7 +183,7 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
         } else {
             if (checkAddState()) return
 
-            val fragmentManager = fragment.childFragmentManager
+            val fragmentManager = FlySupportHelper.getChildFragmentManager(fragment)
             val childFragments = FlySupportHelper.getAddedFragments(fragmentManager)
             for (child in childFragments) {
                 if (child !is IFlySupportFragment) {

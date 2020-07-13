@@ -15,7 +15,7 @@ object FlySupportHelper {
     }
 
     private fun getAddedFragment(
-        fragmentManager: FragmentManager,
+        fragmentManager: FragmentManager?,
         parentFragment: IFlySupportFragment?
     ): IFlySupportFragment? {
         val fragmentList = getAddedFragments(fragmentManager)
@@ -29,7 +29,7 @@ object FlySupportHelper {
 
             if (isBool) {
                 return getAddedFragment(
-                    fragment.childFragmentManager, fragment as? IFlySupportFragment
+                    getChildFragmentManager(fragment), fragment as? IFlySupportFragment
                 )
             }
         }
@@ -45,7 +45,15 @@ object FlySupportHelper {
         return fragment.javaClass.simpleName.contains("NavHostFragment")
     }
 
-    fun getAddedFragments(fragmentManager: FragmentManager): List<Fragment> {
-        return fragmentManager.fragments
+    fun getAddedFragments(fragmentManager: FragmentManager?): List<Fragment> {
+        return fragmentManager?.fragments ?: emptyList()
+    }
+
+    fun getChildFragmentManager(fragment: Fragment?): FragmentManager? {
+        return try {
+            fragment?.childFragmentManager
+        } catch (ignore: Exception) {
+            null
+        }
     }
 }
