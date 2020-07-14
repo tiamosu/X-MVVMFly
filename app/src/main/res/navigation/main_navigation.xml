@@ -62,7 +62,16 @@
     <fragment
         android:id="@+id/sharedFragment"
         android:name="com.tiamosu.fly.demo.ui.fragments.SharedFragment"
-        tools:layout="@layout/fragment_shared" />
+        tools:layout="@layout/fragment_shared">
+
+        <action
+            android:id="@+id/action_sharedFragment_to_newsFragment"
+            app:enterAnim="@anim/h_fragment_enter"
+            app:exitAnim="@anim/h_fragment_exit"
+            app:popEnterAnim="@anim/h_fragment_pop_enter"
+            app:popExitAnim="@anim/h_fragment_pop_exit"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/httpFragment"

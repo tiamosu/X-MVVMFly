@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.ext.init
+import com.tiamosu.fly.ext.addObserve
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -39,6 +40,12 @@ class MainFragment : BaseFragment() {
         }, onItemReselected = { position ->
             Log.e("xia", "onItemReselected:$position")
         })
+    }
+
+    override fun createObserver() {
+        addObserve(sharedViewModel.selectTabItem) {
+            main_tabBarLayout.setCurrentItem(it)
+        }
     }
 
     override fun doBusiness() {}

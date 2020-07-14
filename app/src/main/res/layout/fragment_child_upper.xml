@@ -16,6 +16,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_jump_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="跳转新闻页"
+        app:layout_constraintBottom_toTopOf="@+id/btn_send_msg"
+        app:layout_constraintRight_toRightOf="@+id/btn_send_msg" />
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_msg"
         android:layout_width="0dp"
