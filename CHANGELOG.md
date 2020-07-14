@@ -1,3 +1,7 @@
+# 新版本1.3.6
+* visible 生命周期优化
+* EventLiveData 优化
+
 # 新版本1.3.5
 * okhttp3 4.7.2 → 4.8.0
 * 修复 Navigation 使用 popUpTo 报错问题
@@ -51,8 +55,8 @@
 * 新增 BaseFlyVmDbActivity、BaseFlyVmDbFragment，支持 dataBinding；想使用 dataBinding 时，请在 app 的 build.gradle 中进行开启
 ```gradle
 android {
-    dataBinding {
-        enabled = true 
+    buildFeatures {
+        dataBinding = true
     }
 }
 ```

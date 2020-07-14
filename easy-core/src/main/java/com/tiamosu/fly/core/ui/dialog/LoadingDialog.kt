@@ -2,6 +2,7 @@ package com.tiamosu.fly.core.ui.dialog
 
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -23,7 +24,7 @@ class LoadingDialog : BaseFlyDialogFragment() {
     private var postedShow = false
     private var dismissed = false
 
-    private val handler by lazy { Handler() }
+    private val handler by lazy { Handler(Looper.getMainLooper()) }
 
     private val delayedHide by lazy {
         Runnable {

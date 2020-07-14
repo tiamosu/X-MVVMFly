@@ -44,8 +44,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 }
 
@@ -76,7 +76,7 @@ static def configApkName(Project project) {
     project.android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             if (variant.buildType.name != "debug") {//防止AS无法安装debug包(apk)
-                variant.getPackageApplication().outputDirectory = new File(project.rootDir.path + "/apk")
+                variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.path + "/apk")
             }
             outputFileName = "fly_v${variant.versionName}.apk"
         }
