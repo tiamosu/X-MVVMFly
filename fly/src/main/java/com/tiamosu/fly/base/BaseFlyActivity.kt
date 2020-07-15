@@ -3,6 +3,7 @@ package com.tiamosu.fly.base
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.AppUtils
 import com.tiamosu.fly.fragmentation.FlySupportActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
@@ -21,10 +22,17 @@ abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
     //防止多次加载数据
     private var isDataLoaded = false
 
+    //是否在应用被杀死恢复时重启应用
+    open fun isRelaunchApp() = false
+
     final override fun getContext(): AppCompatActivity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isRelaunchApp() && savedInstanceState != null) {
+            AppUtils.relaunchApp()
+            return
+        }
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
 

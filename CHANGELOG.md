@@ -1,3 +1,6 @@
+# 新版本1.3.7
+* 支持应用被杀死时重启应用，重写 isRelaunchApp() 为 true 即可
+
 # 新版本1.3.6
 * visible 生命周期优化
 * EventLiveData 优化
