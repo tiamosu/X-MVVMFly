@@ -7,6 +7,12 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 /**
+ * 描述：为了在 "重回二级页面" 的场景下，解决 "数据倒灌" 的问题。
+ *
+ * 1.一条消息能被多个观察者消费
+ * 2.延迟期结束，不再能够收到旧消息的推送
+ * 3.并且旧消息在延迟期结束时能从内存中释放，避免内存溢出等问题
+ *
  * @author tiamosu
  * @date 2020/7/10.
  */
@@ -16,6 +22,7 @@ class EventLiveData<T> : MutableLiveData<T>() {
     private var isDelaying = false
     private var delayToClearEvent = 1000
     private var isAllowNullValue = false
+    private var isAllowToClear = true
 
     private val timer by lazy { Timer() }
     private var timerTask: TimerTask? = null
@@ -83,8 +90,13 @@ class EventLiveData<T> : MutableLiveData<T>() {
     }
 
     private fun clear() {
-        isCleaning = true
-        super.postValue(null)
+        if (isAllowToClear) {
+            isCleaning = true
+            super.postValue(null)
+        } else {
+            hasHandled = true
+            isDelaying = false
+        }
     }
 
     class Builder<T> {
@@ -92,15 +104,20 @@ class EventLiveData<T> : MutableLiveData<T>() {
         /**
          * 消息的生存时长
          */
-        private var eventLiveTime = 1000
+        private var eventSurvivalTime = 1000
 
         /**
          * 是否允许传入 null value
          */
         private var allowNullValue = false
 
-        fun setEventLiveTime(eventLiveTime: Int): Builder<T> {
-            this.eventLiveTime = eventLiveTime
+        /**
+         * 是否允许自动清理，默认 true
+         */
+        private var allowToClear = true
+
+        fun setEventSurvivalTime(eventSurvivalTime: Int): Builder<T> {
+            this.eventSurvivalTime = eventSurvivalTime
             return this
         }
 
@@ -109,10 +126,16 @@ class EventLiveData<T> : MutableLiveData<T>() {
             return this
         }
 
+        fun setAllowToClear(isAllowToClear: Boolean): Builder<T> {
+            this.allowToClear = isAllowToClear
+            return this
+        }
+
         fun create(): EventLiveData<T> {
             return EventLiveData<T>().apply {
-                delayToClearEvent = eventLiveTime
+                delayToClearEvent = eventSurvivalTime
                 isAllowNullValue = allowNullValue
+                isAllowToClear = allowToClear
             }
         }
     }
