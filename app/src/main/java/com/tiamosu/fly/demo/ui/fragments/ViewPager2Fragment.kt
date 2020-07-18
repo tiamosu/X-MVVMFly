@@ -2,6 +2,7 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.ui.adapter.CustomFragmentStateAdapter
@@ -13,8 +14,11 @@ import kotlinx.android.synthetic.main.fragment_viewpager2.*
  * @date 2020/7/18.
  */
 class ViewPager2Fragment : BaseFragment() {
-    private val fragments by lazy { mutableListOf<Fragment>() }
-    private var count = 0
+    private val fragments by lazy {
+        mutableListOf<Fragment>().apply {
+            add(MyFragment())
+        }
+    }
     private val adapter by lazy {
         CustomFragmentStateAdapter(
             this,
@@ -26,21 +30,22 @@ class ViewPager2Fragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_viewpager2
 
     override fun initView(rootView: View?) {
-//        viewPager2_viewPager.apply {
-//            isUserInputEnabled = true
-//            this@ViewPager2Fragment.adapter =
-//                CustomFragmentStateAdapter(this@ViewPager2Fragment, this, fragments)
-//        }
+        adapter.updateDataSetChanged(fragments)
     }
 
     override fun initEvent() {
+        var count = 0
         viewPager2_add.clickNoRepeat {
             count++
+            if (fragments.size >= 5) {
+                ToastUtils.showLong("Fragment 加载数量太多啦~")
+                return@clickNoRepeat
+            }
             val fragment = when (count % 3) {
                 0 -> NewsFragment()
                 1 -> SearchFragment()
                 2 -> MyFragment()
-                else -> HomeFragment()
+                else -> MyFragment()
             }
             fragments.add(fragment)
             adapter.updateDataSetChanged(fragments)
