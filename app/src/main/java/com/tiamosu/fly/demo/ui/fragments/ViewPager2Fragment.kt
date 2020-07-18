@@ -15,16 +15,22 @@ import kotlinx.android.synthetic.main.fragment_viewpager2.*
 class ViewPager2Fragment : BaseFragment() {
     private val fragments by lazy { mutableListOf<Fragment>() }
     private var count = 0
-    private var adapter: CustomFragmentStateAdapter? = null
+    private val adapter by lazy {
+        CustomFragmentStateAdapter(
+            this,
+            viewPager2_viewPager,
+            fragments
+        )
+    }
 
     override fun getLayoutId() = R.layout.fragment_viewpager2
 
     override fun initView(rootView: View?) {
-        viewPager2_viewPager.apply {
-            isUserInputEnabled = true
-            this@ViewPager2Fragment.adapter =
-                CustomFragmentStateAdapter(this@ViewPager2Fragment, this, fragments)
-        }
+//        viewPager2_viewPager.apply {
+//            isUserInputEnabled = true
+//            this@ViewPager2Fragment.adapter =
+//                CustomFragmentStateAdapter(this@ViewPager2Fragment, this, fragments)
+//        }
     }
 
     override fun initEvent() {
@@ -37,7 +43,7 @@ class ViewPager2Fragment : BaseFragment() {
                 else -> HomeFragment()
             }
             fragments.add(fragment)
-            adapter?.updateDataSetChanged(fragments)
+            adapter.updateDataSetChanged(fragments)
         }
 
         viewPager2_minus.clickNoRepeat {
@@ -45,7 +51,7 @@ class ViewPager2Fragment : BaseFragment() {
                 return@clickNoRepeat
             }
             fragments.removeLast()
-            adapter?.updateDataSetChanged(fragments)
+            adapter.updateDataSetChanged(fragments)
         }
     }
 
