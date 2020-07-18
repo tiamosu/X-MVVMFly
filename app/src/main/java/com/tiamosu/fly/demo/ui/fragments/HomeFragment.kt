@@ -50,5 +50,9 @@ class HomeFragment : BaseVmDbFragment() {
         fun startLoadSir() {
             navigate(R.id.action_mainFragment_to_loadSirFragment)
         }
+
+        fun startViewPager2() {
+            navigate(R.id.action_mainFragment_to_viewPager2Fragment)
+        }
     }
 }
