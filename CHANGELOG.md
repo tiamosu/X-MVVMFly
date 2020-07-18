@@ -1,3 +1,8 @@
+# 新版本1.3.9
+* EventLiveData 添加 isAllowToClear 是否允许自动清理，默认 true
+* dagger2 2.28.2 → 2.28.3
+* 添加 ViewPager2 动态刷新示例
+
 # 新版本1.3.8
 * dagger2 2.28.1 → 2.28.2
 * 添加 onCreateInit 函数，可用于初始化前做相关处理，应用被杀死时重启应用改为用户自行处理
