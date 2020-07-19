@@ -78,7 +78,8 @@
             app:exitAnim="@anim/h_fragment_exit"
             app:popEnterAnim="@anim/h_fragment_pop_enter"
             app:popExitAnim="@anim/h_fragment_pop_exit"
-            app:popUpTo="@id/mainFragment" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
