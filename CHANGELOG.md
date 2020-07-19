@@ -1,3 +1,6 @@
+# 新版本1.4.0
+* 修复 popUpToInclusive 属性设置 BUG 问题
+
 # 新版本1.3.9
 * EventLiveData 添加 isAllowToClear 是否允许自动清理，默认 true
 * dagger2 2.28.2 → 2.28.3
