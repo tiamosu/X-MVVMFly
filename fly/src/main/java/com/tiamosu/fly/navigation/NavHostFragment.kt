@@ -92,15 +92,17 @@ class NavHostFragment : Fragment(), NavHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val context = requireContext()
-        navController = NavHostController(context)
-        navController!!.setLifecycleOwner(this)
-        navController!!.setOnBackPressedDispatcher(requireActivity().onBackPressedDispatcher)
-        // Set the default state - this will be updated whenever
-        // onPrimaryNavigationFragmentChanged() is called
-        navController!!.enableOnBackPressed(isPrimaryBeforeOnCreate == true)
-        isPrimaryBeforeOnCreate = null
-        navController!!.setViewModelStore(viewModelStore)
-        onCreateNavController(navController!!)
+        navController = NavHostController(context).apply {
+            setLifecycleOwner(this@NavHostFragment)
+            setOnBackPressedDispatcher(requireActivity().onBackPressedDispatcher)
+            // Set the default state - this will be updated whenever
+            // onPrimaryNavigationFragmentChanged() is called
+            enableOnBackPressed(isPrimaryBeforeOnCreate == true)
+            isPrimaryBeforeOnCreate = null
+            setViewModelStore(viewModelStore)
+            onCreateNavController(this)
+        }
+
         var navState: Bundle? = null
         if (savedInstanceState != null) {
             navState = savedInstanceState.getBundle(KEY_NAV_CONTROLLER_STATE)
@@ -114,18 +116,18 @@ class NavHostFragment : Fragment(), NavHost {
         }
         if (navState != null) {
             // Navigation controller state overrides arguments
-            navController!!.restoreState(navState)
+            navController?.restoreState(navState)
         }
         if (graphId != 0) {
             // Set from onInflate()
-            navController!!.setGraph(graphId)
+            navController?.setGraph(graphId)
         } else {
             // See if it was set by NavHostFragment.create()
             val args = arguments
-            val graphId = args?.getInt(KEY_GRAPH_ID) ?: 0
             val startDestinationArgs = args?.getBundle(KEY_START_DESTINATION_ARGS)
+            val graphId = args?.getInt(KEY_GRAPH_ID) ?: 0
             if (graphId != 0) {
-                navController!!.setGraph(graphId, startDestinationArgs)
+                navController?.setGraph(graphId, startDestinationArgs)
             }
         }
     }
@@ -236,9 +238,9 @@ class NavHostFragment : Fragment(), NavHost {
             this.graphId = graphId
         }
         navHost.recycle()
+
         val a = context.obtainStyledAttributes(attrs, R.styleable.NavHostFragment)
-        val defaultHost =
-            a.getBoolean(R.styleable.NavHostFragment_defaultNavHost, false)
+        val defaultHost = a.getBoolean(R.styleable.NavHostFragment_defaultNavHost, false)
         if (defaultHost) {
             defaultNavHost = true
         }

@@ -67,6 +67,7 @@ class FragmentNavigator internal constructor(
             generateBackStackName(backStack.size, backStack.peekLast()),
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
+        fragmentManager.fragments.removeAt(backStack.size - 1)
         backStack.removeLast()
         return true
     }
@@ -100,9 +101,7 @@ class FragmentNavigator internal constructor(
         className: String,
         args: Bundle?
     ): Fragment {
-        return fragmentManager.fragmentFactory.instantiate(
-            context.classLoader, className
-        )
+        return fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
     }
 
     /**
@@ -135,35 +134,30 @@ class FragmentNavigator internal constructor(
         }
         val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
         frag.arguments = args
+
         val ft = fragmentManager.beginTransaction()
-        var enterAnim = navOptions?.enterAnim ?: -1
-        var exitAnim = navOptions?.exitAnim ?: -1
-        var popEnterAnim = navOptions?.popEnterAnim ?: -1
-        var popExitAnim = navOptions?.popExitAnim ?: -1
-        if (enterAnim != -1 || exitAnim != -1 || popEnterAnim != -1 || popExitAnim != -1) {
-            enterAnim = if (enterAnim != -1) enterAnim else 0
-            exitAnim = if (exitAnim != -1) exitAnim else 0
-            popEnterAnim = if (popEnterAnim != -1) popEnterAnim else 0
-            popExitAnim = if (popExitAnim != -1) popExitAnim else 0
-            ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
-        }
-        if (fragmentManager.fragments.size > 0) {
-            ft.hide(fragmentManager.fragments[fragmentManager.fragments.size - 1])
+        val enterAnim = navOptions?.enterAnim ?: 0
+        val exitAnim = navOptions?.exitAnim ?: 0
+        val popEnterAnim = navOptions?.popEnterAnim ?: 0
+        val popExitAnim = navOptions?.popExitAnim ?: 0
+        ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
+
+        if (backStack.size > 0) {
+            ft.hide(fragmentManager.fragments[backStack.size - 1])
             ft.add(containerId, frag)
         } else {
             ft.replace(containerId, frag)
         }
-
-        //        ft.replace(mContainerId, frag);
         ft.setPrimaryNavigationFragment(frag)
+
         @IdRes val destId = destination.id
         val initialNavigation = backStack.isEmpty()
         // TODO Build first class singleTop behavior for fragments
         val isSingleTopReplacement = (navOptions != null && !initialNavigation
                 && navOptions.shouldLaunchSingleTop()
                 && backStack.peekLast() == destId)
-        val isAdded: Boolean
-        isAdded = when {
+
+        val isAdded = when {
             initialNavigation -> {
                 true
             }
@@ -189,7 +183,9 @@ class FragmentNavigator internal constructor(
         }
         if (navigatorExtras is Extras) {
             for ((key, value) in navigatorExtras.sharedElements) {
-                ft.addSharedElement(key!!, value!!)
+                if (key != null && value != null) {
+                    ft.addSharedElement(key, value)
+                }
             }
         }
         ft.setReorderingAllowed(true)
@@ -289,12 +285,8 @@ class FragmentNavigator internal constructor(
             attrs: AttributeSet
         ) {
             super.onInflate(context, attrs)
-            val a = context.resources.obtainAttributes(
-                attrs,
-                R.styleable.FragmentNavigator
-            )
-            val className = a.getString(R.styleable.FragmentNavigator_android_name)
-            className?.let { setClassName(it) }
+            val a = context.resources.obtainAttributes(attrs, R.styleable.FragmentNavigator)
+            a.getString(R.styleable.FragmentNavigator_android_name)?.let { setClassName(it) }
             a.recycle()
         }
 
@@ -337,8 +329,7 @@ class FragmentNavigator internal constructor(
     /**
      * Extras that can be passed to FragmentNavigator to enable Fragment specific behavior
      */
-    class Extras internal constructor(sharedElements: Map<View?, String?>?) :
-        Navigator.Extras {
+    internal class Extras constructor(sharedElements: Map<View?, String?>) : Navigator.Extras {
         private val sharedElementMaps = LinkedHashMap<View?, String?>()
 
         /**
@@ -348,6 +339,10 @@ class FragmentNavigator internal constructor(
          */
         val sharedElements: Map<View?, String?>
             get() = Collections.unmodifiableMap(sharedElementMaps)
+
+        init {
+            sharedElementMaps.putAll(sharedElements)
+        }
 
         /**
          * Builder for constructing new [Extras] instances. The resulting instances are
@@ -399,10 +394,6 @@ class FragmentNavigator internal constructor(
             fun build(): Extras {
                 return Extras(sharedElementsMaps)
             }
-        }
-
-        init {
-            sharedElementMaps.putAll(sharedElements!!)
         }
     }
 
