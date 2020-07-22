@@ -32,7 +32,7 @@ fun <V> escapeParams(map: Map<String?, V?>?): Map<String, V> {
     return hashMap
 }
 
-fun createUrlFromParams(url: String, params: Map<String, String>): String? {
+fun createUrlFromParams(url: String, params: Map<String, String>): String {
     try {
         val builder = StringBuilder()
         builder.append(url)
