@@ -8,6 +8,7 @@ import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.request.base.ProgressRequestBody
 import java.io.File
+import java.net.URLEncoder
 
 /**
  * @author tiamosu
@@ -23,6 +24,8 @@ class DataRepository : IRemoteRequest {
 
     override fun <T> getFriend(callback: Callback<T>) {
         FlyHttp[APIs.FRIEND_JSON]
+            .params("1", "小杰")
+            .params("2", URLEncoder.encode("小杰", "UTF-8"))
             .build()
             .execute(callback)
     }
@@ -30,9 +33,8 @@ class DataRepository : IRemoteRequest {
     override fun <T> post(callback: Callback<T>) {
         FlyHttp.post(APIs.FRIEND_JSON)
             .params("1", "小杰")
-            .addParamsToUrl(true)
+            .params("2", URLEncoder.encode("小杰", "UTF-8"))
             .retryCount(0)
-            .upObject("1233333333")
             .build()
             .execute(callback)
     }

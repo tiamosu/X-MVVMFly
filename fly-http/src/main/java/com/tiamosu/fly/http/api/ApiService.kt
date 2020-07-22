@@ -27,7 +27,7 @@ interface ApiService {
     @GET
     operator fun get(
         @Url url: String,
-        @QueryMap params: Map<String, String>
+        @QueryMap(encoded = true) params: Map<String, String>
     ): Observable<ResponseBody>
 
 
@@ -36,7 +36,10 @@ interface ApiService {
     // =========================//
     @POST
     @FormUrlEncoded
-    fun post(@Url url: String, @FieldMap maps: Map<String, String>): Observable<ResponseBody>
+    fun post(
+        @Url url: String,
+        @FieldMap(encoded = true) maps: Map<String, String>
+    ): Observable<ResponseBody>
 
     @POST
     fun postBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
@@ -53,7 +56,10 @@ interface ApiService {
     //         PUT请求           //
     // =========================//
     @PUT
-    fun put(@Url url: String, @QueryMap maps: Map<String, String>): Observable<ResponseBody>
+    fun put(
+        @Url url: String,
+        @QueryMap(encoded = true) maps: Map<String, String>
+    ): Observable<ResponseBody>
 
     @PUT
     fun putBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
@@ -70,7 +76,10 @@ interface ApiService {
     //         DELETE请求        //
     // =========================//
     @DELETE
-    fun delete(@Url url: String, @QueryMap maps: Map<String, String>): Observable<ResponseBody>
+    fun delete(
+        @Url url: String,
+        @QueryMap(encoded = true) maps: Map<String, String>
+    ): Observable<ResponseBody>
 
     @HTTP(method = "DELETE", hasBody = true)
     fun deleteBody(@Url url: String, @Body any: Any): Observable<ResponseBody>
