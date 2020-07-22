@@ -40,4 +40,6 @@ interface HasBody<R> {
     fun upBytes(bs: ByteArray?, mediaType: MediaType?): R
 
     fun upObject(any: Any?): R
+
+    fun addParamsToUrl(isAddParamsToUrl: Boolean): R
 }

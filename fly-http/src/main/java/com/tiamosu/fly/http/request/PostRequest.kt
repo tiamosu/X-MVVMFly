@@ -14,22 +14,22 @@ class PostRequest(url: String) : BaseBodyRequest<PostRequest>(url) {
     override fun generateRequest(): Observable<ResponseBody>? {
         when {
             requestBody != null -> {
-                return apiService?.postBody(url, requestBody!!)
+                return apiService?.postBody(getNewUrl(), requestBody!!)
             }
             json != null -> {
                 val body = json!!.toRequestBody(mediaType)
-                return apiService?.postJson(url, body)
+                return apiService?.postJson(getNewUrl(), body)
             }
             content != null -> {
                 val body = content!!.toRequestBody(mediaType)
-                return apiService?.postBody(url, body)
+                return apiService?.postBody(getNewUrl(), body)
             }
             bytes != null -> {
                 val body = bytes!!.toRequestBody(mediaType, 0, bytes!!.size)
-                return apiService?.postBody(url, body)
+                return apiService?.postBody(getNewUrl(), body)
             }
             any != null -> {
-                return apiService?.postBody(url, any!!)
+                return apiService?.postBody(getNewUrl(), any!!)
             }
             else -> return apiService?.post(url, httpParams.urlParamsMap)
         }

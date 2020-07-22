@@ -2,6 +2,7 @@ package com.tiamosu.fly.http.request.base
 
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.model.HttpParams.FileWrapper
+import com.tiamosu.fly.http.utils.createUrlFromParams
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONArray
@@ -24,6 +25,17 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     protected var bytes: ByteArray? = null          //上传的字节数据
     protected var any: Any? = null                  //上传的对象
     protected var requestBody: RequestBody? = null  //上传的自定义请求体
+    private var isAddParamsToUrl = true             //是否把 Params 拼接到 Url
+
+    /**
+     * 用于调用 upXxx() 相关函数，并且有传入 urlParams 时，把 urlParams 拼接到 url 上
+     */
+    protected fun getNewUrl(): String {
+        if (isAddParamsToUrl && httpParams.urlParamsMap.isNotEmpty()) {
+            return createUrlFromParams(url, httpParams.urlParamsMap)
+        }
+        return url
+    }
 
     override fun upRequestBody(requestBody: RequestBody?): R {
         this.requestBody = requestBody
@@ -121,6 +133,11 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
 
     override fun upObject(any: Any?): R {
         this.any = any
+        return this as R
+    }
+
+    override fun addParamsToUrl(isAddParamsToUrl: Boolean): R {
+        this.isAddParamsToUrl = isAddParamsToUrl
         return this as R
     }
 }

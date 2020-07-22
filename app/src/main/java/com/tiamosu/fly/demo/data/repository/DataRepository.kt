@@ -29,7 +29,10 @@ class DataRepository : IRemoteRequest {
 
     override fun <T> post(callback: Callback<T>) {
         FlyHttp.post(APIs.FRIEND_JSON)
+            .params("1", "z============")
+            .addParamsToUrl(false)
             .retryCount(0)
+            .upObject("1233333333")
             .build()
             .execute(callback)
     }

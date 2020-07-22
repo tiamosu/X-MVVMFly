@@ -14,22 +14,22 @@ class DeleteRequest(url: String) : BaseBodyRequest<DeleteRequest>(url) {
     override fun generateRequest(): Observable<ResponseBody>? {
         when {
             requestBody != null -> {
-                return apiService?.deleteBody(url, requestBody!!)
+                return apiService?.deleteBody(getNewUrl(), requestBody!!)
             }
             json != null -> {
                 val body = json!!.toRequestBody(mediaType)
-                return apiService?.deleteJson(url, body)
+                return apiService?.deleteJson(getNewUrl(), body)
             }
             content != null -> {
                 val body = content!!.toRequestBody(mediaType)
-                return apiService?.deleteBody(url, body)
+                return apiService?.deleteBody(getNewUrl(), body)
             }
             bytes != null -> {
                 val body = bytes!!.toRequestBody(mediaType, 0, bytes!!.size)
-                return apiService?.deleteBody(url, body)
+                return apiService?.deleteBody(getNewUrl(), body)
             }
             any != null -> {
-                return apiService?.deleteBody(url, any!!)
+                return apiService?.deleteBody(getNewUrl(), any!!)
             }
             else -> return apiService?.delete(url, httpParams.urlParamsMap)
         }
