@@ -1,3 +1,6 @@
+# 新版本1.4.3
+* 注意：Retrofit Map注解：设置(encoded = true)，交由外层自行处理
+
 # 新版本1.4.2
 * 移除 Http 输出打印
 * createUrlFromParams 函数优化
