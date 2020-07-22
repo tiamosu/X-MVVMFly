@@ -8,7 +8,6 @@ import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.cookie.CookieManger
 import com.tiamosu.fly.http.https.HttpsUtils
-import com.tiamosu.fly.http.interceptors.HttpLoggingInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
@@ -63,7 +62,6 @@ class FlyHttp {
     private var cacheDirectory: File? = null                        //缓存目录
     private var cacheMaxSize = 0L                                   //缓存大小
     private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
-    private var loggingInterceptor: HttpLoggingInterceptor? = null  //日志拦截器
     private var isGlobalErrorHandle = false                         //是否进行全局错误统一处理
 
     init {
@@ -76,30 +74,6 @@ class FlyHttp {
         retrofitBuilder = getAppComponent().retrofit().newBuilder()
         rxCacheBuilder = RxCache.Builder().init()
             .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
-    }
-
-    /**
-     * 调试模式,默认打开所有的异常调试
-     */
-    fun debug(tag: String? = null): FlyHttp {
-        debug(tag, true)
-        return this
-    }
-
-    /**
-     * 调试模式,第二个参数表示所有catch住的log是否需要打印
-     * 一般来说,这些异常是由于不标准的数据格式,或者特殊需要主动产生的,
-     * 并不是框架错误,如果不想每次打印,这里可以关闭异常显示
-     */
-    fun debug(tag: String?, isPrintException: Boolean): FlyHttp {
-        val tempTag = if (TextUtils.isEmpty(tag)) "FlyHttp" else tag
-        if (isPrintException) {
-            loggingInterceptor = HttpLoggingInterceptor(tempTag!!).also {
-                it.setLevel(HttpLoggingInterceptor.Level.BODY)
-            }
-        }
-        FlyHttpLog.debugLog(tempTag!!, isPrintException)
-        return this
     }
 
     /**
@@ -539,11 +513,6 @@ class FlyHttp {
         @JvmStatic
         fun getRxCache(): RxCache {
             return instance.rxCacheBuilder.build()
-        }
-
-        @JvmStatic
-        fun getLoggingInterceptor(): HttpLoggingInterceptor? {
-            return instance.loggingInterceptor
         }
 
         @JvmStatic

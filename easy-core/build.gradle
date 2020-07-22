@@ -11,5 +11,6 @@ dependencies {
     api Deps.androidx_constraint_layout
     api Deps.androidx_viewpager2
     api Deps.loadsir
+    implementation Deps.okhttp3_logging_interceptor
     debugImplementation Deps.leakcanary_android
 }

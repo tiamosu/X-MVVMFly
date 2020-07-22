@@ -8,7 +8,6 @@ import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.kingja.loadsir.core.LoadSir
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
-import com.tiamosu.fly.core.BuildConfig
 import com.tiamosu.fly.core.ui.loadsir.CustomCallback
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
@@ -19,6 +18,7 @@ import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.imageloader.glide.GlideFly
 import com.tiamosu.fly.utils.getAppComponent
 import okhttp3.ConnectionPool
+import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
 
 /**
@@ -41,7 +41,6 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
         val httpHeaders = HttpHeaders()
         httpHeaders.put(HttpHeaders.HEAD_KEY_USER_AGENT, HttpHeaders.userAgent)
         FlyHttp.instance
-            .debug("FlyHttp", BuildConfig.DEBUG)
             .setBaseUrl(Api.APP_DOMAIN)
             .setReadTimeOut(60 * 1000)
             .setWriteTimeOut(60 * 1000)
@@ -49,8 +48,10 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             .setOkHttpProxy(Proxy.NO_PROXY)
             .setHostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             .setCertificates()
-            .addInterceptor(CustomSignInterceptor())
             .setOkHttpConnectionPool(ConnectionPool())
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
             .setCallbackExecutor(getAppComponent().executorService())
             .addCommonHeaders(httpHeaders)
     }

@@ -10,6 +10,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.URLConnection
+import java.net.URLEncoder
 import java.nio.charset.Charset
 
 /**
@@ -32,24 +33,30 @@ fun <V> escapeParams(map: Map<String?, V?>?): Map<String, V> {
     return hashMap
 }
 
-fun createUrlFromParams(url: String, params: Map<String, String>): String {
-    try {
-        val builder = StringBuilder()
-        builder.append(url)
-        if (url.indexOf('&') > 0 || url.indexOf('?') > 0) builder.append("&") else builder.append(
-            "?"
-        )
-        for ((key, urlValues) in params) {
-            //对参数进行 utf-8 编码,防止头信息传中文
-            //String urlValue = URLEncoder.encode(urlValues, UTF8.name());
-            builder.append(key).append("=").append(urlValues).append("&")
-        }
-        builder.deleteCharAt(builder.length - 1)
-        return builder.toString()
-    } catch (e: Exception) {
-        FlyHttpLog.eLog(e.message)
+fun createUrlFromParams(
+    url: String,
+    params: Map<String, String>,
+    isEncode: Boolean = false
+): String {
+    if (params.isEmpty()) {
+        return url
     }
-    return url
+    return StringBuilder().apply {
+        append(url)
+        if (url.indexOf('&') > 0 || url.indexOf('?') > 0) append("&") else append("?")
+
+        for ((key, value) in params) {
+            //对参数进行 utf-8 编码,防止头信息传中文
+            var newValue = value
+            if (isEncode) {
+                newValue = URLEncoder.encode(newValue, UTF8.name())
+            }
+            append(key).append("=").append(newValue).append("&")
+        }
+        if (length > 0) {
+            deleteCharAt(length - 1)
+        }
+    }.toString()
 }
 
 /**

@@ -386,7 +386,6 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
                 it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
             }
         }
-        FlyHttp.getLoggingInterceptor()?.let(okHttpNewBuilder::addInterceptor)
         return okHttpNewBuilder
     }
 
