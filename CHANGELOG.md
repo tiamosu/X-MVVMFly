@@ -1,3 +1,7 @@
+# 新版本1.4.1
+* fly-http：增加 addParamsToUrl 函数，默认为 true，调用 upXxx() 相关函数，并且有传入 urlParams 时，把 urlParams 拼接到 url 上
+* EventLiveData 优化
+
 # 新版本1.4.0
 * 修复 popUpToInclusive 属性设置 BUG 问题
 
