@@ -133,6 +133,7 @@ class WeakHandler {
         return hardRef.wrapper
     }
 
+    @Suppress("DEPRECATION")
     private class ExecHandler : Handler {
         private val callback: WeakReference<Callback>?
 
