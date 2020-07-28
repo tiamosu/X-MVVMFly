@@ -1,3 +1,7 @@
+# 新版本1.4.4
+* visible 生命周期优化
+* EventLiveData 优化
+
 # 新版本1.4.3
 * 注意：Retrofit Map注解：设置(encoded = true)，交由外层自行处理
 
