@@ -78,8 +78,11 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
                 needDispatch = false
                 dispatchSupportVisible(true)
             } else if (invisibleWhenLeave && isNeedDispatchRecord) {
-                needDispatch = false
-                dispatchSupportVisible(true)
+                val parent = fragment.parentFragment
+                if (parent is IFlySupportFragment && parent.isFlySupportVisible()) {
+                    needDispatch = false
+                    dispatchSupportVisible(true)
+                }
             }
         } else {
             if (abortInitVisible) {
