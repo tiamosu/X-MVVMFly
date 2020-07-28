@@ -72,7 +72,7 @@ open class ProtectedEventLiveData<T> : LiveData<T>() {
      * @param value
      */
     override fun setValue(value: T?) {
-        if (!isAllowNullValue && value == null && !isCleaning) {
+        if (!isCleaning && !isAllowNullValue && value == null) {
             return
         }
         hasHandled = false
@@ -83,10 +83,13 @@ open class ProtectedEventLiveData<T> : LiveData<T>() {
             cancel()
             timer.purge()
         }
-        timerTask = timerTask {
-            clear()
+
+        if (value != null) {
+            timerTask = timerTask {
+                clear()
+            }
+            timer.schedule(timerTask, delayToClearEvent.toLong())
         }
-        timer.schedule(timerTask, delayToClearEvent.toLong())
     }
 
     private fun clear() {
