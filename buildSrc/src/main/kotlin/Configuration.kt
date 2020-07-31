@@ -24,7 +24,7 @@ object Versions {
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.4.4" //版本号
+    const val publishVersion = "1.4.5" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
@@ -79,7 +79,7 @@ object Deps {
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
     //rx
-    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.4"
+    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.5"
     const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:3.0.0"
     const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:3.0.2"
 

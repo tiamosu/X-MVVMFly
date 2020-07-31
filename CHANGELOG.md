@@ -1,3 +1,7 @@
+# 新版本1.4.5
+* rxjava3 3.0.4 → 3.0.5
+* fly-http：文件下载BUG修复
+
 # 新版本1.4.4
 * visible 生命周期优化
 * EventLiveData 优化
