@@ -2,7 +2,9 @@ package com.tiamosu.fly.http.callback
 
 import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.tiamosu.fly.http.model.Progress
+import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.postOnMain
 import okhttp3.ResponseBody
@@ -17,6 +19,7 @@ import java.io.*
 abstract class FileCallback : ResultCallback<File> {
     private var destFileDir: String                     //目标文件存储的文件夹路径
     private var destFileName: String                    //目标文件存储的文件名
+    private var downLoadTask: DownloadTask? = null
 
     constructor() : this(null)
 
@@ -30,6 +33,28 @@ abstract class FileCallback : ResultCallback<File> {
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): File? {
+        if (downLoadTask == null) {
+            DownloadTask(body)
+                .also { downLoadTask = it }
+                .let(ThreadUtils::executeByIo)
+        }
+        return null
+    }
+
+    private inner class DownloadTask(private val responseBody: ResponseBody) :
+        ThreadUtils.SimpleTask<File?>() {
+        override fun doInBackground(): File? {
+            return saveFile(responseBody)
+        }
+
+        override fun onSuccess(result: File?) {
+            postOnMain {
+                onSuccess(Response.success(false, result))
+            }
+        }
+    }
+
+    private fun saveFile(body: ResponseBody): File? {
         val file = createFile(destFileDir, destFileName)
         val inputStream = body.byteStream()
         var bis: BufferedInputStream? = null
@@ -55,6 +80,7 @@ abstract class FileCallback : ResultCallback<File> {
             bos.flush()
             fos.flush()
         } catch (e: IOException) {
+            e.printStackTrace()
             return null
         } finally {
             CloseUtils.closeIO(body, bos, fos, bis, inputStream)

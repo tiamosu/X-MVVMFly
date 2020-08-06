@@ -1,5 +1,6 @@
 package com.tiamosu.fly.http.subscriber
 
+import com.tiamosu.fly.http.callback.FileCallback
 import com.tiamosu.fly.http.callback.ResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
@@ -23,9 +24,11 @@ class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp
     override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            postOnMain {
-                val response = Response.success(false, body)
-                callback?.onSuccess(response)
+            if (callback !is FileCallback) {
+                postOnMain {
+                    val response = Response.success(false, body)
+                    callback?.onSuccess(response)
+                }
             }
         } catch (throwable: Throwable) {
             errorHandle(throwable)
