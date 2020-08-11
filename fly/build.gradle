@@ -12,12 +12,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //kotlin
     api Deps.kotlin_stdlib_jdk8
-    api Deps.kotlin_ktx
 
     //androidx
     api Deps.androidx_appcompat
     api Deps.androidx_fragment_ktx
     api Deps.androidx_navigation_runtime
+    api Deps.androidx_core_ktx
 
     //lifecycle
     api Deps.lifecycle_runtime

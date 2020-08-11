@@ -2,7 +2,7 @@
 
 object Android {
     const val compileSdkVersion = 30
-    const val buildToolsVersion = "30.0.0"
+    const val buildToolsVersion = "30.0.1"
     const val minSdkVersion = 21
     const val targetSdkVersion = 30
 
@@ -14,7 +14,7 @@ object Versions {
     const val kotlin = "1.4.0-rc"
     const val lifecycle = "2.2.0"
     const val retrofit2 = "2.9.0"
-    const val okhttp3 = "4.8.0"
+    const val okhttp3 = "4.8.1"
     const val glide = "4.11.0"
     const val dagger2 = "2.28.3"
     const val navigation = "2.3.0"
@@ -24,7 +24,7 @@ object Versions {
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.4.6" //版本号
+    const val publishVersion = "1.4.7" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
@@ -35,7 +35,7 @@ object Deps {
     //androidx
     const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
     const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
-    const val androidx_core_ktx = "androidx.core:core-ktx:1.3.0"
+    const val androidx_core_ktx = "androidx.core:core-ktx:1.3.1"
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
     const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
 
@@ -62,7 +62,6 @@ object Deps {
     const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-    const val kotlin_ktx = "androidx.core:core-ktx:1.3.0"
 
     //dagger2
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
