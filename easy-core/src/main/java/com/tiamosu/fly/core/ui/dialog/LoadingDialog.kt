@@ -62,7 +62,7 @@ class LoadingDialog : BaseFlyDialogFragment() {
                 isCancelable = onCancelListener != null
             }
 
-            override fun setWindowStyle(dialog: BaseFlyDialogFragment, window: Window) {
+            override fun setWindowStyle(window: Window) {
                 window.setLayout(
                     WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.MATCH_PARENT

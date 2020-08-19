@@ -51,7 +51,7 @@ open class BaseFlyDialogFragment : DialogFragment() {
         //解决内存泄漏问题（注意：无法监听 Dialog 的 onShow、onDismiss 事件；直接在 DialogFragment 层面进行监听）
         val dialog = WeakDialog(requireContext(), theme)
         val window = dialog.window ?: return dialog
-        dialogCallback?.setWindowStyle(this, window)
+        dialogCallback?.setWindowStyle(window)
         return dialog
     }
 

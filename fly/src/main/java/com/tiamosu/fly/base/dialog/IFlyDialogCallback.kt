@@ -15,7 +15,7 @@ interface IFlyDialogCallback {
 
     fun initView(dialog: BaseFlyDialogFragment, contentView: View)
 
-    fun setWindowStyle(dialog: BaseFlyDialogFragment, window: Window) {}
+    fun setWindowStyle(window: Window) {}
 
     fun onCancel(dialog: BaseFlyDialogFragment) {}
 
