@@ -1,3 +1,6 @@
+# 新版本1.4.8
+* setWindowStyle(window: Window) →  setWindowStyle(dialog: BaseFlyDialogFragment, window: Window)   
+
 # 新版本1.4.7
 * okhttp3 4.8.0 → 4.8.1
 
