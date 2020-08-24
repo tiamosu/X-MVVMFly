@@ -78,7 +78,7 @@ object Deps {
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
     //rx
-    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.5"
+    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.6"
     const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:3.0.0"
     const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:3.0.2"
 
