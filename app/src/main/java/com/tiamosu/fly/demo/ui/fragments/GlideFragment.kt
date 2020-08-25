@@ -29,35 +29,33 @@ class GlideFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_load_local_pic.clickNoRepeat {
-            ImageLoader.loadImage(
-                ImageConfigImpl
-                    .load(R.drawable.fly)
-                    .crossFade()
-                    .centerInside()
-                    .override(150, 150)
-                    .into(iv)
-                    .build()
-            )
+            ImageConfigImpl
+                .load(R.drawable.fly)
+                .crossFade()
+                .centerInside()
+                .override(150, 150)
+                .into(iv)
+                .build()
+                .let(ImageLoader::loadImage)
         }
 
         btn_load_net_pic.clickNoRepeat {
-            ImageLoader.loadImage(
-                ImageConfigImpl
-                    .load(IMG_URL)
-                    .`as`(TranscodeType.AS_DRAWABLE)
-                    .override(300, 300)
-                    .into(object : DrawableImageViewTarget(iv) {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            super.onResourceReady(resource, transition)
-                            //图片加载完成，可执行相关操作
-                            ToastUtils.showShort("图片加载完成！")
-                        }
-                    })
-                    .build()
-            )
+            ImageConfigImpl
+                .load(IMG_URL)
+                .`as`(TranscodeType.AS_DRAWABLE)
+                .override(300, 300)
+                .into(object : DrawableImageViewTarget(iv) {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        super.onResourceReady(resource, transition)
+                        //图片加载完成，可执行相关操作
+                        ToastUtils.showShort("图片加载完成！")
+                    }
+                })
+                .build()
+                .let(ImageLoader::loadImage)
         }
     }
 
