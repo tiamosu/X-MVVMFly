@@ -1,3 +1,9 @@
+# 新版本1.4.8
+* rxjava3 3.0.5 → 3.0.6
+* androidx_appcompat 1.1.0 → 1.2.0
+* constraintlayout 1.1.3 → 2.0.0
+* glide 加载调试
+
 # 新版本1.4.7
 * okhttp3 4.8.0 → 4.8.1
 
