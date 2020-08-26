@@ -13,12 +13,25 @@ object Android {
 object Versions {
     const val kotlin = "1.4.0"
     const val lifecycle = "2.2.0"
+    const val appcompat = "1.2.0"
+    const val viewpager2 = "1.0.0"
+    const val constraintlayout = "2.0.0"
+    const val corektx = "1.3.1"
+    const val fragmentktx = "1.2.5"
+    const val navigation = "2.3.0"
+
+    const val rxjava = "3.0.6"
+    const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.8.1"
     const val glide = "4.11.0"
     const val dagger2 = "2.28.3"
-    const val navigation = "2.3.0"
     const val utilcode = "1.29.0"
+    const val leakcanary = "2.4"
+    const val disklrucache = "2.0.2"
+
+    const val rxerrorhandler = "3.0.2"
+    const val loadsir = "2.0.1"
 }
 
 object Publish {
@@ -33,13 +46,14 @@ object Publish {
 
 object Deps {
     //androidx
-    const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
-    const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:1.1.3"
-    const val androidx_core_ktx = "androidx.core:core-ktx:1.3.1"
-    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+    const val androidx_appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
+    const val androidx_constraint_layout =
+        "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
+    const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
 
     //navigation
-    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
+    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragmentktx}"
     const val androidx_navigation_runtime =
         "androidx.navigation:navigation-runtime:${Versions.navigation}"
     const val androidx_navigation_fragment_ktx =
@@ -68,7 +82,8 @@ object Deps {
     const val dagger2_apt = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
 
     //leakcanary
-    const val leakcanary_android = "com.squareup.leakcanary:leakcanary-android:2.4"
+    const val leakcanary_android =
+        "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
 
     //retrofit2
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
@@ -78,15 +93,15 @@ object Deps {
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
     //rx
-    const val rxjava3 = "io.reactivex.rxjava3:rxjava:3.0.6"
-    const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:3.0.0"
-    const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:3.0.2"
+    const val rxjava3 = "io.reactivex.rxjava3:rxjava:${Versions.rxjava}"
+    const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
+    const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:${Versions.rxerrorhandler}"
 
     //utilcode
     const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"
 
     //disklrucache
-    const val disklrucache = "com.jakewharton:disklrucache:2.0.2"
+    const val disklrucache = "com.jakewharton:disklrucache:${Versions.disklrucache}"
 
     //okhttp
     const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
@@ -98,5 +113,5 @@ object Deps {
     const val glide_compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     //loadSir
-    const val loadsir = "me.tiamosu:X-LoadSir:2.0.1"
+    const val loadsir = "me.tiamosu:X-LoadSir:${Versions.loadsir}"
 }

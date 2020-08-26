@@ -30,7 +30,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     var errorDrawable: Drawable? = null
     var fallbackDrawable: Drawable? = null
     var requestOptions: RequestOptions? = null//加载配置
-    var requestListener: RequestListener<Any>? = null//加载监听
+    var requestListener: RequestListener<out Any>? = null//加载监听
     var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
     var imageViews: Array<ImageView?>? = null//视图控件数组
     var cacheStrategy = 0//缓存策略
@@ -88,7 +88,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         var errorDrawable: Drawable? = null
         var fallbackDrawable: Drawable? = null
         var requestOptions: RequestOptions? = null//加载配置
-        var requestListener: RequestListener<Any>? = null//加载监听
+        var requestListener: RequestListener<out Any>? = null//加载监听
         var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
         var imageViews: Array<ImageView?>? = null//视图控件数组
         var cacheStrategy = 0//缓存策略
@@ -115,7 +115,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
             return this
         }
 
-        fun into(imageViews: Array<ImageView?>?): Builder {
+        fun imageViews(imageViews: Array<ImageView?>?): Builder {
             this.imageViews = imageViews
             return this
         }
@@ -227,7 +227,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
             return this
         }
 
-        fun addListener(requestListener: RequestListener<Any>?): Builder {
+        fun addListener(requestListener: RequestListener<out Any>?): Builder {
             this.requestListener = requestListener
             return this
         }

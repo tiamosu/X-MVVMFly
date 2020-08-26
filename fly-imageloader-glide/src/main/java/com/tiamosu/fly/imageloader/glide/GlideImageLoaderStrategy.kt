@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
 import com.tiamosu.fly.utils.post
@@ -101,9 +102,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         //添加图片加载监听
-        if (config.requestListener != null) {
-            glideRequest.addListener(config.requestListener)
-        }
+        (config.requestListener as? RequestListener<Any>)?.let(glideRequest::addListener)
 
         //不加载动画
         if (config.isDontAnimate) {

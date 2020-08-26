@@ -1,7 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.graphics.drawable.Drawable
-import com.blankj.utilcode.util.ToastUtils
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.tiamosu.fly.core.base.BaseFragment
@@ -9,7 +9,6 @@ import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
-import com.tiamosu.fly.imageloader.glide.TranscodeType
 import kotlinx.android.synthetic.main.fragment_glide.*
 
 /**
@@ -29,34 +28,31 @@ class GlideFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_load_local_pic.clickNoRepeat {
-            ImageConfigImpl
-                .load(R.drawable.fly)
-                .crossFade()
-                .centerInside()
-                .override(150, 150)
-                .into(iv)
-                .build()
-                .let(ImageLoader::loadImage)
+            loadImage(R.drawable.timg)
         }
 
         btn_load_net_pic.clickNoRepeat {
-            ImageConfigImpl
-                .load(IMG_URL)
-                .`as`(TranscodeType.AS_DRAWABLE)
-                .override(300, 300)
-                .into(object : DrawableImageViewTarget(iv) {
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        super.onResourceReady(resource, transition)
-                        //图片加载完成，可执行相关操作
-                        ToastUtils.showShort("图片加载完成！")
-                    }
-                })
-                .build()
-                .let(ImageLoader::loadImage)
+            loadImage(IMG_URL)
         }
+    }
+
+    private fun loadImage(any: Any) {
+        ImageConfigImpl
+            .load(any)
+            .override(300, 300)
+            .into(object : DrawableImageViewTarget(iv) {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    super.onResourceReady(resource, transition)
+                    if (resource is GifDrawable) {
+                        resource.setLoopCount(GifDrawable.LOOP_FOREVER)
+                    }
+                }
+            })
+            .build()
+            .let(ImageLoader::loadImage)
     }
 
     override fun doBusiness() {}
