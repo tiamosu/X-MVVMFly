@@ -71,22 +71,22 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         //设置占位符
-        if (config.placeholder != 0) {
-            glideRequest.placeholder(config.placeholder)
+        if (config.placeholderId != 0) {
+            glideRequest.placeholder(config.placeholderId)
         } else if (config.placeholderDrawable != null) {
             glideRequest.placeholder(config.placeholderDrawable)
         }
 
         //设置错误的图片
-        if (config.error != 0) {
-            glideRequest.error(config.error)
+        if (config.errorId != 0) {
+            glideRequest.error(config.errorId)
         } else if (config.errorDrawable != null) {
             glideRequest.error(config.errorDrawable)
         }
 
         //设置请求 url 为空图片
-        if (config.fallback != 0) {
-            glideRequest.fallback(config.fallback)
+        if (config.fallbackId != 0) {
+            glideRequest.fallback(config.fallbackId)
         } else if (config.fallbackDrawable != null) {
             glideRequest.fallback(config.fallbackDrawable)
         }

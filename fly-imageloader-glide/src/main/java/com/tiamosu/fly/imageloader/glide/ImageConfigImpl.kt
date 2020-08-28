@@ -25,7 +25,7 @@ import java.net.URL
 @Suppress("unused")
 class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     var target: Target<out Any>? = null
-    var fallback = 0 //请求 url 为空,则使用此图片作为占位符
+    var fallbackId = 0 //请求 url 为空,则使用此图片作为占位符
     var placeholderDrawable: Drawable? = null
     var errorDrawable: Drawable? = null
     var fallbackDrawable: Drawable? = null
@@ -50,10 +50,10 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     init {
         this.any = builder.any
         this.imageView = builder.imageView
-        this.placeholder = builder.placeholder
-        this.error = builder.error
+        this.placeholderId = builder.placeholderId
+        this.errorId = builder.errorId
         this.target = builder.target
-        this.fallback = builder.fallback
+        this.fallbackId = builder.fallbackId
         this.placeholderDrawable = builder.placeholderDrawable
         this.errorDrawable = builder.errorDrawable
         this.fallbackDrawable = builder.fallbackDrawable
@@ -81,9 +81,9 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     ) {
         var imageView: ImageView? = null
         var target: Target<out Any>? = null
-        var placeholder = 0//占位符
-        var error = 0//错误占位符
-        var fallback = 0 //请求 url 为空,则使用此图片作为占位符
+        var placeholderId = 0//占位符
+        var errorId = 0//错误占位符
+        var fallbackId = 0 //请求 url 为空,则使用此图片作为占位符
         var placeholderDrawable: Drawable? = null
         var errorDrawable: Drawable? = null
         var fallbackDrawable: Drawable? = null
@@ -105,67 +105,106 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         var isClearDiskCache = false//清理本地缓存
         var isDontAnimate = false//不显示动画
 
+        /**
+         * 传入视图控件
+         */
         fun into(imageView: ImageView?): Builder {
             this.imageView = imageView
             return this
         }
 
+        /**
+         * 添加 target，可通过返回结果自行处理
+         */
         fun into(target: Target<out Any>?): Builder {
             this.target = target
             return this
         }
 
+        /**
+         * 视图控件，用于取消在执行的任务并且释放资源
+         */
         fun imageViews(imageViews: Array<ImageView?>?): Builder {
             this.imageViews = imageViews
             return this
         }
 
+        /**
+         * 设置转码类型，默认为 AS_DRAWABLE
+         */
         fun `as`(@TranscodeType.Type transcodeType: Int): Builder {
             this.transcodeType = transcodeType
             return this
         }
 
-        fun placeholder(placeholder: Int): Builder {
-            this.placeholder = placeholder
+        /**
+         * 设置占位符，优先级高于[placeholderDrawable]
+         */
+        fun placeholder(@DrawableRes resourceId: Int): Builder {
+            this.placeholderId = resourceId
             return this
         }
 
-        fun placeholder(placeholder: Drawable?): Builder {
-            this.placeholderDrawable = placeholder
+        /**
+         * 设置占位符，优先级低于[placeholderId]
+         */
+        fun placeholder(drawable: Drawable?): Builder {
+            this.placeholderDrawable = drawable
             return this
         }
 
-        fun error(error: Int): Builder {
-            this.error = error
+        /**
+         * 错误占位符，优先级高于[errorDrawable]
+         */
+        fun error(@DrawableRes resourceId: Int): Builder {
+            this.errorId = resourceId
             return this
         }
 
-        fun error(error: Drawable?): Builder {
-            this.errorDrawable = error
+        /**
+         * 错误占位符，优先级低于[errorId]
+         */
+        fun error(drawable: Drawable?): Builder {
+            this.errorDrawable = drawable
             return this
         }
 
-        fun fallback(fallback: Int): Builder {
-            this.fallback = fallback
+        /**
+         * 请求 url 为空，则使用此图片作为占位符，优先级高于[fallbackDrawable]
+         */
+        fun fallback(@DrawableRes resourceId: Int): Builder {
+            this.fallbackId = resourceId
             return this
         }
 
-        fun fallback(fallback: Drawable?): Builder {
-            this.fallbackDrawable = fallback
+        /**
+         * 请求 url 为空，则使用此图片作为占位符，优先级低于[fallbackId]
+         */
+        fun fallback(drawable: Drawable?): Builder {
+            this.fallbackDrawable = drawable
             return this
         }
 
+        /**
+         * 缓存策略
+         */
         fun diskCacheStrategy(@GlideDiskCacheStrategy.StrategyType cacheStrategy: Int): Builder {
             this.cacheStrategy = cacheStrategy
             return this
         }
 
-        fun imageRadius(mRoundingRadius: Int): Builder {
-            this.roundingRadius = mRoundingRadius
+        /**
+         * 图片圆角大小
+         */
+        fun imageRadius(roundingRadius: Int): Builder {
+            this.roundingRadius = roundingRadius
             return this
         }
 
-        fun blurValue(blurValue: Int): Builder { //blurValue 建议设置为 15
+        /**
+         * 高斯模糊值, 值越大模糊效果越大（blurValue 建议设置为 15）
+         */
+        fun blurValue(blurValue: Int): Builder {
             this.blurValue = blurValue
             return this
         }
@@ -178,7 +217,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 此 API 会在后面的版本中被删除, 请使用其他 API 替代
          *
          * @param transformation [BitmapTransformation]
-         * 请使用 [.mIsCircleCrop], [.mIsCenterCrop], [.mRoundingRadius] 替代
+         * 请使用 [isCircleCrop], [isCenterCrop], [imageRadius] 替代
          * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 [com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy]
          */
         fun transform(transformation: BitmapTransformation?): Builder {
@@ -186,52 +225,82 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
             return this
         }
 
+        /**
+         * 是否使用淡入淡出过渡动画
+         */
         fun crossFade(): Builder {
             this.isCrossFade = true
             return this
         }
 
+        /**
+         * 是否将图片剪切为 CenterCrop
+         */
         fun centerCrop(): Builder {
             this.isCenterCrop = true
             return this
         }
 
+        /**
+         * 是否将图片剪切为 CenterInside
+         */
         fun centerInside(): Builder {
             this.isCenterInside = true
             return this
         }
 
+        /**
+         * 是否将图片剪切为圆形
+         */
         fun circleCrop(): Builder {
             this.isCircleCrop = true
             return this
         }
 
+        /**
+         * 重新设定图片大小（targetWidth、targetHeight 都要大于0才生效）
+         */
         fun override(targetWidth: Int, targetHeight: Int): Builder {
             this.targetWidth = targetWidth
             this.targetHeight = targetHeight
             return this
         }
 
+        /**
+         * 清理内存缓存
+         */
         fun clearMemory(): Builder {
             this.isClearMemory = true
             return this
         }
 
+        /**
+         * 清理本地缓存
+         */
         fun clearDiskCache(): Builder {
             this.isClearDiskCache = true
             return this
         }
 
+        /**
+         * 自定义加载配置
+         */
         fun apply(requestOptions: RequestOptions?): Builder {
             this.requestOptions = requestOptions
             return this
         }
 
+        /**
+         * 加载监听
+         */
         fun addListener(requestListener: RequestListener<out Any>?): Builder {
             this.requestListener = requestListener
             return this
         }
 
+        /**
+         * 不显示动画
+         */
         fun dontAnimate(): Builder {
             this.isDontAnimate = true
             return this
