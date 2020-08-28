@@ -1,9 +1,11 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.graphics.drawable.Drawable
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.target.DrawableImageViewTarget
-import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.ext.clickNoRepeat
@@ -39,18 +41,31 @@ class GlideFragment : BaseFragment() {
     private fun loadImage(any: Any) {
         ImageConfigImpl
             .load(any)
-            .override(300, 300)
-            .into(object : DrawableImageViewTarget(iv) {
+            .override(500, 500)
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
                 override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    super.onResourceReady(resource, transition)
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
                     if (resource is GifDrawable) {
                         resource.setLoopCount(GifDrawable.LOOP_FOREVER)
                     }
+                    return false
                 }
             })
+            .into(iv)
             .build()
             .let(ImageLoader::loadImage)
     }
