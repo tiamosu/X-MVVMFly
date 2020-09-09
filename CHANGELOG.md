@@ -1,3 +1,9 @@
+# 新版本1.5.0
+* 修复 FragmentNavigator 数值越界 BUG
+
+# 新版本1.4.9
+* 重新发布
+
 # 新版本1.4.8
 * rxjava3 3.0.5 → 3.0.6
 * androidx_appcompat 1.1.0 → 1.2.0
