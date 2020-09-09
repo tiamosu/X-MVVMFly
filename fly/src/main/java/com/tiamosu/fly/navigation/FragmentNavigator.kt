@@ -34,9 +34,16 @@ import java.util.*
  */
 @Navigator.Name("fragment")
 class FragmentNavigator internal constructor(
-    private val context: Context, private val fragmentManager: FragmentManager,
+    private val context: Context,
+    private val fragmentManager: FragmentManager,
     private val containerId: Int
 ) : Navigator<Destination>() {
+
+    companion object {
+        private const val TAG = "FragmentNavigator"
+        private const val KEY_BACK_STACK_IDS = "androidx-nav-fragment:navigator:backStackIds"
+    }
+
     private val backStack = ArrayDeque<Int>()
 
     /**
@@ -67,7 +74,9 @@ class FragmentNavigator internal constructor(
             generateBackStackName(backStack.size, backStack.peekLast()),
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
-        fragmentManager.fragments.removeAt(backStack.size - 1)
+        if (fragmentManager.fragments.size > backStack.size - 1) {
+            fragmentManager.fragments.removeAt(backStack.size - 1)
+        }
         backStack.removeLast()
         return true
     }
@@ -143,8 +152,10 @@ class FragmentNavigator internal constructor(
         ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
 
         if (backStack.size > 0) {
-            ft.hide(fragmentManager.fragments[backStack.size - 1])
-            ft.add(containerId, frag)
+            if (fragmentManager.fragments.size > backStack.size - 1) {
+                ft.hide(fragmentManager.fragments[backStack.size - 1])
+                ft.add(containerId, frag)
+            }
         } else {
             ft.replace(containerId, frag)
         }
@@ -395,10 +406,5 @@ class FragmentNavigator internal constructor(
                 return Extras(sharedElementsMaps)
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "FragmentNavigator"
-        private const val KEY_BACK_STACK_IDS = "androidx-nav-fragment:navigator:backStackIds"
     }
 }
