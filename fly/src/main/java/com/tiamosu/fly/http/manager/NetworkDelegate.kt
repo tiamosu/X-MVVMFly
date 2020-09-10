@@ -15,7 +15,7 @@ class NetworkDelegate {
     private var lastNetStatus = NetworkState.NETWORK_DEFAULT
 
     //网络是否重新连接
-    private var isNetReConnect: Boolean = false
+    private var isNetReConnect = false
 
     fun addNetworkObserve(baseView: IFlyBaseView) {
         val owner = baseView as? LifecycleOwner ?: return
