@@ -2,7 +2,7 @@
 
 object Android {
     const val compileSdkVersion = 30
-    const val buildToolsVersion = "30.0.1"
+    const val buildToolsVersion = "30.0.2"
     const val minSdkVersion = 21
     const val targetSdkVersion = 30
 
@@ -11,7 +11,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.4.0"
+    const val kotlin = "1.4.10"
     const val lifecycle = "2.2.0"
     const val appcompat = "1.2.0"
     const val viewpager2 = "1.0.0"
@@ -23,7 +23,7 @@ object Versions {
     const val rxjava = "3.0.6"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
-    const val okhttp3 = "4.8.1"
+    const val okhttp3 = "4.9.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.29"
     const val utilcode = "1.29.0"
