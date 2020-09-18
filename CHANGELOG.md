@@ -1,3 +1,8 @@
+# 新版本1.5.1
+* kotlin 1.4.0 → 1.4.10
+* okhttp 4.8.1 → 4.9.0
+* dagger 2.29 → 2.29.1
+
 # 新版本1.5.0
 * 修复 FragmentNavigator 数值越界 BUG
 
