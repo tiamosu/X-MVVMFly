@@ -54,7 +54,7 @@ import com.tiamosu.fly.R
  * fragments can use these helpers to navigate based on user interaction without creating a tight
  * coupling to the navigation host.
  */
-class NavHostFragment : Fragment(), NavHost {
+open class NavHostFragment : Fragment(), NavHost {
     private var navController: NavHostController? = null
     private var isPrimaryBeforeOnCreate: Boolean? = null
 
@@ -146,6 +146,7 @@ class NavHostFragment : Fragment(), NavHost {
      *
      * @param navController The newly created [NavController].
      */
+    @Suppress("DEPRECATION")
     @CallSuper
     protected fun onCreateNavController(navController: NavController) {
         navController.navigatorProvider.addNavigator(
