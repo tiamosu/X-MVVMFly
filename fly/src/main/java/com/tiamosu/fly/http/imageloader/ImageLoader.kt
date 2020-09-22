@@ -40,7 +40,7 @@ class ImageLoader @Inject constructor() {
                     + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) "
                     + "in the applyOptions method of ConfigModule"
         )
-        (this.mStrategy as? BaseImageLoaderStrategy<ImageConfig>)?.loadImage(context, config)
+        (this.mStrategy as? BaseImageLoaderStrategy<ImageConfig>)?.clear(context, config)
     }
 
     companion object {

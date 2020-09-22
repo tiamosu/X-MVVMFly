@@ -36,6 +36,15 @@ class GlideFragment : BaseFragment() {
         btn_load_net_pic.clickNoRepeat {
             loadImage(IMG_URL)
         }
+
+        btn_clear_cache.clickNoRepeat {
+            ImageConfigImpl
+                .load(null)
+                .clearDiskCache()
+                .clearMemory()
+                .build()
+                .let(ImageLoader::clear)
+        }
     }
 
     private fun loadImage(any: Any) {

@@ -165,11 +165,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         if (config.isClearDiskCache) {//清除本地缓存
-            post(Schedulers.io()) { Glide.get(context).clearDiskCache() }
+            post(Schedulers.io()) { GlideFly.get(context).clearDiskCache() }
         }
 
         if (config.isClearMemory) {//清除内存缓存
-            postOnMain { Glide.get(context).clearMemory() }
+            postOnMain { GlideFly.get(context).clearMemory() }
         }
     }
 

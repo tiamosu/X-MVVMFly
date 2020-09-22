@@ -27,4 +27,12 @@
         android:layout_marginTop="20dp"
         android:text="加载网络图片"
         tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_clear_cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="清理图片缓存"
+        tools:ignore="HardcodedText" />
 </androidx.appcompat.widget.LinearLayoutCompat>

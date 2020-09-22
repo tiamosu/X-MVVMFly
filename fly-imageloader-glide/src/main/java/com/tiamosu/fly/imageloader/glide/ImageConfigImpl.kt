@@ -314,42 +314,42 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     companion object {
 
         @JvmStatic
-        fun load(bitmap: Bitmap?): Builder {
+        fun load(bitmap: Bitmap): Builder {
             return Builder(bitmap)
         }
 
         @JvmStatic
-        fun load(drawable: Drawable?): Builder {
+        fun load(drawable: Drawable): Builder {
             return Builder(drawable)
         }
 
         @JvmStatic
-        fun load(string: String?): Builder {
+        fun load(string: String): Builder {
             return Builder(string)
         }
 
         @JvmStatic
-        fun load(uri: Uri?): Builder {
+        fun load(uri: Uri): Builder {
             return Builder(uri)
         }
 
         @JvmStatic
-        fun load(file: File?): Builder {
+        fun load(file: File): Builder {
             return Builder(file)
         }
 
         @JvmStatic
-        fun load(@RawRes @DrawableRes id: Int?): Builder {
+        fun load(@RawRes @DrawableRes id: Int): Builder {
             return Builder(id)
         }
 
         @JvmStatic
-        fun load(url: URL?): Builder {
+        fun load(url: URL): Builder {
             return Builder(url)
         }
 
         @JvmStatic
-        fun load(bytes: ByteArray?): Builder {
+        fun load(bytes: ByteArray): Builder {
             return Builder(bytes)
         }
 
