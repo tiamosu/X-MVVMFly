@@ -36,23 +36,23 @@ class HomeFragment : BaseVmDbFragment() {
             val bundle = Bundle().apply {
                 putString(SharedFragment.KEY, "Fragment 跳转传参测试~~~")
             }
-            navigate(R.id.action_mainFragment_to_sharedFragment, args = bundle)
+            navigate(R.id.action_to_sharedFragment, args = bundle)
         }
 
         fun startHttp() {
-            navigate(R.id.action_mainFragment_to_httpFragment)
+            navigate(R.id.action_to_httpFragment)
         }
 
         fun startGlide() {
-            navigate(R.id.action_mainFragment_to_glideFragment)
+            navigate(R.id.action_to_glideFragment)
         }
 
         fun startLoadSir() {
-            navigate(R.id.action_mainFragment_to_loadSirFragment)
+            navigate(R.id.action_to_loadSirFragment)
         }
 
         fun startViewPager2() {
-            navigate(R.id.action_mainFragment_to_viewPager2Fragment)
+            navigate(R.id.action_to_viewPager2Fragment)
         }
     }
 }

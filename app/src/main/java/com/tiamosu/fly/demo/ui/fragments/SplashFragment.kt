@@ -17,7 +17,7 @@ class SplashFragment : BaseFragment() {
     override fun initEvent() {
         super.initEvent()
         btn_enter_main.clickNoRepeat {
-            navigate(R.id.action_splashFragment_to_mainFragment)
+            navigate(R.id.action_to_mainFragment)
         }
     }
 

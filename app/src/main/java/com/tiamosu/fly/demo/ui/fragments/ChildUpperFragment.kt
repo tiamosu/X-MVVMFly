@@ -22,7 +22,7 @@ class ChildUpperFragment : BaseFragment() {
 
         btn_jump_news.clickNoRepeat {
             sharedViewModel.selectTabItem.value = 1
-            navigate(R.id.action_sharedFragment_to_newsFragment)
+            navigate(R.id.action_pop_to_newsFragment)
         }
     }
 

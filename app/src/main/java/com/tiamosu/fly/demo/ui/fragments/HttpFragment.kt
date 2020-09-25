@@ -16,16 +16,17 @@ class HttpFragment : BaseFragment() {
 
     override fun initEvent() {
         btn_basic_request.clickNoRepeat {
-            navigate(R.id.action_httpFragment_to_basicRequestFragment)
+            navigate(R.id.action_to_basicRequestFragment)
         }
         btn_upload.clickNoRepeat {
-            navigate(R.id.action_httpFragment_to_uploadFragment)
+            navigate(R.id.action_to_uploadFragment)
         }
         btn_download.clickNoRepeat {
-            navigate(R.id.action_httpFragment_to_downloadFragment)
+            navigate(R.id.action_to_downloadFragment)
         }
         btn_request_cache.clickNoRepeat {
-            navigate(R.id.action_httpFragment_to_cacheFragment)
+            navigate(R.id.action_pop_to_cacheFragment)
+//            navigate(R.id.action_to_cacheFragment)
         }
     }
 
