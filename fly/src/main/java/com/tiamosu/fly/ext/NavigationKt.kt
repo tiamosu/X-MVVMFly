@@ -26,11 +26,17 @@ fun Fragment.navController(view: View?): NavController {
     return NavHostFragment.findNavController(this)
 }
 
-fun Fragment.navigateUp(view: View? = null): Boolean {
-    return navController(view).navigateUp()
+fun Fragment.navigateUp(
+    view: View? = null,
+    interval: Long = 500
+): Boolean {
+    return try {
+        isValid(interval) && navController(view).navigateUp()
+    } catch (e: Exception) {
+        false
+    }
 }
 
-private var lastNavTime = 0L
 fun Fragment.navigate(
     @IdRes resId: Int,
     args: Bundle? = null,
@@ -39,10 +45,11 @@ fun Fragment.navigate(
     view: View? = null,
     interval: Long = 500
 ) {
-    val currentTime = System.currentTimeMillis()
-    if (currentTime >= lastNavTime + interval) {
-        lastNavTime = currentTime
-        navController(view).navigate(resId, args, navOptions, navigatorExtras)
+    if (isValid(interval)) {
+        try {
+            navController(view).navigate(resId, args, navOptions, navigatorExtras)
+        } catch (e: Exception) {
+        }
     }
 }
 
@@ -50,23 +57,52 @@ fun Fragment.navigate(
     deepLink: Uri,
     navOptions: NavOptions? = null,
     navigatorExtras: Navigator.Extras? = null,
-    view: View? = null
+    view: View? = null,
+    interval: Long = 500
 ) {
-    navController(view).navigate(deepLink, navOptions, navigatorExtras)
+    if (isValid(interval)) {
+        try {
+            navController(view).navigate(deepLink, navOptions, navigatorExtras)
+        } catch (e: Exception) {
+        }
+    }
 }
 
 fun Fragment.navigate(
     directions: NavDirections,
     navOptions: NavOptions? = null,
-    view: View? = null
+    view: View? = null,
+    interval: Long = 500
 ) {
-    navController(view).navigate(directions, navOptions)
+    if (isValid(interval)) {
+        try {
+            navController(view).navigate(directions, navOptions)
+        } catch (e: Exception) {
+        }
+    }
 }
 
 fun Fragment.navigate(
     directions: NavDirections,
     navigatorExtras: Navigator.Extras,
-    view: View? = null
+    view: View? = null,
+    interval: Long = 500
 ) {
-    navController(view).navigate(directions, navigatorExtras)
+    if (isValid(interval)) {
+        try {
+            navController(view).navigate(directions, navigatorExtras)
+        } catch (e: Exception) {
+        }
+    }
+}
+
+private var lastNavTime = 0L
+
+private fun isValid(interval: Long): Boolean {
+    val currentTime = System.currentTimeMillis()
+    if (currentTime >= lastNavTime + interval) {
+        lastNavTime = currentTime
+        return true
+    }
+    return false
 }
