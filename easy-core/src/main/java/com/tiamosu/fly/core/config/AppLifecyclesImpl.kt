@@ -6,12 +6,7 @@ import android.content.Context
 import android.content.res.Configuration
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
-import com.kingja.loadsir.core.LoadSir
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
-import com.tiamosu.fly.core.ui.loadsir.CustomCallback
-import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
-import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
-import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.https.HttpsUtils
 import com.tiamosu.fly.http.model.HttpHeaders
@@ -33,7 +28,6 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
     override fun onCreate(application: Application) {
         if (ProcessUtils.isMainProcess()) {
             initFlyHttp()
-            initLoadSir()
         }
     }
 
@@ -54,16 +48,6 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             })
             .setCallbackExecutor(getAppComponent().executorService())
             .addCommonHeaders(httpHeaders)
-    }
-
-    private fun initLoadSir() {
-        LoadSir.beginBuilder()
-            .addCallback(EmptyCallback())
-            .addCallback(ErrorCallback())
-            .addCallback(CustomCallback())
-            .addCallback(LoadingCallback())
-            .setDefaultCallback(LoadingCallback::class.java)
-            .commit()
     }
 
     override fun onTerminate(application: Application) {

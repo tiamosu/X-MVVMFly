@@ -27,11 +27,11 @@ object Versions {
     const val glide = "4.11.0"
     const val dagger2 = "2.29.1"
     const val utilcode = "1.29.0"
-    const val leakcanary = "2.4"
+    const val leakcanary = "2.5"
     const val disklrucache = "2.0.2"
 
     const val rxerrorhandler = "3.0.2"
-    const val loadsir = "2.0.1"
+    const val loadsir = "2.0.5"
 }
 
 object Publish {
@@ -113,5 +113,5 @@ object Deps {
     const val glide_compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     //loadSir
-    const val loadsir = "me.tiamosu:X-LoadSir:${Versions.loadsir}"
+    const val loadsir = "me.tiamosu:loadsir:${Versions.loadsir}"
 }
