@@ -26,7 +26,6 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arg
                         is ResultState.ViewSuccess -> baseView.showViewSuccess()
                         is ResultState.ViewEmpty -> baseView.showViewEmpty()
                         is ResultState.ViewError -> baseView.showViewError()
-
                     }
                 })
             }
