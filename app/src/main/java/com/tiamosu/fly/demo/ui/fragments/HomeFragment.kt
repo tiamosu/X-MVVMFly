@@ -1,6 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import android.os.Bundle
+import androidx.core.os.bundleOf
 import com.tiamosu.fly.base.DataBindingConfig
 import com.tiamosu.fly.core.base.BaseVmDbFragment
 import com.tiamosu.fly.core.ext.lazyViewModel
@@ -33,10 +33,12 @@ class HomeFragment : BaseVmDbFragment() {
 
         fun startShared() {
             sharedViewModel.param.value = "SharedViewModel 共享数据传参测试~ ^_^"
-            val bundle = Bundle().apply {
-                putString(SharedFragment.KEY, "Fragment 跳转传参测试~~~")
-            }
-            navigate(R.id.action_to_sharedFragment, args = bundle)
+            navigate(
+                R.id.action_to_sharedFragment,
+                args = bundleOf(
+                    SharedFragment.KEY to "Fragment 跳转传参测试~~~"
+                )
+            )
         }
 
         fun startHttp() {
@@ -49,10 +51,6 @@ class HomeFragment : BaseVmDbFragment() {
 
         fun startLoadSir() {
             navigate(R.id.action_to_loadSirFragment)
-        }
-
-        fun startViewPager2() {
-            navigate(R.id.action_to_viewPager2Fragment)
         }
     }
 }

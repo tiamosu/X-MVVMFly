@@ -7,7 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.base.BaseFlyActivity
+import com.tiamosu.fly.base.DataBindingConfig
 import com.tiamosu.fly.core.callback.SharedViewModel
 import com.tiamosu.fly.core.ui.dialog.Loader
 import com.tiamosu.fly.core.ui.dialog.LoadingDialog
@@ -19,7 +19,7 @@ import com.tiamosu.fly.utils.inputMethodManager
  * @date 2020/2/22.
  */
 @Suppress("unused")
-abstract class BaseActivity : BaseFlyActivity(), IBaseView {
+abstract class BaseActivity : BaseVmDbActivity(), IBaseView {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
     private var loadingDialog: LoadingDialog? = null
 
@@ -27,6 +27,7 @@ abstract class BaseActivity : BaseFlyActivity(), IBaseView {
     override fun initView(rootView: View?) {}
     override fun initEvent() {}
     override fun createObserver() {}
+    override fun getDataBindingConfig() = DataBindingConfig()
 
     override fun showToast(msg: String?) {
         ToastUtils.showShort(msg)

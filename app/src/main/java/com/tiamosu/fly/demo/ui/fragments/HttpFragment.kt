@@ -1,30 +1,31 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.databinding.FragmentHttpBinding
+import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.ext.navigate
-import kotlinx.android.synthetic.main.fragment_http.*
 
 /**
  * @author tiamosu
  * @date 2020/3/19.
  */
 class HttpFragment : BaseFragment() {
+    private val dataBinding by lazy { binding as FragmentHttpBinding }
 
     override fun getLayoutId() = R.layout.fragment_http
 
     override fun initEvent() {
-        btn_basic_request.clickNoRepeat {
+        dataBinding.btnBasicRequest.clickNoRepeat {
             navigate(R.id.action_to_basicRequestFragment)
         }
-        btn_upload.clickNoRepeat {
+        dataBinding.btnUpload.clickNoRepeat {
             navigate(R.id.action_to_uploadFragment)
         }
-        btn_download.clickNoRepeat {
+        dataBinding.btnDownload.clickNoRepeat {
             navigate(R.id.action_to_downloadFragment)
         }
-        btn_request_cache.clickNoRepeat {
+        dataBinding.btnRequestCache.clickNoRepeat {
             navigate(R.id.action_pop_to_cacheFragment)
 //            navigate(R.id.action_to_cacheFragment)
         }

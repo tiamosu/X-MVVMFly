@@ -8,16 +8,17 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.databinding.FragmentGlideBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
-import kotlinx.android.synthetic.main.fragment_glide.*
 
 /**
  * @author tiamosu
  * @date 2020/3/19.
  */
 class GlideFragment : BaseFragment() {
+    private val dataBinding by lazy { binding as FragmentGlideBinding }
 
     companion object {
         const val IMG_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000" +
@@ -29,15 +30,15 @@ class GlideFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_glide
 
     override fun initEvent() {
-        btn_load_local_pic.clickNoRepeat {
+        dataBinding.btnLoadLocalPic.clickNoRepeat {
             loadImage(R.drawable.timg)
         }
 
-        btn_load_net_pic.clickNoRepeat {
+        dataBinding.btnLoadNetPic.clickNoRepeat {
             loadImage(IMG_URL)
         }
 
-        btn_clear_cache.clickNoRepeat {
+        dataBinding.btnClearCache.clickNoRepeat {
             ImageConfigImpl
                 .load(null)
                 .clearDiskCache()
@@ -74,7 +75,7 @@ class GlideFragment : BaseFragment() {
                     return false
                 }
             })
-            .into(iv)
+            .into(dataBinding.iv)
             .build()
             .let(ImageLoader::loadImage)
     }

@@ -6,15 +6,16 @@ import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.databinding.FragmentMainBinding
 import com.tiamosu.fly.demo.ext.init
 import com.tiamosu.fly.ext.addObserve
-import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * @author tiamosu
  * @date 2020/3/13.
  */
 class MainFragment : BaseFragment() {
+    private val dataBinding by lazy { binding as FragmentMainBinding }
 
     private val fragments by lazy {
         arrayListOf<Class<out Fragment>>().apply {
@@ -28,12 +29,12 @@ class MainFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_main
 
     override fun initView(rootView: View?) {
-        main_viewPager.init(this, fragments)
-            .let(main_tabBarLayout::setViewPager2)
+        dataBinding.mainViewPager.init(this, fragments)
+            .let(dataBinding.mainTabBarLayout::setViewPager2)
     }
 
     override fun initEvent() {
-        main_tabBarLayout.setOnItemSelectedListener(onItemSelected = { position, prePosition ->
+        dataBinding.mainTabBarLayout.setOnItemSelectedListener(onItemSelected = { position, prePosition ->
             Log.e("xia", "onItemSelected:$position  prePosition:$prePosition")
         }, onItemUnselected = { position ->
             Log.e("xia", "onItemUnselected:$position")
@@ -44,7 +45,7 @@ class MainFragment : BaseFragment() {
 
     override fun createObserver() {
         addObserve(sharedViewModel.selectTabItem) {
-            main_tabBarLayout.setCurrentItem(it)
+            dataBinding.mainTabBarLayout.setCurrentItem(it)
         }
     }
 

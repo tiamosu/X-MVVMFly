@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:ignore="all">
+<layout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_basic_request"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="基本请求示例" />
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="all">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="文件上传" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_basic_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基本请求示例" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="文件下载" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="文件上传" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_request_cache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="缓存请求" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="文件下载" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_request_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="缓存请求" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

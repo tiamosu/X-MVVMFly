@@ -5,15 +5,17 @@ import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.databinding.FragmentNewsBinding
 import com.tiamosu.fly.demo.ui.adapter.CustomFragmentStateAdapter
 import com.tiamosu.fly.ext.clickNoRepeat
-import kotlinx.android.synthetic.main.fragment_news.*
 
 /**
  * @author tiamosu
  * @date 2020/5/12.
  */
 class NewsFragment : BaseFragment() {
+    private val dataBinding by lazy { binding as FragmentNewsBinding }
+
     private val fragments by lazy {
         mutableListOf<Fragment>().apply {
             add(NewsContentFragment())
@@ -22,7 +24,7 @@ class NewsFragment : BaseFragment() {
     private val adapter by lazy {
         CustomFragmentStateAdapter(
             this,
-            news_viewPager,
+            dataBinding.newsViewPager,
             fragments
         ) { fragment, position ->
             if (fragment is NewsContentFragment) {
@@ -39,7 +41,7 @@ class NewsFragment : BaseFragment() {
 
     override fun initEvent() {
         var count = 0
-        news_add.clickNoRepeat {
+        dataBinding.newsAdd.clickNoRepeat {
             count++
             if (fragments.size >= 5) {
                 ToastUtils.showLong("Fragment 加载数量太多啦~")
@@ -53,10 +55,10 @@ class NewsFragment : BaseFragment() {
             }
             fragments.add(fragment)
             adapter.updateDataSetChanged(fragments)
-            news_viewPager.currentItem = fragments.lastIndex
+            dataBinding.newsViewPager.currentItem = fragments.lastIndex
         }
 
-        news_minus.clickNoRepeat {
+        dataBinding.newsMinus.clickNoRepeat {
             if (fragments.size <= 0) {
                 return@clickNoRepeat
             }
