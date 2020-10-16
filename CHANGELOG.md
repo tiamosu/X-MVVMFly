@@ -1,3 +1,8 @@
+# 新版本1.5.5
+* rxjava3 3.0.6 → 3.0.7
+* corektx 1.3.1 → 1.3.2
+* navigation 2.3.0 → 2.3.1
+
 # 新版本1.5.3
 * NavController 跳转优化
 
