@@ -1,15 +1,69 @@
 package com.tiamosu.fly.demo.ui.fragments
 
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.ui.adapter.CustomFragmentStateAdapter
+import com.tiamosu.fly.ext.clickNoRepeat
+import kotlinx.android.synthetic.main.fragment_news.*
 
 /**
  * @author tiamosu
  * @date 2020/5/12.
  */
 class NewsFragment : BaseFragment() {
+    private val fragments by lazy {
+        mutableListOf<Fragment>().apply {
+            add(NewsContentFragment())
+        }
+    }
+    private val adapter by lazy {
+        CustomFragmentStateAdapter(
+            this,
+            news_viewPager,
+            fragments
+        ) { fragment, position ->
+            if (fragment is NewsContentFragment) {
+                fragment.updateContent(position)
+            }
+        }
+    }
 
     override fun getLayoutId() = R.layout.fragment_news
+
+    override fun initView(rootView: View?) {
+        adapter.updateDataSetChanged(fragments)
+    }
+
+    override fun initEvent() {
+        var count = 0
+        news_add.clickNoRepeat {
+            count++
+            if (fragments.size >= 5) {
+                ToastUtils.showLong("Fragment 加载数量太多啦~")
+                return@clickNoRepeat
+            }
+            val fragment = when (count % 3) {
+                0 -> NewsContentFragment()
+                1 -> NewsContentFragment()
+                2 -> NewsContentFragment()
+                else -> NewsContentFragment()
+            }
+            fragments.add(fragment)
+            adapter.updateDataSetChanged(fragments)
+            news_viewPager.currentItem = fragments.lastIndex
+        }
+
+        news_minus.clickNoRepeat {
+            if (fragments.size <= 0) {
+                return@clickNoRepeat
+            }
+            fragments.removeLast()
+            adapter.updateDataSetChanged(fragments)
+        }
+    }
 
     override fun doBusiness() {}
 }

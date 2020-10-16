@@ -2,13 +2,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    tools:ignore="all">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/news_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="News"
-        android:textSize="45sp"
-        tools:ignore="HardcodedText" />
+        android:text="添加" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/news_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="减少" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/news_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

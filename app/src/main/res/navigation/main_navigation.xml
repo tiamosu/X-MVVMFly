@@ -57,11 +57,6 @@
         android:name="com.tiamosu.fly.demo.ui.fragments.LoadSirFragment"
         tools:layout="@layout/fragment_loadsir" />
 
-    <fragment
-        android:id="@+id/viewPager2Fragment"
-        android:name="com.tiamosu.fly.demo.ui.fragments.ViewPager2Fragment"
-        tools:layout="@layout/fragment_viewpager2" />
-
     <action
         android:id="@+id/action_to_mainFragment"
         app:destination="@id/mainFragment"
@@ -97,14 +92,6 @@
     <action
         android:id="@+id/action_to_loadSirFragment"
         app:destination="@id/loadSirFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
-
-    <action
-        android:id="@+id/action_to_viewPager2Fragment"
-        app:destination="@id/viewPager2Fragment"
         app:enterAnim="@anim/h_fragment_enter"
         app:exitAnim="@anim/h_fragment_exit"
         app:popEnterAnim="@anim/h_fragment_pop_enter"

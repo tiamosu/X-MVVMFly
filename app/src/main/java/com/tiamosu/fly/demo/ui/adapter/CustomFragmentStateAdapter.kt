@@ -11,7 +11,8 @@ import androidx.viewpager2.widget.ViewPager2
 class CustomFragmentStateAdapter(
     fragment: Fragment,
     private val viewPager2: ViewPager2,
-    private var fragments: List<Fragment>
+    private var fragments: List<Fragment>,
+    private val callback: Callback? = null,
 ) : FragmentStateAdapter(fragment) {
     private val createdIds = arrayListOf<Long>()
     private val ids = arrayListOf<Long>()
@@ -46,7 +47,9 @@ class CustomFragmentStateAdapter(
         if (!createdIds.contains(id)) {
             createdIds.add(id)
         }
-        return fragments[position]
+        return fragments[position].apply {
+            callback?.onCallback(this, position)
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -55,5 +58,9 @@ class CustomFragmentStateAdapter(
 
     override fun containsItem(itemId: Long): Boolean {
         return createdIds.contains(itemId)
+    }
+
+    fun interface Callback {
+        fun onCallback(fragment: Fragment, position: Int)
     }
 }
