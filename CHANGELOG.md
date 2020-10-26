@@ -1,5 +1,6 @@
 # 新版本1.5.6
 * utilcode 1.29.0 → 1.30.0
+* ClipboardUtils 工具类调整
 
 # 新版本1.5.5
 * rxjava3 3.0.6 → 3.0.7
