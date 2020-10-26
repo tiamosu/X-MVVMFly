@@ -26,7 +26,7 @@ object Versions {
     const val okhttp3 = "4.9.0"
     const val glide = "4.11.0"
     const val dagger2 = "2.29.1"
-    const val utilcode = "1.30.0"
+    const val utilcode = "1.30.1"
     const val leakcanary = "2.5"
     const val disklrucache = "2.0.2"
 
@@ -37,7 +37,7 @@ object Versions {
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.5.6" //版本号
+    const val publishVersion = "1.5.7" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
