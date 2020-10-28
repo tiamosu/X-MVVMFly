@@ -38,6 +38,10 @@ class GlideFragment : BaseFragment() {
             loadImage(IMG_URL)
         }
 
+        dataBinding.btnLoadBlurPic.clickNoRepeat {
+            loadImage(R.drawable.fly, true)
+        }
+
         dataBinding.btnClearCache.clickNoRepeat {
             ImageConfigImpl
                 .load(null)
@@ -48,10 +52,13 @@ class GlideFragment : BaseFragment() {
         }
     }
 
-    private fun loadImage(any: Any) {
+    private fun loadImage(
+        any: Any,
+        isBlur: Boolean = false
+    ) {
         ImageConfigImpl
             .load(any)
-            .imageRadius(25f)
+            .imageRadius(leftTop = 30f, rightBottom = 30f)
             .override(500, 500)
             .addListener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
@@ -76,6 +83,11 @@ class GlideFragment : BaseFragment() {
                     return false
                 }
             })
+            .apply {
+                if (isBlur) {
+                    blurValue(15)
+                }
+            }
             .into(dataBinding.iv)
             .build()
             .let(ImageLoader::loadImage)

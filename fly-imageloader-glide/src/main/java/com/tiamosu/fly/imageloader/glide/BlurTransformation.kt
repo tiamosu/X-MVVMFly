@@ -27,7 +27,7 @@ class BlurTransformation(@IntRange(from = 0) val radius: Int = DEFAULT_RADIUS) :
         outWidth: Int,
         outHeight: Int
     ): Bitmap {
-        return ImageUtils.fastBlur(toTransform, 0.1f, radius.toFloat(), true)
+        return ImageUtils.fastBlur(toTransform, 0.1f, radius.toFloat())
     }
 
     override fun equals(other: Any?): Boolean {
