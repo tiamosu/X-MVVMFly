@@ -40,7 +40,9 @@ fun stringCallback(
         }
 
         override fun onFinish() {
-            Loader.hideLoading()
+            if (showLoading) {
+                Loader.hideLoading()
+            }
             onFinish.invoke()
         }
     }
