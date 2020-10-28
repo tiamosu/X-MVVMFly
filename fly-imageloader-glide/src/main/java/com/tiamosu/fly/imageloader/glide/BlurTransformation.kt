@@ -14,7 +14,7 @@ import java.security.MessageDigest
  * @author tiamosu
  * @date 2018/9/17.
  */
-class BlurTransformation(@IntRange(from = 0) val radius: Int = DEFAULT_RADIUS) :
+class BlurTransformation(@IntRange(from = 0, to = 25) private val radius: Int = DEFAULT_RADIUS) :
     BitmapTransformation() {
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {

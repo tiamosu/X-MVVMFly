@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.annotation.IntRange
 import androidx.annotation.RawRes
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.request.RequestListener
@@ -235,9 +236,9 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         }
 
         /**
-         * 高斯模糊值, 值越大模糊效果越大（blurValue 建议设置为 15）
+         * 高斯模糊值, 值越大模糊效果越大（blurValue 建议设置为15，范围0~25）
          */
-        fun blurValue(blurValue: Int): Builder {
+        fun blurValue(@IntRange(from = 0, to = 25) blurValue: Int): Builder {
             this.blurValue = blurValue
             return this
         }
