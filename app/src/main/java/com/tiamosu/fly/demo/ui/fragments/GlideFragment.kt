@@ -51,6 +51,7 @@ class GlideFragment : BaseFragment() {
     private fun loadImage(any: Any) {
         ImageConfigImpl
             .load(any)
+            .imageRadius(25f)
             .override(500, 500)
             .addListener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(

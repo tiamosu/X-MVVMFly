@@ -56,18 +56,22 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         //设置圆角大小
-        if (config.roundingRadius != 0) {
+        if (config.leftTop != 0f || config.leftBottom != 0f || config.rightTop != 0f || config.rightBottom != 0f) {
+            glideRequest.transform(
+                RoundedCornersTransformation(
+                    config.leftTop,
+                    config.rightTop,
+                    config.leftBottom,
+                    config.rightBottom
+                )
+            )
+        } else if (config.roundingRadius != 0) {
             glideRequest.transform(RoundedCorners(config.roundingRadius))
         }
 
         //高斯模糊值, 值越大模糊效果越大(blurValue 建议设置为 15)
         if (config.blurValue != 0) {
             glideRequest.transform(BlurTransformation(config.blurValue))
-        }
-
-        //glide用它来改变图形的形状
-        if (config.transformation != null) {
-            glideRequest.transform(config.transformation!!)
         }
 
         //设置占位符
@@ -122,6 +126,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Bitmap>).transition(bitmapTransitionOptions)
             }
+        }
+
+        //glide用它来改变图形的形状
+        if (config.transformation != null) {
+            glideRequest.transform(config.transformation!!)
         }
 
         if (config.imageView != null) {

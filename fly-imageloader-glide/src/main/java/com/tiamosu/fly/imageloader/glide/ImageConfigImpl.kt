@@ -24,28 +24,32 @@ import java.net.URL
  */
 @Suppress("unused")
 class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
-    var target: Target<out Any>? = null
-    var fallbackId = 0 //请求 url 为空,则使用此图片作为占位符
-    var placeholderDrawable: Drawable? = null
-    var errorDrawable: Drawable? = null
-    var fallbackDrawable: Drawable? = null
-    var requestOptions: RequestOptions? = null//加载配置
-    var requestListener: RequestListener<out Any>? = null//加载监听
-    var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
-    var imageViews: Array<ImageView?>? = null//视图控件数组
-    var cacheStrategy = 0//缓存策略
-    var transcodeType = 0
-    var roundingRadius = 0//图片每个圆角的大小
-    var blurValue = 0//高斯模糊值, 值越大模糊效果越大
-    var targetWidth = 0
-    var targetHeight = 0//重新设定图片大小
-    var isCrossFade = false//是否使用淡入淡出过渡动画
-    var isCenterCrop = false//是否将图片剪切为 CenterCrop
-    var isCenterInside = false//是否将图片剪切为 CenterInside
-    var isCircleCrop = false//是否将图片剪切为圆形
-    var isClearMemory = false//清理内存缓存
-    var isClearDiskCache = false//清理本地缓存
-    var isDontAnimate = false//不显示动画
+    internal var target: Target<out Any>? = null
+    internal var fallbackId = 0
+    internal var placeholderDrawable: Drawable? = null
+    internal var errorDrawable: Drawable? = null
+    internal var fallbackDrawable: Drawable? = null
+    internal var requestOptions: RequestOptions? = null
+    internal var requestListener: RequestListener<out Any>? = null
+    internal var transformation: BitmapTransformation? = null
+    internal var imageViews: Array<ImageView?>? = null
+    internal var cacheStrategy = 0
+    internal var transcodeType = 0
+    internal var roundingRadius = 0
+    internal var leftTop = 0f
+    internal var rightTop = 0f
+    internal var rightBottom = 0f
+    internal var leftBottom = 0f
+    internal var blurValue = 0
+    internal var targetWidth = 0
+    internal var targetHeight = 0
+    internal var isCrossFade = false
+    internal var isCenterCrop = false
+    internal var isCenterInside = false
+    internal var isCircleCrop = false
+    internal var isClearMemory = false
+    internal var isClearDiskCache = false
+    internal var isDontAnimate = false
 
     init {
         this.any = builder.any
@@ -64,6 +68,10 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         this.cacheStrategy = builder.cacheStrategy
         this.transcodeType = builder.transcodeType
         this.roundingRadius = builder.roundingRadius
+        this.leftTop = builder.leftTop
+        this.rightTop = builder.rightTop
+        this.rightBottom = builder.rightBottom
+        this.leftBottom = builder.leftBottom
         this.blurValue = builder.blurValue
         this.targetWidth = builder.targetWidth
         this.targetHeight = builder.targetHeight
@@ -77,33 +85,37 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     }
 
     class Builder constructor(
-        val any: Any?//所要加载的资源
+        internal val any: Any?
     ) {
-        var imageView: ImageView? = null
-        var target: Target<out Any>? = null
-        var placeholderId = 0//占位符
-        var errorId = 0//错误占位符
-        var fallbackId = 0 //请求 url 为空,则使用此图片作为占位符
-        var placeholderDrawable: Drawable? = null
-        var errorDrawable: Drawable? = null
-        var fallbackDrawable: Drawable? = null
-        var requestOptions: RequestOptions? = null//加载配置
-        var requestListener: RequestListener<out Any>? = null//加载监听
-        var transformation: BitmapTransformation? = null//glide用它来改变图形的形状
-        var imageViews: Array<ImageView?>? = null//视图控件数组
-        var cacheStrategy = 0//缓存策略
-        var transcodeType = 0
-        var roundingRadius = 0//图片每个圆角的大小
-        var blurValue = 0//高斯模糊值, 值越大模糊效果越大
-        var targetWidth = 0
-        var targetHeight = 0//重新设定图片大小
-        var isCrossFade = false//是否使用淡入淡出过渡动画
-        var isCenterCrop = false//是否将图片剪切为 CenterCrop
-        var isCenterInside = false//是否将图片剪切为 CenterInside
-        var isCircleCrop = false//是否将图片剪切为圆形
-        var isClearMemory = false//清理内存缓存
-        var isClearDiskCache = false//清理本地缓存
-        var isDontAnimate = false//不显示动画
+        internal var imageView: ImageView? = null
+        internal var target: Target<out Any>? = null
+        internal var placeholderId = 0
+        internal var errorId = 0
+        internal var fallbackId = 0
+        internal var placeholderDrawable: Drawable? = null
+        internal var errorDrawable: Drawable? = null
+        internal var fallbackDrawable: Drawable? = null
+        internal var requestOptions: RequestOptions? = null
+        internal var requestListener: RequestListener<out Any>? = null
+        internal var transformation: BitmapTransformation? = null
+        internal var imageViews: Array<ImageView?>? = null
+        internal var cacheStrategy = 0
+        internal var transcodeType = 0
+        internal var roundingRadius = 0
+        internal var leftTop = 0f
+        internal var rightTop = 0f
+        internal var rightBottom = 0f
+        internal var leftBottom = 0f
+        internal var blurValue = 0
+        internal var targetWidth = 0
+        internal var targetHeight = 0
+        internal var isCrossFade = false
+        internal var isCenterCrop = false
+        internal var isCenterInside = false
+        internal var isCircleCrop = false
+        internal var isClearMemory = false
+        internal var isClearDiskCache = false
+        internal var isDontAnimate = false
 
         /**
          * 传入视图控件
@@ -198,6 +210,27 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          */
         fun imageRadius(roundingRadius: Int): Builder {
             this.roundingRadius = roundingRadius
+            return this
+        }
+
+        /**
+         * 图片圆角大小
+         *
+         * @param leftTop 左上角
+         * @param rightTop 右上角
+         * @param leftBottom 左下角
+         * @param rightBottom 右下角
+         */
+        fun imageRadius(
+            leftTop: Float = 0f,
+            rightTop: Float = 0f,
+            rightBottom: Float = 0f,
+            leftBottom: Float = 0f
+        ): Builder {
+            this.leftTop = leftTop
+            this.rightTop = rightTop
+            this.rightBottom = rightBottom
+            this.leftBottom = leftBottom
             return this
         }
 
