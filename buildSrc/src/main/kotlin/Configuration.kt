@@ -15,7 +15,7 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val appcompat = "1.2.0"
     const val viewpager2 = "1.0.0"
-    const val constraintlayout = "2.0.2"
+    const val constraintlayout = "2.0.4"
     const val corektx = "1.3.2"
     const val fragmentktx = "1.2.5"
     const val navigation = "2.3.1"

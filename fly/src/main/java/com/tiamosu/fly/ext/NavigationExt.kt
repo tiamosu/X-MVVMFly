@@ -31,7 +31,7 @@ fun Fragment.navigateUp(
     interval: Long = 500
 ): Boolean {
     return try {
-        isValid(interval) && navController(view).navigateUp()
+        isAdded && isValid(interval) && navController(view).navigateUp()
     } catch (e: Exception) {
         false
     }
