@@ -34,6 +34,7 @@ class EventLiveData<T> : UnPeekLiveData<T>() {
         when (owner) {
             is AppCompatActivity -> observeInActivity(owner, observer)
             is Fragment -> observeInFragment(owner, observer)
+            else -> throw IllegalArgumentException("owner 必须是 AppCompatActivity 或者 Fragment ！！！")
         }
     }
 }
