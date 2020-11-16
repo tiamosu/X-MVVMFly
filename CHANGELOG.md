@@ -1,3 +1,7 @@
+# 新版本1.6.6
+* utilcode 1.30.5
+* EventLiveData 优化
+
 # 新版本1.6.5
 * navigateUp 优化
 

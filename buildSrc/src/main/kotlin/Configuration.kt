@@ -32,12 +32,13 @@ object Versions {
 
     const val rxerrorhandler = "3.0.2"
     const val loadsir = "2.0.5"
+    const val unpeeklivedata = "4.4.1-beta1"
 }
 
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.6.5" //版本号
+    const val publishVersion = "1.6.6" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
@@ -114,4 +115,7 @@ object Deps {
 
     //loadSir
     const val loadsir = "me.tiamosu:loadsir:${Versions.loadsir}"
+
+    //unPeekLiveData
+    const val unpeek_livedata = "com.kunminx.archi:unpeek-livedata:${Versions.unpeeklivedata}"
 }
