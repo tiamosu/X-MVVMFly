@@ -31,11 +31,11 @@ abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
         if (!onCreateInit(savedInstanceState)) {
             return
         }
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
-
         initParameters(intent.extras)
         setContentView()
+
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
         initView(rootView)
         initEvent()
         createObserver()

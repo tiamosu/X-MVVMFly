@@ -31,8 +31,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
         initParameters(arguments)
     }
 
@@ -64,6 +62,8 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
         initView(rootView)
     }
 

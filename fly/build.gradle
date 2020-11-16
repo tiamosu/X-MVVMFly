@@ -57,6 +57,8 @@ dependencies {
 
     //常用的util库
     api Deps.utilcode
+
+    api 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
 }
 
 apply from: "${rootDir.path}/config_bintray.gradle"

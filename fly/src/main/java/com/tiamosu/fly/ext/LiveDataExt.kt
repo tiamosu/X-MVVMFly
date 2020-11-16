@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
  * 添加 LiveData 观察者
  */
 fun <T> Fragment.addObserve(liveData: LiveData<T>?, onChanged: (T) -> Unit) {
-    liveData?.observe(viewLifecycleOwner) {
+    liveData?.observe(this) {
         onChanged.invoke(it)
     }
 }
