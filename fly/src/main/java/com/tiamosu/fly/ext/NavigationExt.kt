@@ -45,7 +45,7 @@ fun Fragment.navigate(
     view: View? = null,
     interval: Long = 500
 ) {
-    if (isValid(interval)) {
+    if (isValid(interval) && isAdded) {
         try {
             navController(view).navigate(resId, args, navOptions, navigatorExtras)
         } catch (e: Exception) {
@@ -60,7 +60,7 @@ fun Fragment.navigate(
     view: View? = null,
     interval: Long = 500
 ) {
-    if (isValid(interval)) {
+    if (isValid(interval) && isAdded) {
         try {
             navController(view).navigate(deepLink, navOptions, navigatorExtras)
         } catch (e: Exception) {
@@ -74,7 +74,7 @@ fun Fragment.navigate(
     view: View? = null,
     interval: Long = 500
 ) {
-    if (isValid(interval)) {
+    if (isValid(interval) && isAdded) {
         try {
             navController(view).navigate(directions, navOptions)
         } catch (e: Exception) {
@@ -88,7 +88,7 @@ fun Fragment.navigate(
     view: View? = null,
     interval: Long = 500
 ) {
-    if (isValid(interval)) {
+    if (isValid(interval) && isAdded) {
         try {
             navController(view).navigate(directions, navigatorExtras)
         } catch (e: Exception) {
