@@ -37,11 +37,6 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
         return url
     }
 
-    override fun upRequestBody(requestBody: RequestBody?): R {
-        this.requestBody = requestBody
-        return this as R
-    }
-
     override fun params(key: String?, file: File?): R {
         httpParams.put(key, file)
         return this as R
@@ -68,7 +63,15 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
+     */
+    override fun upRequestBody(requestBody: RequestBody?): R {
+        this.requestBody = requestBody
+        return this as R
+    }
+
+    /**
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upString(content: String?): R {
         this.content = content
@@ -77,7 +80,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      * 该方法用于定制请求content-type
      */
     override fun upString(content: String?, mediaType: MediaType?): R {
@@ -87,7 +90,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upJson(json: String?): R {
         this.json = json
@@ -96,7 +99,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upJson(jsonObject: JSONObject?): R {
         this.json = jsonObject.toString()
@@ -105,7 +108,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upJson(jsonArray: JSONArray?): R {
         this.json = jsonArray.toString()
@@ -114,7 +117,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upBytes(bs: ByteArray?): R {
         this.bytes = bs
@@ -123,7 +126,7 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
     }
 
     /**
-     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
      */
     override fun upBytes(bs: ByteArray?, mediaType: MediaType?): R {
         this.bytes = bs
@@ -131,6 +134,9 @@ abstract class BaseBodyRequest<R : BaseBodyRequest<R>>(url: String) : BaseReques
         return this as R
     }
 
+    /**
+     * 注意使用该方法上传字符串会清空实体中其他所有的参数，头信息不清除，urlParams 拼接到 url 上
+     */
     override fun upObject(any: Any?): R {
         this.any = any
         return this as R
