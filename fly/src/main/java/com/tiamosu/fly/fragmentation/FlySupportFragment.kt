@@ -2,17 +2,17 @@ package com.tiamosu.fly.fragmentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.LogUtils
 
 /**
  * @author tiamosu
  * @date 2020/4/13.
  */
 open class FlySupportFragment : Fragment(), IFlySupportFragment {
-    protected val fragmentTag by lazy { this.javaClass.simpleName }
+    protected val fragmentTag: String by lazy { this.javaClass.simpleName }
     private val delegate by lazy { FlySupportFragmentDelegate(this) }
     internal lateinit var activity: AppCompatActivity
 
@@ -20,14 +20,14 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(fragmentTag, "onAttach")
+        LogUtils.dTag(fragmentTag, "onAttach")
         delegate.onAttach()
         activity = context as AppCompatActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(fragmentTag, "onCreate")
+        LogUtils.dTag(fragmentTag, "onCreate")
         delegate.onCreate(savedInstanceState)
     }
 
@@ -37,48 +37,48 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(fragmentTag, "onCreateView")
+        LogUtils.dTag(fragmentTag, "onCreateView")
         super.onViewCreated(view, savedInstanceState)
-        Log.d(fragmentTag, "onViewCreated")
+        LogUtils.dTag(fragmentTag, "onViewCreated")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(fragmentTag, "onActivityCreated")
+        LogUtils.dTag(fragmentTag, "onActivityCreated")
         delegate.onActivityCreated()
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(fragmentTag, "onResume")
+        LogUtils.dTag(fragmentTag, "onResume")
         delegate.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(fragmentTag, "onPause")
+        LogUtils.dTag(fragmentTag, "onPause")
         delegate.onPause()
     }
 
     override fun onDestroyView() {
-        Log.d(fragmentTag, "onDestroyView")
+        LogUtils.dTag(fragmentTag, "onDestroyView")
         delegate.onDestroyView()
         super.onDestroyView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(fragmentTag, "onDestroy")
+        LogUtils.dTag(fragmentTag, "onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d(fragmentTag, "onDetach")
+        LogUtils.dTag(fragmentTag, "onDetach")
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        Log.d(fragmentTag, "onHiddenChanged：$hidden")
+        LogUtils.dTag(fragmentTag, "onHiddenChanged：$hidden")
         delegate.onHiddenChanged(hidden)
     }
 
@@ -90,7 +90,7 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
      * 用于某些场景的懒加载，比如 FragmentAdapter 的懒加载、同级 Fragment 切换的懒加载
      */
     override fun onFlyLazyInitView() {
-        Log.d(
+        LogUtils.dTag(
             fragmentTag,
             "onFlyLazyInitView 用于某些场景的懒加载，比如 FragmentAdapter 的懒加载、同级 Fragment 切换的懒加载"
         )
@@ -100,14 +100,14 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
      * Fragment 对用户可见时
      */
     override fun onFlySupportVisible() {
-        Log.d(fragmentTag, "onFlySupportVisible 真正的 Resume，开始相关操作")
+        LogUtils.dTag(fragmentTag, "onFlySupportVisible 真正的 Resume，开始相关操作")
     }
 
     /**
      * Fragment 对用户不可见时
      */
     override fun onFlySupportInvisible() {
-        Log.d(fragmentTag, "onFlySupportInvisible 真正的 Pause，结束相关操作")
+        LogUtils.dTag(fragmentTag, "onFlySupportInvisible 真正的 Pause，结束相关操作")
     }
 
     /**

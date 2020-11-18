@@ -31,7 +31,7 @@ class DialogFragmentNavigator internal constructor(
             if (event == Lifecycle.Event.ON_STOP) {
                 val dialogFragment = source as? DialogFragment ?: return@LifecycleEventObserver
                 if (!dialogFragment.requireDialog().isShowing) {
-                    NavHostFragment.findNavController(dialogFragment).popBackStack()
+                    NavHostFragment.findNavController(dialogFragment)?.popBackStack()
                 }
             }
         }
@@ -42,11 +42,7 @@ class DialogFragmentNavigator internal constructor(
             return false
         }
         if (fragmentManager.isStateSaved) {
-            Log.i(
-                TAG,
-                "Ignoring popBackStack() call: FragmentManager has already"
-                        + " saved its state"
-            )
+            Log.i(TAG, "Ignoring popBackStack() call: FragmentManager has already saved its state")
             return false
         }
         fragmentManager.findFragmentByTag(DIALOG_TAG + --dialogCount)?.apply {
@@ -56,9 +52,7 @@ class DialogFragmentNavigator internal constructor(
         return true
     }
 
-    override fun createDestination(): Destination {
-        return Destination(this)
-    }
+    override fun createDestination() = Destination(this)
 
     override fun navigate(
         destination: Destination,
@@ -67,11 +61,7 @@ class DialogFragmentNavigator internal constructor(
         navigatorExtras: Extras?
     ): NavDestination? {
         if (fragmentManager.isStateSaved) {
-            Log.i(
-                TAG,
-                "Ignoring navigate() call: FragmentManager has already"
-                        + " saved its state"
-            )
+            Log.i(TAG, "Ignoring navigate() call: FragmentManager has already saved its state")
             return null
         }
         var className = destination.className
@@ -80,8 +70,7 @@ class DialogFragmentNavigator internal constructor(
         }
         val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
         require(DialogFragment::class.java.isAssignableFrom(frag.javaClass)) {
-            ("Dialog destination " + destination.className
-                    + " is not an instance of DialogFragment")
+            "Dialog destination ${destination.className} is not an instance of DialogFragment"
         }
         (frag as? DialogFragment)?.apply {
             arguments = args
@@ -103,15 +92,11 @@ class DialogFragmentNavigator internal constructor(
     override fun onRestoreState(savedState: Bundle) {
         dialogCount = savedState.getInt(KEY_DIALOG_COUNT, 0)
         for (index in 0 until dialogCount) {
-            val fragment = fragmentManager
-                .findFragmentByTag(DIALOG_TAG + index) as? DialogFragment
+            val fragment = fragmentManager.findFragmentByTag(DIALOG_TAG + index) as? DialogFragment
             if (fragment != null) {
                 fragment.lifecycle.addObserver(observer)
             } else {
-                throw IllegalStateException(
-                    "DialogFragment " + index
-                            + " doesn't exist in the FragmentManager"
-                )
+                throw IllegalStateException("DialogFragment $index doesn't exist in the FragmentManager")
             }
         }
     }
@@ -130,7 +115,7 @@ class DialogFragmentNavigator internal constructor(
      * [NavController]'s
      * [NavigatorProvider.getNavigator] method.
      */
-    internal constructor(fragmentNavigator: Navigator<out Destination?>) :
+    internal constructor(fragmentNavigator: Navigator<out Destination>) :
         NavDestination(fragmentNavigator), FloatingWindow {
         private var mClassName: String? = null
 
@@ -153,12 +138,9 @@ class DialogFragmentNavigator internal constructor(
             attrs: AttributeSet
         ) {
             super.onInflate(context, attrs)
-            val a = context.resources.obtainAttributes(
-                attrs,
-                R.styleable.DialogFragmentNavigator
-            )
-            a.getString(R.styleable.DialogFragmentNavigator_android_name)?.let { setClassName(it) }
-            a.recycle()
+            val ta = context.resources.obtainAttributes(attrs, R.styleable.DialogFragmentNavigator)
+            ta.getString(R.styleable.DialogFragmentNavigator_android_name)?.let { setClassName(it) }
+            ta.recycle()
         }
 
         /**

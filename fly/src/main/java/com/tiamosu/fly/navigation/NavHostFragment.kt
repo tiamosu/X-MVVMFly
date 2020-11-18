@@ -11,6 +11,7 @@ import androidx.annotation.NavigationRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.*
+import com.blankj.utilcode.util.LogUtils
 import com.tiamosu.fly.R
 
 /**
@@ -78,10 +79,12 @@ open class NavHostFragment : Fragment(), NavHost {
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        LogUtils.iTag(TAG, "onAttach")
+
         // TODO This feature should probably be a first-class feature of the Fragment system,
         // but it can stay here until we can add the necessary attr resources to
         // the fragment lib.
-        if (defaultNavHost) {
+        if (defaultNavHost && isAdded) {
             parentFragmentManager.beginTransaction()
                 .setPrimaryNavigationFragment(this)
                 .commit()
@@ -91,6 +94,8 @@ open class NavHostFragment : Fragment(), NavHost {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LogUtils.iTag(TAG, "onCreate")
+
         val context = requireContext()
         navController = NavHostController(context).apply {
             setLifecycleOwner(this@NavHostFragment)
@@ -106,13 +111,14 @@ open class NavHostFragment : Fragment(), NavHost {
         var navState: Bundle? = null
         if (savedInstanceState != null) {
             navState = savedInstanceState.getBundle(KEY_NAV_CONTROLLER_STATE)
-            if (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, false)) {
+            graphId = savedInstanceState.getInt(KEY_GRAPH_ID)
+
+            if (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, false) && isAdded) {
                 defaultNavHost = true
                 parentFragmentManager.beginTransaction()
                     .setPrimaryNavigationFragment(this)
                     .commit()
             }
-            graphId = savedInstanceState.getInt(KEY_GRAPH_ID)
         }
         if (navState != null) {
             // Navigation controller state overrides arguments
@@ -175,23 +181,25 @@ open class NavHostFragment : Fragment(), NavHost {
      * @return a new instance of a FragmentNavigator
      */
     @Deprecated("Use {@link #onCreateNavController(NavController)}")
-    protected fun createFragmentNavigator(): Navigator<out FragmentNavigator.Destination?> {
+    protected fun createFragmentNavigator(): Navigator<out FragmentNavigator.Destination> {
         return FragmentNavigator(requireContext(), childFragmentManager, containerId)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val containerView = FragmentContainerView(inflater.context)
+        LogUtils.iTag(TAG, "onCreateView")
+
         // When added via XML, this has no effect (since this FragmentContainerView is given the ID
         // automatically), but this ensures that the View exists as part of this Fragment's View
         // hierarchy in cases where the NavHostFragment is added programmatically as is required
         // for child fragment transactions
-        containerView.id = containerId
-        return containerView
-    }// Fallback to using our own ID if this Fragment wasn't added via
-    // add(containerViewId, Fragment)
+        return FragmentContainerView(inflater.context).apply {
+            id = containerId
+        }
+    }
 
     /**
      * We specifically can't use [View.NO_ID] as the container ID (as we use
@@ -202,12 +210,9 @@ open class NavHostFragment : Fragment(), NavHost {
      */
     private val containerId: Int
         get() {
-            val id = id
-            return if (id != 0 && id != View.NO_ID) {
-                id
-            } else R.id.nav_host_fragment_container
             // Fallback to using our own ID if this Fragment wasn't added via
             // add(containerViewId, Fragment)
+            return if (id != 0 && id != View.NO_ID) id else R.id.nav_host_fragment_container
         }
 
     override fun onViewCreated(
@@ -215,15 +220,15 @@ open class NavHostFragment : Fragment(), NavHost {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        LogUtils.iTag(TAG, "onViewCreated")
+
         check(view is ViewGroup) { "created host view $view is not a ViewGroup" }
         Navigation.setViewNavController(view, navController)
         // When added programmatically, we need to set the NavController on the parent - i.e.,
         // the View that has the ID matching this NavHostFragment.
-        if (view.getParent() != null) {
-            val rootView = view.getParent() as View
-            if (rootView.id == id) {
-                Navigation.setViewNavController(rootView, navController)
-            }
+        val viewParent = view.parent
+        if (viewParent is View && viewParent.id == id) {
+            Navigation.setViewNavController(viewParent, navController)
         }
     }
 
@@ -233,6 +238,8 @@ open class NavHostFragment : Fragment(), NavHost {
         savedInstanceState: Bundle?
     ) {
         super.onInflate(context, attrs, savedInstanceState)
+        LogUtils.iTag(TAG, "onInflate")
+
         val navHost = context.obtainStyledAttributes(attrs, R.styleable.NavHost)
         val graphId = navHost.getResourceId(R.styleable.NavHost_navGraph, 0)
         if (graphId != 0) {
@@ -240,17 +247,19 @@ open class NavHostFragment : Fragment(), NavHost {
         }
         navHost.recycle()
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.NavHostFragment)
-        val defaultHost = a.getBoolean(R.styleable.NavHostFragment_defaultNavHost, false)
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.NavHostFragment)
+        val defaultHost = ta.getBoolean(R.styleable.NavHostFragment_defaultNavHost, false)
         if (defaultHost) {
             defaultNavHost = true
         }
-        a.recycle()
+        ta.recycle()
     }
 
     @CallSuper
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        LogUtils.iTag(TAG, "onSaveInstanceState")
+
         val navState = navController?.saveState()
         if (navState != null) {
             outState.putBundle(KEY_NAV_CONTROLLER_STATE, navState)
@@ -270,6 +279,7 @@ open class NavHostFragment : Fragment(), NavHost {
         private const val KEY_NAV_CONTROLLER_STATE =
             "android-support-nav:fragment:navControllerState"
         private const val KEY_DEFAULT_NAV_HOST = "android-support-nav:fragment:defaultHost"
+        private const val TAG = "NavHostFragment"
 
         /**
          * Find a [NavController] given a local [Fragment].
@@ -286,7 +296,10 @@ open class NavHostFragment : Fragment(), NavHost {
          * @throws IllegalStateException if the given Fragment does not correspond with a
          * [NavHost] or is not within a NavHost.
          */
-        fun findNavController(fragment: Fragment): NavController {
+        fun findNavController(fragment: Fragment): NavController? {
+            if (!fragment.isAdded) return null
+            LogUtils.iTag(TAG, "findNavController:Fragment $fragment")
+
             var findFragment: Fragment? = fragment
             while (findFragment != null) {
                 if (findFragment is NavHostFragment) {
@@ -305,9 +318,7 @@ open class NavHostFragment : Fragment(), NavHost {
             if (view != null) {
                 return Navigation.findNavController(view)
             }
-            throw IllegalStateException(
-                "Fragment $fragment does not have a NavController set"
-            )
+            throw IllegalStateException("Fragment $fragment does not have a NavController set")
         }
 
         /**
@@ -331,16 +342,13 @@ open class NavHostFragment : Fragment(), NavHost {
                 if (b == null) {
                     b = Bundle()
                 }
-                b.putBundle(
-                    KEY_START_DESTINATION_ARGS,
-                    startDestinationArgs
-                )
+                b.putBundle(KEY_START_DESTINATION_ARGS, startDestinationArgs)
             }
-            val result = NavHostFragment()
-            if (b != null) {
-                result.arguments = b
+            return NavHostFragment().apply {
+                if (b != null) {
+                    arguments = b
+                }
             }
-            return result
         }
     }
 }

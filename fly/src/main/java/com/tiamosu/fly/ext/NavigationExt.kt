@@ -19,7 +19,7 @@ fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
     return Navigation.findNavController(this, viewId)
 }
 
-fun Fragment.navController(view: View?): NavController {
+fun Fragment.navController(view: View?): NavController? {
     if (view != null) {
         return Navigation.findNavController(view)
     }
@@ -31,7 +31,7 @@ fun Fragment.navigateUp(
     interval: Long = 500
 ): Boolean {
     return try {
-        isAdded && isValid(interval) && navController(view).navigateUp()
+        isAdded && isValid(interval) && navController(view)?.navigateUp() ?: false
     } catch (e: Exception) {
         false
     }
@@ -47,7 +47,7 @@ fun Fragment.navigate(
 ) {
     if (isValid(interval) && isAdded) {
         try {
-            navController(view).navigate(resId, args, navOptions, navigatorExtras)
+            navController(view)?.navigate(resId, args, navOptions, navigatorExtras)
         } catch (e: Exception) {
         }
     }
@@ -62,7 +62,7 @@ fun Fragment.navigate(
 ) {
     if (isValid(interval) && isAdded) {
         try {
-            navController(view).navigate(deepLink, navOptions, navigatorExtras)
+            navController(view)?.navigate(deepLink, navOptions, navigatorExtras)
         } catch (e: Exception) {
         }
     }
@@ -76,7 +76,7 @@ fun Fragment.navigate(
 ) {
     if (isValid(interval) && isAdded) {
         try {
-            navController(view).navigate(directions, navOptions)
+            navController(view)?.navigate(directions, navOptions)
         } catch (e: Exception) {
         }
     }
@@ -90,7 +90,7 @@ fun Fragment.navigate(
 ) {
     if (isValid(interval) && isAdded) {
         try {
-            navController(view).navigate(directions, navigatorExtras)
+            navController(view)?.navigate(directions, navigatorExtras)
         } catch (e: Exception) {
         }
     }
