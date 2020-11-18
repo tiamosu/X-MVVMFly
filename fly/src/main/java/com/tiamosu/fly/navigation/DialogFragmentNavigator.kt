@@ -72,10 +72,10 @@ class DialogFragmentNavigator internal constructor(
         require(DialogFragment::class.java.isAssignableFrom(frag.javaClass)) {
             "Dialog destination ${destination.className} is not an instance of DialogFragment"
         }
-        (frag as? DialogFragment)?.apply {
-            arguments = args
-            lifecycle.addObserver(observer)
-            show(this@DialogFragmentNavigator.fragmentManager, DIALOG_TAG + dialogCount++)
+        if (frag is DialogFragment && frag.isAdded) {
+            frag.arguments = args
+            frag.lifecycle.addObserver(observer)
+            frag.show(fragmentManager, DIALOG_TAG + dialogCount++)
         }
         return destination
     }
