@@ -336,8 +336,7 @@ class FlyHttp {
         const val DEFAULT_RETRY_DELAY = 2           //默认重试延时
         const val DEFAULT_CACHE_NEVER_EXPIRE = -1L   //缓存过期时间，默认永久缓存
 
-        @JvmField
-        val instance = Holder.INSTANCE
+        val instance by lazy { FlyHttp() }
 
         /**
          * get请求
@@ -555,9 +554,5 @@ class FlyHttp {
                 disposable.dispose()
             }
         }
-    }
-
-    private object Holder {
-        val INSTANCE = FlyHttp()
     }
 }

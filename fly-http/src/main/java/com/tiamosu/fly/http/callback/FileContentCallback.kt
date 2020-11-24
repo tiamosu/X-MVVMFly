@@ -10,7 +10,7 @@ import java.io.InputStreamReader
  * @author tiamosu
  * @date 2020/3/7.
  */
-abstract class FileContentCallback : ResultCallback<String>() {
+abstract class FileContentCallback : NoCacheResultCallback<String>() {
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): String? {

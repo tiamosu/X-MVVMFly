@@ -1,7 +1,7 @@
 package com.tiamosu.fly.http.subscriber
 
 import com.tiamosu.fly.http.callback.FileCallback
-import com.tiamosu.fly.http.callback.ResultCallback
+import com.tiamosu.fly.http.callback.NoCacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
@@ -10,10 +10,10 @@ import com.tiamosu.fly.utils.postOnMain
  * @author tiamosu
  * @date 2020/3/7.
  */
-class CallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp3.ResponseBody>() {
+class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp3.ResponseBody>() {
 
     @Suppress("UNCHECKED_CAST")
-    private val callback = request.callback as? ResultCallback<T>
+    private val callback = request.callback as? NoCacheResultCallback<T>
 
     override fun onStart() {
         postOnMain {

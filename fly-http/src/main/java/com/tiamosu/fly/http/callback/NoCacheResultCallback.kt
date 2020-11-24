@@ -6,7 +6,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/12.
  */
-abstract class ResultCallback<T> : AbsCallback<T>() {
+abstract class NoCacheResultCallback<T> : AbsCallback<T>() {
 
     /**
      * 拿到响应后，将数据转换成需要的格式，子线程中执行，可以是耗时操作

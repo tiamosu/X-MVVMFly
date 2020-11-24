@@ -11,7 +11,7 @@ import okhttp3.ResponseBody
  * @author tiamosu
  * @date 2020/3/7.
  */
-abstract class BitmapCallback : ResultCallback<Bitmap> {
+abstract class BitmapCallback : NoCacheResultCallback<Bitmap> {
     private var maxWidth = 0
     private var maxHeight = 0
 

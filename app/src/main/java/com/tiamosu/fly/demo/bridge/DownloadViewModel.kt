@@ -1,8 +1,10 @@
 package com.tiamosu.fly.demo.bridge
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.demo.data.repository.DataRepository
+import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.callback.FileCallback
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
@@ -22,16 +24,30 @@ class DownloadViewModel : BaseViewModel() {
         downloadDisposable =
             DataRepository.instance.downloadFile(object : FileCallback("test.apk") {
                 override fun onSuccess(response: Response<File>) {
+                    Log.e("xia", "onSuccess")
                     fileLiveData.postValue(response)
                 }
 
                 override fun downloadProgress(progress: Progress) {
+                    Log.e("xia", "downloadProgress")
                     progressLiveData.postValue(progress)
+                }
+
+                override fun onError(response: Response<File>) {
+                    Log.e("xia", "onError:${response.exception?.message}")
+                }
+
+                override fun onFinish() {
+                    Log.e("xia", "onFinish")
+                }
+
+                override fun onStart() {
+                    Log.e("xia", "onStart")
                 }
             })
     }
 
     fun cancelDownload() {
-        downloadDisposable?.dispose()
+        FlyHttp.cancelSubscription(downloadDisposable)
     }
 }

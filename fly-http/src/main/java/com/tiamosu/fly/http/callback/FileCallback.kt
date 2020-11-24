@@ -19,7 +19,7 @@ import java.io.RandomAccessFile
  * @author tiamosu
  * @date 2020/3/7.
  */
-abstract class FileCallback : ResultCallback<File> {
+abstract class FileCallback : NoCacheResultCallback<File> {
     private var destFileDir: String                     //目标文件存储的文件夹路径
     private var destFileName: String                    //目标文件存储的文件名
     internal var downloadFile: File                     //下载文件
