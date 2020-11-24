@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.request
 
-import android.util.Log
 import com.tiamosu.fly.http.callback.FileCallback
 import com.tiamosu.fly.http.request.base.BaseRequest
 import io.reactivex.rxjava3.core.Observable
@@ -15,11 +14,10 @@ class DownloadRequest(url: String) : BaseRequest<DownloadRequest>(url) {
     override fun generateRequest(): Observable<ResponseBody>? {
         var range = 0L
         (callback as? FileCallback)?.apply {
-            updateDownloadStatus(isBreakpointDownload)
+            update(isBreakpointDownload, url)
             if (isBreakpointDownload) {
                 range = downloadFile.length()
             }
-            Log.e("xia", "path:${downloadFile.absolutePath}   range:$range   ")
         }
         return apiService?.downloadFile("bytes=${range}-", url)
     }

@@ -17,11 +17,11 @@ object CacheUtils {
         return SP_UTILS.getBoolean(key, defaultValue)
     }
 
-    fun setDownloadComplete(url: String) {
-        putBoolean(url, true)
+    fun setDownloadComplete(url: String, isDownloadComplete: Boolean) {
+        putBoolean(url, isDownloadComplete)
     }
 
-    fun isDownloadComplete(url: String) {
-        getBoolean(url)
+    fun isDownloadComplete(url: String): Boolean {
+        return getBoolean(url)
     }
 }

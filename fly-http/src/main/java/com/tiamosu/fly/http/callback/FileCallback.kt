@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
+import com.tiamosu.fly.http.utils.CacheUtils
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.postOnMain
 import okhttp3.ResponseBody
@@ -25,6 +26,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     internal var downloadFile: File                     //下载文件
         private set
     private var downloadTask: DownloadTask? = null
+    private var downloadUrl: String = ""                //文件下载链接
 
     constructor() : this(null)
 
@@ -40,8 +42,12 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     /**
      * 更新下载状态，是否进行断点下载
      */
-    internal fun updateDownloadStatus(isBreakpointDownload: Boolean) {
-        if (!isBreakpointDownload && downloadFile.length() > 0) {
+    internal fun update(isBreakpointDownload: Boolean, downloadUrl: String) {
+        this.downloadUrl = downloadUrl
+        if ((!isBreakpointDownload && downloadFile.length() > 0)
+            || (isBreakpointDownload && CacheUtils.isDownloadComplete(downloadUrl))
+        ) {
+            CacheUtils.setDownloadComplete(downloadUrl, false)
             FileUtils.delete(downloadFile)
             this.downloadFile = createFile(this.destFileDir, this.destFileName)
         }
@@ -68,6 +74,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
                 return
             }
             postOnMain {
+                CacheUtils.setDownloadComplete(downloadUrl, true)
                 onSuccess(Response.success(false, result))
                 onFinish()
             }
