@@ -439,8 +439,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 是否进行断点下载
      */
-    fun breakpointDownload(isBreakpointDownload: Boolean): R {
-        this.isBreakpointDownload = isBreakpointDownload
+    fun breakpointDownload(breakpointDownload: Boolean): R {
+        this.isBreakpointDownload = breakpointDownload
         return this as R
     }
 

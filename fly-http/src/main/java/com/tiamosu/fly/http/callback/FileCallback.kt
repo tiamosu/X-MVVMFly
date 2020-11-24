@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ThreadUtils
+import com.tiamosu.fly.http.constant.DownloadStatus
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.utils.CacheUtils
@@ -26,7 +27,6 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     internal var downloadFile: File                     //下载文件
         private set
     private var downloadTask: DownloadTask? = null
-    private var downloadUrl: String = ""                //文件下载链接
 
     constructor() : this(null)
 
@@ -42,12 +42,12 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     /**
      * 更新下载状态，是否进行断点下载
      */
-    internal fun update(isBreakpointDownload: Boolean, downloadUrl: String) {
-        this.downloadUrl = downloadUrl
-        if ((!isBreakpointDownload && downloadFile.length() > 0)
-            || (isBreakpointDownload && CacheUtils.isDownloadComplete(downloadUrl))
-        ) {
-            CacheUtils.setDownloadComplete(downloadUrl, false)
+    internal fun update(isBreakpointDownload: Boolean) {
+        val isDownloading =
+            CacheUtils.getDownloadStatus(downloadFile.absolutePath) == DownloadStatus.STATUS_LOADING
+        val isBreakpointDownloading = isBreakpointDownload && isDownloading  //是否正在断点下载中
+        if (!isBreakpointDownloading) {
+            CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_DEFAULT)
             FileUtils.delete(downloadFile)
             this.downloadFile = createFile(this.destFileDir, this.destFileName)
         }
@@ -74,7 +74,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
                 return
             }
             postOnMain {
-                CacheUtils.setDownloadComplete(downloadUrl, true)
+                CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_COMPLETE)
                 onSuccess(Response.success(false, result))
                 onFinish()
             }
@@ -82,6 +82,8 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     }
 
     private fun saveFile(body: ResponseBody): File? {
+        CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_LOADING)
+
         val progress = Progress().apply {
             val range = downloadFile.length()
             totalSize = body.contentLength() + range

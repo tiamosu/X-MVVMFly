@@ -9,19 +9,19 @@ import com.blankj.utilcode.util.SPUtils
 object CacheUtils {
     private val SP_UTILS = SPUtils.getInstance("FlyHttp")
 
-    private fun putBoolean(key: String, value: Boolean) {
+    private fun putInt(key: String, value: Int) {
         SP_UTILS.put(key, value)
     }
 
-    private fun getBoolean(key: String, defaultValue: Boolean = false): Boolean {
-        return SP_UTILS.getBoolean(key, defaultValue)
+    private fun getInt(key: String, defaultValue: Int = 0): Int {
+        return SP_UTILS.getInt(key, defaultValue)
     }
 
-    fun setDownloadComplete(url: String, isDownloadComplete: Boolean) {
-        putBoolean(url, isDownloadComplete)
+    fun setDownloadStatus(key: String, downloadStatus: Int) {
+        putInt(key, downloadStatus)
     }
 
-    fun isDownloadComplete(url: String): Boolean {
-        return getBoolean(url)
+    fun getDownloadStatus(key: String): Int {
+        return getInt(key)
     }
 }

@@ -14,7 +14,7 @@ class DownloadRequest(url: String) : BaseRequest<DownloadRequest>(url) {
     override fun generateRequest(): Observable<ResponseBody>? {
         var range = 0L
         (callback as? FileCallback)?.apply {
-            update(isBreakpointDownload, url)
+            update(isBreakpointDownload)
             if (isBreakpointDownload) {
                 range = downloadFile.length()
             }
