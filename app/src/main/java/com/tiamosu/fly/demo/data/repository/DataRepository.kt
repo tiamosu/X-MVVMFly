@@ -7,6 +7,7 @@ import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.request.base.ProgressRequestBody
+import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
 import java.net.URLEncoder
 
@@ -60,8 +61,9 @@ class DataRepository : IRemoteRequest {
         }
     }
 
-    override fun <T> downloadFile(callback: Callback<T>) {
-        FlyHttp.download(APIs.DOWNLOAD_FILE)
+    override fun <T> downloadFile(callback: Callback<T>): Disposable? {
+        return FlyHttp.download(APIs.DOWNLOAD_FILE)
+            .breakpointDownload(true)
             .build()
             .execute(callback)
     }

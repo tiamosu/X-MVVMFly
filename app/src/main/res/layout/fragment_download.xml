@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:background="@color/color_white"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="HardcodedText">
 
         <com.tiamosu.fly.core.ui.view.CustomProgressBar
             android:id="@+id/progress_bar"
@@ -29,11 +30,16 @@
             app:tpb_unreachedBarHeight="4dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_download_file"
+            android:id="@+id/download_btnDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:text="下载文件"
-            tools:ignore="HardcodedText" />
+            android:text="下载文件" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/download_btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消下载" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

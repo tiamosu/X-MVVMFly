@@ -2,13 +2,16 @@ package com.tiamosu.fly.http.callback
 
 import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.postOnMain
 import okhttp3.ResponseBody
-import java.io.*
+import java.io.File
+import java.io.InputStream
+import java.io.RandomAccessFile
 
 /**
  * 描述：返回文件类型数据
@@ -19,7 +22,9 @@ import java.io.*
 abstract class FileCallback : ResultCallback<File> {
     private var destFileDir: String                     //目标文件存储的文件夹路径
     private var destFileName: String                    //目标文件存储的文件名
-    private var downLoadTask: DownloadTask? = null
+    internal var downloadFile: File                     //下载文件
+        private set
+    private var downloadTask: DownloadTask? = null
 
     constructor() : this(null)
 
@@ -29,13 +34,24 @@ abstract class FileCallback : ResultCallback<File> {
         this.destFileDir = if (!TextUtils.isEmpty(destFileDir)) destFileDir!! else "download"
         this.destFileName =
             if (!TextUtils.isEmpty(destFileName)) destFileName!! else "unknownFile_" + System.currentTimeMillis()
+        this.downloadFile = createFile(this.destFileDir, this.destFileName)
+    }
+
+    /**
+     * 更新下载状态，是否进行断点下载
+     */
+    internal fun updateDownloadStatus(isBreakpointDownload: Boolean) {
+        if (!isBreakpointDownload && downloadFile.length() > 0) {
+            FileUtils.delete(downloadFile)
+            this.downloadFile = createFile(this.destFileDir, this.destFileName)
+        }
     }
 
     @Throws(Throwable::class)
     override fun convertResponse(body: ResponseBody): File? {
-        if (downLoadTask == null) {
+        if (downloadTask == null) {
             DownloadTask(body)
-                .also { downLoadTask = it }
+                .also { downloadTask = it }
                 .let(ThreadUtils::executeByIo)
         }
         return null
@@ -48,6 +64,9 @@ abstract class FileCallback : ResultCallback<File> {
         }
 
         override fun onSuccess(result: File?) {
+            if (result == null) {
+                return
+            }
             postOnMain {
                 onSuccess(Response.success(false, result))
             }
@@ -55,37 +74,36 @@ abstract class FileCallback : ResultCallback<File> {
     }
 
     private fun saveFile(body: ResponseBody): File? {
-        val file = createFile(destFileDir, destFileName)
-        val inputStream = body.byteStream()
-        var bis: BufferedInputStream? = null
-        var fos: FileOutputStream? = null
-        var bos: BufferedOutputStream? = null
+        val progress = Progress().apply {
+            val range = downloadFile.length()
+            totalSize = body.contentLength() + range
+            currentSize = range
+            fileName = destFileName
+            filePath = downloadFile.absolutePath
+        }
 
+        var inputStream: InputStream? = null
+        var raf: RandomAccessFile? = null
         try {
-            val progress = Progress()
-            progress.totalSize = body.contentLength()
-            progress.fileName = destFileName
-            progress.filePath = file.absolutePath
-
-            bis = BufferedInputStream(inputStream)
-            fos = FileOutputStream(file)
-            bos = BufferedOutputStream(fos)
-
+            raf = RandomAccessFile(downloadFile, "rw")
+            raf.seek(downloadFile.length())
+            inputStream = body.byteStream()
             val bytes = ByteArray(1024 * 8)
+
             var read: Int
-            while (bis.read(bytes).also { read = it } != -1) {
-                bos.write(bytes, 0, read)
+            while (inputStream.read(bytes).also { read = it } != -1) {
+                raf.write(bytes, 0, read)
                 onProgress(progress, read)
             }
-            bos.flush()
-            fos.flush()
-        } catch (e: IOException) {
-            e.printStackTrace()
+        } catch (e: Exception) {
+            postOnMain {
+                onError(Response.error(false, e))
+            }
             return null
         } finally {
-            CloseUtils.closeIO(body, bos, fos, bis, inputStream)
+            CloseUtils.closeIO(inputStream, raf)
         }
-        return file
+        return downloadFile
     }
 
     private fun onProgress(progress: Progress, read: Int) {

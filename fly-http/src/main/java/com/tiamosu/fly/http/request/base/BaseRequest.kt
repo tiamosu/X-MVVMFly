@@ -38,7 +38,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     internal var connectTimeout = 0L                             //链接超时，单位 ms
     internal var proxy: Proxy? = null                            //代理
     internal var hostnameVerifier: HostnameVerifier? = null      //使用 verify 函数效验服务器主机名的合法性
-    internal var sslParams: HttpsUtils.SSLParams? = null         //获取 SSLSocketFactory 和 X509TrustManager
+    internal var sslParams: HttpsUtils.SSLParams? =
+        null         //获取 SSLSocketFactory 和 X509TrustManager
     internal var sign = false                                    //是否需要签名
     internal var timeStamp = false                               //是否需要追加时间戳
     internal var accessToken = false                             //是否需要追加 token
@@ -93,6 +94,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
 
     internal var callback: Callback<*>? = null
 
+    internal var isBreakpointDownload = false    //是否进行断点下载
+
     init {
         baseUrl = FlyHttp.getBaseUrl()
         if (!TextUtils.isEmpty(baseUrl)) {
@@ -124,21 +127,33 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         FlyHttp.getCommonHeaders()?.let(httpHeaders::put)
     }
 
+    /**
+     * 读超时，单位 ms
+     */
     fun readTimeOut(readTimeOut: Long): R {
         this.readTimeOut = readTimeOut
         return this as R
     }
 
+    /**
+     * 写超时，单位 ms
+     */
     fun writeTimeOut(writeTimeOut: Long): R {
         this.writeTimeOut = writeTimeOut
         return this as R
     }
 
+    /**
+     * 链接超时，单位 ms
+     */
     fun connectTimeout(connectTimeout: Long): R {
         this.connectTimeout = connectTimeout
         return this as R
     }
 
+    /**
+     * 超时设置，单位 ms
+     */
     fun timeOut(timeOut: Long): R {
         this.readTimeOut = timeOut
         this.writeTimeOut = timeOut
@@ -182,31 +197,49 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    /**
+     * 添加拦截器
+     */
     fun addInterceptor(interceptor: Interceptor): R {
         interceptor.let(interceptors::add)
         return this as R
     }
 
+    /**
+     * 添加网络拦截器
+     */
     fun addNetworkInterceptor(networkInterceptor: Interceptor): R {
         networkInterceptor.let(networkInterceptors::add)
         return this as R
     }
 
+    /**
+     * 是否需要签名
+     */
     fun sign(sign: Boolean): R {
         this.sign = sign
         return this as R
     }
 
+    /**
+     * 是否需要追加时间戳
+     */
     fun timeStamp(timeStamp: Boolean): R {
         this.timeStamp = timeStamp
         return this as R
     }
 
+    /**
+     * 是否需要追加 token
+     */
     fun accessToken(accessToken: Boolean): R {
         this.accessToken = accessToken
         return this as R
     }
 
+    /**
+     * 用户手动添加的 Cookie
+     */
     fun addCookie(name: String, value: String): R {
         val builder = Cookie.Builder()
         if (httpUrl != null) {
@@ -216,32 +249,50 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    /**
+     * 用户手动添加的 Cookie
+     */
     fun addCookie(cookie: Cookie): R {
         cookies.add(cookie)
         return this as R
     }
 
+    /**
+     * 用户手动添加的 Cookie
+     */
     fun addCookies(cookies: List<Cookie>): R {
         this.cookies.addAll(cookies)
         return this as R
     }
 
+    /**
+     * 域名设置
+     */
     fun baseUrl(baseUrl: String): R {
         this.baseUrl = baseUrl
         if (!TextUtils.isEmpty(baseUrl)) httpUrl = baseUrl.toHttpUrlOrNull()
         return this as R
     }
 
+    /**
+     * 超时重试次数，默认0次
+     */
     fun retryCount(retryCount: Int): R {
         this.retryCount = retryCount
         return this as R
     }
 
+    /**
+     * 超时重试延时，单位 s
+     */
     fun retryDelay(retryDelay: Int): R {
         this.retryDelay = retryDelay
         return this as R
     }
 
+    /**
+     * 是否是同步请求，默认为异步请求
+     */
     fun syncRequest(syncRequest: Boolean): R {
         this.isSyncRequest = syncRequest
         return this as R
@@ -303,41 +354,65 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    /**
+     * 设置参数
+     */
     fun params(key: String?, value: String?): R {
         httpParams.put(key, value)
         return this as R
     }
 
+    /**
+     * 设置参数
+     */
     fun params(keyValues: Map<String?, String?>?): R {
         httpParams.put(keyValues)
         return this as R
     }
 
+    /**
+     * 通过 key，移除参数
+     */
     fun removeParam(key: String): R {
         httpParams.remove(key)
         return this as R
     }
 
+    /**
+     * 清除参数
+     */
     fun removeAllParams(): R {
         httpParams.clear()
         return this as R
     }
 
+    /**
+     * 是否进行全局错误统一处理
+     */
     fun globalErrorHandle(isGlobalErrorHandle: Boolean): R {
         this.isGlobalErrorHandle = isGlobalErrorHandle
         return this as R
     }
 
+    /**
+     * 添加 okhttp 缓存
+     */
     fun okCache(cache: Cache): R {
         this.cache = cache
         return this as R
     }
 
+    /**
+     * 缓存模式
+     */
     fun cacheMode(cacheMode: CacheMode): R {
         this.cacheMode = cacheMode
         return this as R
     }
 
+    /**
+     * 缓存的时间 单位:秒
+     */
     fun cacheTime(cacheTime: Long): R {
         var newCacheTime = cacheTime
         if (newCacheTime <= -1) newCacheTime = FlyHttp.DEFAULT_CACHE_NEVER_EXPIRE
@@ -345,6 +420,9 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         return this as R
     }
 
+    /**
+     * 缓存 Key
+     */
     fun cacheKey(cacheKey: String): R {
         this.cacheKey = cacheKey
         return this as R
@@ -353,8 +431,16 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     /**
      * 设置缓存的转换器
      */
-    open fun cacheDiskConverter(converter: IDiskConverter): R {
+    fun cacheDiskConverter(converter: IDiskConverter): R {
         diskConverter = converter
+        return this as R
+    }
+
+    /**
+     * 是否进行断点下载
+     */
+    fun breakpointDownload(isBreakpointDownload: Boolean): R {
+        this.isBreakpointDownload = isBreakpointDownload
         return this as R
     }
 

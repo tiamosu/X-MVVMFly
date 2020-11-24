@@ -3,6 +3,7 @@ package com.tiamosu.fly.demo.data.repository
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.request.base.ProgressRequestBody
+import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
 
 /**
@@ -21,7 +22,7 @@ interface IRemoteRequest {
 
     fun <T> custom(callback: Callback<T>)
 
-    fun <T> downloadFile(callback: Callback<T>)
+    fun <T> downloadFile(callback: Callback<T>): Disposable?
 
     fun <T> requestCache(callback: Callback<T>, cacheMode: CacheMode, cacheKey: String)
 

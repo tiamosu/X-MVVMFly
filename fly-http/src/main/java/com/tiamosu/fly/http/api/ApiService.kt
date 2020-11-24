@@ -100,5 +100,5 @@ interface ApiService {
 
     @Streaming
     @GET
-    fun downloadFile(@Url url: String): Observable<ResponseBody>
+    fun downloadFile(@Header("Range") range: String, @Url url: String): Observable<ResponseBody>
 }

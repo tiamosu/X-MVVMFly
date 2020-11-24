@@ -20,8 +20,11 @@ class DownloadFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_download
 
     override fun initEvent() {
-        dataBinding.btnDownloadFile.clickNoRepeat {
+        dataBinding.downloadBtnDownload.clickNoRepeat {
             viewModel.downloadFile()
+        }
+        dataBinding.downloadBtnCancel.clickNoRepeat {
+            viewModel.cancelDownload()
         }
     }
 
