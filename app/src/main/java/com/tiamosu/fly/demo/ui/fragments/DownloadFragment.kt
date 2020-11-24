@@ -30,13 +30,15 @@ class DownloadFragment : BaseFragment() {
 
     override fun createObserver() {
         addObserve(viewModel.fileLiveData) {
-            Log.e("xia", "path:" + it.body?.absolutePath)
+            Log.e("xia", "path:" + it?.body?.absolutePath)
         }
-        addObserve(viewModel.progressLiveData) {
-            dataBinding.progressBar.progress = it.fraction * 100
-            Log.e("xia", "fraction:" + it.fraction)
-            if (it.fraction.toInt() == 1) {
-                showToast("下载成功~")
+        addObserve(viewModel.progressLiveData) { progress ->
+            progress?.apply {
+                dataBinding.progressBar.progress = fraction * 100
+                Log.e("xia", "fraction:$fraction")
+                if (fraction.toInt() == 1) {
+                    showToast("下载成功~")
+                }
             }
         }
     }

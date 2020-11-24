@@ -45,7 +45,7 @@ class MainFragment : BaseFragment() {
 
     override fun createObserver() {
         addObserve(sharedViewModel.selectTabItem) {
-            dataBinding.mainTabBarLayout.setCurrentItem(it)
+            dataBinding.mainTabBarLayout.setCurrentItem(it ?: 0)
         }
     }
 

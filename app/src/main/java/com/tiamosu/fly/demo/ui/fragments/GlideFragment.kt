@@ -1,6 +1,7 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -35,6 +36,7 @@ class GlideFragment : BaseFragment() {
         }
 
         dataBinding.btnLoadNetPic.clickNoRepeat {
+            Log.e("xia", "imgUrl:$IMG_URL")
             loadImage(IMG_URL)
         }
 

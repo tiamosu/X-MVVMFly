@@ -7,17 +7,17 @@ import androidx.lifecycle.LiveData
 /**
  * 添加 LiveData 观察者
  */
-fun <T> Fragment.addObserve(liveData: LiveData<T>?, onChanged: (T) -> Unit) {
-    liveData?.observe(this) {
-        onChanged.invoke(it)
+fun <T> Fragment.addObserve(liveData: LiveData<T>?, onChanged: (T?) -> Unit) {
+    liveData?.observe(this) { t: T? ->
+        onChanged.invoke(t)
     }
 }
 
 /**
  * 添加 LiveData 观察者
  */
-fun <T> AppCompatActivity.addObserve(liveData: LiveData<T>?, onChanged: (T) -> Unit) {
-    liveData?.observe(this) {
-        onChanged.invoke(it)
+fun <T> AppCompatActivity.addObserve(liveData: LiveData<T>?, onChanged: (T?) -> Unit) {
+    liveData?.observe(this) { t: T? ->
+        onChanged.invoke(t)
     }
 }

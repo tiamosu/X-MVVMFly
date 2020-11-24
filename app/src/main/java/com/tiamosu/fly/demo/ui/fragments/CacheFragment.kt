@@ -111,8 +111,8 @@ class CacheFragment : BaseFragment() {
     @Suppress("DEPRECATION")
     override fun createObserver() {
         addObserve(viewModel.responseLiveData) {
-            val from = if (it.isFromCache) "我来自缓存" else "我来自远程网络"
-            val spanned = Html.fromHtml(from + "\n" + it.body.toString())
+            val from = if (it?.isFromCache == true) "我来自缓存" else "我来自远程网络"
+            val spanned = Html.fromHtml(from + "\n" + it?.body.toString())
             dataBinding.tvCacheContent.text = spanned
         }
     }
