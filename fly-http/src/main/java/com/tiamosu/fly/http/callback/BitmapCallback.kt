@@ -23,7 +23,7 @@ abstract class BitmapCallback : NoCacheResultCallback<Bitmap> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(body: ResponseBody): Bitmap? {
+    final override fun convertResponse(body: ResponseBody): Bitmap? {
         val inputStream = body.byteStream()
         val bitmap = ImageUtils.getBitmap(inputStream).let {
             ImageUtils.compressBySampleSize(it, maxWidth, maxHeight)

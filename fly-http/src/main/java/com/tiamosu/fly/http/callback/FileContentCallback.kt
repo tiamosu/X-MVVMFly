@@ -13,7 +13,7 @@ import java.io.InputStreamReader
 abstract class FileContentCallback : NoCacheResultCallback<String>() {
 
     @Throws(Throwable::class)
-    override fun convertResponse(body: ResponseBody): String? {
+    final override fun convertResponse(body: ResponseBody): String? {
         val builder = StringBuilder()
         val inputStream = body.byteStream()
         val `in` = InputStreamReader(inputStream, "UTF-8")

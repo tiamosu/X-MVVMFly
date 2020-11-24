@@ -48,7 +48,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     }
 
     @Throws(Throwable::class)
-    override fun convertResponse(body: ResponseBody): File? {
+    final override fun convertResponse(body: ResponseBody): File? {
         if (downloadTask == null) {
             DownloadTask(body)
                 .also { downloadTask = it }
@@ -69,6 +69,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
             }
             postOnMain {
                 onSuccess(Response.success(false, result))
+                onFinish()
             }
         }
     }
@@ -98,6 +99,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
         } catch (e: Exception) {
             postOnMain {
                 onError(Response.error(false, e))
+                onFinish()
             }
             return null
         } finally {

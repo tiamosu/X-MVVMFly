@@ -23,14 +23,18 @@ class DownloadViewModel : BaseViewModel() {
     fun downloadFile() {
         downloadDisposable =
             DataRepository.instance.downloadFile(object : FileCallback("test.apk") {
-                override fun onSuccess(response: Response<File>) {
-                    Log.e("xia", "onSuccess")
-                    fileLiveData.postValue(response)
+                override fun onStart() {
+                    Log.e("xia", "onStart")
                 }
 
                 override fun downloadProgress(progress: Progress) {
                     Log.e("xia", "downloadProgress")
                     progressLiveData.postValue(progress)
+                }
+
+                override fun onSuccess(response: Response<File>) {
+                    Log.e("xia", "onSuccess")
+                    fileLiveData.postValue(response)
                 }
 
                 override fun onError(response: Response<File>) {
@@ -39,10 +43,6 @@ class DownloadViewModel : BaseViewModel() {
 
                 override fun onFinish() {
                     Log.e("xia", "onFinish")
-                }
-
-                override fun onStart() {
-                    Log.e("xia", "onStart")
                 }
             })
     }

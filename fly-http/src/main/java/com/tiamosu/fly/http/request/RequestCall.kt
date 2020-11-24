@@ -38,7 +38,7 @@ class RequestCall(private val request: BaseRequest<*>) {
                     ?.retryWhen(RetryWithDelay(request.retryCount, request.retryDelay))
                     ?.subscribeWith(NoCacheCallbackSubscriber<T>(request))
             }
-            else -> throw IllegalArgumentException("Callback is must be CacheResultCallback or ResultCallback!")
+            else -> throw IllegalArgumentException("Callback is must be CacheResultCallback or NoCacheResultCallback!")
         }
     }
 }

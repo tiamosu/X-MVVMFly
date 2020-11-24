@@ -10,7 +10,8 @@ import com.tiamosu.fly.utils.postOnMain
  * @author tiamosu
  * @date 2020/3/7.
  */
-class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber<okhttp3.ResponseBody>() {
+class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
+    BaseSubscriber<okhttp3.ResponseBody>() {
 
     @Suppress("UNCHECKED_CAST")
     private val callback = request.callback as? NoCacheResultCallback<T>
@@ -43,8 +44,10 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) : BaseSubscriber
     }
 
     override fun onComplete() {
-        postOnMain {
-            callback?.onFinish()
+        if (callback !is FileCallback) {
+            postOnMain {
+                callback?.onFinish()
+            }
         }
     }
 

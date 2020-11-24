@@ -8,7 +8,7 @@ package com.tiamosu.fly.http.callback
  */
 abstract class StringCallback : CacheResultCallback<String>() {
 
-    override fun convertResponse(string: String?): String? {
+    final override fun convertResponse(string: String?): String? {
         return string
     }
 }
