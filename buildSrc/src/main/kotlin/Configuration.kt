@@ -11,7 +11,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.4.10"
+    const val kotlin = "1.4.20"
     const val lifecycle = "2.2.0"
     const val appcompat = "1.2.0"
     const val viewpager2 = "1.0.0"
@@ -33,6 +33,7 @@ object Versions {
     const val rxerrorhandler = "3.0.2"
     const val loadsir = "2.0.5"
     const val unpeeklivedata = "4.4.1-beta1"
+    const val gson = "2.8.6"
 }
 
 object Publish {
@@ -118,4 +119,7 @@ object Deps {
 
     //unPeekLiveData
     const val unpeek_livedata = "com.kunminx.archi:unpeek-livedata:${Versions.unpeeklivedata}"
+
+    //gson
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
 }
