@@ -1,3 +1,8 @@
+# 新版本1.7.1
+* kotlin 1.4.20
+* gson 2.8.6
+* 页面销毁时，binding = null
+
 # 新版本1.7.0
 * LiveDataExt 扩展优化
 

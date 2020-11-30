@@ -1,7 +1,7 @@
 apply {
     plugin "com.android.application"
     plugin "kotlin-android"
-    plugin "kotlin-android-extensions"
+    plugin "kotlin-parcelize"
     plugin "kotlin-kapt"
 }
 

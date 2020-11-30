@@ -30,5 +30,6 @@ abstract class BaseFlyVmDbActivity : BaseFlyActivity() {
     override fun onDestroy() {
         super.onDestroy()
         binding?.unbind()
+        binding = null
     }
 }
