@@ -63,21 +63,21 @@ class FragmentNavigator internal constructor(
             return false
         }
         if (fragmentManager.isStateSaved) {
-            Log.i(
-                TAG,
-                "Ignoring popBackStack() call: FragmentManager has already"
-                        + " saved its state"
-            )
+            Log.i(TAG, "Ignoring popBackStack() call: FragmentManager has already saved its state")
             return false
         }
-        fragmentManager.popBackStack(
-            generateBackStackName(backStack.size, backStack.peekLast()),
-            FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
-        if (fragmentManager.fragments.size > backStack.size - 1) {
-            fragmentManager.fragments.removeAt(backStack.size - 1)
+        try {
+            fragmentManager.popBackStack(
+                generateBackStackName(backStack.size, backStack.peekLast()),
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+            if (fragmentManager.fragments.size > backStack.size - 1) {
+                fragmentManager.fragments.removeAt(backStack.size - 1)
+            }
+            backStack.removeLast()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        backStack.removeLast()
         return true
     }
 
@@ -130,11 +130,7 @@ class FragmentNavigator internal constructor(
         navOptions: NavOptions?, navigatorExtras: Navigator.Extras?
     ): NavDestination? {
         if (fragmentManager.isStateSaved) {
-            Log.i(
-                TAG,
-                "Ignoring navigate() call: FragmentManager has already"
-                        + " saved its state"
-            )
+            Log.i(TAG, "Ignoring navigate() call: FragmentManager has already saved its state")
             return null
         }
 
@@ -292,9 +288,7 @@ class FragmentNavigator internal constructor(
          * will be associated with.
          */
         constructor(navigatorProvider: NavigatorProvider) : this(
-            navigatorProvider.getNavigator<FragmentNavigator>(
-                FragmentNavigator::class.java
-            )
+            navigatorProvider.getNavigator<FragmentNavigator>(FragmentNavigator::class.java)
         )
 
         @CallSuper
@@ -303,9 +297,9 @@ class FragmentNavigator internal constructor(
             attrs: AttributeSet
         ) {
             super.onInflate(context, attrs)
-            val a = context.resources.obtainAttributes(attrs, R.styleable.FragmentNavigator)
-            a.getString(R.styleable.FragmentNavigator_android_name)?.let { setClassName(it) }
-            a.recycle()
+            val ta = context.resources.obtainAttributes(attrs, R.styleable.FragmentNavigator)
+            ta.getString(R.styleable.FragmentNavigator_android_name)?.let { setClassName(it) }
+            ta.recycle()
         }
 
         /**
@@ -332,15 +326,15 @@ class FragmentNavigator internal constructor(
             }
 
         override fun toString(): String {
-            val builder = StringBuilder()
-            builder.append(super.toString())
-            builder.append(" class=")
-            if (mClassName == null) {
-                builder.append("null")
-            } else {
-                builder.append(mClassName)
-            }
-            return builder.toString()
+            return StringBuilder().apply {
+                append(super.toString())
+                append(" class=")
+                if (mClassName == null) {
+                    append("null")
+                } else {
+                    append(mClassName)
+                }
+            }.toString()
         }
     }
 

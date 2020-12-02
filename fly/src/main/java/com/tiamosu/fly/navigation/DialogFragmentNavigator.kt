@@ -31,7 +31,11 @@ class DialogFragmentNavigator internal constructor(
             if (event == Lifecycle.Event.ON_STOP) {
                 val dialogFragment = source as? DialogFragment ?: return@LifecycleEventObserver
                 if (!dialogFragment.requireDialog().isShowing) {
-                    NavHostFragment.findNavController(dialogFragment)?.popBackStack()
+                    try {
+                        NavHostFragment.findNavController(dialogFragment)?.popBackStack()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
@@ -47,7 +51,11 @@ class DialogFragmentNavigator internal constructor(
         }
         fragmentManager.findFragmentByTag(DIALOG_TAG + --dialogCount)?.apply {
             lifecycle.removeObserver(observer)
-            (this as? DialogFragment)?.dismiss()
+            try {
+                (this as? DialogFragment)?.dismiss()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         return true
     }
@@ -64,18 +72,22 @@ class DialogFragmentNavigator internal constructor(
             Log.i(TAG, "Ignoring navigate() call: FragmentManager has already saved its state")
             return null
         }
-        var className = destination.className
-        if (className[0] == '.') {
-            className = context.packageName + className
-        }
-        val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
-        require(DialogFragment::class.java.isAssignableFrom(frag.javaClass)) {
-            "Dialog destination ${destination.className} is not an instance of DialogFragment"
-        }
-        if (frag is DialogFragment && frag.isAdded) {
-            frag.arguments = args
-            frag.lifecycle.addObserver(observer)
-            frag.show(fragmentManager, DIALOG_TAG + dialogCount++)
+        try {
+            var className = destination.className
+            if (className[0] == '.') {
+                className = context.packageName + className
+            }
+            val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
+            require(DialogFragment::class.java.isAssignableFrom(frag.javaClass)) {
+                "Dialog destination ${destination.className} is not an instance of DialogFragment"
+            }
+            if (frag is DialogFragment && frag.isAdded) {
+                frag.arguments = args
+                frag.lifecycle.addObserver(observer)
+                frag.show(fragmentManager, DIALOG_TAG + dialogCount++)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return destination
     }
@@ -127,9 +139,7 @@ class DialogFragmentNavigator internal constructor(
          * will be associated with.
          */
         internal constructor(navigatorProvider: NavigatorProvider) : this(
-            navigatorProvider.getNavigator<DialogFragmentNavigator>(
-                DialogFragmentNavigator::class.java
-            )
+            navigatorProvider.getNavigator<DialogFragmentNavigator>(DialogFragmentNavigator::class.java)
         )
 
         @CallSuper

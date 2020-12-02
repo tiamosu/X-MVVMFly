@@ -204,9 +204,7 @@ open class NavHostFragment : Fragment(), NavHost {
         // automatically), but this ensures that the View exists as part of this Fragment's View
         // hierarchy in cases where the NavHostFragment is added programmatically as is required
         // for child fragment transactions
-        return FragmentContainerView(inflater.context).apply {
-            id = containerId
-        }
+        return FragmentContainerView(inflater.context).apply { id = containerId }
     }
 
     /**
