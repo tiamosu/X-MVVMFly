@@ -1,3 +1,6 @@
+# 新版本1.7.3
+* 重新发布
+
 # 新版本1.7.2
 * rxjava 3.0.8
 * 解决 DialogFragment 显示报错： Can not perform this action after onSaveInstanceState 问题
