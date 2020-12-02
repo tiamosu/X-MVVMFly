@@ -12,7 +12,8 @@ object FlyDialogHelper {
             if (dialog?.isShowing == false) {
                 dialog.show()
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -22,7 +23,8 @@ object FlyDialogHelper {
             if (dialog?.isShowing == true) {
                 dialog.dismiss()
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -30,7 +32,8 @@ object FlyDialogHelper {
     fun safeShowDialog(dialogFragment: BaseFlyDialogFragment?) {
         try {
             dialogFragment?.show()
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -38,7 +41,8 @@ object FlyDialogHelper {
     fun safeCloseDialog(dialogFragment: BaseFlyDialogFragment?) {
         try {
             dialogFragment?.dismiss()
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

@@ -137,76 +137,83 @@ class FragmentNavigator internal constructor(
             )
             return null
         }
-        var className = destination.className
-        if (className[0] == '.') {
-            className = context.packageName + className
-        }
-        val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
-        frag.arguments = args
 
-        val ft = fragmentManager.beginTransaction()
-        val enterAnim = navOptions?.enterAnim ?: 0
-        val exitAnim = navOptions?.exitAnim ?: 0
-        val popEnterAnim = navOptions?.popEnterAnim ?: 0
-        val popExitAnim = navOptions?.popExitAnim ?: 0
-        ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
-
-        if (backStack.size > 0) {
-            if (fragmentManager.fragments.size > backStack.size - 1) {
-                ft.hide(fragmentManager.fragments[backStack.size - 1])
-                ft.add(containerId, frag)
+        try {
+            var className = destination.className
+            if (className[0] == '.') {
+                className = context.packageName + className
             }
-        } else {
-            ft.replace(containerId, frag)
-        }
-        ft.setPrimaryNavigationFragment(frag)
+            val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
+            frag.arguments = args
 
-        @IdRes val destId = destination.id
-        val initialNavigation = backStack.isEmpty()
-        // TODO Build first class singleTop behavior for fragments
-        val isSingleTopReplacement = (navOptions != null && !initialNavigation
-                && navOptions.shouldLaunchSingleTop()
-                && backStack.peekLast() == destId)
+            val ft = fragmentManager.beginTransaction()
+            val enterAnim = navOptions?.enterAnim ?: 0
+            val exitAnim = navOptions?.exitAnim ?: 0
+            val popEnterAnim = navOptions?.popEnterAnim ?: 0
+            val popExitAnim = navOptions?.popExitAnim ?: 0
+            ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
 
-        val isAdded = when {
-            initialNavigation -> {
-                true
-            }
-            isSingleTopReplacement -> {
-                // Single Top means we only want one instance on the back stack
-                if (backStack.size > 1) {
-                    // If the Fragment to be replaced is on the FragmentManager's
-                    // back stack, a simple replace() isn't enough so we
-                    // remove it from the back stack and put our replacement
-                    // on the back stack in its place
-                    fragmentManager.popBackStack(
-                        generateBackStackName(backStack.size, backStack.peekLast()),
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
-                    ft.addToBackStack(generateBackStackName(backStack.size, destId))
+            if (backStack.size > 0) {
+                if (fragmentManager.fragments.size > backStack.size - 1) {
+                    ft.hide(fragmentManager.fragments[backStack.size - 1])
+                    ft.add(containerId, frag)
                 }
-                false
+            } else {
+                ft.replace(containerId, frag)
             }
-            else -> {
-                ft.addToBackStack(generateBackStackName(backStack.size + 1, destId))
-                true
-            }
-        }
-        if (navigatorExtras is Extras) {
-            for ((key, value) in navigatorExtras.sharedElements) {
-                if (key != null && value != null) {
-                    ft.addSharedElement(key, value)
+            ft.setPrimaryNavigationFragment(frag)
+
+            @IdRes val destId = destination.id
+            val initialNavigation = backStack.isEmpty()
+            // TODO Build first class singleTop behavior for fragments
+            val isSingleTopReplacement = (navOptions != null && !initialNavigation
+                    && navOptions.shouldLaunchSingleTop()
+                    && backStack.peekLast() == destId)
+
+            val isAdded = when {
+                initialNavigation -> {
+                    true
+                }
+                isSingleTopReplacement -> {
+                    // Single Top means we only want one instance on the back stack
+                    if (backStack.size > 1) {
+                        // If the Fragment to be replaced is on the FragmentManager's
+                        // back stack, a simple replace() isn't enough so we
+                        // remove it from the back stack and put our replacement
+                        // on the back stack in its place
+                        fragmentManager.popBackStack(
+                            generateBackStackName(backStack.size, backStack.peekLast()),
+                            FragmentManager.POP_BACK_STACK_INCLUSIVE
+                        )
+                        ft.addToBackStack(generateBackStackName(backStack.size, destId))
+                    }
+                    false
+                }
+                else -> {
+                    ft.addToBackStack(generateBackStackName(backStack.size + 1, destId))
+                    true
                 }
             }
-        }
-        ft.setReorderingAllowed(true)
-        ft.commit()
-        // The commit succeeded, update our view of the world
-        return if (isAdded) {
-            backStack.add(destId)
-            destination
-        } else {
-            null
+            if (navigatorExtras is Extras) {
+                for ((key, value) in navigatorExtras.sharedElements) {
+                    if (key != null && value != null) {
+                        ft.addSharedElement(key, value)
+                    }
+                }
+            }
+            ft.setReorderingAllowed(true)
+            ft.commit()
+
+            // The commit succeeded, update our view of the world
+            return if (isAdded) {
+                backStack.add(destId)
+                destination
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 

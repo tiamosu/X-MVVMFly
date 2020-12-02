@@ -85,9 +85,13 @@ open class NavHostFragment : Fragment(), NavHost {
         // but it can stay here until we can add the necessary attr resources to
         // the fragment lib.
         if (defaultNavHost && isAdded) {
-            parentFragmentManager.beginTransaction()
-                .setPrimaryNavigationFragment(this)
-                .commit()
+            try {
+                parentFragmentManager.beginTransaction()
+                    .setPrimaryNavigationFragment(this)
+                    .commit()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -115,9 +119,13 @@ open class NavHostFragment : Fragment(), NavHost {
 
             if (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, false) && isAdded) {
                 defaultNavHost = true
-                parentFragmentManager.beginTransaction()
-                    .setPrimaryNavigationFragment(this)
-                    .commit()
+                try {
+                    parentFragmentManager.beginTransaction()
+                        .setPrimaryNavigationFragment(this)
+                        .commit()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
         if (navState != null) {

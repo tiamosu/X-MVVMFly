@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.tiamosu.fly.base.dialog.weak.WeakDialog
@@ -83,19 +84,42 @@ open class BaseFlyDialogFragment : DialogFragment() {
     fun show(tag: String? = javaClass.simpleName) {
         runOnUiThread {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
-                val fm = fragmentActivity!!.supportFragmentManager
-                fm.findFragmentByTag(tag)?.also {
-                    fm.beginTransaction().remove(it)
+                fragmentActivity?.supportFragmentManager?.apply {
+                    findFragmentByTag(tag)?.also {
+                        beginTransaction().remove(it)
+                    }
+                    showAllowingLoss(this, tag)
                 }
-                super@BaseFlyDialogFragment.show(fm, tag)
             }
         }
+    }
+
+    /**
+     * 解决 Can not perform this action after onSaveInstanceState问题（当前Activity不在栈顶时显示错误的问题）
+     */
+    private fun showAllowingLoss(manager: FragmentManager, tag: String?) {
+        try {
+            val cls = DialogFragment::class.java
+            val mDismissed = cls.getDeclaredField("mDismissed")
+            mDismissed.isAccessible = true
+            mDismissed.set(this, false)
+            val mShownByMe = cls.getDeclaredField("mShownByMe")
+            mShownByMe.isAccessible = true
+            mShownByMe.set(this, true)
+        } catch (e: Exception) {
+            //调系统的show()方法
+            show(manager, tag)
+            return
+        }
+        val ft = manager.beginTransaction()
+        ft.add(this, tag)
+        ft.commitAllowingStateLoss()
     }
 
     override fun dismiss() {
         runOnUiThread {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
-                super@BaseFlyDialogFragment.dismissAllowingStateLoss()
+                dismissAllowingStateLoss()
             }
         }
     }
