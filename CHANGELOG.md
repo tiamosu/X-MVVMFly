@@ -1,4 +1,10 @@
 # 新版本1.7.4
+* 注意：NavHostFragment 移到 androidx.navigation.fragment 路劲下,解决 navArgs() 函数不能用的问题。将 ktx 依赖中对官方 java 包的依赖排除掉：
+  implementation('androidx.navigation:navigation-fragment-ktx:2.3.1') {
+      exclude group: 'androidx.navigation', module: "navigation-fragment"
+  }
+  
+# 新版本1.7.4
 * LiveData observe 优化
 
 # 新版本1.7.3
