@@ -18,7 +18,7 @@ object Versions {
     const val constraintlayout = "2.0.4"
     const val corektx = "1.3.2"
     const val fragmentktx = "1.2.5"
-    const val navigation = "2.3.1"
+    const val navigation = "2.3.2"
 
     const val rxjava = "3.0.8"
     const val rxandroid = "3.0.0"
