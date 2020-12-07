@@ -3,6 +3,7 @@ package com.tiamosu.fly.fragmentation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.NavHostFragment
 
 /**
  * @author tiamosu
@@ -41,8 +42,7 @@ object FlySupportHelper {
     }
 
     fun isNavHostFragment(fragment: Fragment?): Boolean {
-        fragment ?: return false
-        return fragment.javaClass.simpleName.contains("NavHostFragment")
+        return fragment is NavHostFragment
     }
 
     fun getAddedFragments(fragmentManager: FragmentManager?): List<Fragment> {

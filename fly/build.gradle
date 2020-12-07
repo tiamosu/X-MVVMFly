@@ -15,7 +15,7 @@ dependencies {
 
     //androidx
     api Deps.androidx_appcompat
-    api Deps.androidx_fragment_ktx
+    api Deps.androidx_fragment
     api Deps.androidx_navigation_runtime
     api Deps.androidx_core_ktx
 

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.navigation
+package androidx.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle

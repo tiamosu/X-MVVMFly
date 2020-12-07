@@ -55,9 +55,10 @@ object Deps {
     const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
 
     //navigation
-    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragmentktx}"
+    const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragmentktx}"
     const val androidx_navigation_runtime =
         "androidx.navigation:navigation-runtime:${Versions.navigation}"
+    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragmentktx}"
     const val androidx_navigation_fragment_ktx =
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val androidx_navigation_ui_ktx =

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.navigation
+package androidx.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.*
 import androidx.navigation.NavDestination.ClassType
 import com.tiamosu.fly.R
-import com.tiamosu.fly.navigation.DialogFragmentNavigator.Destination
+import androidx.navigation.fragment.DialogFragmentNavigator.Destination
 
 /**
  * Navigator that uses [DialogFragment.show]. Every

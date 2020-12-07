@@ -1,4 +1,4 @@
-package com.tiamosu.fly.navigation
+package androidx.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.NavigatorProvider
 import com.tiamosu.fly.R
-import com.tiamosu.fly.navigation.FragmentNavigator.Destination
+import androidx.navigation.fragment.FragmentNavigator.Destination
 import java.util.*
 
 /**
