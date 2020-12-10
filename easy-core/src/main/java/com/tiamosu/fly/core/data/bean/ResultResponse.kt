@@ -1,11 +1,12 @@
 package com.tiamosu.fly.core.data.bean
 
 import android.os.Parcelable
+import com.google.gson.reflect.TypeToken
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.utils.getAppComponent
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -23,13 +24,14 @@ data class ResultResponse(
     val response: @RawValue Response<String>? = null
 ) : Parcelable {
     @IgnoredOnParcel
-    private var any: Any? = null
+    var any: Any? = null
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> getResponse(cls: Class<T>): T? {
+    inline fun <reified T> getResponse(): T? {
         data ?: return null
         if (any == null) {
-            any = getAppComponent().gson().fromJson(data, cls)
+            val type = object : TypeToken<T>() {}.type
+            any = getAppComponent().gson().fromJson(data, type)
         }
         return any as? T
     }
