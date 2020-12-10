@@ -11,7 +11,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.4.20"
+    const val kotlin = "1.4.21"
     const val lifecycle = "2.2.0"
     const val appcompat = "1.2.0"
     const val viewpager2 = "1.0.0"
@@ -39,7 +39,7 @@ object Versions {
 object Publish {
     const val userOrg = "weixia" //bintray.com用户名
     const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "1.7.5" //版本号
+    const val publishVersion = "1.7.6" //版本号
     const val desc = "Oh hi, this is a nice description for a project, right?"
     const val website = "https://github.com/tiamosu/X-MVVMFly"
     const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
