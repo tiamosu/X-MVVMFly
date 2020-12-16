@@ -1,3 +1,6 @@
+# 新版本1.7.7
+* 解决networkCallback注册，取消注册报错
+
 # 新版本1.7.6
 * navigation 2.3.2
 
