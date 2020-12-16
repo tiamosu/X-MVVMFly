@@ -24,8 +24,22 @@ import com.tiamosu.fly.utils.connectivityManager
 class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     val networkStateCallback = EventLiveData<Boolean>()
 
-    @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {
+        try {
+            register()
+        } catch (e: Exception) {
+        }
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        try {
+            unregister()
+        } catch (e: Exception) {
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun register() {
         updateConnection(null)
 
         when {
@@ -44,7 +58,7 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
         }
     }
 
-    override fun onPause(owner: LifecycleOwner) {
+    private fun unregister() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManager?.unregisterNetworkCallback(networkCallback)
         } else {
