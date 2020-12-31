@@ -20,7 +20,7 @@ object Versions {
     const val fragmentktx = "1.2.5"
     const val navigation = "2.3.2"
 
-    const val rxjava = "3.0.8"
+    const val rxjava = "3.0.9"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.0"
