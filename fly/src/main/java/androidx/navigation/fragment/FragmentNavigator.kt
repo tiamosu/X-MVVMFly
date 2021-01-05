@@ -213,7 +213,7 @@ class FragmentNavigator internal constructor(
         }
     }
 
-    override fun onSaveState(): Bundle? {
+    override fun onSaveState(): Bundle {
         val b = Bundle()
         val backStack = IntArray(backStack.size)
         var index = 0

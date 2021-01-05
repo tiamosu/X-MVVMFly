@@ -106,14 +106,15 @@ open class BaseFlyDialogFragment : DialogFragment() {
             val mShownByMe = cls.getDeclaredField("mShownByMe")
             mShownByMe.isAccessible = true
             mShownByMe.set(this, true)
+
+            val ft = manager.beginTransaction()
+            ft.add(this, tag)
+            ft.commitAllowingStateLoss()
         } catch (e: Exception) {
             //调系统的show()方法
             show(manager, tag)
             return
         }
-        val ft = manager.beginTransaction()
-        ft.add(this, tag)
-        ft.commitAllowingStateLoss()
     }
 
     override fun dismiss() {

@@ -84,7 +84,7 @@ open class NavHostFragment : Fragment(), NavHost {
         // TODO This feature should probably be a first-class feature of the Fragment system,
         // but it can stay here until we can add the necessary attr resources to
         // the fragment lib.
-        if (defaultNavHost && isAdded) {
+        if (defaultNavHost) {
             try {
                 parentFragmentManager.beginTransaction()
                     .setPrimaryNavigationFragment(this)
@@ -117,7 +117,7 @@ open class NavHostFragment : Fragment(), NavHost {
             navState = savedInstanceState.getBundle(KEY_NAV_CONTROLLER_STATE)
             graphId = savedInstanceState.getInt(KEY_GRAPH_ID)
 
-            if (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, false) && isAdded) {
+            if (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, false)) {
                 defaultNavHost = true
                 try {
                     parentFragmentManager.beginTransaction()
