@@ -3,6 +3,7 @@
 
 # 新版本1.7.8
 * 优化navigation跳转
+* rxjava 3.0.9
 
 # 新版本1.7.7
 * 解决networkCallback注册，取消注册报错
