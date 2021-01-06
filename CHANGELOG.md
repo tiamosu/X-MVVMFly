@@ -1,3 +1,6 @@
+# 新版本1.7.8
+* 优化navigation跳转
+
 # 新版本1.7.7
 * 解决networkCallback注册，取消注册报错
 

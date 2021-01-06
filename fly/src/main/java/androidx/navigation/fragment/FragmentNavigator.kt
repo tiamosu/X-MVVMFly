@@ -15,8 +15,8 @@ import androidx.navigation.NavDestination.ClassType
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.NavigatorProvider
-import com.tiamosu.fly.R
 import androidx.navigation.fragment.FragmentNavigator.Destination
+import com.tiamosu.fly.R
 import java.util.*
 
 /**
@@ -71,9 +71,12 @@ class FragmentNavigator internal constructor(
                 generateBackStackName(backStack.size, backStack.peekLast()),
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
-            if (fragmentManager.fragments.size > backStack.size - 1) {
-                fragmentManager.fragments.removeAt(backStack.size - 1)
+            //Increase fault tolerance to deal with incorrectly-timed jumps in the case of nested sub-fragments
+            var removeIndex = backStack.size - 1
+            if (removeIndex >= fragmentManager.fragments.size) {
+                removeIndex = fragmentManager.fragments.size - 1
             }
+            fragmentManager.fragments.removeAt(removeIndex)
             backStack.removeLast()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -147,13 +150,17 @@ class FragmentNavigator internal constructor(
             val exitAnim = navOptions?.exitAnim ?: 0
             val popEnterAnim = navOptions?.popEnterAnim ?: 0
             val popExitAnim = navOptions?.popExitAnim ?: 0
-            ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
+            if (enterAnim != 0 || exitAnim != 0 || popEnterAnim != 0 || popExitAnim != 0) {
+                ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
+            }
 
-            if (backStack.size > 0) {
+            //Solve the unexpected display of popUpToInclusive under the add hide solution
+            //Increase fault tolerance to deal with incorrectly-timed jumps in the case of nested sub-fragments
+            if (backStack.size > 0 && fragmentManager.fragments.size > 0) {
                 if (fragmentManager.fragments.size > backStack.size - 1) {
                     ft.hide(fragmentManager.fragments[backStack.size - 1])
-                    ft.add(containerId, frag)
                 }
+                ft.add(containerId, frag)
             } else {
                 ft.replace(containerId, frag)
             }
