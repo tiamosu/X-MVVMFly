@@ -30,7 +30,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
         this.activity = activity
     }
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val contentView = View.inflate(activity, bindLayout(), null)
         setContentView(contentView)

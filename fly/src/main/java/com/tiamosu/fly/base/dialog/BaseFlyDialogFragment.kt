@@ -119,7 +119,7 @@ open class BaseFlyDialogFragment : DialogFragment() {
 
     override fun dismiss() {
         runOnUiThread {
-            if (ActivityUtils.isActivityAlive(fragmentActivity) && isAdded) {
+            if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 dismissAllowingStateLoss()
             }
         }
