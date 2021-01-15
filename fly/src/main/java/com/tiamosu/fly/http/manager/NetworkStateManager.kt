@@ -46,9 +46,9 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectivityManager?.registerDefaultNetworkCallback(networkCallback)
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> lollipopNetworkAvailableRequest(
-                connectivityManager
-            )
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                lollipopNetworkAvailableRequest(connectivityManager)
+            }
             else -> {
                 Utils.getApp()?.registerReceiver(
                     networkReceiver,

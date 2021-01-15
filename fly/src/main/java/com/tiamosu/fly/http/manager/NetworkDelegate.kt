@@ -17,6 +17,7 @@ class NetworkDelegate {
     //网络是否重新连接
     private var isNetReConnect = false
 
+    @Suppress("DEPRECATION")
     fun addNetworkObserve(baseView: IFlyBaseView) {
         val owner = baseView as? LifecycleOwner ?: return
         if (owner is AppCompatActivity) {
