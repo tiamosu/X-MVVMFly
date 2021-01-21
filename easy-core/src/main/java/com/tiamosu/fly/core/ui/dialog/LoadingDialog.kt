@@ -1,24 +1,22 @@
 package com.tiamosu.fly.core.ui.dialog
 
-import android.graphics.Color
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
-import androidx.fragment.app.FragmentActivity
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.BarUtils
-import com.tiamosu.fly.base.dialog.BaseFlyDialogFragment
+import com.tiamosu.fly.base.dialog.BaseFlyDialog
 import com.tiamosu.fly.base.dialog.FlyDialogHelper
-import com.tiamosu.fly.base.dialog.IFlyDialogCallback
 import com.tiamosu.fly.core.R
 
 /**
  * @author tiamosu
  * @date 2020/4/11.
  */
-class LoadingDialog : BaseFlyDialogFragment() {
+class LoadingDialog(
+    context: Context,
+    private val isDelayedShow: Boolean = true
+) : BaseFlyDialog(context, R.style.LoadingDialogStyle) {
     private var startTime = -1L
     private var postedHide = false
     private var postedShow = false
@@ -44,37 +42,12 @@ class LoadingDialog : BaseFlyDialogFragment() {
         }
     }
 
-    fun init(onCancelListener: Runnable? = null): LoadingDialog? {
-        val activity = (ActivityUtils.getTopActivity() as? FragmentActivity) ?: return null
-        super.init(activity, object : IFlyDialogCallback {
-            override fun bindTheme(): Int {
-                return R.style.LoadingDialogStyle
-            }
+    override fun bindLayout() = R.layout.dialog_loading
+    override fun initView(dialog: BaseFlyDialog, contentView: View) {}
 
-            override fun bindLayout(): Int {
-                return R.layout.dialog_loading
-            }
-
-            override fun initView(
-                dialog: BaseFlyDialogFragment,
-                contentView: View
-            ) {
-                isCancelable = onCancelListener != null
-            }
-
-            override fun setWindowStyle(window: Window) {
-                window.setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT
-                )
-                BarUtils.setStatusBarColor(window, Color.TRANSPARENT)
-            }
-
-            override fun onCancel(dialog: BaseFlyDialogFragment) {
-                onCancelListener?.run()
-            }
-        })
-        return this
+    override fun setWindowStyle(window: Window?) {
+        setCanceledOnTouchOutside(false)
+        window?.setDimAmount(0f)
     }
 
     fun showDialog() {
@@ -83,7 +56,8 @@ class LoadingDialog : BaseFlyDialogFragment() {
         handler.removeCallbacks(delayedHide)
         postedHide = false
         if (!postedShow) {
-            handler.postDelayed(delayedShow, MIN_DELAY.toLong())
+            val delayMillis = if (isDelayedShow) MIN_DELAY.toLong() else 0
+            handler.postDelayed(delayedShow, delayMillis)
             postedShow = true
         }
     }
@@ -103,10 +77,8 @@ class LoadingDialog : BaseFlyDialogFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        handler.removeCallbacks(delayedHide)
-        handler.removeCallbacks(delayedShow)
+    override fun onDetachedFromWindow() {
+        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {

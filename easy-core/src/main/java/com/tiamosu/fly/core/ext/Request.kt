@@ -22,7 +22,7 @@ fun stringCallback(
     return object : StringCallback() {
         override fun onStart() {
             if (showLoading) {
-                Loader.showLoading()
+                Loader.showLoading(true)
             }
             onStart.invoke()
         }

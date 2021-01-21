@@ -1,5 +1,8 @@
 package com.tiamosu.fly.core.ui.dialog
 
+import androidx.fragment.app.FragmentActivity
+import com.blankj.utilcode.util.ActivityUtils
+
 /**
  * @author tiamosu
  * @date 2020/6/3.
@@ -7,17 +10,16 @@ package com.tiamosu.fly.core.ui.dialog
 object Loader {
     private var loadingDialog: LoadingDialog? = null
 
-    fun showLoading() {
-        if (loadingDialog != null) {
-            hideLoading()
+    fun showLoading(isDelayedShow: Boolean = false) {
+        val activity = (ActivityUtils.getTopActivity() as? FragmentActivity) ?: return
+        if (activity.isFinishing || activity.isDestroyed) return
+        if (loadingDialog == null || loadingDialog?.isShowing == false) {
+            loadingDialog = LoadingDialog(activity, isDelayedShow)
         }
-        loadingDialog = LoadingDialog().init()?.apply { showDialog() }
+        loadingDialog?.showDialog()
     }
 
     fun hideLoading() {
-        if (loadingDialog != null) {
-            loadingDialog!!.hideDialog()
-            loadingDialog = null
-        }
+        loadingDialog?.hideDialog()
     }
 }
