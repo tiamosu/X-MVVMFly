@@ -25,7 +25,7 @@ object Versions {
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.0"
     const val glide = "4.11.0"
-    const val dagger2 = "2.31"
+    const val dagger2 = "2.31.1"
     const val utilcode = "1.30.5"
     const val leakcanary = "2.6"
     const val disklrucache = "2.0.2"
