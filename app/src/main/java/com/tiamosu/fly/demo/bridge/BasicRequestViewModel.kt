@@ -1,31 +1,29 @@
 package com.tiamosu.fly.demo.bridge
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.ext.jsonCallback
 import com.tiamosu.fly.core.ext.stringCallback
-import com.tiamosu.fly.demo.data.bean.Friend
+import com.tiamosu.fly.demo.data.bean.FriendResponse
 import com.tiamosu.fly.demo.data.repository.DataRepository
-import com.tiamosu.fly.http.model.Response
 
 /**
  * @author tiamosu
  * @date 2020/3/19.
  */
 class BasicRequestViewModel : BaseViewModel() {
-    val getLiveData by lazy { MutableLiveData<Response<Friend>>() }
-    val customLiveData by lazy { MutableLiveData<String>() }
 
     fun get() {
-        DataRepository.instance.getFriend(jsonCallback<Friend>(onSuccess = {
+        DataRepository.instance.getFriend(jsonCallback<FriendResponse>(onSuccess = { result ->
             showToast("get请求成功！")
-            getLiveData.postValue(it)
+            Log.e("xia", "result:$result")
         }))
     }
 
     fun post() {
-        DataRepository.instance.post(stringCallback(onResult = {
-            showToast("post请求成功")
+        DataRepository.instance.post(stringCallback(onResult = { result ->
+            val response = result.getResponse<FriendResponse>(true)
+            Log.e("xia", "result:$response")
         }))
     }
 
@@ -42,9 +40,8 @@ class BasicRequestViewModel : BaseViewModel() {
     }
 
     fun custom() {
-        DataRepository.instance.custom(stringCallback(onResult = { result ->
+        DataRepository.instance.custom(stringCallback(onResult = {
             showToast("custom请求成功！")
-            customLiveData.postValue(result.data)
         }))
     }
 }

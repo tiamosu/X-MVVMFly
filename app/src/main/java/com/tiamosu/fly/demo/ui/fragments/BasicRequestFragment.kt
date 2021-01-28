@@ -1,12 +1,10 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import android.util.Log
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.core.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.bridge.BasicRequestViewModel
 import com.tiamosu.fly.demo.databinding.FragmentBasicRequestBinding
-import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.ext.clickNoRepeat
 
 /**
@@ -34,15 +32,6 @@ class BasicRequestFragment : BaseFragment() {
         }
         dataBinding.btnRequestCustom.clickNoRepeat {
             viewModel.custom()
-        }
-    }
-
-    override fun createObserver() {
-        addObserve(viewModel.getLiveData) {
-            Log.e("xia", "result:$it")
-        }
-        addObserve(viewModel.customLiveData) {
-            Log.e("xia", "result:$it")
         }
     }
 

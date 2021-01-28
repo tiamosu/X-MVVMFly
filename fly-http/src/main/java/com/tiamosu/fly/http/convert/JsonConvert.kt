@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.convert
 
-import com.google.gson.JsonSyntaxException
 import com.tiamosu.fly.http.callback.IGenericsSerializator
 import com.tiamosu.fly.utils.getAppComponent
 import org.json.JSONArray
@@ -15,20 +14,15 @@ class JsonConvert : IGenericsSerializator {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T> transform(response: String, classOfT: Class<T>): T? {
-        return when (classOfT) {
-            JSONObject::class.java -> {
-                JSONObject(response) as? T
+        return try {
+            when (classOfT) {
+                JSONObject::class.java -> JSONObject(response) as? T
+                JSONArray::class.java -> JSONArray(response) as? T
+                else -> getAppComponent().gson().fromJson(response, classOfT)
             }
-            JSONArray::class.java -> {
-                JSONArray(response) as? T
-            }
-            else -> {
-                try {
-                    getAppComponent().gson().fromJson(response, classOfT)
-                } catch (e: JsonSyntaxException) {
-                    null
-                }
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 }
