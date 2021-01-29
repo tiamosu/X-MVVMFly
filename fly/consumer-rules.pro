@@ -60,6 +60,9 @@
   @com.google.gson.annotations.SerializedName <fields>;
 }
 
+#GsonFactory
+-keep class com.hjq.gson.factory.** { *; }
+
 # dagger
 -dontwarn dagger.internal.codegen.**
 -keepclassmembers,allowobfuscation class * {

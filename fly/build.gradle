@@ -49,6 +49,7 @@ dependencies {
 
     //gson
     api Deps.gson
+    api Deps.gsonfactory
 
     //okhttp3
     api(Deps.okhttp3) {
