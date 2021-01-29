@@ -12,12 +12,9 @@ import kotlinx.parcelize.RawValue
 @Keep
 @Parcelize
 data class FriendResponse(
-    val data: @RawValue List<FriendBean>
-) : Parcelable {
-    override fun toString(): String {
-        return "Friend(data=$data)"
-    }
-}
+    val data: @RawValue List<FriendBean> = listOf(),
+    val test: String = "",
+) : Parcelable
 
 @Keep
 @Parcelize
@@ -27,8 +24,4 @@ data class FriendBean(
     val name: String? = null,
     val order: Int = 0,
     val visible: Int = 0,
-) : Parcelable {
-    override fun toString(): String {
-        return "FriendBean(id=$id, link=$link, name=$name, order=$order, visible=$visible)"
-    }
-}
+) : Parcelable
