@@ -23,7 +23,7 @@ class BasicRequestViewModel : BaseViewModel() {
     fun post() {
         DataRepository.instance.post(stringCallback(onResult = { result ->
             val response = result.getResponse<FriendResponse>(true)
-            Log.e("xia", "result:$response")
+            Log.e("xia", "response:$response")
         }))
     }
 

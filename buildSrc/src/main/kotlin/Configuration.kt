@@ -34,6 +34,7 @@ object Versions {
     const val loadsir = "2.0.5"
     const val unpeeklivedata = "4.4.1-beta1"
     const val gson = "2.8.6"
+    const val gsonfactory = "3.0"
 }
 
 object Publish {
@@ -123,4 +124,5 @@ object Deps {
 
     //gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    const val gsonfactory = "com.hjq.gson:factory:${Versions.gsonfactory}"
 }

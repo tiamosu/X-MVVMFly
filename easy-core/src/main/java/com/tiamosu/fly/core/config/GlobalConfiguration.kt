@@ -34,7 +34,9 @@ class GlobalConfiguration : ConfigModule {
             .imageLoaderStrategy(GlideImageLoaderStrategy())
             .okhttpConfiguration { _, _ -> }
             .retrofitConfiguration { _, _ -> }
-            .gsonConfiguration { _, _ -> }
+            .gsonConfiguration { _, gsonBuilder ->
+                gsonBuilder.let(GsonFactory::setGsonFactory)
+            }
             .responseErrorListener(ResponseErrorListenerImpl())
     }
 

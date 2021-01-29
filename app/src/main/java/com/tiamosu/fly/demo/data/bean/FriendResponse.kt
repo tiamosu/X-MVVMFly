@@ -13,7 +13,7 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class FriendResponse(
     val data: @RawValue List<FriendBean> = listOf(),
-    val test: String = "",
+    val test: String = "test",
 ) : Parcelable
 
 @Keep
