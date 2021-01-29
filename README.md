@@ -12,19 +12,19 @@
 ### fly
 [ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly/_latestVersion)
 ```groovy
-implementation 'me.tiamosu:fly:1.8.2'
+implementation 'me.tiamosu:fly:1.8.3'
 ```
 
 ### fly-http
 [ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly-http/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly-http/_latestVersion)
 ```groovy
-implementation 'me.tiamosu:fly-http:1.8.2'
+implementation 'me.tiamosu:fly-http:1.8.3'
 ```
 
 ### fly-imageloader-glide
 [ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly-glide/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly-glide/_latestVersion)
 ```groovy
-implementation 'me.tiamosu:fly-imageloader-glide:1.8.2'
+implementation 'me.tiamosu:fly-imageloader-glide:1.8.3'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)

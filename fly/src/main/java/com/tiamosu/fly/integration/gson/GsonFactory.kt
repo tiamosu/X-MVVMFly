@@ -1,4 +1,4 @@
-package com.tiamosu.fly.core.config
+package com.tiamosu.fly.integration.gson
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

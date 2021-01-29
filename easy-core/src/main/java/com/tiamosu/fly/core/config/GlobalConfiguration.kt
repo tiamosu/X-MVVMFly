@@ -7,6 +7,7 @@ import com.tiamosu.fly.http.interceptors.HeadersInterceptor
 import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.imageloader.glide.GlideImageLoaderStrategy
 import com.tiamosu.fly.integration.ConfigModule
+import com.tiamosu.fly.integration.gson.GsonFactory
 import com.tiamosu.fly.utils.setRxJavaErrorHandler
 
 /**

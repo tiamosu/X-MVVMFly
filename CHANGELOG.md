@@ -1,3 +1,6 @@
+# 新版本1.8.3
+* GsonFactory 文件调整
+
 # 新版本1.8.2
 * 新增GsonFactory，Gson解析容错
 * dagger2 2.31.2
