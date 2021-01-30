@@ -1,3 +1,7 @@
+# 新版本1.8.8
+* Glide 4.12.0
+* 网络请求调试，onStart函数添加(disposable: Disposable)参数，可用于数据请求前判断是否有网络可用等。
+
 # 新版本1.8.3
 * GsonFactory 文件调整
 
