@@ -2,6 +2,7 @@ package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * 描述：抽象的回调接口
@@ -11,7 +12,7 @@ import com.tiamosu.fly.http.model.Response
  */
 abstract class AbsCallback<T> : Callback<T> {
 
-    override fun onStart() {}
+    override fun onStart(disposable: Disposable) {}
 
     override fun onError(response: Response<T>) {}
 

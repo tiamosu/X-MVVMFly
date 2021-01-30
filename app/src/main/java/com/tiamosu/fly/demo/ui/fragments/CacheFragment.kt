@@ -13,6 +13,7 @@ import com.tiamosu.fly.http.cache.converter.SerializableDiskConverter
 import com.tiamosu.fly.http.cache.model.CacheMode
 import com.tiamosu.fly.http.subscriber.BaseSubscriber
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * @author tiamosu
@@ -92,7 +93,7 @@ class CacheFragment : BaseFragment() {
                 .load(cacheKey)
 
             observable.subscribe(object : BaseSubscriber<String>() {
-                override fun onStart() {
+                override fun onStart(disposable: Disposable) {
                 }
 
                 override fun onNext(t: String) {

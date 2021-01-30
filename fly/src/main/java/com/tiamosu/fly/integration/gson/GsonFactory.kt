@@ -6,9 +6,11 @@ import com.google.gson.InstanceCreator
 import com.google.gson.internal.ConstructorConstructor
 import com.google.gson.internal.Excluder
 import com.google.gson.internal.bind.TypeAdapters
+import com.google.gson.reflect.TypeToken
 import com.hjq.gson.factory.data.*
 import com.hjq.gson.factory.element.CollectionTypeAdapterFactory
 import com.hjq.gson.factory.element.ReflectiveTypeAdapterFactory
+import com.tiamosu.fly.utils.getAppComponent
 import java.lang.reflect.Type
 import java.math.BigDecimal
 import java.util.*
@@ -19,6 +21,25 @@ import java.util.*
  */
 object GsonFactory {
     private val INSTANCE_CREATORS = HashMap<Type, InstanceCreator<*>>(0)
+
+    inline fun <reified T> fromJson(str: String): T? {
+        return try {
+            val type = object : TypeToken<T>() {}.type
+            getAppComponent().gson().fromJson(str, type)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    fun toJson(any: Any): String? {
+        return try {
+            getAppComponent().gson().toJson(any)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
     /**
      * 创建 Gson 构建对象

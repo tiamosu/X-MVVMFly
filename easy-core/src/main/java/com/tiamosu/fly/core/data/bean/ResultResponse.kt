@@ -1,12 +1,12 @@
 package com.tiamosu.fly.core.data.bean
 
 import android.os.Parcelable
-import com.google.gson.reflect.TypeToken
 import com.tiamosu.fly.http.model.Response
-import com.tiamosu.fly.utils.getAppComponent
+import com.tiamosu.fly.integration.gson.GsonFactory
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 /**
@@ -25,17 +25,24 @@ data class ResultResponse(
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T> getResponse(isBodyData: Boolean = false): T? {
         val parseData = (if (!isBodyData) data else response?.body) ?: return null
-        return try {
-            val type = object : TypeToken<T>() {}.type
-            when (type) {
-                String::class.java -> parseData
-                JSONObject::class.java -> JSONObject(parseData)
-                JSONArray::class.java -> JSONArray(parseData)
-                else -> getAppComponent().gson().fromJson(parseData, type)
-            } as? T
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
+        return GsonFactory.fromJson<T>(parseData)
+    }
+
+    fun getDataJSONObj(): JSONObject? {
+        try {
+            data ?: return null
+            return JSONObject(data)
+        } catch (e: JSONException) {
+            return null
+        }
+    }
+
+    fun getDataJSONArr(): JSONArray? {
+        try {
+            data ?: return null
+            return JSONArray(data)
+        } catch (e: JSONException) {
+            return null
         }
     }
 

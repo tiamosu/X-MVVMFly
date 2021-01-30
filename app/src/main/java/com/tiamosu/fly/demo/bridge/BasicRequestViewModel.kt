@@ -14,34 +14,45 @@ import com.tiamosu.fly.demo.data.repository.DataRepository
 class BasicRequestViewModel : BaseViewModel() {
 
     fun get() {
-        DataRepository.instance.getFriend(jsonCallback<FriendResponse>(onSuccess = { result ->
-            showToast("get请求成功！")
-            Log.e("xia", "result:$result")
-        }))
+        DataRepository.instance.getFriend(jsonCallback<FriendResponse> {
+            onResult { result ->
+                showToast("get请求成功！")
+                Log.e("xia", "result:$result")
+            }
+        })
     }
 
     fun post() {
-        DataRepository.instance.post(stringCallback(onResult = { result ->
-            val response = result.getResponse<FriendResponse>(true)
-            Log.e("xia", "response:$response")
-        }))
+        DataRepository.instance.post(stringCallback {
+            onResult { result ->
+                val response = result.getResponse<FriendResponse>(true) ?: return@onResult
+                showToast("post请求成功！")
+                Log.e("xia", "response:$response")
+            }
+        })
     }
 
     fun put() {
-        DataRepository.instance.put(stringCallback(onResult = {
-            showToast("put请求成功")
-        }))
+        DataRepository.instance.put(stringCallback {
+            onResult {
+                showToast("put请求成功")
+            }
+        })
     }
 
     fun delete() {
-        DataRepository.instance.delete(stringCallback(onResult = {
-            showToast("delete请求成功")
-        }))
+        DataRepository.instance.delete(stringCallback {
+            onResult {
+                showToast("delete请求成功")
+            }
+        })
     }
 
     fun custom() {
-        DataRepository.instance.custom(stringCallback(onResult = {
-            showToast("custom请求成功！")
-        }))
+        DataRepository.instance.custom(stringCallback {
+            onResult {
+                showToast("custom请求成功！")
+            }
+        })
     }
 }

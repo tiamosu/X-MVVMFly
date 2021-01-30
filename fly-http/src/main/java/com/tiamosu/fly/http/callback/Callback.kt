@@ -2,6 +2,7 @@ package com.tiamosu.fly.http.callback
 
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * 描述：回调的基类
@@ -14,7 +15,7 @@ interface Callback<T> {
     /**
      * 请求网络开始前，UI线程
      */
-    fun onStart()
+    fun onStart(disposable: Disposable)
 
     /**
      * 对返回数据进行操作的回调，UI线程

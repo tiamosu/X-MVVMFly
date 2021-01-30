@@ -5,6 +5,7 @@ import com.tiamosu.fly.http.callback.CacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
 import com.tiamosu.fly.utils.postOnMain
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * @author tiamosu
@@ -16,9 +17,9 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     @Suppress("UNCHECKED_CAST")
     private val callback = request.callback as? CacheResultCallback<T>
 
-    override fun onStart() {
+    override fun onStart(disposable: Disposable) {
         postOnMain {
-            callback?.onStart()
+            callback?.onStart(disposable)
         }
     }
 

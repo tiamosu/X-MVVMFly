@@ -20,14 +20,14 @@ abstract class BaseSubscriber<T> : Disposable,
 
     override fun onSubscribe(d: Disposable) {
         if (EndConsumerHelper.setOnce(upstream, d, javaClass)) {
-            onStart()
+            onStart(d)
         }
     }
 
     /**
      * Called once the single upstream Disposable is set via onSubscribe.
      */
-    protected abstract fun onStart()
+    protected abstract fun onStart(disposable: Disposable)
 
     override fun isDisposed(): Boolean {
         return upstream.get() === DisposableHelper.DISPOSED

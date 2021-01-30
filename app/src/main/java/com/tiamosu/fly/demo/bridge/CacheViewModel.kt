@@ -16,13 +16,15 @@ class CacheViewModel : BaseViewModel() {
     val responseLiveData by lazy { MutableLiveData<Response<String>>() }
 
     fun request(cacheMode: CacheMode, cacheKey: String) {
-        DataRepository.instance.requestCache(stringCallback(onResult = { result ->
-            if (result.exception != null) {
-                showToast("请求失败：" + result.exception?.message)
-                return@stringCallback
+        DataRepository.instance.requestCache(stringCallback {
+            onResult { result ->
+                if (result.exception != null) {
+                    showToast("请求失败：" + result.exception?.message)
+                    return@onResult
+                }
+                Log.e("xia", result.toString())
+                responseLiveData.postValue(result.response)
             }
-            Log.e("xia", result.toString())
-            responseLiveData.postValue(result.response)
-        }), cacheMode, cacheKey)
+        }, cacheMode, cacheKey)
     }
 }
