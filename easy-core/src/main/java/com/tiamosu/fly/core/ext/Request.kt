@@ -24,7 +24,7 @@ fun stringCallback(
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
 
-                val response = Response<String>().apply { exception = Throwable() }
+                val response = Response<String>().apply { exception = Throwable("网络连接失败") }
                 onError(response)
                 return
             }
@@ -64,7 +64,7 @@ inline fun <reified T> jsonCallback(
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
 
-                val response = Response<T>().apply { exception = Throwable() }
+                val response = Response<T>().apply { exception = Throwable("网络连接失败") }
                 onError(response)
                 return
             }
