@@ -30,7 +30,7 @@ class BasicRequestViewModel : BaseViewModel() {
         DataRepository.instance.post(stringCallback {
             onResult { result ->
                 if (result.exception != null) {
-                    showToast("post请求失败！")
+                    showToast(result.msg)
                     return@onResult
                 }
                 val response = result.getResponse<FriendResponse>(true)

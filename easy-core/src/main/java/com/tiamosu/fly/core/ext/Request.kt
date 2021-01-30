@@ -1,6 +1,7 @@
 package com.tiamosu.fly.core.ext
 
 import com.blankj.utilcode.util.NetworkUtils
+import com.tiamosu.fly.core.config.ResponseErrorListenerImpl
 import com.tiamosu.fly.core.data.bean.ResultResponse
 import com.tiamosu.fly.core.ui.dialog.Loader
 import com.tiamosu.fly.http.FlyHttp
@@ -24,7 +25,7 @@ fun stringCallback(
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
 
-                val response = Response<String>().apply { exception = Throwable("网络连接失败") }
+                val response = Response<String>().apply { exception = Throwable() }
                 onError(response)
                 return
             }
@@ -64,7 +65,7 @@ inline fun <reified T> jsonCallback(
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
 
-                val response = Response<T>().apply { exception = Throwable("网络连接失败") }
+                val response = Response<T>().apply { exception = Throwable() }
                 onError(response)
                 return
             }
@@ -96,7 +97,8 @@ private fun parseResult(
     callback: (result: (ResultResponse)) -> Unit
 ) {
     if (response.exception != null) {
-        callback.invoke(ResultResponse(exception = response.exception))
+        val msg = ResponseErrorListenerImpl.parseError(response.exception)
+        callback.invoke(ResultResponse(msg = msg, exception = response.exception))
         return
     }
     response.body?.apply {
