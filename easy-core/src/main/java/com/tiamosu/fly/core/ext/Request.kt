@@ -109,7 +109,8 @@ private fun parseResult(
             val data = obj.optString("data")
             callback.invoke(ResultResponse(code, msg, data, response = response))
         } catch (e: JSONException) {
-            callback.invoke(ResultResponse(exception = e, response = response))
+            val msg = ResponseErrorListenerImpl.parseError(response.exception)
+            callback.invoke(ResultResponse(msg = msg, exception = e, response = response))
         }
     }
 }
