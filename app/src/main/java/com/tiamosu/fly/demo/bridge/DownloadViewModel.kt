@@ -23,7 +23,7 @@ class DownloadViewModel : BaseViewModel() {
     fun downloadFile() {
         downloadDisposable =
             DataRepository.instance.downloadFile(object : FileCallback("test.apk") {
-                override fun onStart() {
+                override fun onStart(disposable: Disposable) {
                     Log.e("xia", "onStart")
                 }
 
