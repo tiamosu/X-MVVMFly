@@ -27,6 +27,7 @@ fun stringCallback(
 
                 val response = Response<String>().apply { exception = Throwable() }
                 onError(response)
+                onFinish()
                 return
             }
             if (showLoading) {
@@ -67,6 +68,7 @@ inline fun <reified T> jsonCallback(
 
                 val response = Response<T>().apply { exception = Throwable() }
                 onError(response)
+                onFinish()
                 return
             }
             if (showLoading) {
