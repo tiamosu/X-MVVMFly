@@ -23,6 +23,9 @@ fun stringCallback(
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
+
+                val response = Response<String>().apply { exception = Throwable() }
+                onError(response)
                 return
             }
             if (showLoading) {
@@ -60,6 +63,9 @@ inline fun <reified T> jsonCallback(
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
+
+                val response = Response<T>().apply { exception = Throwable() }
+                onError(response)
                 return
             }
             if (showLoading) {

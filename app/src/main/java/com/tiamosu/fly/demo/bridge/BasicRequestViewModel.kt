@@ -16,6 +16,10 @@ class BasicRequestViewModel : BaseViewModel() {
     fun get() {
         DataRepository.instance.getFriend(jsonCallback<FriendResponse> {
             onResult { result ->
+                if (result.exception != null) {
+                    showToast("get请求失败！")
+                    return@onResult
+                }
                 showToast("get请求成功！")
                 Log.e("xia", "result:$result")
             }
@@ -25,7 +29,11 @@ class BasicRequestViewModel : BaseViewModel() {
     fun post() {
         DataRepository.instance.post(stringCallback {
             onResult { result ->
-                val response = result.getResponse<FriendResponse>(true) ?: return@onResult
+                if (result.exception != null) {
+                    showToast("post请求失败！")
+                    return@onResult
+                }
+                val response = result.getResponse<FriendResponse>(true)
                 showToast("post请求成功！")
                 Log.e("xia", "response:$response")
             }
@@ -34,7 +42,11 @@ class BasicRequestViewModel : BaseViewModel() {
 
     fun put() {
         DataRepository.instance.put(stringCallback {
-            onResult {
+            onResult { result ->
+                if (result.exception != null) {
+                    showToast("put请求失败")
+                    return@onResult
+                }
                 showToast("put请求成功")
             }
         })
@@ -42,7 +54,11 @@ class BasicRequestViewModel : BaseViewModel() {
 
     fun delete() {
         DataRepository.instance.delete(stringCallback {
-            onResult {
+            onResult { result ->
+                if (result.exception != null) {
+                    showToast("delete请求失败")
+                    return@onResult
+                }
                 showToast("delete请求成功")
             }
         })
@@ -50,7 +66,11 @@ class BasicRequestViewModel : BaseViewModel() {
 
     fun custom() {
         DataRepository.instance.custom(stringCallback {
-            onResult {
+            onResult { result ->
+                if (result.exception != null) {
+                    showToast("custom请求失败")
+                    return@onResult
+                }
                 showToast("custom请求成功！")
             }
         })
