@@ -1,3 +1,6 @@
+# 新版本1.8.9
+* GSON 解析容错优化，目前支持的类型有（JsonObject、JsonArray、String、Boolean、Int、Long、Float、Double、BigDecimal）
+
 # 新版本1.8.8
 * Glide 4.12.0
 * 网络请求调试，onStart函数添加(disposable: Disposable)参数，可用于数据请求前判断是否有网络可用等。
