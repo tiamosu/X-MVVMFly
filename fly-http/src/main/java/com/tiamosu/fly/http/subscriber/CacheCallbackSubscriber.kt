@@ -15,7 +15,7 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     BaseSubscriber<CacheResult<String>>() {
 
     @Suppress("UNCHECKED_CAST")
-    private val callback = request.callback as? CacheResultCallback<T>
+    private val callback by lazy { request.callback as? CacheResultCallback<T> }
 
     override fun onStart(disposable: Disposable) {
         postOnMain {

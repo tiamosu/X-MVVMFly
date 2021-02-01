@@ -13,11 +13,8 @@ import io.reactivex.rxjava3.functions.Action
  * @author tiamosu
  * @date 2020/3/18.
  */
-
 fun postOnMain(action: Action) {
-    Completable.fromAction(action)
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .subscribe()
+    post(AndroidSchedulers.mainThread(), action)
 }
 
 fun post(scheduler: Scheduler, action: Action) {

@@ -15,7 +15,7 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     BaseSubscriber<okhttp3.ResponseBody>() {
 
     @Suppress("UNCHECKED_CAST")
-    private val callback = request.callback as? NoCacheResultCallback<T>
+    private val callback by lazy { request.callback as? NoCacheResultCallback<T> }
 
     override fun onStart(disposable: Disposable) {
         postOnMain {
