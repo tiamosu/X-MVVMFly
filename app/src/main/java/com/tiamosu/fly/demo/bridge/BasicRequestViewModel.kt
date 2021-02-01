@@ -35,7 +35,7 @@ class BasicRequestViewModel : BaseViewModel() {
                 }
                 val response = result.getResponse<FriendResponse>(true)
                 showToast("post请求成功！")
-                Log.e("xia", "response:$response")
+                Log.e("xia", "response:${response?.test}")
             }
         })
     }

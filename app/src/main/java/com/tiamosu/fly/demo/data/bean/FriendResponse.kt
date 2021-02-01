@@ -12,7 +12,8 @@ import kotlinx.parcelize.RawValue
 @Keep
 @Parcelize
 data class FriendResponse(
-    val data: @RawValue List<FriendBean>? = listOf(),
+    val data: @RawValue MutableList<FriendBean> = mutableListOf(),
+    val test: @RawValue MutableList<Double>? = mutableListOf()
 ) : Parcelable
 
 @Keep
