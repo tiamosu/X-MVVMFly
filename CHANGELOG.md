@@ -1,3 +1,7 @@
+# 新版本1.9.0
+* rxjava 3.0.10
+* GSON 解析容错优化
+
 # 新版本1.8.9
 * GSON 解析容错优化，目前支持的类型有（JsonObject、JsonArray、String、Boolean、Int、Long、Float、Double、BigDecimal）
 
