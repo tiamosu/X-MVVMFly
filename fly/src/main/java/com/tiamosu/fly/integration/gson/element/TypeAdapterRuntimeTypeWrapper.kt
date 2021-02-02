@@ -33,7 +33,7 @@ internal class TypeAdapterRuntimeTypeWrapper<T>(
         // Second preference: a type adapter registered for the declared type
         // Third preference: reflective type adapter for the runtime type (if it is a sub class of the declared type)
         // Fourth preference: reflective type adapter for the declared type
-        var chosen: TypeAdapter<T>? = delegate
+        var chosen = delegate
         val runtimeType = getRuntimeTypeIfMoreSpecific(type, value)
         if (runtimeType !== type) {
             val runtimeTypeAdapter = gson.getAdapter(TypeToken.get(runtimeType))

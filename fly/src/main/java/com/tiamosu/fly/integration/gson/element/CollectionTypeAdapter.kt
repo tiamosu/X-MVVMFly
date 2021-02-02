@@ -18,7 +18,7 @@ internal class CollectionTypeAdapter<E>(
     elementType: Type,
     elementTypeAdapter: TypeAdapter<E>?,
     private val constructor: ObjectConstructor<out MutableCollection<E>>?
-) : TypeAdapter<Collection<E>?>() {
+) : TypeAdapter<Collection<E>>() {
 
     private val elementTypeAdapter by lazy {
         TypeAdapterRuntimeTypeWrapper(

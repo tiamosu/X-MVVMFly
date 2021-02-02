@@ -27,7 +27,6 @@ internal class ReflectiveTypeAdapter<T>(
             `in`.skipValue()
             return null
         }
-
         val instance = constructor.construct()
         try {
             `in`.beginObject()
@@ -37,7 +36,7 @@ internal class ReflectiveTypeAdapter<T>(
                 if (field == null || !field.isDeserialized) {
                     `in`.skipValue()
                 } else {
-                    instance?.let { field.read(`in`, it) }
+                    field.read(`in`, instance)
                 }
             }
         } catch (e: IllegalStateException) {
