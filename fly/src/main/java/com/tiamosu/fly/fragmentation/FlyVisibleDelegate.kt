@@ -20,11 +20,11 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onResume() {
-        if (isFirstVisible && !fragment.isHidden) {
-            supportF.onLazyInitView()
-            isFirstVisible = false
-        }
         if (!fragment.isHidden) {
+            if (isFirstVisible) {
+                isFirstVisible = false
+                supportF.onLazyInitView()
+            }
             isSupportVisible = true
             supportF.onSupportVisible()
         }
