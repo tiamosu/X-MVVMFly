@@ -28,12 +28,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.e(fragmentTag, "onCreate")
-        delegate.onCreate(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        delegate.onSaveInstanceState(outState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +39,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.e(fragmentTag, "onActivityCreated")
-        delegate.onActivityCreated()
     }
 
     override fun onResume() {
@@ -79,7 +72,6 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         Log.e(fragmentTag, "onHiddenChanged：$hidden")
-        delegate.onHiddenChanged(hidden)
     }
 
     override fun onLazyInitView() {}

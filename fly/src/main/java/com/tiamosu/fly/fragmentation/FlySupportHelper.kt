@@ -37,10 +37,6 @@ object FlySupportHelper {
         return parentFragment
     }
 
-    fun isFragmentVisible(fragment: Fragment): Boolean {
-        return fragment.lifecycle.currentState == Lifecycle.State.STARTED
-    }
-
     fun isNavHostFragment(fragment: Fragment?): Boolean {
         return fragment is NavHostFragment
     }
