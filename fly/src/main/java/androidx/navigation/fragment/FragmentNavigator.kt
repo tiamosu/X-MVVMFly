@@ -10,6 +10,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.ClassType
 import androidx.navigation.NavOptions
@@ -45,6 +46,7 @@ class FragmentNavigator internal constructor(
     }
 
     private val backStack = ArrayDeque<Int>()
+    private var isPopUpToInclusive = false
 
     /**
      * {@inheritDoc}
@@ -78,6 +80,20 @@ class FragmentNavigator internal constructor(
             }
             fragmentManager.fragments.removeAt(removeIndex)
             backStack.removeLast()
+
+            //页面可见适配
+            if (isPopUpToInclusive) {
+                isPopUpToInclusive = false
+                val ft = fragmentManager.beginTransaction()
+                val preFragmentIndex = removeIndex - 1
+                if (preFragmentIndex > 0 && preFragmentIndex < fragmentManager.fragments.size) {
+                    val preFragment = fragmentManager.fragments[preFragmentIndex]
+                    if (!preFragment.isStateSaved && preFragment.isAdded) {
+                        ft.setMaxLifecycle(preFragment, Lifecycle.State.RESUMED)
+                    }
+                }
+                ft.commit()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -129,8 +145,10 @@ class FragmentNavigator internal constructor(
      * after this call completes.
      */
     override fun navigate(
-        destination: Destination, args: Bundle?,
-        navOptions: NavOptions?, navigatorExtras: Navigator.Extras?
+        destination: Destination,
+        args: Bundle?,
+        navOptions: NavOptions?,
+        navigatorExtras: Navigator.Extras?
     ): NavDestination? {
         if (fragmentManager.isStateSaved) {
             Log.i(TAG, "Ignoring navigate() call: FragmentManager has already saved its state")
@@ -154,24 +172,30 @@ class FragmentNavigator internal constructor(
                 ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
             }
 
+            //是否包含 popUpTo 设定页面一起退出栈
+            isPopUpToInclusive = navOptions?.isPopUpToInclusive ?: false
+
             //Solve the unexpected display of popUpToInclusive under the add hide solution
             //Increase fault tolerance to deal with incorrectly-timed jumps in the case of nested sub-fragments
             if (backStack.size > 0 && fragmentManager.fragments.size > 0) {
                 if (fragmentManager.fragments.size > backStack.size - 1) {
-                    ft.hide(fragmentManager.fragments[backStack.size - 1])
+                    val hideFragment = fragmentManager.fragments[backStack.size - 1]
+                    ft.hide(hideFragment)
+                    ft.setMaxLifecycle(hideFragment, Lifecycle.State.STARTED)
                 }
                 ft.add(containerId, frag)
+                ft.setMaxLifecycle(frag, Lifecycle.State.RESUMED)
             } else {
                 ft.replace(containerId, frag)
+                ft.setMaxLifecycle(frag, Lifecycle.State.RESUMED)
             }
             ft.setPrimaryNavigationFragment(frag)
 
             @IdRes val destId = destination.id
             val initialNavigation = backStack.isEmpty()
             // TODO Build first class singleTop behavior for fragments
-            val isSingleTopReplacement = (navOptions != null && !initialNavigation
-                    && navOptions.shouldLaunchSingleTop()
-                    && backStack.peekLast() == destId)
+            val isSingleTopReplacement =
+                (!initialNavigation && navOptions?.shouldLaunchSingleTop() == true && backStack.peekLast() == destId)
 
             val isAdded = when {
                 initialNavigation -> {
