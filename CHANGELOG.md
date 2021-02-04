@@ -1,3 +1,6 @@
+# 新版本1.9.1
+* Fragment 可见性优化，兼容 ViewPager
+
 # 新版本1.9.0
 * rxjava 3.0.10
 * GSON 解析容错优化

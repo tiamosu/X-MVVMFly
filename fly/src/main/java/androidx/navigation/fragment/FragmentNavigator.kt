@@ -49,7 +49,7 @@ class FragmentNavigator internal constructor(
 
     private val backStack = ArrayDeque<Int>()
     private val resumeFragments = mutableListOf<Fragment>()
-    private val popBackHandler by lazy { Handler(Looper.getMainLooper()) }
+    private val resumeHandler by lazy { Handler(Looper.getMainLooper()) }
 
     /**
      * {@inheritDoc}
@@ -95,7 +95,7 @@ class FragmentNavigator internal constructor(
                 && preFragmentIndex < fragmentManager.fragments.size
             ) {
                 val preFragment = fragmentManager.fragments[preFragmentIndex]
-                popBackHandler.postDelayed({
+                resumeHandler.postDelayed({
                     if (resumeFragments.contains(preFragment) && !preFragment.isStateSaved && preFragment.isAdded) {
                         resumeFragments.remove(preFragment)
                         fragmentManager.beginTransaction().apply {
@@ -169,7 +169,7 @@ class FragmentNavigator internal constructor(
         val isPopUpToInclusive = navOptions?.isPopUpToInclusive ?: false
         if (isPopUpToInclusive) {
             //防止出现栈中的上个页面先显示再隐藏的一个闪烁问题。
-            popBackHandler.removeCallbacksAndMessages(null)
+            resumeHandler.removeCallbacksAndMessages(null)
         }
 
         try {

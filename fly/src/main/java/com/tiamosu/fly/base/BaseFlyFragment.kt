@@ -68,6 +68,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     }
 
     final override fun onLazyInitView() {
+        super.onLazyInitView()
         initEvent()
         createObserver()
         onFlyLazyInitView()
@@ -75,6 +76,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     }
 
     final override fun onSupportVisible() {
+        super.onSupportVisible()
         onFlySupportVisible()
 
         if (isCheckNetChanged()) {
@@ -84,6 +86,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     }
 
     final override fun onSupportInvisible() {
+        super.onSupportInvisible()
         onFlySupportInvisible()
     }
 
