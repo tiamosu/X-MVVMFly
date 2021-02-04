@@ -240,7 +240,8 @@ open class NavHostFragment : Fragment(), NavHost {
 
     @CallSuper
     override fun onInflate(
-        context: Context, attrs: AttributeSet,
+        context: Context,
+        attrs: AttributeSet,
         savedInstanceState: Bundle?
     ) {
         super.onInflate(context, attrs, savedInstanceState)
