@@ -79,7 +79,7 @@ class FragmentNavigator internal constructor(
             //Increase fault tolerance to deal with incorrectly-timed jumps in the case of nested sub-fragments
             var removeIndex = backStack.size - 1
             if (removeIndex >= fragmentManager.fragments.size) {
-                removeIndex = fragmentManager.fragments.size - 1
+                removeIndex = fragmentManager.fragments.lastIndex
             }
             val removeFragment = fragmentManager.fragments[removeIndex]
             if (resumeFragments.isNotEmpty() && resumeFragments.contains(removeFragment)) {
@@ -232,6 +232,18 @@ class FragmentNavigator internal constructor(
                             FragmentManager.POP_BACK_STACK_INCLUSIVE
                         )
                         ft.addToBackStack(generateBackStackName(backStack.size, destId))
+
+                        if (fragmentManager.fragments.isNotEmpty()) {
+                            var preIndex = backStack.size - 2
+                            if (preIndex >= fragmentManager.fragments.size) {
+                                preIndex = fragmentManager.fragments.lastIndex
+                            }
+                            val preFragment = fragmentManager.fragments[preIndex]
+                            if (!resumeFragments.contains(preFragment)) {
+                                resumeFragments.add(preFragment)
+                            }
+                            ft.setMaxLifecycle(preFragment, Lifecycle.State.STARTED)
+                        }
                     }
                     false
                 }
