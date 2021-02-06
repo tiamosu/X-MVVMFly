@@ -26,8 +26,7 @@ class HttpFragment : BaseFragment() {
             navigate(R.id.action_to_downloadFragment)
         }
         dataBinding.btnRequestCache.clickNoRepeat {
-            navigate(R.id.action_pop_to_cacheFragment)
-//            navigate(R.id.action_to_cacheFragment)
+            navigate(R.id.action_to_cacheFragment)
         }
     }
 
