@@ -9,13 +9,13 @@
         tools:ignore="all">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/news_add"
+            android:id="@+id/news_btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="添加" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/news_minus"
+            android:id="@+id/news_btnMinus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -41,7 +41,7 @@ class NewsFragment : BaseFragment() {
 
     override fun initEvent() {
         var count = 0
-        dataBinding.newsAdd.clickNoRepeat {
+        dataBinding.newsBtnAdd.clickNoRepeat {
             count++
             if (fragments.size >= 5) {
                 ToastUtils.showLong("Fragment 加载数量太多啦~")
@@ -58,7 +58,7 @@ class NewsFragment : BaseFragment() {
             dataBinding.newsViewPager.currentItem = fragments.lastIndex
         }
 
-        dataBinding.newsMinus.clickNoRepeat {
+        dataBinding.newsBtnMinus.clickNoRepeat {
             if (fragments.size <= 0) {
                 return@clickNoRepeat
             }

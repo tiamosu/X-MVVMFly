@@ -48,7 +48,6 @@ class FragmentNavigator internal constructor(
     }
 
     private val backStack = ArrayDeque<Int>()
-    private val resumeFragments = mutableListOf<Fragment>()
     private val resumeHandler by lazy { Handler(Looper.getMainLooper()) }
 
     /**
@@ -81,23 +80,17 @@ class FragmentNavigator internal constructor(
             if (removeIndex >= fragmentManager.fragments.size) {
                 removeIndex = fragmentManager.fragments.lastIndex
             }
-            val removeFragment = fragmentManager.fragments[removeIndex]
-            if (resumeFragments.isNotEmpty() && resumeFragments.contains(removeFragment)) {
-                resumeFragments.remove(removeFragment)
-            }
             fragmentManager.fragments.removeAt(removeIndex)
             backStack.removeLast()
 
-            //页面可见适配，对设定 app:popUpToInclusive="true" 页面跳转进行特殊处理
-            val preFragmentIndex = removeIndex - 1
-            if (resumeFragments.isNotEmpty()
-                && preFragmentIndex > 0
-                && preFragmentIndex < fragmentManager.fragments.size
-            ) {
+            var preFragmentIndex = removeIndex - 1
+            if (preFragmentIndex >= fragmentManager.fragments.size) {
+                preFragmentIndex = fragmentManager.fragments.lastIndex
+            }
+            if (preFragmentIndex >= 0 && preFragmentIndex < fragmentManager.fragments.size) {
                 val preFragment = fragmentManager.fragments[preFragmentIndex]
                 resumeHandler.postDelayed({
-                    if (resumeFragments.contains(preFragment) && !preFragment.isStateSaved && preFragment.isAdded) {
-                        resumeFragments.remove(preFragment)
+                    if (!preFragment.isStateSaved && preFragment.isAdded) {
                         fragmentManager.beginTransaction().apply {
                             setMaxLifecycle(preFragment, Lifecycle.State.RESUMED)
                             commit()
@@ -167,7 +160,7 @@ class FragmentNavigator internal constructor(
         }
         //是否包含 popUpTo 设定页面一起退出栈
         val isPopUpToInclusive = navOptions?.isPopUpToInclusive ?: false
-        if (isPopUpToInclusive) {
+        if (backStack.isNotEmpty() && isPopUpToInclusive) {
             //防止出现栈中的上个页面先显示再隐藏的一个闪烁问题。
             resumeHandler.removeCallbacksAndMessages(null)
         }
@@ -197,10 +190,6 @@ class FragmentNavigator internal constructor(
                     val hideFragment = fragmentManager.fragments[backStack.size - 1]
                     ft.hide(hideFragment)
                     ft.setMaxLifecycle(hideFragment, Lifecycle.State.STARTED)
-
-                    if (isPopUpToInclusive && !resumeFragments.contains(hideFragment)) {
-                        resumeFragments.add(hideFragment)
-                    }
                 }
                 ft.add(containerId, toFragment)
                 ft.setMaxLifecycle(toFragment, Lifecycle.State.RESUMED)
@@ -239,9 +228,6 @@ class FragmentNavigator internal constructor(
                                 preIndex = fragmentManager.fragments.lastIndex
                             }
                             val preFragment = fragmentManager.fragments[preIndex]
-                            if (!resumeFragments.contains(preFragment)) {
-                                resumeFragments.add(preFragment)
-                            }
                             ft.setMaxLifecycle(preFragment, Lifecycle.State.STARTED)
                         }
                     }
