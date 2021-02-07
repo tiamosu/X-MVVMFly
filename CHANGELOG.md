@@ -1,3 +1,6 @@
+# 新版本2.0.0
+* Fragment 可见性优化
+
 # 新版本1.9.2
 * Fragment 可见性优化，兼容 Action 设定 app:launchSingleTop="true"
 
