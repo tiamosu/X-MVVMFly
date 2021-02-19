@@ -1,6 +1,6 @@
 package com.tiamosu.fly.http.subscriber
 
-import com.tiamosu.fly.http.callback.FileCallback
+import com.tiamosu.fly.http.callback.NoCacheCustomCallback
 import com.tiamosu.fly.http.callback.NoCacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
@@ -26,14 +26,16 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     override fun onNext(t: okhttp3.ResponseBody) {
         try {
             val body = callback?.convertResponse(t)
-            if (callback !is FileCallback) {
-                launchMain {
-                    val response = Response.success(false, body)
-                    callback?.onSuccess(response)
-                }
+            //若回调为 NoCacheCustomCallback，则交由 NoCacheCustomCallback 内部自行处理
+            if (callback is NoCacheCustomCallback) {
+                return
+            }
+            launchMain {
+                val response = Response.success(false, body)
+                callback?.onSuccess(response)
             }
         } catch (throwable: Throwable) {
-            errorHandle(throwable)
+            error(throwable)
         }
     }
 
@@ -41,18 +43,18 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
         if (request.isGlobalErrorHandle) {
             super.onError(t)
         }
-        errorHandle(t)
+        error(t)
     }
 
     override fun onComplete() {
-        if (callback !is FileCallback) {
+        if (callback !is NoCacheCustomCallback) {
             launchMain {
                 callback?.onFinish()
             }
         }
     }
 
-    private fun errorHandle(throwable: Throwable?) {
+    private fun error(throwable: Throwable?) {
         launchMain {
             val response = Response.error<T>(false, throwable)
             callback?.onError(response)

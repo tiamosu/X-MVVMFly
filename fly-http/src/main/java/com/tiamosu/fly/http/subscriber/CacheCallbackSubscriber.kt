@@ -31,7 +31,7 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
                 callback?.onSuccess(response)
             }
         } catch (throwable: Throwable) {
-            onError(t.isFromCache, throwable)
+            error(t.isFromCache, throwable)
         }
     }
 
@@ -39,7 +39,7 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
         if (request.isGlobalErrorHandle) {
             super.onError(t)
         }
-        onError(false, t)
+        error(false, t)
     }
 
     override fun onComplete() {
@@ -48,7 +48,7 @@ class CacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
         }
     }
 
-    private fun onError(isFromCache: Boolean, throwable: Throwable?) {
+    private fun error(isFromCache: Boolean, throwable: Throwable?) {
         launchMain {
             val response = Response.error<T>(isFromCache, throwable)
             callback?.onError(response)
