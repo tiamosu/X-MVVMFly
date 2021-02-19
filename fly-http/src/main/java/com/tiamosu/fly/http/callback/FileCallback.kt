@@ -53,7 +53,7 @@ abstract class FileCallback : NoCacheCustomCallback<File> {
     }
 
     @Throws(Throwable::class)
-    final override fun convertResponse(body: ResponseBody): File? {
+    override fun convertResponse(body: ResponseBody): File? {
         if (downloadTask == null) {
             DownloadTask(body)
                 .also { downloadTask = it }
