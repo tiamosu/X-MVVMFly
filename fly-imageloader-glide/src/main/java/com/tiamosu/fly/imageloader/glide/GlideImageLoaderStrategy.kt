@@ -14,9 +14,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
-import com.tiamosu.fly.utils.launch
+import com.tiamosu.fly.utils.launchIO
 import com.tiamosu.fly.utils.launchMain
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * 此类只是简单的实现了 Glide 加载的策略,方便快速使用,但大部分情况会需要应对复杂的场景
@@ -174,9 +173,8 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         if (config.isClearDiskCache) {//清除本地缓存
-            launch(Schedulers.io()) { GlideFly.get(context).clearDiskCache() }
+            launchIO { GlideFly.get(context).clearDiskCache() }
         }
-
         if (config.isClearMemory) {//清除内存缓存
             launchMain { GlideFly.get(context).clearMemory() }
         }
