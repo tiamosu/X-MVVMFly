@@ -25,14 +25,14 @@ object Versions {
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.0"
     const val glide = "4.12.0"
-    const val dagger2 = "2.31.2"
+    const val dagger2 = "2.32"
     const val utilcode = "1.30.5"
     const val leakcanary = "2.6"
     const val disklrucache = "2.0.2"
 
     const val rxerrorhandler = "3.0.2"
     const val loadsir = "2.0.5"
-    const val unpeeklivedata = "4.4.1-beta1"
+    const val unpeeklivedata = "4.5.0-beta1"
     const val gson = "2.8.6"
     const val gsonfactory = "3.0"
 }

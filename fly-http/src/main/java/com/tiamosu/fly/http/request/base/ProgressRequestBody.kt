@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.request.base
 import com.tiamosu.fly.http.callback.Callback
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.utils.FlyHttpLog
-import com.tiamosu.fly.utils.postOnMain
+import com.tiamosu.fly.utils.launchMain
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.*
@@ -52,7 +52,7 @@ class ProgressRequestBody(
     }
 
     private inner class CountingSink(sink: Sink) : ForwardingSink(sink) {
-        private var progress: Progress = Progress()
+        private var progress = Progress()
 
         init {
             progress.totalSize = contentLength()
@@ -62,7 +62,7 @@ class ProgressRequestBody(
         override fun write(source: Buffer, byteCount: Long) {
             super.write(source, byteCount)
             Progress.changeProgress(progress, byteCount) { progress ->
-                postOnMain {
+                launchMain {
                     progressCallBack?.onResponseProgress(progress)
                     callback?.uploadProgress(progress)
                 }

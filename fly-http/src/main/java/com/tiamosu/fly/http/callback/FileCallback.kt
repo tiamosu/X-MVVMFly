@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.callback
 
-import android.text.TextUtils
 import com.blankj.utilcode.util.CloseUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -9,7 +8,7 @@ import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.utils.CacheUtils
 import com.tiamosu.fly.utils.createFile
-import com.tiamosu.fly.utils.postOnMain
+import com.tiamosu.fly.utils.launchMain
 import okhttp3.ResponseBody
 import java.io.File
 import java.io.InputStream
@@ -33,9 +32,9 @@ abstract class FileCallback : NoCacheResultCallback<File> {
     constructor(destFileName: String?) : this(null, destFileName)
 
     constructor(destFileDir: String?, destFileName: String?) {
-        this.destFileDir = if (!TextUtils.isEmpty(destFileDir)) destFileDir!! else "download"
+        this.destFileDir = if (destFileDir.isNullOrBlank()) "download" else destFileDir
         this.destFileName =
-            if (!TextUtils.isEmpty(destFileName)) destFileName!! else "unknownFile_" + System.currentTimeMillis()
+            if (destFileName.isNullOrBlank()) "unknownFile_" + System.currentTimeMillis() else destFileName
         this.downloadFile = createFile(this.destFileDir, this.destFileName)
     }
 
@@ -73,8 +72,11 @@ abstract class FileCallback : NoCacheResultCallback<File> {
             if (result == null) {
                 return
             }
-            postOnMain {
-                CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_COMPLETE)
+            launchMain {
+                CacheUtils.setDownloadStatus(
+                    downloadFile.absolutePath,
+                    DownloadStatus.STATUS_COMPLETE
+                )
                 onSuccess(Response.success(false, result))
                 onFinish()
             }
@@ -106,7 +108,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
                 onProgress(progress, read)
             }
         } catch (e: Exception) {
-            postOnMain {
+            launchMain {
                 onError(Response.error(false, e))
                 onFinish()
             }
@@ -119,7 +121,7 @@ abstract class FileCallback : NoCacheResultCallback<File> {
 
     private fun onProgress(progress: Progress, read: Int) {
         Progress.changeProgress(progress, read.toLong()) {
-            postOnMain {
+            launchMain {
                 downloadProgress(it) //进度回调的方法
             }
         }

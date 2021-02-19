@@ -4,7 +4,7 @@ import com.tiamosu.fly.http.callback.FileCallback
 import com.tiamosu.fly.http.callback.NoCacheResultCallback
 import com.tiamosu.fly.http.model.Response
 import com.tiamosu.fly.http.request.base.BaseRequest
-import com.tiamosu.fly.utils.postOnMain
+import com.tiamosu.fly.utils.launchMain
 import io.reactivex.rxjava3.disposables.Disposable
 
 /**
@@ -18,7 +18,7 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
     private val callback by lazy { request.callback as? NoCacheResultCallback<T> }
 
     override fun onStart(disposable: Disposable) {
-        postOnMain {
+        launchMain {
             callback?.onStart(disposable)
         }
     }
@@ -27,7 +27,7 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
         try {
             val body = callback?.convertResponse(t)
             if (callback !is FileCallback) {
-                postOnMain {
+                launchMain {
                     val response = Response.success(false, body)
                     callback?.onSuccess(response)
                 }
@@ -46,14 +46,14 @@ class NoCacheCallbackSubscriber<T>(val request: BaseRequest<*>) :
 
     override fun onComplete() {
         if (callback !is FileCallback) {
-            postOnMain {
+            launchMain {
                 callback?.onFinish()
             }
         }
     }
 
     private fun errorHandle(throwable: Throwable?) {
-        postOnMain {
+        launchMain {
             val response = Response.error<T>(false, throwable)
             callback?.onError(response)
             callback?.onFinish()
