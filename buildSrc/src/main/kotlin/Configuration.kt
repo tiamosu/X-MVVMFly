@@ -12,25 +12,30 @@ object Android {
 
 object Versions {
     const val kotlin = "1.4.21"
-    const val lifecycle = "2.2.0"
-    const val appcompat = "1.2.0"
-    const val viewpager2 = "1.0.0"
-    const val constraintlayout = "2.0.4"
+
     const val corektx = "1.3.2"
+    const val annotation = "1.1.0"
+    const val appcompat = "1.2.0"
     const val fragmentktx = "1.3.0"
     const val navigation = "2.3.3"
+    const val lifecycle = "2.3.0"
+    const val lifecycle_extensions = "2.2.0"
+    const val viewpager2 = "1.0.0"
+    const val constraintlayout = "2.0.4"
 
     const val rxjava = "3.0.10"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.0"
+    const val okio = "2.8.0"
+    const val gson = "2.8.6"
+    const val disklrucache = "2.0.2"
+
     const val glide = "4.12.0"
     const val dagger2 = "2.32"
     const val utilcode = "1.30.5"
     const val leakcanary = "2.6"
-    const val disklrucache = "2.0.2"
     const val unpeeklivedata = "4.5.0-beta1"
-    const val gson = "2.8.6"
 
     const val rxerrorhandler = "3.0.3"
     const val loadsir = "2.0.6"
@@ -48,27 +53,24 @@ object Publish {
 
 object Deps {
     //androidx
+    const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
+    const val androidx_annotation = "androidx.annotation:annotation:${Versions.annotation}"
     const val androidx_appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
     const val androidx_constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
-    const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
 
     //navigation
     const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragmentktx}"
     const val androidx_navigation_runtime =
         "androidx.navigation:navigation-runtime:${Versions.navigation}"
-    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragmentktx}"
-    const val androidx_navigation_fragment_ktx =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-    const val androidx_navigation_ui_ktx =
-        "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
     //lifecycle
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
     const val lifecycle_common_java8 =
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
-    const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val lifecycle_extensions =
+        "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_extensions}"
     const val lifecycle_viewmodel_ktx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_livedata_ktx =
@@ -76,9 +78,7 @@ object Deps {
 
     //kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
 
     //dagger2
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
@@ -110,6 +110,7 @@ object Deps {
     const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
     const val okhttp3_logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp3}"
+    const val okio = "com.squareup.okio:okio:${Versions.okio}"
 
     //glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
