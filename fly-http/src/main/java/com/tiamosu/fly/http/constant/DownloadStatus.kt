@@ -8,4 +8,5 @@ object DownloadStatus {
     const val STATUS_DEFAULT = 0
     const val STATUS_LOADING = 1
     const val STATUS_COMPLETE = 2
+    const val STATUS_FAILED = 3
 }

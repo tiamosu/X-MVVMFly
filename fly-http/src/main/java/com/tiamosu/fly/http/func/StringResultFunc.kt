@@ -10,7 +10,5 @@ import okhttp3.ResponseBody
 class StringResultFunc : Function<ResponseBody, String> {
 
     @Throws(Exception::class)
-    override fun apply(responseBody: ResponseBody): String {
-        return responseBody.string()
-    }
+    override fun apply(responseBody: ResponseBody) = responseBody.string()
 }

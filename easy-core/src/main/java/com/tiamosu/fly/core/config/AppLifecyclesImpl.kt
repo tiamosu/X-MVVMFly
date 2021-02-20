@@ -43,9 +43,9 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             .setHostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             .setCertificates()
             .setOkHttpConnectionPool(ConnectionPool())
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                setLevel(HttpLoggingInterceptor.Level.BODY)
-            })
+//            .addInterceptor(HttpLoggingInterceptor().apply {
+//                setLevel(HttpLoggingInterceptor.Level.BODY)
+//            })
             .setCallbackExecutor(getAppComponent().executorService())
             .addCommonHeaders(httpHeaders)
     }
