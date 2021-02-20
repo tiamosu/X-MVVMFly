@@ -10,9 +10,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //kotlin
-    api Deps.kotlin_stdlib_jdk8
-
     //androidx
     api Deps.androidx_appcompat
     api Deps.androidx_fragment
@@ -28,9 +25,7 @@ dependencies {
 
     //rx
     api Deps.rxjava3
-    api(Deps.rxandroid3) {
-        exclude module: 'rxjava'
-    }
+    api Deps.rxandroid3
     api Deps.rxerrorhandler
 
     //retrofit2
@@ -51,9 +46,7 @@ dependencies {
     api Deps.gson
 
     //okhttp3
-    api(Deps.okhttp3) {
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    api Deps.okhttp3
 
     //dagger2
     api Deps.dagger2

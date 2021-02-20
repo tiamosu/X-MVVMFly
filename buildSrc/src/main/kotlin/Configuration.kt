@@ -17,8 +17,8 @@ object Versions {
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
     const val corektx = "1.3.2"
-    const val fragmentktx = "1.2.5"
-    const val navigation = "2.3.2"
+    const val fragmentktx = "1.3.0"
+    const val navigation = "2.3.3"
 
     const val rxjava = "3.0.10"
     const val rxandroid = "3.0.0"
@@ -29,12 +29,11 @@ object Versions {
     const val utilcode = "1.30.5"
     const val leakcanary = "2.6"
     const val disklrucache = "2.0.2"
-
-    const val rxerrorhandler = "3.0.2"
-    const val loadsir = "2.0.5"
     const val unpeeklivedata = "4.5.0-beta1"
     const val gson = "2.8.6"
-    const val gsonfactory = "3.0"
+
+    const val rxerrorhandler = "3.0.3"
+    const val loadsir = "2.0.6"
 }
 
 object Publish {
@@ -124,5 +123,4 @@ object Deps {
 
     //gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
-    const val gsonfactory = "com.hjq.gson:factory:${Versions.gsonfactory}"
 }
