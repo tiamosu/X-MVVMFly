@@ -1,3 +1,12 @@
+# 新版本2.0.1
+* dagger 2.32
+* fragment 1.3.0
+* navigation 2.3.3
+* loadsir 2.0.6
+* rxerrorhandler 3.0.3
+* 添加线程切换函数，launchMain，launchIO，launch（postOnMain、post 已弃用）
+* 添加 NoCacheCustomCallback.kt 无缓存自定义回调，自行进行解析回调处理。
+
 # 新版本2.0.0
 * Fragment 可见性优化
 
