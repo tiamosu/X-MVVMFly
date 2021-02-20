@@ -4,14 +4,33 @@ apply {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':fly')
-    api project(':fly-http')
-    api project(':fly-imageloader-glide')
+    api(project(':fly')) {
+        exclude module: 'kotlin-stdlib'
+    }
+    api(project(':fly-http')) {
+        exclude module: 'kotlin-stdlib'
+    }
+    api(project(':fly-imageloader-glide')) {
+        exclude module: 'kotlin-stdlib'
+    }
 
-    api Deps.androidx_constraint_layout
-    api Deps.androidx_viewpager2
-    api Deps.loadsir
+    api(Deps.androidx_constraint_layout) {
+        exclude module: 'core'
+        exclude module: 'appcompat'
+    }
+    api(Deps.androidx_viewpager2) {
+        exclude module: 'core'
+        exclude module: 'fragment'
+        exclude module: 'annotation'
+        exclude module: 'collection'
+    }
+    api(Deps.loadsir) {
+        exclude module: 'kotlin-stdlib'
+    }
 
-    implementation Deps.okhttp3_logging_interceptor
+    implementation(Deps.okhttp3_logging_interceptor) {
+        exclude module: 'okhttp'
+        exclude module: 'kotlin-stdlib-jdk8'
+    }
     debugImplementation Deps.leakcanary_android
 }
