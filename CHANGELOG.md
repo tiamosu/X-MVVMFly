@@ -3,12 +3,12 @@
 * utilcode 1.30.6
 * fragment 懒加载初始化优化，防止切换动画未加载完毕时进行数据加载渲染卡顿
 * 注意：fragment 加载函数周期顺序进行了调整，如下：
-`
+```
 [onAttach] → [onCreate] → [initParameters] → [onCreateView] → [onViewCreated] → [initView] → 
 [createObserver] → [onActivityCreated] → [onResume] → [initEvent] → [onFlySupportVisible] → 
 [onFlyLazyInitView] → [doBusiness] → [onPause] → [onFlySupportInvisible] → [onDestroyView] → 
 [onDestroy] → [onDetach]
-`
+```
 
 # 新版本2.0.2
 * 依赖调整
