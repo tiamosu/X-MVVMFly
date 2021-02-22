@@ -1,13 +1,13 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
@@ -23,13 +23,16 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
  */
 abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
-    private val lazyHandler by lazy { Handler(Looper.getMainLooper()) }
     var inflater: LayoutInflater? = null
     var container: ViewGroup? = null
     var rootView: View? = null
 
     //是否是第一次加载数据，防止多次加载数据
     private var isFirstLoadData = true
+
+    //懒加载初始化优化，防止页面切换动画还未执行完毕时进行数据加载导致渲染卡顿现象
+    private var isLazyInitView = false
+    private var isAnimationEnd = false
 
     /**
      * 延迟加载：防止切换动画还没执行完毕时进行数据加载，造成渲染卡顿
@@ -82,15 +85,12 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     final override fun onLazyInitView() {
         super.onLazyInitView()
+        isLazyInitView = true
         initEvent()
 
-        lazyHandler.postDelayed({
-            onFlyLazyInitView()
-            if (isFirstLoadData) {
-                doBusiness()
-                isFirstLoadData = false
-            }
-        }, lazyLoadTime())
+        if (isAnimationEnd) {
+            tryLazyLoad()
+        }
     }
 
     final override fun onSupportVisible() {
@@ -112,8 +112,29 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         Log.e("susu", "$fragmentTag   onSupportInvisible")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        lazyHandler.removeCallbacksAndMessages(null)
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+        if (nextAnim <= 0) {
+            isAnimationEnd = true
+            return super.onCreateAnimation(transit, enter, nextAnim)
+        }
+        return AnimationUtils.loadAnimation(context, nextAnim).apply {
+            setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    isAnimationEnd = true
+                    if (enter && isLazyInitView) {
+                        tryLazyLoad()
+                    }
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {}
+            })
+        }
+    }
+
+    private fun tryLazyLoad() {
+        onFlyLazyInitView()
+        doBusiness()
+        isFirstLoadData = false
     }
 }
