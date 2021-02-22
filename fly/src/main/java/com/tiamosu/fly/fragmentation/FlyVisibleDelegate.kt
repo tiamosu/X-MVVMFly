@@ -7,9 +7,8 @@ import androidx.fragment.app.Fragment
  * @date 2020/5/12.
  */
 class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
-    // SupportVisible相关
-    private var isSupportVisible = false
     private var isFirstVisible = true
+    private var isSupportVisible = false
     private var fragment: Fragment
 
     init {
@@ -20,7 +19,7 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onResume() {
-        if (!fragment.isHidden) {
+        if (!fragment.isHidden && !isSupportVisible) {
             if (isFirstVisible) {
                 isFirstVisible = false
                 supportF.onLazyInitView()
@@ -31,12 +30,15 @@ class FlyVisibleDelegate(private val supportF: IFlySupportFragment) {
     }
 
     fun onPause() {
-        isSupportVisible = false
-        supportF.onSupportInvisible()
+        if (isSupportVisible) {
+            isSupportVisible = false
+            supportF.onSupportInvisible()
+        }
     }
 
     fun onDestroyView() {
         isFirstVisible = true
+        isSupportVisible = false
     }
 
     fun isSupportVisible() = isSupportVisible

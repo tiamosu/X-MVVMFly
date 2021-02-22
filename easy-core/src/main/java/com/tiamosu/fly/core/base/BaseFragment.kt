@@ -25,31 +25,31 @@ abstract class BaseFragment : BaseFlyVmDbFragment(), IBaseView {
     override fun getDataBindingConfig() = DataBindingConfig()
 
     override fun initParameters(bundle: Bundle?) {
-        Log.d(fragmentTag, "initParameters")
+        Log.e(fragmentTag, "initParameters")
     }
 
     override fun initView(rootView: View?) {
-        Log.d(fragmentTag, "initView")
+        Log.e(fragmentTag, "initView")
     }
 
     override fun initEvent() {
-        Log.d(fragmentTag, "initEvent")
+        Log.e(fragmentTag, "initEvent")
     }
 
     override fun createObserver() {
-        Log.d(fragmentTag, "createObserver")
+        Log.e(fragmentTag, "createObserver")
     }
 
     override fun showToast(msg: String?) {
-        (context as BaseActivity).showToast(msg)
+        (context as? BaseActivity)?.showToast(msg)
     }
 
     override fun showLoading() {
-        (context as BaseActivity).showLoading()
+        (context as? BaseActivity)?.showLoading()
     }
 
     override fun hideLoading() {
-        (context as BaseActivity).hideLoading()
+        (context as? BaseActivity)?.hideLoading()
     }
 
     override fun showViewEmpty() {

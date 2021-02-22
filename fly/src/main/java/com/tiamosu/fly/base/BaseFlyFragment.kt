@@ -1,6 +1,9 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +14,8 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
- * → [onViewCreated] → [initView] → [onActivityCreated] → [onResume] → [initEvent]
- * → [createObserver] → [onFlyLazyInitView] → [doBusiness] → [onFlySupportVisible]
+ * → [onViewCreated] → [initView] → [createObserver] → [onActivityCreated] → [onResume]
+ * → [initEvent] → [onFlySupportVisible] → [onFlyLazyInitView] → [doBusiness]
  * → [onPause] → [onFlySupportInvisible] → [onDestroyView] → [onDestroy] → [onDetach]
  *
  * @author tiamosu
@@ -20,12 +23,20 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
  */
 abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
+    private val lazyHandler by lazy { Handler(Looper.getMainLooper()) }
     var inflater: LayoutInflater? = null
     var container: ViewGroup? = null
     var rootView: View? = null
 
-    //防止多次加载数据
-    private var isDataLoaded = false
+    //是否是第一次加载数据，防止多次加载数据
+    private var isFirstLoadData = true
+
+    /**
+     * 延迟加载：防止切换动画还没执行完毕时进行数据加载，造成渲染卡顿
+     * 用于第一次懒加载 [onFlyLazyInitView]、[doBusiness]
+     * 默认延迟时间为100，单位ms
+     */
+    open fun lazyLoadTime() = 100L
 
     final override fun getContext(): AppCompatActivity = activity
 
@@ -62,38 +73,47 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isFirstLoadData = true
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
         initView(rootView)
+        createObserver()
     }
 
     final override fun onLazyInitView() {
         super.onLazyInitView()
         initEvent()
-        createObserver()
-        onFlyLazyInitView()
-        tryLoadData()
+
+        lazyHandler.postDelayed({
+            onFlyLazyInitView()
+            if (isFirstLoadData) {
+                doBusiness()
+                isFirstLoadData = false
+            }
+        }, lazyLoadTime())
     }
 
     final override fun onSupportVisible() {
         super.onSupportVisible()
         onFlySupportVisible()
+        Log.e("susu", "$fragmentTag   onSupportVisible")
 
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
-        tryLoadData()
+        if (!isFirstLoadData && isNeedReload()) {
+            doBusiness()
+        }
     }
 
     final override fun onSupportInvisible() {
         super.onSupportInvisible()
         onFlySupportInvisible()
+        Log.e("susu", "$fragmentTag   onSupportInvisible")
     }
 
-    private fun tryLoadData() {
-        if (isNeedReload() || !isDataLoaded) {
-            doBusiness()
-            isDataLoaded = true
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        lazyHandler.removeCallbacksAndMessages(null)
     }
 }
