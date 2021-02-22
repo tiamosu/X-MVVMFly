@@ -31,6 +31,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private var isFirstLoadData = true
 
     //懒加载初始化优化，防止页面切换动画还未执行完毕时进行数据加载导致渲染卡顿现象
+    private var hasCreateAnimation = false
     private var isLazyInitView = false
     private var isAnimationEnd = false
 
@@ -87,10 +88,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         super.onLazyInitView()
         isLazyInitView = true
         initEvent()
-
-        if (isAnimationEnd) {
-            tryLazyLoad()
-        }
     }
 
     final override fun onSupportVisible() {
@@ -101,8 +98,14 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
-        if (!isFirstLoadData && isNeedReload()) {
-            doBusiness()
+        if (isFirstLoadData) {
+            if (!hasCreateAnimation || isAnimationEnd) {
+                tryLazyLoad()
+            }
+        } else {
+            if (isNeedReload()) {
+                doBusiness()
+            }
         }
     }
 
@@ -117,17 +120,18 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
             isAnimationEnd = true
             return super.onCreateAnimation(transit, enter, nextAnim)
         }
+
+        hasCreateAnimation = true
         return AnimationUtils.loadAnimation(context, nextAnim).apply {
             setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
                 override fun onAnimationEnd(animation: Animation?) {
                     isAnimationEnd = true
                     if (enter && isLazyInitView) {
                         tryLazyLoad()
                     }
                 }
-
-                override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
     }
