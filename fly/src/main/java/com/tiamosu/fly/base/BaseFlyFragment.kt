@@ -35,13 +35,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private var isLazyInitView = false
     private var isAnimationEnd = false
 
-    /**
-     * 延迟加载：防止切换动画还没执行完毕时进行数据加载，造成渲染卡顿
-     * 用于第一次懒加载 [onFlyLazyInitView]、[doBusiness]
-     * 默认延迟时间为100，单位ms
-     */
-    open fun lazyLoadTime() = 100L
-
     final override fun getContext(): AppCompatActivity = activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
