@@ -14,8 +14,6 @@ import com.tiamosu.fly.ext.navigate
 class SplashFragment : BaseFragment() {
     private val dataBinding by lazy { binding as FragmentSplashBinding }
 
-    override fun isNeedReload() = true
-
     override fun getLayoutId() = R.layout.fragment_splash
 
     override fun initEvent() {

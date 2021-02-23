@@ -121,7 +121,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
                 override fun onAnimationRepeat(animation: Animation?) {}
                 override fun onAnimationEnd(animation: Animation?) {
                     isAnimationEnd = true
-                    if (enter && isLazyInitView) {
+                    if (enter && isLazyInitView && isFirstLoadData) {
                         tryLazyLoad()
                     }
                 }
