@@ -80,48 +80,52 @@ object Deps {
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
-    //dagger2
+    //dagger2：依赖注入框架 https://github.com/google/dagger
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
     const val dagger2_apt = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
 
-    //leakcanary
+    //leakcanary：内存泄漏检测 https://github.com/square/leakcanary
     const val leakcanary_android =
         "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
 
-    //retrofit2
+    //retrofit2：基于okhttp封装的网络请求框架 https://github.com/square/retrofit
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2_adapter_rxjava2 =
         "com.squareup.retrofit2:adapter-rxjava3:${Versions.retrofit2}"
     const val retrofit2_converter_gson =
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
 
-    //rx
+    //rx：基于事件流、实现异步操作的库 https://github.com/ReactiveX/RxJava
     const val rxjava3 = "io.reactivex.rxjava3:rxjava:${Versions.rxjava}"
     const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
+
+    //rxjava错误处理 https://github.com/tiamosu/X-RxErrorHandler
     const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:${Versions.rxerrorhandler}"
 
-    //utilcode
+    //utilcode：常用工具类库 https://github.com/Blankj/AndroidUtilCode
     const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"
 
-    //disklrucache
+    //disklrucache：硬盘缓存管理工具 https://github.com/JakeWharton/DiskLruCache
     const val disklrucache = "com.jakewharton:disklrucache:${Versions.disklrucache}"
 
-    //okhttp
+    //okhttp：高效的http客户端 https://github.com/square/okhttp
     const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
     const val okhttp3_logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp3}"
+
+    //搭配okhttp使用 https://github.com/square/okio
     const val okio = "com.squareup.okio:okio:${Versions.okio}"
 
-    //glide
+    //glide：强大的图片加载框架 https://github.com/bumptech/glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glide_compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
-    //loadSir
+    //loadSir：加载反馈页管理框架 https://github.com/tiamosu/LoadSir
     const val loadsir = "me.tiamosu:loadsir:${Versions.loadsir}"
 
-    //unPeekLiveData
+    //unPeekLiveData：解决LiveData数据倒灌 https://github.com/KunMinX/UnPeek-LiveData
     const val unpeek_livedata = "com.kunminx.archi:unpeek-livedata:${Versions.unpeeklivedata}"
 
-    //gson
+    //gson：Google 提供的用来在 Java 对象和 JSON 数据之间进行映射的 Java 类库 https://github.com/google/gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
 }
