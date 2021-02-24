@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
 import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
@@ -34,7 +33,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private var isLazyInitView = false
     private var isAnimationEnd = false
 
-    final override fun getContext(): AppCompatActivity = activity
+    final override fun getContext() = activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

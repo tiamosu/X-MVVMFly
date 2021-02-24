@@ -2,8 +2,7 @@ package com.tiamosu.fly.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.tiamosu.fly.fragmentation.FlySupportActivity
+import com.tiamosu.fly.base.action.FlyActionActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
@@ -14,24 +13,22 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
+abstract class BaseFlyActivity : FlyActionActivity(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
     var rootView: View? = null
 
-    //防止多次加载数据
-    private var isDataLoaded = false
+    //是否在页面可见时加载数据，防止多次加载数据
+    private var isVisibleLoadData = false
 
     //可用于初始化前做相关处理
     open fun onCreateInit(savedInstanceState: Bundle?) = true
-
-    final override fun getContext(): AppCompatActivity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!onCreateInit(savedInstanceState)) {
             return
         }
-        initParameters(intent.extras)
+        initParameters(bundle)
         setContentView()
 
         //添加网络状态监听
@@ -57,15 +54,19 @@ abstract class BaseFlyActivity : FlySupportActivity(), IFlyBaseView {
         tryLoadData(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        isVisibleLoadData = false
+    }
+
     private fun tryLoadData(isCreate: Boolean) {
         if (isCreate) {
             doBusiness()
-            isDataLoaded = true
         } else if (isNeedReload()) {
-            if (!isDataLoaded) {
+            if (isVisibleLoadData) {
                 doBusiness()
             }
-            isDataLoaded = false
+            isVisibleLoadData = true
         }
     }
 }
