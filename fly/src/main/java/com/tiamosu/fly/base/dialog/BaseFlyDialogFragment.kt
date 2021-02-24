@@ -11,8 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.tiamosu.fly.base.dialog.weak.WeakDialog
+import com.tiamosu.fly.utils.launchMain
 
 /**
  * @author tiamosu
@@ -82,7 +82,7 @@ open class BaseFlyDialogFragment : DialogFragment() {
 
     @JvmOverloads
     fun show(tag: String? = javaClass.simpleName) {
-        runOnUiThread {
+        launchMain {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 fragmentActivity?.supportFragmentManager?.apply {
                     findFragmentByTag(tag)?.also {
@@ -118,10 +118,18 @@ open class BaseFlyDialogFragment : DialogFragment() {
     }
 
     override fun dismiss() {
-        runOnUiThread {
+        launchMain {
             if (ActivityUtils.isActivityAlive(fragmentActivity)) {
                 dismissAllowingStateLoss()
             }
         }
+    }
+
+    fun showDialog() {
+        FlyDialogHelper.safeShowDialog(this)
+    }
+
+    fun hideDialog() {
+        FlyDialogHelper.safeCloseDialog(this)
     }
 }

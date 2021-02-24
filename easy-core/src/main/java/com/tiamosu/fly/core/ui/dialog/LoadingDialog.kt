@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import com.tiamosu.fly.base.dialog.BaseFlyDialog
-import com.tiamosu.fly.base.dialog.FlyDialogHelper
 import com.tiamosu.fly.core.R
 
 /**
@@ -18,13 +17,5 @@ class LoadingDialog(context: Context) : BaseFlyDialog(context, R.style.LoadingDi
     override fun setWindowStyle(window: Window?) {
         setCanceledOnTouchOutside(false)
         window?.setDimAmount(0f)
-    }
-
-    fun showDialog() {
-        FlyDialogHelper.safeShowDialog(this)
-    }
-
-    fun hideDialog() {
-        FlyDialogHelper.safeCloseDialog(this)
     }
 }

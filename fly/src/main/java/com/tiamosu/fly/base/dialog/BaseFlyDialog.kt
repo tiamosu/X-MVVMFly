@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ViewUtils.runOnUiThread
+import com.tiamosu.fly.utils.launchMain
 
 /**
  * @author tiamosu
@@ -39,7 +39,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     }
 
     override fun show() {
-        runOnUiThread {
+        launchMain {
             if (ActivityUtils.isActivityAlive(context)) {
                 super@BaseFlyDialog.show()
             }
@@ -47,10 +47,18 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     }
 
     override fun dismiss() {
-        runOnUiThread {
+        launchMain {
             if (ActivityUtils.isActivityAlive(context)) {
                 super@BaseFlyDialog.dismiss()
             }
         }
+    }
+
+    fun showDialog() {
+        FlyDialogHelper.safeShowDialog(this)
+    }
+
+    fun hideDialog() {
+        FlyDialogHelper.safeCloseDialog(this)
     }
 }

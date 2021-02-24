@@ -2,6 +2,7 @@
 
 package com.tiamosu.fly.utils
 
+import com.blankj.utilcode.util.ThreadUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
@@ -22,7 +23,11 @@ fun post(scheduler: Scheduler, action: Action) {
  * 切换至主线程进行运行
  */
 fun launchMain(action: Action) {
-    launch(AndroidSchedulers.mainThread(), action)
+    if (ThreadUtils.isMainThread()) {
+        action.run()
+    } else {
+        launch(AndroidSchedulers.mainThread(), action)
+    }
 }
 
 /**

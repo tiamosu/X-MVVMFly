@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -61,10 +60,7 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         } else {
             // 缓存的 rootView 需要判断是否已经被加过 parent，如果有 parent 需要从 parent 删除，
             // 要不然会发生这个 rootView 已经有 parent 的错误。
-            var viewParent: ViewParent
-            if (rootView!!.parent.also { viewParent = it } is ViewGroup) {
-                (viewParent as ViewGroup).removeView(rootView)
-            }
+            (rootView?.parent as? ViewGroup)?.removeView(rootView)
         }
     }
 
