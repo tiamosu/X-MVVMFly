@@ -1,13 +1,12 @@
 package com.tiamosu.fly.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.tiamosu.fly.fragmentation.FlySupportFragment
+import com.tiamosu.fly.base.action.FlyActionFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
@@ -19,7 +18,7 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
+abstract class BaseFlyFragment : FlyActionFragment(), IFlyBaseView {
     private val networkDelegate by lazy { NetworkDelegate() }
     var inflater: LayoutInflater? = null
     var container: ViewGroup? = null
@@ -33,11 +32,9 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     private var isLazyInitView = false
     private var isAnimationEnd = false
 
-    final override fun getContext() = activity
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initParameters(arguments)
+        initParameters(bundle)
     }
 
     override fun onCreateView(
@@ -72,6 +69,11 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
         createObserver()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rootView = null
+    }
+
     final override fun onLazyInitView() {
         super.onLazyInitView()
         isLazyInitView = true
@@ -81,7 +83,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     final override fun onSupportVisible() {
         super.onSupportVisible()
         onFlySupportVisible()
-        Log.e("susu", "$fragmentTag   onSupportVisible")
 
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
@@ -100,7 +101,6 @@ abstract class BaseFlyFragment : FlySupportFragment(), IFlyBaseView {
     final override fun onSupportInvisible() {
         super.onSupportInvisible()
         onFlySupportInvisible()
-        Log.e("susu", "$fragmentTag   onSupportInvisible")
     }
 
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {

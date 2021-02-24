@@ -1,6 +1,5 @@
 package com.tiamosu.fly.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 
@@ -19,11 +18,6 @@ interface IFlyBaseView {
      * 生成布局视图
      */
     fun setContentView()
-
-    /**
-     * 上下文
-     */
-    fun getContext(): Context
 
     /**
      * 用于初始化参数

@@ -8,7 +8,18 @@ import com.tiamosu.fly.fragmentation.FlySupportFragment
  * @author tiamosu
  * @date 2021/2/24.
  */
-open class FlyActionFragment : FlySupportFragment() {
+open class FlyActionFragment : FlySupportFragment(),
+    FragmentAction, BundleAction, HandlerAction, KeyboardAction {
+
+    final override val bundle
+        get() = arguments
+
+    final override fun getContext() = activity
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeCallbacks()
+    }
 
     /**
      * Fragment 按键事件派发
