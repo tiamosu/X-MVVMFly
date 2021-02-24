@@ -32,7 +32,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val contentView = View.inflate(activity, bindLayout(), null)
+        val contentView = View.inflate(context, bindLayout(), null)
         setContentView(contentView)
         initView(this, contentView)
         setWindowStyle(window)
@@ -55,6 +55,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     }
 
     fun showDialog() {
+        if (activity.isFinishing || activity.isDestroyed) return
         FlyDialogHelper.safeShowDialog(this)
     }
 

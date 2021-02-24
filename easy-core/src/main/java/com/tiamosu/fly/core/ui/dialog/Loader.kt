@@ -1,44 +1,83 @@
 package com.tiamosu.fly.core.ui.dialog
 
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
+import com.tiamosu.fly.base.action.HandlerAction
+import com.tiamosu.fly.base.dialog.BaseFlyDialog
+import java.util.*
 
 /**
  * @author tiamosu
  * @date 2020/6/3.
  */
-object Loader {
-    private var loadingDialog: LoadingDialog? = null
-    private val loadingHandler by lazy { Handler(Looper.getMainLooper()) }
+object Loader : HandlerAction {
+    private val LOADERS = ArrayList<BaseFlyDialog>()
+    private var dialogCallback: (() -> BaseFlyDialog)? = null
+    private var hasCallbacks = false
 
-    private val showRunnable by lazy {
-        Runnable {
-            loadingDialog?.showDialog()
-        }
+    /**
+     * 全局传入Loading弹框进行创建
+     */
+    fun createLoadingDialog(dialogCallback: () -> BaseFlyDialog) {
+        this.dialogCallback = dialogCallback
     }
 
-    fun showLoading(isDelayedShow: Boolean = false) {
-        val activity = (ActivityUtils.getTopActivity() as? FragmentActivity) ?: return
+    /**
+     * @param isDelayedShow 是否延迟展示
+     * @param dialog Loading弹框，优先级最高；为空时展示默认弹框
+     *
+     *  @return loading弹框展示
+     */
+    fun showLoading(
+        isDelayedShow: Boolean = false,
+        delayMillis: Long = 300,
+        dialog: BaseFlyDialog? = null
+    ) {
+        val activity = ActivityUtils.getTopActivity() as? FragmentActivity
+        if (activity == null || activity.isFinishing || activity.isDestroyed) {
+            hideLoading()
+            return
+        }
 
         if (!isDelayedShow) {
-            loadingHandler.removeCallbacks(showRunnable)
+            removeCallback()
         }
-        if (loadingDialog == null || loadingDialog?.isShowing == false) {
-            loadingDialog = LoadingDialog(activity)
+        var loadingDialog: BaseFlyDialog? = null
+        if (dialog != null) {
+            hideLoading()
+            loadingDialog = dialog
+        } else if (LOADERS.isNullOrEmpty()) {
+            loadingDialog = dialogCallback?.invoke() ?: LoadingDialog(activity)
         }
-        if (isDelayedShow) {
-            if (!loadingHandler.hasCallbacks(showRunnable)) {
-                loadingHandler.postDelayed(showRunnable, 300)
+
+        when {
+            !isDelayedShow -> {
+                loadingDialog?.showDialog()
             }
-        } else {
-            loadingHandler.post(showRunnable)
+            !hasCallbacks -> {
+                hasCallbacks = true
+                postDelayed({
+                    loadingDialog?.showDialog()
+                }, delayMillis)
+            }
         }
     }
 
+    /**
+     * @return loading弹框隐藏
+     */
     fun hideLoading() {
-        loadingHandler.removeCallbacks(showRunnable)
-        loadingDialog?.hideDialog()
+        removeCallback()
+        LOADERS.forEach {
+            it.hideDialog()
+        }
+        LOADERS.clear()
+    }
+
+    private fun removeCallback() {
+        if (hasCallbacks) {
+            removeCallbacks()
+            hasCallbacks = false
+        }
     }
 }
