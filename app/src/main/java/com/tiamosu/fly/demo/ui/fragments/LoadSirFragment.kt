@@ -1,7 +1,5 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.core.ext.loadServiceInit
@@ -22,11 +20,7 @@ class LoadSirFragment : BaseFragment() {
             showViewLoading()
             postDelayed({ showViewSuccess() }, 1500)
         }
-        postDelayed({ showViewError() })
-    }
-
-    private fun postDelayed(runnable: Runnable, delayMillis: Long = 1000L) {
-        Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis)
+        postDelayed({ showViewError() }, 1000)
     }
 
     override fun doBusiness() {}

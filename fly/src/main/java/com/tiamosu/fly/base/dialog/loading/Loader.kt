@@ -1,4 +1,4 @@
-package com.tiamosu.fly.core.ui.dialog
+package com.tiamosu.fly.base.dialog.loading
 
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
@@ -47,7 +47,7 @@ object Loader : HandlerAction {
             hideLoading()
             loadingDialog = dialog
         } else if (LOADERS.isNullOrEmpty()) {
-            loadingDialog = dialogCallback?.invoke() ?: LoadingDialog(activity)
+            loadingDialog = dialogCallback?.invoke() ?: FlyLoadingDialog(activity)
         }
 
         when {
@@ -72,6 +72,13 @@ object Loader : HandlerAction {
             it.hideDialog()
         }
         LOADERS.clear()
+    }
+
+    /**
+     * 是否有loading弹框正在展示
+     */
+    fun isShowing(): Boolean {
+        return LOADERS.isNotEmpty()
     }
 
     private fun removeCallback() {

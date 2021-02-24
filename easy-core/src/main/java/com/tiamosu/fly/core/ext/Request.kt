@@ -3,7 +3,7 @@ package com.tiamosu.fly.core.ext
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.core.config.ResponseErrorListenerImpl
 import com.tiamosu.fly.core.data.bean.ResultResponse
-import com.tiamosu.fly.core.ui.dialog.Loader
+import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.callback.JsonCallback
 import com.tiamosu.fly.http.callback.StringCallback

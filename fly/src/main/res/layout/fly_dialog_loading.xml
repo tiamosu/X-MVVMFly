@@ -8,12 +8,12 @@
     <FrameLayout
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/shape_loading_bg">
+        android:background="@drawable/fly_shape_loading_bg">
 
-        <com.tiamosu.fly.core.ui.view.RotateView
+        <com.tiamosu.fly.base.dialog.loading.RotateView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/loading" />
+            android:background="@drawable/fly_loading" />
     </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,4 +1,4 @@
-package com.tiamosu.fly.core.ui.view
+package com.tiamosu.fly.base.dialog.loading
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -16,6 +16,7 @@ class RotateView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private var headerAnimator: ObjectAnimator? = null
+
     override fun onVisibilityChanged(
         changedView: View,
         visibility: Int
@@ -34,12 +35,12 @@ class RotateView @JvmOverloads constructor(
     private fun initAnimator() {
         headerAnimator = ObjectAnimator
             .ofFloat(this, "rotation", 0f, 360f)
-            .also {
-                it.repeatCount = ObjectAnimator.INFINITE
-                it.interpolator = LinearInterpolator()
-                it.repeatMode = ObjectAnimator.RESTART
-                it.duration = 1000
-                it.start()
+            ?.apply {
+                repeatCount = ObjectAnimator.INFINITE
+                interpolator = LinearInterpolator()
+                repeatMode = ObjectAnimator.RESTART
+                duration = 1000
+                start()
             }
     }
 }

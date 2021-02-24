@@ -9,8 +9,8 @@ import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.DataBindingConfig
 import com.tiamosu.fly.core.callback.SharedViewModel
-import com.tiamosu.fly.core.ui.dialog.Loader
-import com.tiamosu.fly.core.ui.dialog.LoadingDialog
+import com.tiamosu.fly.base.dialog.loading.Loader
+import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.ext.lazyAppViewModel
 import com.tiamosu.fly.utils.inputMethodManager
 
@@ -21,7 +21,7 @@ import com.tiamosu.fly.utils.inputMethodManager
 @Suppress("unused")
 abstract class BaseActivity : BaseVmDbActivity(), IBaseView {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: FlyLoadingDialog? = null
 
     override fun initParameters(bundle: Bundle?) {}
     override fun initView(rootView: View?) {}
