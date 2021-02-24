@@ -25,19 +25,19 @@ open class BaseFlyDialogFragment : DialogFragment() {
 
     fun init(
         context: Context,
-        dialogCallback: IFlyDialogCallback?
+        dialogCallback: IFlyDialogCallback
     ): BaseFlyDialogFragment {
-        fragmentActivity = getFragmentActivity(context)
         this.dialogCallback = dialogCallback
+        fragmentActivity = getFragmentActivity(context)
         return this
     }
 
-    private fun getFragmentActivity(context: Context): FragmentActivity? {
-        val activity = ActivityUtils.getActivityByContext(context) ?: return null
-        if (activity is FragmentActivity) {
-            return activity
+    private fun getFragmentActivity(context: Context): FragmentActivity {
+        val activity = ActivityUtils.getActivityByContext(context)
+        if (activity !is FragmentActivity) {
+            throw IllegalArgumentException(context.toString() + "not instance of FragmentActivity")
         }
-        throw IllegalArgumentException(context.toString() + "not instanceof FragmentActivity")
+        return activity
     }
 
     override fun getTheme(): Int {
@@ -100,16 +100,18 @@ open class BaseFlyDialogFragment : DialogFragment() {
     private fun showAllowingLoss(manager: FragmentManager, tag: String?) {
         try {
             val cls = DialogFragment::class.java
-            val mDismissed = cls.getDeclaredField("mDismissed")
-            mDismissed.isAccessible = true
-            mDismissed.set(this, false)
-            val mShownByMe = cls.getDeclaredField("mShownByMe")
-            mShownByMe.isAccessible = true
-            mShownByMe.set(this, true)
-
-            val ft = manager.beginTransaction()
-            ft.add(this, tag)
-            ft.commitAllowingStateLoss()
+            cls.getDeclaredField("mDismissed").apply {
+                isAccessible = true
+                set(this@BaseFlyDialogFragment, false)
+            }
+            cls.getDeclaredField("mShownByMe").apply {
+                isAccessible = true
+                set(this@BaseFlyDialogFragment, true)
+            }
+            manager.beginTransaction().apply {
+                add(this@BaseFlyDialogFragment, tag)
+                commitAllowingStateLoss()
+            }
         } catch (e: Exception) {
             //调系统的show()方法
             show(manager, tag)
