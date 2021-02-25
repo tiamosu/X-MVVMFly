@@ -1,6 +1,5 @@
 package com.tiamosu.fly.base.action
 
-import com.tiamosu.fly.base.dialog.BaseFlyDialog
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 
 /**
@@ -8,13 +7,6 @@ import com.tiamosu.fly.base.dialog.loading.LoadingConfig
  * @date 2021/2/25.
  */
 interface LoadingAction {
-
-    val loadingConfig: LoadingConfig
-
-    /**
-     * 支持自定义创建loading弹框
-     */
-    val createLoadingDialog: BaseFlyDialog
 
     /**
      * 展示loading弹框

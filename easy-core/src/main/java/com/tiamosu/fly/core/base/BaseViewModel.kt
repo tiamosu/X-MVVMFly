@@ -1,6 +1,7 @@
 package com.tiamosu.fly.core.base
 
 import androidx.lifecycle.ViewModel
+import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.callback.EventLiveData
 import com.tiamosu.fly.core.state.ResultState
 
@@ -17,6 +18,10 @@ abstract class BaseViewModel : ViewModel(), IUIAction {
     }
 
     override fun showLoading() {
+        showLoading(null)
+    }
+
+    override fun showLoading(config: LoadingConfig?) {
         resultState.value = ResultState.showLoading()
     }
 

@@ -8,9 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.DataBindingConfig
-import com.tiamosu.fly.core.callback.SharedViewModel
-import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
+import com.tiamosu.fly.core.callback.SharedViewModel
 import com.tiamosu.fly.ext.lazyAppViewModel
 import com.tiamosu.fly.utils.inputMethodManager
 
@@ -31,14 +30,6 @@ abstract class BaseActivity : BaseVmDbActivity(), IUIAction {
 
     override fun showToast(msg: String?) {
         ToastUtils.showShort(msg)
-    }
-
-    override fun showLoading() {
-        Loader.showLoading()
-    }
-
-    override fun hideLoading() {
-        Loader.hideLoading()
     }
 
     override fun showViewEmpty() {

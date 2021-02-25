@@ -44,14 +44,6 @@ abstract class BaseFragment : BaseFlyVmDbFragment(), IUIAction {
         (context as? BaseActivity)?.showToast(msg)
     }
 
-    override fun showLoading() {
-        (context as? BaseActivity)?.showLoading()
-    }
-
-    override fun hideLoading() {
-        (context as? BaseActivity)?.hideLoading()
-    }
-
     override fun showViewEmpty() {
         loadService?.showCallback<EmptyCallback>()
     }

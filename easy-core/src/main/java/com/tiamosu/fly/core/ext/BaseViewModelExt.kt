@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.base.IUIAction
-import com.tiamosu.fly.core.state.ResultState
+import com.tiamosu.fly.core.state.ResultState.*
 import com.tiamosu.fly.ext.viewModel
 
 /**
@@ -18,13 +18,13 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arg
             if (it is BaseViewModel && this is IUIAction) {
                 it.resultState.observe(this as LifecycleOwner, { resultState ->
                     when (resultState) {
-                        is ResultState.Toast -> showToast(resultState.msg)
-                        is ResultState.LoadingShow -> showLoading()
-                        is ResultState.LoadingHide -> hideLoading()
-                        is ResultState.ViewLoading -> showViewLoading()
-                        is ResultState.ViewSuccess -> showViewSuccess()
-                        is ResultState.ViewEmpty -> showViewEmpty()
-                        is ResultState.ViewError -> showViewError()
+                        is Toast -> showToast(resultState.msg)
+                        is LoadingShow -> showLoading()
+                        is LoadingHide -> hideLoading()
+                        is ViewLoading -> showViewLoading()
+                        is ViewSuccess -> showViewSuccess()
+                        is ViewEmpty -> showViewEmpty()
+                        is ViewError -> showViewError()
                     }
                 })
             }
