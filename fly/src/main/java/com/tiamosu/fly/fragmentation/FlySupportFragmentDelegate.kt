@@ -14,18 +14,15 @@ class FlySupportFragmentDelegate(private val supportF: IFlySupportFragment) {
 
     init {
         if (supportF !is Fragment) {
-            throw RuntimeException("${supportF.javaClass.simpleName} must extends Fragment")
+            throw IllegalStateException("${supportF.javaClass.simpleName} must extends Fragment")
         }
         fragment = supportF
     }
 
     fun onAttach() {
-        val activity = fragment.activity
+        val activity = fragment.requireActivity()
         if (activity !is IFlySupportActivity) {
-            throw RuntimeException(
-                activity?.javaClass?.simpleName
-                    ?: "activity" + " must impl IFlySupportActivity!"
-            )
+            throw IllegalStateException("${activity.javaClass.simpleName} must impl IFlySupportActivity!")
         }
         this.activity = activity
     }

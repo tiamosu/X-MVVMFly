@@ -13,7 +13,7 @@ class FlySupportActivityDelegate(private val supportA: IFlySupportActivity) {
 
     init {
         if (supportA !is FragmentActivity) {
-            throw RuntimeException("${supportA.javaClass.simpleName} must extends FragmentActivity/AppCompatActivity")
+            throw IllegalStateException("${supportA.javaClass.simpleName} must extends FragmentActivity")
         }
         this.activity = supportA
     }
