@@ -19,7 +19,7 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(vararg arg
                 it.resultState.observe(this as LifecycleOwner, { resultState ->
                     when (resultState) {
                         is Toast -> showToast(resultState.msg)
-                        is LoadingShow -> showLoading()
+                        is LoadingShow -> showLoading(resultState.config)
                         is LoadingHide -> hideLoading()
                         is ViewLoading -> showViewLoading()
                         is ViewSuccess -> showViewSuccess()

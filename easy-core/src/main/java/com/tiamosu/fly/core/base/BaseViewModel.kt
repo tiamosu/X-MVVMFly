@@ -22,7 +22,7 @@ abstract class BaseViewModel : ViewModel(), IUIAction {
     }
 
     override fun showLoading(config: LoadingConfig?) {
-        resultState.value = ResultState.showLoading()
+        resultState.value = ResultState.showLoading(config)
     }
 
     override fun hideLoading() {

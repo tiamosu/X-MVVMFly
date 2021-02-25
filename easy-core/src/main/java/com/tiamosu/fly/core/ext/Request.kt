@@ -1,9 +1,10 @@
 package com.tiamosu.fly.core.ext
 
 import com.blankj.utilcode.util.NetworkUtils
+import com.tiamosu.fly.base.dialog.loading.Loader
+import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.config.ResponseErrorListenerImpl
 import com.tiamosu.fly.core.data.bean.ResultResponse
-import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.http.FlyHttp
 import com.tiamosu.fly.http.callback.JsonCallback
 import com.tiamosu.fly.http.callback.StringCallback
@@ -16,10 +17,19 @@ import org.json.JSONObject
  * @author tiamosu
  * @date 2020/3/18.
  */
-fun stringCallback(
+fun BaseViewModel.stringCallback(
     showLoading: Boolean = true,
     requestCallback: StringRequestCallback.() -> Unit = {}
 ): StringCallback {
+    return stringCallback(showLoading, requestCallback, this)
+}
+
+fun stringCallback(
+    showLoading: Boolean = true,
+    requestCallback: StringRequestCallback.() -> Unit = {},
+    viewModel: BaseViewModel? = null
+): StringCallback {
+    val callback = StringRequestCallback().apply(requestCallback)
     return object : StringCallback() {
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
@@ -31,35 +41,43 @@ fun stringCallback(
                 return
             }
             if (showLoading) {
-                Loader.showLoading(true)
+                viewModel?.showLoading() ?: Loader.showLoading(true)
             }
-            StringRequestCallback().apply(requestCallback).onStart?.invoke()
+            callback.onStart?.invoke()
         }
 
         override fun onSuccess(response: Response<String>) {
             parseResult(response) {
-                StringRequestCallback().apply(requestCallback).onResult?.invoke(it)
+                callback.onResult?.invoke(it)
             }
         }
 
         override fun onError(response: Response<String>) {
             parseResult(response) {
-                StringRequestCallback().apply(requestCallback).onResult?.invoke(it)
+                callback.onResult?.invoke(it)
             }
         }
 
         override fun onFinish() {
             if (showLoading) {
-                Loader.hideLoading()
+                viewModel?.hideLoading() ?: Loader.hideLoading()
             }
-            StringRequestCallback().apply(requestCallback).onFinish?.invoke()
+            callback.onFinish?.invoke()
         }
     }
 }
 
-inline fun <reified T> jsonCallback(
+inline fun <reified T> BaseViewModel.jsonCallback(
     showLoading: Boolean = true,
     crossinline requestCallback: JsonRequestCallback<T>.() -> Unit = {}
+): JsonCallback<T> {
+    return jsonCallback(showLoading, requestCallback, this)
+}
+
+inline fun <reified T> jsonCallback(
+    showLoading: Boolean = true,
+    crossinline requestCallback: JsonRequestCallback<T>.() -> Unit = {},
+    viewModel: BaseViewModel? = null,
 ): JsonCallback<T> {
     return object : JsonCallback<T>() {
         override fun onStart(disposable: Disposable) {
@@ -72,7 +90,7 @@ inline fun <reified T> jsonCallback(
                 return
             }
             if (showLoading) {
-                Loader.showLoading(true)
+                viewModel?.showLoading() ?: Loader.showLoading(true)
             }
             JsonRequestCallback<T>().apply(requestCallback).onStart?.invoke()
         }
@@ -87,7 +105,7 @@ inline fun <reified T> jsonCallback(
 
         override fun onFinish() {
             if (showLoading) {
-                Loader.hideLoading()
+                viewModel?.hideLoading() ?: Loader.hideLoading()
             }
             JsonRequestCallback<T>().apply(requestCallback).onFinish?.invoke()
         }
