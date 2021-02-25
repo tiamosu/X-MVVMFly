@@ -1,3 +1,7 @@
+# 新版本2.0.5
+* Activity、Fragment添加Bundle、Handler、Keyboard相关操作。
+* 添加默认loading弹框实现，支持自定义配置，通过showLoading(config)、hideLoading执行
+
 # 新版本2.0.4
 * 懒加载初始化优化，修复可能出现多次调用懒加载初始化函数问题。
 
