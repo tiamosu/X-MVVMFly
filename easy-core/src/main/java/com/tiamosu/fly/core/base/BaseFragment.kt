@@ -18,7 +18,7 @@ import com.tiamosu.fly.ext.lazyAppViewModel
  * @author tiamosu
  * @date 2020/2/20.
  */
-abstract class BaseFragment : BaseFlyVmDbFragment(), IBaseView {
+abstract class BaseFragment : BaseFlyVmDbFragment(), IUIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
     internal var loadService: LoadService<Any>? = null
 

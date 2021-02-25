@@ -19,7 +19,7 @@ import com.tiamosu.fly.utils.inputMethodManager
  * @date 2020/2/22.
  */
 @Suppress("unused")
-abstract class BaseActivity : BaseVmDbActivity(), IBaseView {
+abstract class BaseActivity : BaseVmDbActivity(), IUIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
     private var loadingDialog: FlyLoadingDialog? = null
 

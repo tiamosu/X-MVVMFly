@@ -4,7 +4,7 @@ package com.tiamosu.fly.core.base
  * @author tiamosu
  * @date 2020/3/18.
  */
-interface IBaseView {
+interface IUIAction {
 
     fun showToast(msg: String?)
 

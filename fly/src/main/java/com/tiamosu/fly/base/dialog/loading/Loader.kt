@@ -52,12 +52,12 @@ object Loader : HandlerAction {
 
         when {
             !isDelayedShow -> {
-                loadingDialog?.showDialog()
+                showDialog(activity, loadingDialog)
             }
             !hasCallbacks -> {
                 hasCallbacks = true
                 postDelayed({
-                    loadingDialog?.showDialog()
+                    showDialog(activity, loadingDialog)
                 }, delayMillis)
             }
         }
@@ -79,6 +79,13 @@ object Loader : HandlerAction {
      */
     fun isShowing(): Boolean {
         return LOADERS.isNotEmpty()
+    }
+
+    private fun showDialog(activity: FragmentActivity, loadingDialog: BaseFlyDialog?) {
+        if (activity.isFinishing || activity.isDestroyed) {
+            return
+        }
+        loadingDialog?.showDialog()
     }
 
     private fun removeCallback() {

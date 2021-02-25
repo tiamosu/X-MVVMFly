@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.base.action.*
+import com.tiamosu.fly.base.dialog.BaseFlyDialog
+import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
+import com.tiamosu.fly.base.dialog.loading.Loader
+import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.fragmentation.FlySupportActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
@@ -24,15 +28,22 @@ abstract class BaseFlyActivity : FlySupportActivity(),
     ActivityAction, BundleAction, HandlerAction, KeyboardAction, NetAction {
 
     private val networkDelegate by lazy { NetworkDelegate() }
-    var rootView: View? = null
 
     //是否在页面可见时加载数据，防止多次加载数据
     private var isVisibleLoadData = false
+
+    //loading弹框
+    private var loadingDialog: BaseFlyDialog? = null
+
+    //loading弹框数量
+    private var loadingDialogTotal = 0
 
     final override val bundle
         get() = intent?.extras
 
     final override fun getContext() = this
+
+    var rootView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +58,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
         tryLoadData(true)
-    }
-
-    override fun setContentView() {
-        if (getLayoutId() > 0) {
-            rootView = View.inflate(getContext(), getLayoutId(), null)
-            setContentView(rootView)
-            initSoftKeyboard()
-        }
     }
 
     override fun onResume() {
@@ -87,6 +90,40 @@ abstract class BaseFlyActivity : FlySupportActivity(),
         super.onNewIntent(intent)
         //设置为当前的 Intent，避免 Activity 被杀死后重启 Intent 还是最原先的那个
         setIntent(intent)
+    }
+
+    override fun setContentView() {
+        if (getLayoutId() > 0) {
+            rootView = View.inflate(getContext(), getLayoutId(), null)
+            setContentView(rootView)
+            initSoftKeyboard()
+        }
+    }
+
+    override val loadingConfig by lazy { LoadingConfig() }
+
+    override val createLoadingDialog by lazy { FlyLoadingDialog(getContext()) }
+
+    override fun showLoading(config: LoadingConfig?) {
+        loadingDialogTotal++
+        val newConfig = config ?: loadingConfig
+        val delayMillis = newConfig.delayMillis
+        postDelayed({
+            if (loadingDialogTotal <= 0 || isFinishing || isDestroyed || Loader.isShowing()) {
+                return@postDelayed
+            }
+            val dialog = newConfig.dialog ?: loadingDialog ?: createLoadingDialog.also {
+                loadingDialog = it
+            }
+            Loader.showLoading(newConfig.isDelayedShow, delayMillis, dialog)
+        }, delayMillis)
+    }
+
+    override fun hideLoading() {
+        if (loadingDialogTotal > 0) {
+            loadingDialogTotal--
+        }
+        Loader.hideLoading()
     }
 
     /**

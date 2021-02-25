@@ -6,7 +6,7 @@ import android.os.Bundle
  * @author tiamosu
  * @date 2021/2/24.
  */
-interface ActivityAction : ViewAction {
+interface ActivityAction : ViewAction, LoadingAction {
 
     /**
      * 可用于初始化前做相关处理，返回false则不进行

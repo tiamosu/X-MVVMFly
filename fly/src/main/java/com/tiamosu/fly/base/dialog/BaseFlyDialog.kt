@@ -55,7 +55,6 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     }
 
     fun showDialog() {
-        if (activity.isFinishing || activity.isDestroyed) return
         FlyDialogHelper.safeShowDialog(this)
     }
 

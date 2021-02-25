@@ -8,7 +8,7 @@ import com.tiamosu.fly.core.state.ResultState
  * @author tiamosu
  * @date 2020/3/18.
  */
-abstract class BaseViewModel : ViewModel(), IBaseView {
+abstract class BaseViewModel : ViewModel(), IUIAction {
 
     val resultState by lazy { EventLiveData<ResultState>() }
 
