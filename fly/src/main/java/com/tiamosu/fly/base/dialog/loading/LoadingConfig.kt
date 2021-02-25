@@ -10,7 +10,7 @@ import com.tiamosu.fly.base.dialog.BaseFlyDialog
 @Keep
 open class LoadingConfig(
     var isDelayedShow: Boolean = false,
-    var delayMillis: Long = 300,
+    var delayMillis: Long = 200,
     var dialogTag: String? = null,
     var dialog: BaseFlyDialog? = null
 )
