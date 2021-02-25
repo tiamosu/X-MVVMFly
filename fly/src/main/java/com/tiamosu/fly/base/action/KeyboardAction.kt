@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.KeyboardUtils
  * @author tiamosu
  * @date 2021/2/24.
  */
-internal interface KeyboardAction {
+interface KeyboardAction {
 
     /**
      * 显示软键盘

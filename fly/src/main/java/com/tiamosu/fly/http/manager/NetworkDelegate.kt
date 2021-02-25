@@ -3,7 +3,7 @@ package com.tiamosu.fly.http.manager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
-import com.tiamosu.fly.base.IFlyBaseView
+import com.tiamosu.fly.base.action.NetAction
 import com.tiamosu.fly.utils.isPageVisible
 
 /**
@@ -18,20 +18,20 @@ class NetworkDelegate {
     private var isNetReConnect = false
 
     @Suppress("DEPRECATION")
-    fun addNetworkObserve(baseView: IFlyBaseView) {
-        val owner = baseView as? LifecycleOwner ?: return
+    fun addNetworkObserve(netAction: NetAction) {
+        val owner = netAction as? LifecycleOwner ?: return
         if (owner is AppCompatActivity) {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
-        if (baseView.isCheckNetChanged()) {
+        if (netAction.isCheckNetChanged()) {
             NetworkStateManager.instance.networkStateCallback.observe(owner, { isConnected ->
-                hasNetWork(baseView, isConnected)
+                hasNetWork(netAction, isConnected)
             })
         }
     }
 
-    fun hasNetWork(baseView: IFlyBaseView, isConnected: Boolean = NetworkUtils.isConnected()) {
-        val owner = baseView as? LifecycleOwner ?: return
+    fun hasNetWork(netAction: NetAction, isConnected: Boolean = NetworkUtils.isConnected()) {
+        val owner = netAction as? LifecycleOwner ?: return
         val curNetStatus = if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
         if (curNetStatus != lastNetStatus || isNetReConnect) {
             //判断网络是否是重连接的
@@ -39,9 +39,9 @@ class NetworkDelegate {
                 isNetReConnect = true
             }
             if (isPageVisible(owner)) {
-                baseView.onNetworkStateChanged(isConnected)
+                netAction.onNetworkStateChanged(isConnected)
                 if (isConnected && isNetReConnect) {
-                    baseView.onNetReConnect()
+                    netAction.onNetReConnect()
                     isNetReConnect = false
                 }
                 lastNetStatus = curNetStatus

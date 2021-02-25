@@ -24,6 +24,8 @@ abstract class BaseFlyVmDbActivity : BaseFlyActivity() {
             }
             binding = dataBinding
             rootView = dataBinding.root
+
+            initSoftKeyboard()
         }
     }
 

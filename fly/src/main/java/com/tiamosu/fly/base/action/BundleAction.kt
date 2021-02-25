@@ -9,7 +9,7 @@ import java.util.*
  * @author tiamosu
  * @date 2021/2/24.
  */
-internal interface BundleAction {
+interface BundleAction {
     val bundle: Bundle?
 
     fun getInt(name: String): Int {
