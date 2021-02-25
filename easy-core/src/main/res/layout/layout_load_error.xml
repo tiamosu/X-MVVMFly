@@ -14,7 +14,7 @@
         android:background="@drawable/error" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/error_text"
+        android:id="@+id/loadError_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Boss! something is wrong."
@@ -22,7 +22,9 @@
         android:textSize="18sp" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loadError_tvRetry"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:text="click me to retry!" />
 </androidx.appcompat.widget.LinearLayoutCompat>
