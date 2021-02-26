@@ -9,8 +9,7 @@ import com.tiamosu.fly.base.dialog.BaseFlyDialog
  */
 @Keep
 open class LoadingConfig(
-    var isDelayedShow: Boolean = false,
-    var delayMillis: Long = 200,
-    var dialogTag: String? = null,
-    var dialog: BaseFlyDialog? = null
+    var delayMillis: Long = 0,          //弹框延迟展示时间
+    var dialogTag: String? = null,      //弹框标识
+    var dialog: BaseFlyDialog? = null   //loading弹框，优先级最高
 )

@@ -2,6 +2,7 @@ package com.tiamosu.fly.core.ext
 
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.base.dialog.loading.Loader
+import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.core.base.BaseViewModel
 import com.tiamosu.fly.core.config.ResponseErrorListenerImpl
 import com.tiamosu.fly.core.data.bean.ResultResponse
@@ -41,7 +42,7 @@ fun stringCallback(
                 return
             }
             if (showLoading) {
-                viewModel?.showLoading() ?: Loader.showLoading(true)
+                viewModel?.showLoading(LoadingConfig(150)) ?: Loader.showLoading(150)
             }
             callback.onStart?.invoke()
         }
@@ -91,7 +92,7 @@ inline fun <reified T> jsonCallback(
                 return
             }
             if (showLoading) {
-                viewModel?.showLoading() ?: Loader.showLoading(true)
+                viewModel?.showLoading(LoadingConfig(150)) ?: Loader.showLoading(150)
             }
             callback.onStart?.invoke()
         }

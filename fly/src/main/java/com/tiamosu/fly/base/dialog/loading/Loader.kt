@@ -23,23 +23,19 @@ object Loader : HandlerAction {
     }
 
     /**
-     * @param isDelayedShow 是否延迟展示
+     * @param delayMillis 延迟展示时间，大于0延迟展示弹框，否则立即展示弹框
      * @param dialog Loading弹框，优先级最高；为空时展示默认弹框
      *
      *  @return loading弹框展示
      */
-    fun showLoading(
-        isDelayedShow: Boolean = false,
-        delayMillis: Long = 300,
-        dialog: BaseFlyDialog? = null
-    ) {
+    fun showLoading(delayMillis: Long = 0, dialog: BaseFlyDialog? = null) {
         val activity = ActivityUtils.getTopActivity() as? FragmentActivity
         if (activity == null || activity.isFinishing || activity.isDestroyed) {
             hideLoading()
             return
         }
 
-        if (!isDelayedShow) {
+        if (delayMillis <= 0) {
             removeCallback()
         }
         var loadingDialog: BaseFlyDialog? = null
@@ -51,7 +47,7 @@ object Loader : HandlerAction {
         }
 
         when {
-            !isDelayedShow -> {
+            delayMillis <= 0 -> {
                 showDialog(activity, loadingDialog)
             }
             !hasDelayedCallbacks -> {

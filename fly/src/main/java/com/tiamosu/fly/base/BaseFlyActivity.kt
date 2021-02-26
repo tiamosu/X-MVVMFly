@@ -114,7 +114,7 @@ abstract class BaseFlyActivity : FlySupportActivity(),
             val dialog = newConfig.dialog ?: loadingDialog ?: createLoadingDialog.also {
                 loadingDialog = it
             }
-            Loader.showLoading(newConfig.isDelayedShow, delayMillis, dialog)
+            Loader.showLoading(delayMillis, dialog)
         }, delayMillis)
     }
 
