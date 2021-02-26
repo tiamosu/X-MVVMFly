@@ -1,3 +1,6 @@
+# 新版本2.0.6
+* 修复loading弹框隐藏无效问题。
+
 # 新版本2.0.5
 * Activity、Fragment添加Bundle、Handler、Keyboard相关操作。
 * 添加默认loading弹框实现，支持自定义配置，通过showLoading(config)、hideLoading执行
