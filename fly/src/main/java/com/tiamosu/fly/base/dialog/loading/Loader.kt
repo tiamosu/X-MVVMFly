@@ -11,7 +11,7 @@ import java.util.*
  * @date 2020/6/3.
  */
 object Loader : HandlerAction {
-    private val LOADERS = ArrayList<BaseFlyDialog>()
+    private val dialogLoaders = ArrayList<BaseFlyDialog>()
     private var dialogCallback: (() -> BaseFlyDialog)? = null
     private var hasDelayedCallbacks = false
 
@@ -34,18 +34,15 @@ object Loader : HandlerAction {
             hideLoading()
             return
         }
-
+        if (isShowing()) {
+            return
+        }
         if (delayMillis <= 0) {
             removeCallback()
         }
-        var loadingDialog: BaseFlyDialog? = null
-        if (dialog != null) {
-            hideLoading()
-            loadingDialog = dialog
-        } else if (LOADERS.isNullOrEmpty()) {
-            loadingDialog = dialogCallback?.invoke() ?: FlyLoadingDialog(activity)
-        }
-        loadingDialog?.setOnDismissListener {
+        val loadingDialog =
+            dialog ?: dialogCallback?.invoke() ?: FlyLoadingDialog(activity)
+        loadingDialog.setOnDismissListener {
             hideLoading()
         }
 
@@ -67,11 +64,11 @@ object Loader : HandlerAction {
      */
     fun hideLoading() {
         removeCallback()
-        if (LOADERS.isNotEmpty()) {
-            LOADERS.forEach {
+        if (dialogLoaders.isNotEmpty()) {
+            dialogLoaders.forEach {
                 it.hideDialog()
             }
-            LOADERS.clear()
+            dialogLoaders.clear()
         }
     }
 
@@ -79,16 +76,16 @@ object Loader : HandlerAction {
      * 是否有loading弹框正在展示
      */
     fun isShowing(): Boolean {
-        return LOADERS.isNotEmpty()
+        return dialogLoaders.isNotEmpty()
     }
 
-    private fun showDialog(activity: FragmentActivity, loadingDialog: BaseFlyDialog?) {
+    private fun showDialog(activity: FragmentActivity, loadingDialog: BaseFlyDialog) {
         if (activity.isFinishing || activity.isDestroyed) {
-            removeCallback()
+            hideLoading()
             return
         }
-        loadingDialog?.apply {
-            LOADERS.add(this)
+        loadingDialog.apply {
+            dialogLoaders.add(this)
             showDialog()
         }
     }

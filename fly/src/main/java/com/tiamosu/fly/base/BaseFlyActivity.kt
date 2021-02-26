@@ -95,9 +95,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
     override val loadingConfig by lazy { LoadingConfig() }
 
     override fun showLoading(config: LoadingConfig?) {
-        if (isFinishing || isDestroyed || Loader.isShowing()) {
-            return
-        }
         val newConfig = config ?: loadingConfig
         Loader.showLoading(newConfig.delayMillis, newConfig.dialog)
     }
