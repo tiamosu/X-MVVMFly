@@ -18,14 +18,16 @@ interface HandlerAction {
     /**
      * 延迟执行
      */
-    fun post(r: Runnable): Boolean {
+    fun post(r: Runnable?): Boolean {
+        r ?: return false
         return postDelayed(r, 0)
     }
 
     /**
      * 延迟一段时间执行
      */
-    fun postDelayed(r: Runnable, delayMillis: Long): Boolean {
+    fun postDelayed(r: Runnable?, delayMillis: Long): Boolean {
+        r ?: return false
         var uptimeMillis = delayMillis
         if (uptimeMillis < 0) {
             uptimeMillis = 0
@@ -36,7 +38,8 @@ interface HandlerAction {
     /**
      * 在指定的时间执行
      */
-    fun postAtTime(r: Runnable, uptimeMillis: Long): Boolean {
+    fun postAtTime(r: Runnable?, uptimeMillis: Long): Boolean {
+        r ?: return false
         // 发送和当前对象相关的消息回调
         return HANDLER.postAtTime(r, this, uptimeMillis)
     }
@@ -44,8 +47,8 @@ interface HandlerAction {
     /**
      * 移除单个消息回调
      */
-    fun removeCallbacks(r: Runnable) {
-        HANDLER.removeCallbacks(r)
+    fun removeCallbacks(r: Runnable?) {
+        r?.let { HANDLER.removeCallbacks(it) }
     }
 
     /**
