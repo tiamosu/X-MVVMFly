@@ -32,7 +32,7 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.32"
+    const val dagger2 = "2.33"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.6"
     const val unpeeklivedata = "4.5.0-beta1"

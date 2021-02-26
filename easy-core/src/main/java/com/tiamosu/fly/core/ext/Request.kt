@@ -79,6 +79,7 @@ inline fun <reified T> jsonCallback(
     crossinline requestCallback: JsonRequestCallback<T>.() -> Unit = {},
     viewModel: BaseViewModel? = null,
 ): JsonCallback<T> {
+    val callback = JsonRequestCallback<T>().apply(requestCallback)
     return object : JsonCallback<T>() {
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
@@ -92,22 +93,22 @@ inline fun <reified T> jsonCallback(
             if (showLoading) {
                 viewModel?.showLoading() ?: Loader.showLoading(true)
             }
-            JsonRequestCallback<T>().apply(requestCallback).onStart?.invoke()
+            callback.onStart?.invoke()
         }
 
         override fun onSuccess(response: Response<T>) {
-            JsonRequestCallback<T>().apply(requestCallback).onResult?.invoke(response)
+            callback.onResult?.invoke(response)
         }
 
         override fun onError(response: Response<T>) {
-            JsonRequestCallback<T>().apply(requestCallback).onResult?.invoke(response)
+            callback.onResult?.invoke(response)
         }
 
         override fun onFinish() {
             if (showLoading) {
                 viewModel?.hideLoading() ?: Loader.hideLoading()
             }
-            JsonRequestCallback<T>().apply(requestCallback).onFinish?.invoke()
+            callback.onFinish?.invoke()
         }
     }
 }

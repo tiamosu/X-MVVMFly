@@ -13,7 +13,7 @@ import java.util.*
 object Loader : HandlerAction {
     private val LOADERS = ArrayList<BaseFlyDialog>()
     private var dialogCallback: (() -> BaseFlyDialog)? = null
-    private var hasCallbacks = false
+    private var hasDelayedCallbacks = false
 
     /**
      * 全局传入Loading弹框进行创建
@@ -54,8 +54,8 @@ object Loader : HandlerAction {
             !isDelayedShow -> {
                 showDialog(activity, loadingDialog)
             }
-            !hasCallbacks -> {
-                hasCallbacks = true
+            !hasDelayedCallbacks -> {
+                hasDelayedCallbacks = true
                 postDelayed({
                     showDialog(activity, loadingDialog)
                 }, delayMillis)
@@ -85,13 +85,16 @@ object Loader : HandlerAction {
         if (activity.isFinishing || activity.isDestroyed) {
             return
         }
-        loadingDialog?.showDialog()
+        loadingDialog?.apply {
+            LOADERS.add(this)
+            showDialog()
+        }
     }
 
     private fun removeCallback() {
-        if (hasCallbacks) {
+        if (hasDelayedCallbacks) {
             removeCallbacks()
-            hasCallbacks = false
+            hasDelayedCallbacks = false
         }
     }
 }
