@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.base.action.*
-import com.tiamosu.fly.base.dialog.BaseFlyDialog
-import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.ext.clickNoRepeat
@@ -30,12 +28,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
 
     //是否在页面可见时加载数据，防止多次加载数据
     private var isVisibleLoadData = false
-
-    //loading弹框
-    private var loadingDialog: BaseFlyDialog? = null
-
-    //loading弹框数量
-    private var loadingDialogTotal = 0
 
     final override val bundle
         get() = intent?.extras
@@ -77,6 +69,7 @@ abstract class BaseFlyActivity : FlySupportActivity(),
         super.onDestroy()
         isVisibleLoadData = false
         removeCallbacks()
+        hideLoading()
     }
 
     override fun finish() {
@@ -101,27 +94,15 @@ abstract class BaseFlyActivity : FlySupportActivity(),
 
     override val loadingConfig by lazy { LoadingConfig() }
 
-    override val createLoadingDialog by lazy { FlyLoadingDialog(getContext()) }
-
     override fun showLoading(config: LoadingConfig?) {
-        loadingDialogTotal++
+        if (isFinishing || isDestroyed || Loader.isShowing()) {
+            return
+        }
         val newConfig = config ?: loadingConfig
-        val delayMillis = newConfig.delayMillis
-        postDelayed({
-            if (loadingDialogTotal <= 0 || isFinishing || isDestroyed || Loader.isShowing()) {
-                return@postDelayed
-            }
-            val dialog = newConfig.dialog ?: loadingDialog ?: createLoadingDialog.also {
-                loadingDialog = it
-            }
-            Loader.showLoading(delayMillis, dialog)
-        }, delayMillis)
+        Loader.showLoading(newConfig.delayMillis, newConfig.dialog)
     }
 
     override fun hideLoading() {
-        if (loadingDialogTotal > 0) {
-            loadingDialogTotal--
-        }
         Loader.hideLoading()
     }
 

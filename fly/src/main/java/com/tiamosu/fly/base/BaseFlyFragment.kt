@@ -9,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.base.action.*
-import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.fragmentation.FlySupportFragment
 import com.tiamosu.fly.http.manager.NetworkDelegate
@@ -144,12 +143,8 @@ abstract class BaseFlyFragment : FlySupportFragment(),
 
     override val loadingConfig by lazy { LoadingConfig() }
 
-    override val createLoadingDialog by lazy { FlyLoadingDialog(context) }
-
     override fun showLoading(config: LoadingConfig?) {
-        val newConfig = (config ?: loadingConfig).apply {
-            dialog = dialog ?: createLoadingDialog
-        }
+        val newConfig = config ?: loadingConfig
         (context as? BaseFlyActivity)?.showLoading(newConfig)
     }
 

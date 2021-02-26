@@ -45,6 +45,9 @@ object Loader : HandlerAction {
         } else if (LOADERS.isNullOrEmpty()) {
             loadingDialog = dialogCallback?.invoke() ?: FlyLoadingDialog(activity)
         }
+        loadingDialog?.setOnDismissListener {
+            hideLoading()
+        }
 
         when {
             delayMillis <= 0 -> {
@@ -64,10 +67,12 @@ object Loader : HandlerAction {
      */
     fun hideLoading() {
         removeCallback()
-        LOADERS.forEach {
-            it.hideDialog()
+        if (LOADERS.isNotEmpty()) {
+            LOADERS.forEach {
+                it.hideDialog()
+            }
+            LOADERS.clear()
         }
-        LOADERS.clear()
     }
 
     /**
@@ -79,6 +84,7 @@ object Loader : HandlerAction {
 
     private fun showDialog(activity: FragmentActivity, loadingDialog: BaseFlyDialog?) {
         if (activity.isFinishing || activity.isDestroyed) {
+            removeCallback()
             return
         }
         loadingDialog?.apply {
