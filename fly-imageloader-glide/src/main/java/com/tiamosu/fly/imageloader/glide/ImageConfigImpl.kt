@@ -32,7 +32,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     internal var fallbackDrawable: Drawable? = null
     internal var requestOptions: RequestOptions? = null
     internal var requestListener: RequestListener<out Any>? = null
-    internal var transformation: BitmapTransformation? = null
+    internal var transformation: Array<out BitmapTransformation?>? = null
     internal var imageViews: Array<ImageView?>? = null
     internal var cacheStrategy = 0
     internal var transcodeType = 0
@@ -98,7 +98,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         internal var fallbackDrawable: Drawable? = null
         internal var requestOptions: RequestOptions? = null
         internal var requestListener: RequestListener<out Any>? = null
-        internal var transformation: BitmapTransformation? = null
+        internal var transformation: Array<out BitmapTransformation?>? = null
         internal var imageViews: Array<ImageView?>? = null
         internal var cacheStrategy = 0
         internal var transcodeType = 0
@@ -254,7 +254,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 请使用 [isCircleCrop], [isCenterCrop], [imageRadius] 替代
          * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 [com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy]
          */
-        fun transform(transformation: BitmapTransformation?): Builder {
+        fun transform(vararg transformation: BitmapTransformation?): Builder {
             this.transformation = transformation
             return this
         }

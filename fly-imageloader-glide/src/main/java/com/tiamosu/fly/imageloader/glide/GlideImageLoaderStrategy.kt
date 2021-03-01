@@ -129,7 +129,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
 
         //glide用它来改变图形的形状
         if (config.transformation != null) {
-            glideRequest.transform(config.transformation!!)
+            glideRequest.transform(*config.transformation!!)
         }
 
         if (config.imageView != null) {

@@ -10,12 +10,25 @@ import java.security.MessageDigest
  * @author tiamosu
  * @date 2020/10/28.
  */
-class RoundedCornersTransformation(
-    private val leftTop: Float = 0f,
-    private val rightTop: Float = 0f,
-    private val leftBottom: Float = 0f,
-    private val rightBottom: Float = 0f
-) : BitmapTransformation() {
+class RoundedCornersTransformation : BitmapTransformation {
+    private var leftTop: Float = 0f
+    private var rightTop: Float = 0f
+    private var leftBottom: Float = 0f
+    private var rightBottom: Float = 0f
+
+    constructor(roundingRadius: Float) : this(
+        roundingRadius,
+        roundingRadius,
+        roundingRadius,
+        roundingRadius
+    )
+
+    constructor(leftTop: Float, rightTop: Float, leftBottom: Float, rightBottom: Float) : super() {
+        this.leftTop = leftTop
+        this.rightTop = rightTop
+        this.leftBottom = leftBottom
+        this.rightBottom = rightBottom
+    }
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)

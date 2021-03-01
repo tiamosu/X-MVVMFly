@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -13,6 +14,7 @@ import com.tiamosu.fly.demo.databinding.FragmentGlideBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
+import com.tiamosu.fly.imageloader.glide.RoundedCornersTransformation
 
 /**
  * @author tiamosu
@@ -60,8 +62,10 @@ class GlideFragment : BaseFragment() {
     ) {
         ImageConfigImpl
             .load(any)
-            .imageRadius(leftTop = 30f, rightBottom = 30f)
-            .override(500, 500)
+//            .imageRadius(leftTop = 30f, rightBottom = 30f)
+//            .override(100, 100)
+            .transform(CenterCrop(), RoundedCornersTransformation(58f))
+
             .addListener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
