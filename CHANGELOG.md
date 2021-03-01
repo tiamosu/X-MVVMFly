@@ -1,3 +1,6 @@
+# 新版本2.0.9
+* Glide 加载配置 transform 支持传入多个参数
+
 # 新版本2.0.8
 * HandlerAction 优化
 
