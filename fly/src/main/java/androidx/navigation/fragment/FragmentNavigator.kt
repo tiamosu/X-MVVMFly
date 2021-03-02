@@ -2,8 +2,6 @@ package androidx.navigation.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -20,6 +18,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.NavigatorProvider
 import androidx.navigation.fragment.FragmentNavigator.Destination
 import com.tiamosu.fly.R
+import com.tiamosu.fly.base.action.HandlerAction
 import java.util.*
 
 /**
@@ -40,7 +39,7 @@ class FragmentNavigator internal constructor(
     private val context: Context,
     private val fragmentManager: FragmentManager,
     private val containerId: Int
-) : Navigator<Destination>() {
+) : Navigator<Destination>(), HandlerAction {
 
     companion object {
         private const val TAG = "FragmentNavigator"
@@ -48,7 +47,7 @@ class FragmentNavigator internal constructor(
     }
 
     private val backStack = ArrayDeque<Int>()
-    private val resumeHandler by lazy { Handler(Looper.getMainLooper()) }
+    private var resumeStateRunnable: Runnable? = null
 
     /**
      * {@inheritDoc}
@@ -89,14 +88,15 @@ class FragmentNavigator internal constructor(
             }
             if (preFragmentIndex >= 0 && preFragmentIndex < fragmentManager.fragments.size) {
                 val preFragment = fragmentManager.fragments[preFragmentIndex]
-                resumeHandler.postDelayed({
+                resumeStateRunnable = Runnable {
                     if (!preFragment.isStateSaved && preFragment.isAdded) {
                         fragmentManager.beginTransaction().apply {
                             setMaxLifecycle(preFragment, Lifecycle.State.RESUMED)
                             commit()
                         }
                     }
-                }, 50)
+                }
+                postDelayed(resumeStateRunnable, 50)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -162,7 +162,7 @@ class FragmentNavigator internal constructor(
         val isPopUpToInclusive = navOptions?.isPopUpToInclusive ?: false
         if (backStack.isNotEmpty() && isPopUpToInclusive) {
             //防止出现栈中的上个页面先显示再隐藏的一个闪烁问题。
-            resumeHandler.removeCallbacksAndMessages(null)
+            removeCallbacks(resumeStateRunnable)
         }
 
         try {
