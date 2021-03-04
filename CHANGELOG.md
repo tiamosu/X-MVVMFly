@@ -1,3 +1,6 @@
+# 新版本2.1.1
+* loading弹框样式调整，支持继承FlyLoadingDialog传入主题样式
+
 # 新版本2.1.0
 * 添加 navigate 进行页面跳转异常捕获
 
