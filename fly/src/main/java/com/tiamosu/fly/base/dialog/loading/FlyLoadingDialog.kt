@@ -10,8 +10,10 @@ import com.tiamosu.fly.base.dialog.BaseFlyDialog
  * @author tiamosu
  * @date 2020/4/11.
  */
-open class FlyLoadingDialog(context: Context) :
-    BaseFlyDialog(context, R.style.FlyLoadingDialogStyle) {
+open class FlyLoadingDialog(
+    context: Context,
+    themeResId: Int = R.style.FlyLoadingDialogStyle
+) : BaseFlyDialog(context, themeResId) {
 
     override fun bindLayout() = R.layout.fly_dialog_loading
 
