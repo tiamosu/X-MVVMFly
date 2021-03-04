@@ -21,6 +21,6 @@ open class FlyLoadingDialog(
 
     override fun setWindowStyle(window: Window?) {
         setCanceledOnTouchOutside(false)
-        window?.setDimAmount(0f)
+        window?.setDimAmount(0.1f)
     }
 }
