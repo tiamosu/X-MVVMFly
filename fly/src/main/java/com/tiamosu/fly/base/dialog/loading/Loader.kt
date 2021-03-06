@@ -1,5 +1,6 @@
 package com.tiamosu.fly.base.dialog.loading
 
+import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.base.action.HandlerAction
@@ -29,7 +30,7 @@ object Loader : HandlerAction {
      *  @return loading弹框展示
      */
     fun showLoading(delayMillis: Long = 0, dialog: BaseFlyDialog? = null) {
-        val activity = ActivityUtils.getTopActivity() as? FragmentActivity
+        val activity = dialog?.activity ?: (ActivityUtils.getTopActivity() as? FragmentActivity)
         if (activity == null || activity.isFinishing || activity.isDestroyed) {
             hideLoading()
             return
@@ -79,7 +80,7 @@ object Loader : HandlerAction {
         return dialogLoaders.isNotEmpty()
     }
 
-    private fun showDialog(activity: FragmentActivity, loadingDialog: BaseFlyDialog) {
+    private fun showDialog(activity: Activity, loadingDialog: BaseFlyDialog) {
         if (activity.isFinishing || activity.isDestroyed) {
             hideLoading()
             return

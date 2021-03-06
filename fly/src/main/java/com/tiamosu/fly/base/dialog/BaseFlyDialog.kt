@@ -18,7 +18,8 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     themeResId: Int = 0
 ) : Dialog(context, themeResId) {
 
-    protected var activity: Activity
+    var activity: Activity
+        private set
 
     protected abstract fun bindLayout(): Int
     protected abstract fun initView(dialog: BaseFlyDialog, contentView: View)
