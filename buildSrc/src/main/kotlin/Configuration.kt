@@ -23,7 +23,7 @@ object Versions {
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
 
-    const val rxjava = "3.0.10"
+    const val rxjava = "3.0.11"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.0"
