@@ -1,3 +1,7 @@
+# 新版本2.1.2
+* rxjava 3.0.11
+* Loader加载loading弹框优化
+
 # 新版本2.1.1
 * loading弹框样式调整，支持继承FlyLoadingDialog传入主题样式
 
