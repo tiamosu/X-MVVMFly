@@ -30,7 +30,9 @@ object Loader : HandlerAction {
      *  @return loading弹框展示
      */
     fun showLoading(delayMillis: Long = 0, dialog: BaseFlyDialog? = null) {
-        val activity = dialog?.activity ?: (ActivityUtils.getTopActivity() as? FragmentActivity)
+        var loadingDialog = dialog ?: dialogCallback?.invoke()
+        val activity =
+            loadingDialog?.activity ?: (ActivityUtils.getTopActivity() as? FragmentActivity)
         if (activity == null || activity.isFinishing || activity.isDestroyed) {
             hideLoading()
             return
@@ -41,8 +43,7 @@ object Loader : HandlerAction {
         if (delayMillis <= 0) {
             removeCallback()
         }
-        val loadingDialog =
-            dialog ?: dialogCallback?.invoke() ?: FlyLoadingDialog(activity)
+        loadingDialog = loadingDialog ?: FlyLoadingDialog(activity)
         loadingDialog.setOnDismissListener {
             hideLoading()
         }
