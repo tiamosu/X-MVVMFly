@@ -27,14 +27,11 @@ internal class ReflectiveTypeAdapterFactory(
         val raw = type.rawType
 
         // 判断是否包含这种类型
-        if (ReflectiveTypeTools.containsClass(raw)) {
+        if (ReflectiveTypeUtils.containsClass(raw)) {
             return null
         }
         // 判断是否是数组
-        if (type.type is GenericArrayType ||
-            type.type is Class<*> &&
-            (type.type as Class<*>).isArray
-        ) {
+        if (type.type is GenericArrayType || (type.type as? Class<*>)?.isArray == true) {
             return null
         }
         // 如果是基本数据类型
@@ -67,10 +64,10 @@ internal class ReflectiveTypeAdapterFactory(
         context: Gson,
         type: TypeToken<*>,
         raw: Class<*>
-    ): Map<String, BoundField> {
+    ): Map<String, ReflectiveFieldBound> {
         var newType = type
         var newRaw = raw
-        val result: MutableMap<String, BoundField> = LinkedHashMap()
+        val result: MutableMap<String, ReflectiveFieldBound> = LinkedHashMap()
         if (newRaw.isInterface) {
             return result
         }
@@ -86,14 +83,14 @@ internal class ReflectiveTypeAdapterFactory(
                 field.isAccessible = true
                 val fieldType = `$Gson$Types`.resolve(newType.type, newRaw, field.genericType)
                 val fieldNames = getFieldNames(field)
-                var previous: BoundField? = null
+                var previous: ReflectiveFieldBound? = null
                 for (i in fieldNames.indices) {
                     val name = fieldNames[i]
                     if (i != 0) {
                         // only serialize the default name
                         serialize = false
                     }
-                    val boundField = ReflectiveTypeTools.createBoundField(
+                    val boundField = ReflectiveTypeUtils.createBoundField(
                         context, constructorConstructor, field, name,
                         TypeToken.get(fieldType), serialize, deserialize
                     )
@@ -103,8 +100,7 @@ internal class ReflectiveTypeAdapterFactory(
                     }
                 }
                 require(previous == null) {
-                    declaredType
-                        .toString() + " declares multiple JSON fields named " + previous?.name
+                    "$declaredType declares multiple JSON fields named ${previous?.fieldName}"
                 }
             }
             newType =
@@ -114,11 +110,12 @@ internal class ReflectiveTypeAdapterFactory(
         return result
     }
 
-    private fun getFieldNames(f: Field): List<String> {
-        return ReflectiveTypeTools.getFieldName(fieldNamingPolicy, f)
+    private fun getFieldNames(field: Field): List<String> {
+        return ReflectiveTypeUtils.getFieldName(fieldNamingPolicy, field)
     }
 
-    private fun excludeField(f: Field, serialize: Boolean): Boolean {
-        return !excluder.excludeClass(f.type, serialize) && !excluder.excludeField(f, serialize)
+    private fun excludeField(field: Field, serialize: Boolean): Boolean {
+        return !excluder.excludeClass(field.type, serialize)
+                && !excluder.excludeField(field, serialize)
     }
 }

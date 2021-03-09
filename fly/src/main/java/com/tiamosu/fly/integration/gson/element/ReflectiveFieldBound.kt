@@ -8,9 +8,9 @@ import java.io.IOException
  * @author tiamosu
  * @date 2021/2/1.
  */
-abstract class BoundField(
+abstract class ReflectiveFieldBound(
     /** 字段名称  */
-    val name: String,
+    val fieldName: String,
     /** 序列化标记  */
     val isSerialized: Boolean,
     /** 反序列化标记  */

@@ -13,15 +13,16 @@ import java.lang.reflect.GenericArrayType
  * @author tiamosu
  * @date 2021/2/1.
  */
-internal class CollectionTypeAdapterFactory(private val constructorConstructor: ConstructorConstructor) :
-    TypeAdapterFactory {
+internal class CollectionTypeAdapterFactory(
+    private val constructorConstructor: ConstructorConstructor
+) : TypeAdapterFactory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T> create(gson: Gson, typeToken: TypeToken<T>): TypeAdapter<T>? {
         val type = typeToken.type
         val rawType = typeToken.rawType
         // 判断是否包含这种类型
-        if (ReflectiveTypeTools.containsClass(rawType)) {
+        if (ReflectiveTypeUtils.containsClass(rawType)) {
             return null
         }
         if (typeToken.type is GenericArrayType ||

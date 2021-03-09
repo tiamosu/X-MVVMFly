@@ -17,9 +17,7 @@ internal class BigDecimalTypeAdapter : TypeAdapter<BigDecimal>() {
         return when (`in`.peek()) {
             JsonToken.NUMBER, JsonToken.STRING -> {
                 val result = `in`.nextString()
-                if (result == null || "" == result) {
-                    BigDecimal(0)
-                } else BigDecimal(`in`.nextString())
+                if (result == null || "" == result) BigDecimal(0) else BigDecimal(result)
             }
             JsonToken.NULL -> {
                 `in`.nextNull()

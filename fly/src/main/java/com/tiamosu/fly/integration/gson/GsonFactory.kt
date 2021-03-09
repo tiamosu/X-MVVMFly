@@ -23,6 +23,8 @@ import java.util.*
 object GsonFactory {
     private val INSTANCE_CREATORS = HashMap<Type, InstanceCreator<*>>(0)
     private val TYPE_ADAPTER_FACTORIES: MutableList<TypeAdapterFactory> = ArrayList()
+    var jsonCallback: JsonCallback? = null
+        private set
 
     val gson by lazy { getAppComponent().gson() }
 
@@ -52,6 +54,10 @@ object GsonFactory {
         TYPE_ADAPTER_FACTORIES.add(factory)
     }
 
+    fun setExceptionListener(callback: JsonCallback) {
+        jsonCallback = callback
+    }
+
     /**
      * 注册构造函数创建器
      *
@@ -69,16 +75,19 @@ object GsonFactory {
         for (typeAdapterFactory in TYPE_ADAPTER_FACTORIES) {
             gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
         }
-        val constructorConstructor = ConstructorConstructor(INSTANCE_CREATORS)
+        val constructor = ConstructorConstructor(INSTANCE_CREATORS)
         gsonBuilder
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    String::class.java, StringTypeAdapter()
+                    String::class.java,
+                    StringTypeAdapter()
                 )
             )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    Boolean::class.javaPrimitiveType, Boolean::class.java, BooleanTypeAdapter()
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.java,
+                    BooleanTypeAdapter()
                 )
             )
             .registerTypeAdapterFactory(
@@ -90,28 +99,35 @@ object GsonFactory {
             )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    Long::class.javaPrimitiveType, Long::class.java, LongTypeAdapter()
+                    Long::class.javaPrimitiveType,
+                    Long::class.java,
+                    LongTypeAdapter()
                 )
             )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    Float::class.javaPrimitiveType, Float::class.java, FloatTypeAdapter()
+                    Float::class.javaPrimitiveType,
+                    Float::class.java,
+                    FloatTypeAdapter()
                 )
             )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    Double::class.javaPrimitiveType, Double::class.java, DoubleTypeAdapter()
+                    Double::class.javaPrimitiveType,
+                    Double::class.java,
+                    DoubleTypeAdapter()
                 )
             )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
-                    BigDecimal::class.java, BigDecimalTypeAdapter()
+                    BigDecimal::class.java,
+                    BigDecimalTypeAdapter()
                 )
             )
-            .registerTypeAdapterFactory(CollectionTypeAdapterFactory(constructorConstructor))
+            .registerTypeAdapterFactory(CollectionTypeAdapterFactory(constructor))
             .registerTypeAdapterFactory(
                 ReflectiveTypeAdapterFactory(
-                    constructorConstructor,
+                    constructor,
                     FieldNamingPolicy.IDENTITY,
                     Excluder.DEFAULT
                 )

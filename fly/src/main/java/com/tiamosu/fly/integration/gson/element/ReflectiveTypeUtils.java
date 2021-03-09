@@ -42,9 +42,9 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @author tiamosu
  * @date 2021/2/1.
  */
-public class ReflectiveTypeTools {
+public class ReflectiveTypeUtils {
 
-    private final static ArrayList<Class> TYPE_TOKENS = new ArrayList<>();
+    private final static ArrayList<Class<?>> TYPE_TOKENS = new ArrayList<>();
 
     static {
         // 添加 Gson 已适配的类型
@@ -83,37 +83,37 @@ public class ReflectiveTypeTools {
         TYPE_TOKENS.add(Class.class);
     }
 
-    public static boolean containsClass(Class clazz) {
+    public static boolean containsClass(Class<?> clazz) {
         return TYPE_TOKENS.contains(clazz);
     }
 
-    public static BoundField createBoundField(final Gson context, final ConstructorConstructor constructorConstructor,
-                                              final Field field,
-                                              final String name,
-                                              final TypeToken<?> fieldType,
-                                              boolean serialize,
-                                              boolean deserialize) {
+    public static ReflectiveFieldBound createBoundField(final Gson gson,
+                                                        final ConstructorConstructor constructor,
+                                                        final Field field,
+                                                        final String fieldName,
+                                                        final TypeToken<?> fieldType,
+                                                        boolean serialize,
+                                                        boolean deserialize) {
 
-        final boolean isPrimitive = Primitives.isPrimitive(fieldType.getRawType());
+        // 判断是否是基本数据类型
+        final boolean primitive = Primitives.isPrimitive(fieldType.getRawType());
 
-        return new BoundField(name, serialize, deserialize) {
+        return new ReflectiveFieldBound(fieldName, serialize, deserialize) {
 
-            final TypeAdapter<?> typeAdapter = getFieldAdapter(context, constructorConstructor, field, fieldType);
+            final TypeAdapter<?> typeAdapter = getFieldAdapter(gson, constructor, field, fieldType, fieldName);
 
             @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
-            public void write(JsonWriter writer, Object value)
-                    throws IOException, IllegalAccessException {
-                Object fieldValue = field.get(value);
-                TypeAdapter t = new TypeAdapterRuntimeTypeWrapper(context, this.typeAdapter, fieldType.getType());
-                t.write(writer, fieldValue);
+            public void write(JsonWriter writer, Object value) throws IOException, IllegalAccessException {
+                final Object fieldValue = field.get(value);
+                final TypeAdapter typeWrapper = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter, fieldType.getType());
+                typeWrapper.write(writer, fieldValue);
             }
 
             @Override
-            public void read(JsonReader reader, Object value)
-                    throws IOException, IllegalAccessException {
-                Object fieldValue = typeAdapter.read(reader);
-                if (fieldValue != null || !isPrimitive) {
+            public void read(JsonReader reader, Object value) throws IOException, IllegalAccessException {
+                final Object fieldValue = typeAdapter.read(reader);
+                if (fieldValue != null || !primitive) {
                     field.set(value, fieldValue);
                 }
             }
@@ -123,38 +123,50 @@ public class ReflectiveTypeTools {
                 if (!isSerialized()) {
                     return false;
                 }
-
-                Object fieldValue = field.get(value);
+                final Object fieldValue = field.get(value);
                 return fieldValue != value;
             }
         };
     }
 
-    public static TypeAdapter<?> getFieldAdapter(Gson gson, ConstructorConstructor constructorConstructor, Field field, TypeToken<?> fieldType) {
-        JsonAdapter annotation = field.getAnnotation(JsonAdapter.class);
+    public static TypeAdapter<?> getFieldAdapter(
+            Gson gson,
+            ConstructorConstructor constructor,
+            Field field,
+            TypeToken<?> fieldType,
+            String fieldName) {
+        final JsonAdapter annotation = field.getAnnotation(JsonAdapter.class);
         if (annotation != null) {
-            TypeAdapter<?> adapter = getTypeAdapter(constructorConstructor, gson, fieldType, annotation);
+            final TypeAdapter<?> adapter = getTypeAdapter(constructor, gson, fieldType, annotation);
             if (adapter != null) {
                 return adapter;
             }
         }
-        return gson.getAdapter(fieldType);
+
+        final TypeAdapter<?> adapter = gson.getAdapter(fieldType);
+        if (adapter instanceof CollectionTypeAdapter) {
+            ((CollectionTypeAdapter<?>) adapter).setReflectiveType(TypeToken.get(field.getDeclaringClass()), fieldName);
+        }
+        if (adapter instanceof ReflectiveTypeAdapter) {
+            ((ReflectiveTypeAdapter<?>) adapter).setReflectiveType(TypeToken.get(field.getDeclaringClass()), fieldName);
+        }
+        return adapter;
     }
 
     @SuppressWarnings("unchecked")
-    public static TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructorConstructor,
+    public static TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructor,
                                                 Gson gson,
                                                 TypeToken<?> fieldType,
                                                 JsonAdapter annotation) {
-        Class<?> value = annotation.value();
+        final Class<?> value = annotation.value();
         TypeAdapter<?> typeAdapter;
 
         if (TypeAdapter.class.isAssignableFrom(value)) {
-            Class<TypeAdapter<?>> typeAdapterClass = (Class<TypeAdapter<?>>) value;
-            typeAdapter = constructorConstructor.get(TypeToken.get(typeAdapterClass)).construct();
+            final Class<TypeAdapter<?>> typeAdapterClass = (Class<TypeAdapter<?>>) value;
+            typeAdapter = constructor.get(TypeToken.get(typeAdapterClass)).construct();
         } else if (TypeAdapterFactory.class.isAssignableFrom(value)) {
-            Class<TypeAdapterFactory> typeAdapterFactory = (Class<TypeAdapterFactory>) value;
-            typeAdapter = constructorConstructor.get(TypeToken.get(typeAdapterFactory))
+            final Class<TypeAdapterFactory> typeAdapterFactory = (Class<TypeAdapterFactory>) value;
+            typeAdapter = constructor.get(TypeToken.get(typeAdapterFactory))
                     .construct()
                     .create(gson, fieldType);
         } else {
@@ -165,15 +177,14 @@ public class ReflectiveTypeTools {
         if (typeAdapter != null) {
             typeAdapter = typeAdapter.nullSafe();
         }
-
         return typeAdapter;
     }
 
-    public static List<String> getFieldName(FieldNamingStrategy fieldNamingPolicy, Field f) {
-        SerializedName serializedName = f.getAnnotation(SerializedName.class);
-        List<String> fieldNames = new LinkedList<>();
+    public static List<String> getFieldName(FieldNamingStrategy fieldNamingPolicy, Field field) {
+        final SerializedName serializedName = field.getAnnotation(SerializedName.class);
+        final List<String> fieldNames = new LinkedList<>();
         if (serializedName == null) {
-            fieldNames.add(fieldNamingPolicy.translateName(f));
+            fieldNames.add(fieldNamingPolicy.translateName(field));
         } else {
             fieldNames.add(serializedName.value());
             Collections.addAll(fieldNames, serializedName.alternate());
