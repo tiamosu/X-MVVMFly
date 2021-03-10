@@ -54,7 +54,7 @@ object GsonFactory {
         TYPE_ADAPTER_FACTORIES.add(factory)
     }
 
-    fun setExceptionListener(callback: JsonCallback) {
+    fun setJsonCallback(callback: JsonCallback) {
         jsonCallback = callback
     }
 

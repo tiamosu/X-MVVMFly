@@ -13,7 +13,6 @@ import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.imageloader.glide.GlideFly
 import com.tiamosu.fly.utils.getAppComponent
 import okhttp3.ConnectionPool
-import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
 
 /**
@@ -43,9 +42,7 @@ class AppLifecyclesImpl : IFlyAppLifecycles {
             .setHostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             .setCertificates()
             .setOkHttpConnectionPool(ConnectionPool())
-//            .addInterceptor(HttpLoggingInterceptor().apply {
-//                setLevel(HttpLoggingInterceptor.Level.BODY)
-//            })
+            .setPrintEnable(true)
             .setCallbackExecutor(getAppComponent().executorService())
             .addCommonHeaders(httpHeaders)
     }

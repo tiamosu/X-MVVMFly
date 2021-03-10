@@ -5,7 +5,12 @@ apply {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(':fly')
+
     api Deps.disklrucache
+    api(Deps.okhttp3_logging_interceptor) {
+        exclude module: 'okhttp'
+        exclude module: 'kotlin-stdlib-jdk8'
+    }
 }
 
 apply from: "${rootDir.path}/config_bintray.gradle"

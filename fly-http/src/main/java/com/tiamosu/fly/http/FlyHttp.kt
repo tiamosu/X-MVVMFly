@@ -18,6 +18,7 @@ import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.rxjava3.disposables.Disposable
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -54,25 +55,29 @@ class FlyHttp {
     private var retryDelay = DEFAULT_RETRY_DELAY                    //超时重试延时，单位 s
     private var commonHeaders: HttpHeaders? = null                  //全局公共请求头
     private var commonParams: HttpParams? = null                    //全局公共请求参数
-    private var okHttpClientBuilder: OkHttpClient.Builder           //OkHttpClient请求的Builder
-    private var retrofitBuilder: Retrofit.Builder                   //Retrofit请求Builder
     private var cache: Cache? = null                                //OkHttp缓存对象
     private var cacheMode: CacheMode = CacheMode.NO_CACHE           //缓存类型
     private var cacheTime = -1L                                     //缓存时间
     private var cacheDirectory: File? = null                        //缓存目录
     private var cacheMaxSize = 0L                                   //缓存大小
-    private var rxCacheBuilder: RxCache.Builder                     //RxCache请求的Builder
     private var isGlobalErrorHandle = false                         //是否进行全局错误统一处理
 
-    init {
-        okHttpClientBuilder = getAppComponent().okHttpClient().newBuilder()
+    //OkHttpClient请求的Builder
+    private val okHttpClientBuilder by lazy {
+        getAppComponent().okHttpClient().newBuilder()
             .apply {
                 val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory()
                 sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
                 hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             }
-        retrofitBuilder = getAppComponent().retrofit().newBuilder()
-        rxCacheBuilder = RxCache.Builder().init()
+    }
+
+    //Retrofit请求Builder
+    private val retrofitBuilder by lazy { getAppComponent().retrofit().newBuilder() }
+
+    //RxCache请求的Builder
+    private val globalRxCacheBuilder by lazy {
+        RxCache.Builder().init()
             .diskConverter(SerializableDiskConverter()) //目前只支持Serializable和Gson缓存其它可以自己扩展
     }
 
@@ -294,7 +299,7 @@ class FlyHttp {
      */
     fun setCacheDirectory(directory: File?): FlyHttp {
         this.cacheDirectory = directory
-        rxCacheBuilder.diskDir(directory)
+        globalRxCacheBuilder.diskDir(directory)
         return this
     }
 
@@ -311,7 +316,7 @@ class FlyHttp {
      */
     fun setCacheVersion(cacheVersion: Int): FlyHttp {
         checkState(cacheVersion >= 0, "cacheVersion must > 0")
-        rxCacheBuilder.appVersion(cacheVersion)
+        globalRxCacheBuilder.appVersion(cacheVersion)
         return this
     }
 
@@ -319,7 +324,7 @@ class FlyHttp {
      * 全局设置缓存的转换器
      */
     fun setCacheDiskConverter(converter: IDiskConverter): FlyHttp {
-        rxCacheBuilder.diskConverter(converter)
+        globalRxCacheBuilder.diskConverter(converter)
         return this
     }
 
@@ -328,6 +333,23 @@ class FlyHttp {
      */
     fun setGlobalErrorHandle(isGlobalErrorHandle: Boolean): FlyHttp {
         this.isGlobalErrorHandle = isGlobalErrorHandle
+        return this
+    }
+
+    /**
+     * 是否打印数据请求结果
+     * 注意：执行应用下载时（[download]）需要关闭输出，否则影响文件下载进度判断
+     */
+    fun setPrintEnable(
+        isEnable: Boolean = false,
+        httpLoggingInterceptor: HttpLoggingInterceptor? = null
+    ): FlyHttp {
+        if (isEnable) {
+            val interceptor = httpLoggingInterceptor ?: HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            }
+            addInterceptor(interceptor)
+        }
         return this
     }
 
@@ -506,12 +528,12 @@ class FlyHttp {
          */
         @JvmStatic
         fun getRxCacheBuilder(): RxCache.Builder {
-            return instance.rxCacheBuilder
+            return instance.globalRxCacheBuilder
         }
 
         @JvmStatic
         fun getRxCache(): RxCache {
-            return instance.rxCacheBuilder.build()
+            return instance.globalRxCacheBuilder.build()
         }
 
         @JvmStatic

@@ -1,3 +1,6 @@
+# 新版本2.1.4
+* FlyHttp添加setPrintEnable函数，默认使用HttpLoggingInterceptor拦截器进行输出
+
 # 新版本2.1.3
 * GSON 解析容错优化
 

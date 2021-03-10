@@ -28,9 +28,5 @@ dependencies {
         exclude module: 'kotlin-stdlib'
     }
 
-    implementation(Deps.okhttp3_logging_interceptor) {
-        exclude module: 'okhttp'
-        exclude module: 'kotlin-stdlib-jdk8'
-    }
     debugImplementation Deps.leakcanary_android
 }
