@@ -5,7 +5,7 @@
 
         <variable
             name="click"
-            type="com.tiamosu.fly.demo.ui.activities.LaunchActivity.ClickProxy" />
+            type="com.tiamosu.fly.demo.ui.activities.SplashActivity.ClickProxy" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,15 +1,24 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- B应用主题样式 -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- 窗口背景颜色 -->
+        <item name="android:windowBackground">@color/color_white</item>
+        <!-- 应用的主要色调，ActionBar Toolbar 默认使用该颜色 -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 应用的主要暗色调，状态栏默认使用该颜色 -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- 应用的强调色，CheckBox RadioButton Switch 等一般控件的选中效果默认采用该颜色 -->
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- ActionMode 覆盖 Actionbar 不被顶下来 -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- Activity 专场动画  -->
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
     </style>
 
-    <style name="launchTheme" parent="AppTheme">
+    <!-- 闪屏页主题样式 -->
+    <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/app_bg</item>
     </style>
 

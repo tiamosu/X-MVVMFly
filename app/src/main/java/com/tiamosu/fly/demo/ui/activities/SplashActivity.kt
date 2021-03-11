@@ -7,9 +7,9 @@ import com.tiamosu.fly.core.base.BaseActivity
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
 
-class LaunchActivity : BaseActivity() {
+class SplashActivity : BaseActivity() {
 
-    override fun getLayoutId() = R.layout.activity_launch
+    override fun getLayoutId() = R.layout.activity_splash
 
     override fun isCheckNetChanged() = true
 
