@@ -24,10 +24,7 @@ class GlideFragment : BaseFragment() {
     private val dataBinding by lazy { binding as FragmentGlideBinding }
 
     companion object {
-        const val IMG_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000" +
-                "&sec=1584613638363&di=f3145501f1c82ecce1fad4937d0b6fc2&imgtype=0" +
-                "&src=http%3A%2F%2Fpics4.baidu.com%2Ffeed%2F2cf5e0fe9925bc31bfe6323c3f89ddb7ca1370b3.jpeg" +
-                "%3Ftoken%3D8c0dbbd8c71510e420916599992f67bc%26s%3D4BA438626AD163E94D1421DE0000C0E2"
+        const val IMG_URL = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdik.img.kttpdq.com%2Fpic%2F19%2F12786%2F67278f953e503402_1024x768.jpg&refer=http%3A%2F%2Fdik.img.kttpdq.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1618040074&t=84d6ac67232e3da6d965e3e60dce87e6"
     }
 
     override fun getLayoutId() = R.layout.fragment_glide
