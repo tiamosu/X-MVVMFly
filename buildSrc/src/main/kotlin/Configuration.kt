@@ -36,6 +36,7 @@ object Versions {
     const val utilcode = "1.30.6"
     const val leakcanary = "2.6"
     const val unpeeklivedata = "4.5.0-beta1"
+    const val permission = "10.2"
 
     const val rxerrorhandler = "3.0.3"
     const val loadsir = "2.0.6"
@@ -52,6 +53,10 @@ object Publish {
 }
 
 object Deps {
+    //kotlin
+    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+
     //androidx
     const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
     const val androidx_annotation = "androidx.annotation:annotation:${Versions.annotation}"
@@ -75,10 +80,6 @@ object Deps {
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_livedata_ktx =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
-
-    //kotlin
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
     //dagger2：依赖注入框架 https://github.com/google/dagger
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
@@ -128,4 +129,7 @@ object Deps {
 
     //gson：Google 提供的用来在 Java 对象和 JSON 数据之间进行映射的 Java 类库 https://github.com/google/gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
+
+    //permission
+    const val permission = "com.hjq:xxpermissions:${Versions.permission}"
 }

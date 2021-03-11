@@ -37,13 +37,6 @@ class SplashActivity : BaseActivity() {
         return true
     }
 
-    inner class ClickProxy {
-
-        fun jumpToMain() {
-            ActivityUtils.startActivity(MainActivity::class.java)
-        }
-    }
-
     override fun doBusiness() {}
 
     override fun onNetReConnect() {
@@ -63,5 +56,12 @@ class SplashActivity : BaseActivity() {
 
     //拦截返回退出应用
     override fun onBackPressedSupport() {
+    }
+
+    inner class ClickProxy {
+
+        fun jumpToMain() {
+            ActivityUtils.startActivity(MainActivity::class.java)
+        }
     }
 }

@@ -28,5 +28,7 @@ dependencies {
         exclude module: 'kotlin-stdlib'
     }
 
+    api Deps.permission
+
     debugImplementation Deps.leakcanary_android
 }
