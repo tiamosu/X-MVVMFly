@@ -5,12 +5,7 @@
     android:id="@+id/nav_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:startDestination="@id/splashFragment">
-
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.tiamosu.fly.demo.ui.fragments.SplashFragment"
-        tools:layout="@layout/fragment_splash" />
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"

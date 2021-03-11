@@ -3,6 +3,7 @@ package com.tiamosu.fly.demo.ui.fragments
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.core.base.BaseFragment
 import com.tiamosu.fly.demo.R
@@ -53,7 +54,7 @@ class MainFragment : BaseFragment() {
 
     override fun onBackPressedSupport(): Boolean {
         if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
-            context.finish()
+            ActivityUtils.finishAllActivities()
         } else {
             TOUCH_TIME = System.currentTimeMillis()
             ToastUtils.showShort("再按一次退出")
