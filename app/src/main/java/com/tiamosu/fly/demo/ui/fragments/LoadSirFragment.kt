@@ -18,10 +18,25 @@ class LoadSirFragment : BaseFragment() {
     override fun initView(rootView: View?) {
         loadServiceInit(dataBinding.loadLl) {
             showViewLoading()
-            postDelayed({ showViewSuccess() }, 1500)
+            postDelayed({
+                dataBinding.loadSirTvResult.text = "加载成功"
+                showViewSuccess()
+            }, 1000)
         }
-        postDelayed({ showViewError() }, 1000)
     }
 
-    override fun doBusiness() {}
+    /**
+     * 模拟数据请求
+     */
+    private fun requestData() {
+        showLoading()
+        postDelayed({
+            hideLoading()
+            showViewError()
+        }, 1500)
+    }
+
+    override fun doBusiness() {
+        requestData()
+    }
 }

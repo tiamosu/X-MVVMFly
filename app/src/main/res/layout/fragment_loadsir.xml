@@ -16,9 +16,10 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/loadSir_tvResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Success"
+                android:text="数据加载..."
                 android:textColor="@color/colorAccent"
                 android:textSize="25sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>

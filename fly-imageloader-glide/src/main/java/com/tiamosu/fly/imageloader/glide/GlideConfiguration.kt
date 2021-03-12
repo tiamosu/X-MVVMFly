@@ -17,9 +17,8 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import com.tiamosu.fly.imageloader.glide.http.OkHttpUrlLoader
 import com.tiamosu.fly.utils.activityManager
-import com.tiamosu.fly.utils.createDir
 import com.tiamosu.fly.utils.getAppComponent
-import java.io.File
+import com.tiamosu.fly.utils.getGlideCacheFile
 import java.io.InputStream
 
 /**
@@ -37,10 +36,7 @@ class GlideConfiguration : AppGlideModule() {
         val appComponent = getAppComponent()
         builder.setDiskCache {
             // Careful: the external cache directory doesn't enforce permissions
-            DiskLruCacheWrapper.create(
-                createDir(File(appComponent.cacheFile(), "glide")),
-                IMAGE_DISK_CACHE_MAX_SIZE.toLong()
-            )
+            DiskLruCacheWrapper.create(getGlideCacheFile(), IMAGE_DISK_CACHE_MAX_SIZE.toLong())
         }
 
         val calculator = MemorySizeCalculator.Builder(context).build()
@@ -86,9 +82,7 @@ class GlideConfiguration : AppGlideModule() {
     /**
      * @return 设置清单解析，设置为false，避免添加相同的modules两次
      */
-    override fun isManifestParsingEnabled(): Boolean {
-        return false
-    }
+    override fun isManifestParsingEnabled() = false
 
     companion object {
         private const val IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024//图片缓存文件最大值为100Mb

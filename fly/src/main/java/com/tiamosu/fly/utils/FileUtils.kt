@@ -45,3 +45,17 @@ fun getCacheFile(): File {
     //如果获取的文件为空，就使用应用程序内的内部缓存路劲
     return cacheFile ?: Utils.getApp().cacheDir
 }
+
+/**
+ * 获取Glide缓存目录文件
+ */
+fun getGlideCacheFile(): File? {
+    return createDir(File(getAppComponent().cacheFile(), "glide"))
+}
+
+/**
+ * 获取Glide缓存大小
+ */
+fun getGlideCacheSize(): Long {
+    return FileUtils.getLength(getGlideCacheFile())
+}

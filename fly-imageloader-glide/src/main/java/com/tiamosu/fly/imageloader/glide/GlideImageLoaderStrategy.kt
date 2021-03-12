@@ -167,8 +167,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
 
         if (config.imageViews?.isNotEmpty() == true) {//取消在执行的任务并且释放资源
             for (imageView in config.imageViews!!) {
-                imageView ?: continue
-                requestManager.clear(imageView)
+                imageView?.let { requestManager.clear(it) }
             }
         }
 

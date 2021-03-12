@@ -9,7 +9,6 @@ import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.tiamosu.fly.core.R
 import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ui.loadsir.CustomCallback
 import com.tiamosu.fly.core.ui.loadsir.EmptyCallback
 import com.tiamosu.fly.core.ui.loadsir.ErrorCallback
 import com.tiamosu.fly.core.ui.loadsir.LoadingCallback
@@ -27,7 +26,6 @@ fun BaseFragment.loadServiceInit(
         .addCallback(EmptyCallback())
         .addCallback(ErrorCallback())
         .addCallback(LoadingCallback())
-        .addCallback(CustomCallback())
         .setDefaultCallback(SuccessCallback::class.java)
         .build()
         .register<Any>(view, {

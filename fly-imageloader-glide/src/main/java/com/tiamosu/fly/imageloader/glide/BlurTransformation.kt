@@ -27,16 +27,12 @@ class BlurTransformation(@IntRange(from = 0, to = 25) private val radius: Int = 
         outWidth: Int,
         outHeight: Int
     ): Bitmap {
-        return ImageUtils.fastBlur(toTransform, 0.1f, radius.toFloat())
+        return ImageUtils.fastBlur(toTransform, 1f, radius.toFloat())
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is BlurTransformation
-    }
+    override fun equals(other: Any?) = other is BlurTransformation
 
-    override fun hashCode(): Int {
-        return ID.hashCode()
-    }
+    override fun hashCode() = ID.hashCode()
 
     companion object {
         private val ID = BlurTransformation::class.java.name
