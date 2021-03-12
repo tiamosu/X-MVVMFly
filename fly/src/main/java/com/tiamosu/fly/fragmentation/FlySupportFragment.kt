@@ -36,6 +36,7 @@ open class FlySupportFragment : Fragment(), IFlySupportFragment {
         Log.e(fragmentTag, "onViewCreated")
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.e(fragmentTag, "onActivityCreated")

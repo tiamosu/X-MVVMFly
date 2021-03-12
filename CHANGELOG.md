@@ -1,3 +1,7 @@
+# 新版本2.1.5
+* FileUtils 提供获取Glide缓存目录文件以及Http数据缓存目录文件
+* Glide加载图片设置高斯模糊优化
+
 # 新版本2.1.4
 * FlyHttp添加setPrintEnable函数，默认使用HttpLoggingInterceptor拦截器进行输出
 
