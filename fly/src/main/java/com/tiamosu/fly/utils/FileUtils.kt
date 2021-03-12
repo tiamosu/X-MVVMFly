@@ -59,3 +59,10 @@ fun getGlideCacheFile(): File? {
 fun getGlideCacheSize(): Long {
     return FileUtils.getLength(getGlideCacheFile())
 }
+
+/**
+ * 获取http数据缓存目录文件
+ */
+fun getHttpCacheFile(): File? {
+    return createDir(File(getAppComponent().cacheFile(), "http"))
+}

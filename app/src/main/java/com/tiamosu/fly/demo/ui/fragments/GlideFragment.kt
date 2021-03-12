@@ -61,14 +61,14 @@ class GlideFragment : BaseFragment() {
     private fun loadImage(any: Any, isBlur: Boolean = false) {
         ImageConfigImpl
             .load(any)
-            .override(200, 200)
+            .override(400, 400)
             .apply {
                 /**
                  * 注意：Glide同时加载多个transform时，需要调用[ImageConfigImpl.Builder.transform]，否则有冲突
                  */
                 val transforms = arrayListOf(CenterCrop(), RoundedCornersTransformation(58f))
                 if (isBlur) {
-                    transforms.add(BlurTransformation(1))
+                    transforms.add(BlurTransformation(20))
                 }
                 val array = transforms.toArray(arrayOf<BitmapTransformation>())
                 transform(*array)

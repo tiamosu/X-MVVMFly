@@ -13,6 +13,8 @@ import java.security.MessageDigest
  *
  * @author tiamosu
  * @date 2018/9/17.
+ *
+ * @param radius 数值越大越模糊
  */
 class BlurTransformation(@IntRange(from = 0, to = 25) private val radius: Int = DEFAULT_RADIUS) :
     BitmapTransformation() {
