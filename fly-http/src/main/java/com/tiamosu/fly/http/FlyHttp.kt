@@ -61,12 +61,13 @@ class FlyHttp {
     private var cacheDirectory: File? = null                        //缓存目录
     private var cacheMaxSize = 0L                                   //缓存大小
     private var isGlobalErrorHandle = false                         //是否进行全局错误统一处理
+    private var httpLoggingInterceptor: HttpLoggingInterceptor? = null  //数据请求打印拦截器
 
     //OkHttpClient请求的Builder
     private val okHttpClientBuilder by lazy {
         getAppComponent().okHttpClient().newBuilder()
             .apply {
-                val sslParams: HttpsUtils.SSLParams = HttpsUtils.getSslSocketFactory()
+                val sslParams = HttpsUtils.getSslSocketFactory()
                 sslSocketFactory(sslParams.sslSocketFactory, sslParams.trustManager)
                 hostnameVerifier(HttpsUtils.DefaultHostnameVerifier())
             }
@@ -342,13 +343,12 @@ class FlyHttp {
      */
     fun setPrintEnable(
         isEnable: Boolean = false,
-        httpLoggingInterceptor: HttpLoggingInterceptor? = null
+        interceptor: HttpLoggingInterceptor? = null
     ): FlyHttp {
         if (isEnable) {
-            val interceptor = httpLoggingInterceptor ?: HttpLoggingInterceptor().apply {
+            httpLoggingInterceptor = interceptor ?: HttpLoggingInterceptor().apply {
                 setLevel(HttpLoggingInterceptor.Level.BODY)
             }
-            addInterceptor(interceptor)
         }
         return this
     }
@@ -426,6 +426,10 @@ class FlyHttp {
 
         internal fun getRetrofit(): Retrofit {
             return instance.retrofitBuilder.build()
+        }
+
+        internal fun getHttpLoggingInterceptor(): HttpLoggingInterceptor? {
+            return instance.httpLoggingInterceptor
         }
 
         /**
