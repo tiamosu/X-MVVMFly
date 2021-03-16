@@ -1,3 +1,6 @@
+# 新版本2.1.7
+* 移除Apache HTTP client
+
 # 新版本2.1.6
 * okHttp请求打印优化
 

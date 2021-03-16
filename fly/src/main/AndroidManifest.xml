@@ -23,11 +23,5 @@
         android:hasFragileUserData="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        tools:targetApi="q">
-
-        <!-- 9.0 http使用适配-->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-    </application>
+        tools:targetApi="q" />
 </manifest>
