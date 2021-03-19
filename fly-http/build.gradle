@@ -13,4 +13,4 @@ dependencies {
     }
 }
 
-apply from: "${rootDir.path}/config_bintray.gradle"
+apply from: "${rootDir.path}/config_publish.gradle"

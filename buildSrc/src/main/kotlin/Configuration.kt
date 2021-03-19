@@ -43,13 +43,7 @@ object Versions {
 }
 
 object Publish {
-    const val userOrg = "weixia" //bintray.com用户名
-    const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "2.1.7" //版本号
-    const val desc = "Oh hi, this is a nice description for a project, right?"
-    const val website = "https://github.com/tiamosu/X-MVVMFly"
-    const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
-    const val email = "djy2009wenbi@gmail.com"
+    const val groupId = "com.github.tiamosu"
 }
 
 object Deps {
