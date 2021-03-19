@@ -8,9 +8,9 @@
 适用于 Android 5.0 + (21 + API级别) 和 Java 8 +。
 
 ## Download
-[![](https://jitpack.io/v/tiamosu/X-MVVMFly.svg)](https://jitpack.io/#tiamosu/X-MVVMFly)
 
 ### fly
+[ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly/_latestVersion)
 ```groovy
 implementation 'me.tiamosu:fly:2.1.7'
 ```
