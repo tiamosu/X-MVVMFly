@@ -15,10 +15,6 @@
 # RxAndroid
 -keepclassmembers class rx.android.** { *; }
 
-# RxErrorHandler
--keep class me.jessyan.rxerrorhandler.** { *; }
--keep interface me.jessyan.rxerrorhandler.** { *; }
-
 # Retrofit
 -keep class retrofit2.** { *; }
 -dontwarn retrofit2.**
