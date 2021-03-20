@@ -23,12 +23,17 @@ dependencies {
         exclude module: 'fragment'
         exclude module: 'annotation'
         exclude module: 'collection'
+        exclude module: 'recyclerview'
+    }
+    api(Deps.androidx_recyclerview) {
+        exclude module: 'core'
+        exclude module: 'annotation'
+        exclude module: 'collection'
+        exclude module: 'customview'
     }
     api(Deps.loadsir) {
         exclude module: 'kotlin-stdlib'
     }
-
-    api Deps.permission
 
     debugImplementation Deps.leakcanary_android
 }

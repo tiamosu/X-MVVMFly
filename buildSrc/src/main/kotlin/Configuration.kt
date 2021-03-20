@@ -22,6 +22,7 @@ object Versions {
     const val lifecycle_extensions = "2.2.0"
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
+    const val recyclerview = "1.1.0"
 
     const val rxjava = "3.0.11"
     const val rxandroid = "3.0.0"
@@ -36,22 +37,13 @@ object Versions {
     const val utilcode = "1.30.6"
     const val leakcanary = "2.6"
     const val unpeeklivedata = "4.5.0-beta1"
-    const val permission = "10.2"
 
-    const val rxerrorhandler = "3.0.3"
-    const val loadsir = "2.0.6"
+    const val rxerrorhandler = "3.0.4"
+    const val loadsir = "2.0.7"
 }
 
 object Publish {
-    const val userOrg = "weixia" //bintray.com用户名
-    const val groupId = "me.tiamosu" //jcenter上的路径
-    const val publishVersion = "2.1.7" //版本号
-    const val desc = "Oh hi, this is a nice description for a project, right?"
-    const val website = "https://github.com/tiamosu/X-MVVMFly"
-    const val gitUrl = "https://github.com/tiamosu/X-MVVMFly.git"
-    const val email = "djy2009wenbi@gmail.com"
-
-//    const val groupId = "com.github.tiamosu"
+    const val groupId = "com.github.tiamosu"
 }
 
 object Deps {
@@ -66,6 +58,7 @@ object Deps {
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
     const val androidx_constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
+    const val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
 
     //navigation
     const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragmentktx}"
@@ -103,7 +96,7 @@ object Deps {
     const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
 
     //rxjava错误处理 https://github.com/tiamosu/X-RxErrorHandler
-    const val rxerrorhandler = "me.tiamosu:x-rxerrorhandler:${Versions.rxerrorhandler}"
+    const val rxerrorhandler = "com.github.tiamosu:X-RxErrorHandler:${Versions.rxerrorhandler}"
 
     //utilcode：常用工具类库 https://github.com/Blankj/AndroidUtilCode
     const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"
@@ -124,14 +117,11 @@ object Deps {
     const val glide_compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     //loadSir：加载反馈页管理框架 https://github.com/tiamosu/LoadSir
-    const val loadsir = "me.tiamosu:loadsir:${Versions.loadsir}"
+    const val loadsir = "com.github.tiamosu:LoadSir:${Versions.loadsir}"
 
     //unPeekLiveData：解决LiveData数据倒灌 https://github.com/KunMinX/UnPeek-LiveData
     const val unpeek_livedata = "com.kunminx.archi:unpeek-livedata:${Versions.unpeeklivedata}"
 
     //gson：Google 提供的用来在 Java 对象和 JSON 数据之间进行映射的 Java 类库 https://github.com/google/gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
-
-    //permission
-    const val permission = "com.hjq:xxpermissions:${Versions.permission}"
 }

@@ -1,22 +1,9 @@
 apply plugin: 'com.github.dcendents.android-maven'
-
-def projectVersion = Publish.publishVersion
-def projectGroupId = Publish.groupId
-def projectName = POM_NAME
-
-version = projectVersion
-group = projectGroupId
-
-if (project.hasProperty("kotlin")) {
-    // Disable creating javaDocs
-    tasks.withType(Javadoc) {
-        enabled = false
-    }
-}
+group = Publish.groupId
 
 task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
     getArchiveClassifier().set('sources')
+    from android.sourceSets.main.java.srcDirs
 }
 task javadoc(type: Javadoc) {
     failOnError false
@@ -25,12 +12,15 @@ task javadoc(type: Javadoc) {
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
     getArchiveClassifier().set('javadoc')
+    from javadoc.destinationDir
 }
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+
+if (project.hasProperty("kotlin")) {
+    // Disable creating javaDocs
+    tasks.withType(Javadoc) {
+        enabled = false
+    }
 }
 
 javadoc {
@@ -38,8 +28,11 @@ javadoc {
         encoding "UTF-8"
         charSet 'UTF-8'
         author true
-        version projectVersion
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title projectName
+        version true
     }
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }
