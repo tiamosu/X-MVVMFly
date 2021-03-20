@@ -8,23 +8,36 @@
 适用于 Android 5.0 + (21 + API级别) 和 Java 8 +。
 
 ## Download
+[![](https://jitpack.io/v/tiamosu/X-MVVMFly.svg)](https://jitpack.io/#tiamosu/X-MVVMFly)
 
-### fly
-[ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly/_latestVersion)
 ```groovy
-implementation 'me.tiamosu:fly:2.1.7'
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
-### fly-http
-[ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly-http/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly-http/_latestVersion)
 ```groovy
-implementation 'me.tiamosu:fly-http:2.1.7'
+implementation 'com.github.tiamosu:X-MVVMFly:2.2.1'
 ```
 
-### fly-imageloader-glide
-[ ![Download](https://api.bintray.com/packages/weixia/maven/mvvm-fly-glide/images/download.svg) ](https://bintray.com/weixia/maven/mvvm-fly-glide/_latestVersion)
+## 可单独依赖模块：
+### fly（必需）
 ```groovy
-implementation 'me.tiamosu:fly-imageloader-glide:2.1.7'
+implementation 'com.github.tiamosu.X-MVVMFly:fly:2.2.1'
+```
+
+### fly-http（可选）
+```groovy
+implementation 'com.github.tiamosu.X-MVVMFly:fly-http:2.2.1'
+```
+
+### fly-imageloader-glide（可选）
+```groovy
+implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:2.2.1'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)

@@ -1,3 +1,6 @@
+# 新版本2.2.1
+* library 重新发布至 JitPack
+
 # 新版本2.1.7
 * 移除Apache HTTP client
 
