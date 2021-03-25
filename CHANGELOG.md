@@ -1,3 +1,8 @@
+# 新版本2.2.2
+* loading弹框展示隐藏添加同步注解
+* fragmentktx 1.3.1
+* navigation 2.3.4
+
 # 新版本2.2.1
 * library 重新发布至 JitPack
 
