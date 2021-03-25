@@ -29,6 +29,7 @@ object Loader : HandlerAction {
      *
      *  @return loading弹框展示
      */
+    @Synchronized
     fun showLoading(delayMillis: Long = 0, dialog: BaseFlyDialog? = null) {
         var loadingDialog = dialog ?: dialogCallback?.invoke()
         val activity =
@@ -64,6 +65,7 @@ object Loader : HandlerAction {
     /**
      * @return loading弹框隐藏
      */
+    @Synchronized
     fun hideLoading() {
         removeCallback()
         if (dialogLoaders.isNotEmpty()) {
