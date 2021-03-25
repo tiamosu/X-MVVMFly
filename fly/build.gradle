@@ -51,13 +51,6 @@ dependencies {
         exclude module: 'annotation'
         exclude module: 'lifecycle-common'
     }
-    api(Deps.lifecycle_extensions) {
-        exclude module: 'fragment'
-        exclude module: 'lifecycle-common'
-        exclude module: 'lifecycle-runtime'
-        exclude module: 'lifecycle-viewmodel'
-        exclude module: 'lifecycle-livedata'
-    }
     api(Deps.lifecycle_viewmodel_ktx) {
         exclude module: 'kotlin-stdlib'
     }

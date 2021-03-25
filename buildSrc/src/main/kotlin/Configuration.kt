@@ -16,10 +16,9 @@ object Versions {
     const val corektx = "1.3.2"
     const val annotation = "1.1.0"
     const val appcompat = "1.2.0"
-    const val fragmentktx = "1.3.0"
-    const val navigation = "2.3.3"
+    const val fragmentktx = "1.3.1"
+    const val navigation = "2.3.4"
     const val lifecycle = "2.3.0"
-    const val lifecycle_extensions = "2.2.0"
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
     const val recyclerview = "1.1.0"
@@ -69,8 +68,6 @@ object Deps {
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
     const val lifecycle_common_java8 =
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
-    const val lifecycle_extensions =
-        "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_extensions}"
     const val lifecycle_viewmodel_ktx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_livedata_ktx =
