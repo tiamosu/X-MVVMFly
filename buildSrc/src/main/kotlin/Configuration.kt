@@ -11,7 +11,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.4.31"
+    const val kotlin = "1.4.32"
 
     const val corektx = "1.3.2"
     const val annotation = "1.1.0"
