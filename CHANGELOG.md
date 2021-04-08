@@ -1,3 +1,9 @@
+# 新版本2.2.4
+* rxjava 3.0.12
+* dagger2 2.34
+* fragment 1.3.2
+* lifecycle 2.3.1
+
 # 新版本2.2.3
 * okhttp3 4.9.1
 
