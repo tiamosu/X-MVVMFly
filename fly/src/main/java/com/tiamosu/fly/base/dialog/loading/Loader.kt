@@ -1,6 +1,5 @@
 package com.tiamosu.fly.base.dialog.loading
 
-import android.app.Activity
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.base.action.HandlerAction
 import com.tiamosu.fly.base.dialog.BaseFlyDialog
@@ -35,21 +34,20 @@ object Loader : HandlerAction {
         if (delayMillis <= 0) {
             removeDelayedCallback()
         }
-        var loadingDialog = dialog ?: dialogCallback?.invoke()
-        val activity = loadingDialog?.activity ?: ActivityUtils.getTopActivity()
-        loadingDialog = loadingDialog ?: FlyLoadingDialog(activity)
+        val loadingDialog =
+            dialog ?: dialogCallback?.invoke() ?: FlyLoadingDialog(ActivityUtils.getTopActivity())
         loadingDialog.setOnDismissListener {
             hideLoading()
         }
 
         when {
             delayMillis <= 0 -> {
-                showDialog(activity, loadingDialog)
+                showDialog(loadingDialog)
             }
             !hasDelayedCallbacks -> {
                 hasDelayedCallbacks = true
                 postDelayed({
-                    showDialog(activity, loadingDialog)
+                    showDialog(loadingDialog)
                 }, delayMillis)
             }
         }
@@ -75,7 +73,8 @@ object Loader : HandlerAction {
         return dialogLoaders.isNotEmpty()
     }
 
-    private fun showDialog(activity: Activity, loadingDialog: BaseFlyDialog) {
+    private fun showDialog(loadingDialog: BaseFlyDialog) {
+        val activity = loadingDialog.activity
         if (activity.isFinishing || activity.isDestroyed) {
             hideLoading()
             return
