@@ -1,5 +1,6 @@
 package com.tiamosu.fly.core.config
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -38,6 +39,7 @@ class ResponseErrorListenerImpl : ResponseErrorListener {
         private const val SERVICE_UNAVAILABLE = 503
         private const val GATEWAY_TIMEOUT = 504
 
+        @SuppressLint("MissingPermission")
         fun parseError(t: Throwable?): String {
             return if (t is HttpException) {
                 convertStatusCode(t)
@@ -61,7 +63,7 @@ class ResponseErrorListenerImpl : ResponseErrorListener {
             } else if (t is NullPointerException) {
                 "请求失败~"
             } else if (t is RuntimeException) {
-                t.message!!
+                t.message ?: "请求失败~"
             } else if (!NetworkUtils.isConnected()) {
                 "无法连接网络"
             } else {

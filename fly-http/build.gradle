@@ -12,5 +12,3 @@ dependencies {
         exclude module: 'kotlin-stdlib-jdk8'
     }
 }
-
-apply from: "${rootDir.path}/config_publish.gradle"

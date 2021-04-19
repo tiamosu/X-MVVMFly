@@ -1,5 +1,6 @@
 package com.tiamosu.fly.core.ext
 
+import android.annotation.SuppressLint
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
@@ -32,6 +33,7 @@ fun stringCallback(
 ): StringCallback {
     val callback = StringRequestCallback().apply(requestCallback)
     return object : StringCallback() {
+        @SuppressLint("MissingPermission")
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)
@@ -82,6 +84,7 @@ inline fun <reified T> jsonCallback(
 ): JsonCallback<T> {
     val callback = JsonRequestCallback<T>().apply(requestCallback)
     return object : JsonCallback<T>() {
+        @SuppressLint("MissingPermission")
         override fun onStart(disposable: Disposable) {
             if (!NetworkUtils.isConnected()) {
                 FlyHttp.cancelSubscription(disposable)

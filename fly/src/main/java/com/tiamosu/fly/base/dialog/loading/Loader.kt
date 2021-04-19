@@ -1,7 +1,6 @@
 package com.tiamosu.fly.base.dialog.loading
 
 import android.app.Activity
-import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.base.action.HandlerAction
 import com.tiamosu.fly.base.dialog.BaseFlyDialog
@@ -29,21 +28,15 @@ object Loader : HandlerAction {
      *
      *  @return loading弹框展示
      */
-    @Synchronized
     fun showLoading(delayMillis: Long = 0, dialog: BaseFlyDialog? = null) {
-        var loadingDialog = dialog ?: dialogCallback?.invoke()
-        val activity =
-            loadingDialog?.activity ?: (ActivityUtils.getTopActivity() as? FragmentActivity)
-        if (activity == null || activity.isFinishing || activity.isDestroyed) {
-            hideLoading()
-            return
-        }
         if (isShowing()) {
             return
         }
         if (delayMillis <= 0) {
-            removeCallback()
+            removeDelayedCallback()
         }
+        var loadingDialog = dialog ?: dialogCallback?.invoke()
+        val activity = loadingDialog?.activity ?: ActivityUtils.getTopActivity()
         loadingDialog = loadingDialog ?: FlyLoadingDialog(activity)
         loadingDialog.setOnDismissListener {
             hideLoading()
@@ -65,9 +58,8 @@ object Loader : HandlerAction {
     /**
      * @return loading弹框隐藏
      */
-    @Synchronized
     fun hideLoading() {
-        removeCallback()
+        removeDelayedCallback()
         if (dialogLoaders.isNotEmpty()) {
             dialogLoaders.forEach {
                 it.hideDialog()
@@ -94,7 +86,7 @@ object Loader : HandlerAction {
         }
     }
 
-    private fun removeCallback() {
+    private fun removeDelayedCallback() {
         if (hasDelayedCallbacks) {
             removeCallbacks()
             hasDelayedCallbacks = false

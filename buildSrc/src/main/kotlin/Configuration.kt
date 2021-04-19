@@ -17,11 +17,11 @@ object Versions {
     const val annotation = "1.2.0"
     const val appcompat = "1.2.0"
     const val fragmentktx = "1.3.2"
-    const val navigation = "2.3.4"
+    const val navigation = "2.3.5"
     const val lifecycle = "2.3.1"
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
-    const val recyclerview = "1.1.0"
+    const val recyclerview = "1.2.0"
 
     const val rxjava = "3.0.12"
     const val rxandroid = "3.0.0"
@@ -32,17 +32,13 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.34"
+    const val dagger2 = "2.34.1"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.6"
     const val unpeeklivedata = "4.5.0-beta1"
 
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
-}
-
-object Publish {
-    const val groupId = "com.github.tiamosu"
 }
 
 object Deps {
