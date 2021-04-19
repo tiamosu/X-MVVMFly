@@ -1,3 +1,8 @@
+# 新版本2.2.5
+* navigation 2.3.5
+* dagger2 2.34.1
+* loading弹框加载优化
+
 # 新版本2.2.4
 * rxjava 3.0.12
 * dagger2 2.34
