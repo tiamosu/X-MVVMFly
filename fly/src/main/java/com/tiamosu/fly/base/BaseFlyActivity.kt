@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.lifecycle.Lifecycle
 import com.tiamosu.fly.base.action.*
+import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.ext.clickNoRepeat
@@ -96,7 +97,8 @@ abstract class BaseFlyActivity : FlySupportActivity(),
 
     override fun showLoading(config: LoadingConfig?) {
         val newConfig = config ?: loadingConfig
-        Loader.showLoading(newConfig.delayMillis, newConfig.dialog)
+        val dialog = newConfig.dialog ?: FlyLoadingDialog(getContext())
+        Loader.showLoading(newConfig.delayMillis, dialog)
     }
 
     override fun hideLoading() {
