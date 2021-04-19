@@ -47,7 +47,6 @@ abstract class BaseActivity : BaseVmDbActivity(), IUIAction {
     }
 
     override fun onDestroy() {
-        hideLoading()
         super.onDestroy()
         //垃圾回收
         System.gc()

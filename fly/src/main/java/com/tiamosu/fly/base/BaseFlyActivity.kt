@@ -70,7 +70,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
         super.onDestroy()
         isVisibleLoadData = false
         removeCallbacks()
-        hideLoading()
     }
 
     override fun finish() {
