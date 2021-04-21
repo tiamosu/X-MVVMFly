@@ -25,7 +25,7 @@
 # 保留 Annotation 不混淆
 -keepattributes *Annotation*
 
-# 避免混淆内部类、泛型、匿名类
+# 避免混淆泛型、内部类、匿名类
 -keepattributes Signature,InnerClasses,EnclosingMethod
 
 # 抛出异常时保留代码行号
@@ -106,6 +106,13 @@
 -keep public class * extends android.view.View {
     *** get*();
     void set*(***);
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# 保持自定义控件类不被混淆，指定格式的构造方法不去混淆
+-keepclasseswithmembers class * {
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
