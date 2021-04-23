@@ -132,6 +132,11 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
             glideRequest.transform(*config.transformation!!)
         }
 
+        //在加载资源之前给Target大小设置系数。
+        if (config.sizeMultiplier != -1f) {
+            glideRequest.sizeMultiplier(config.sizeMultiplier)
+        }
+
         if (config.imageView != null) {
             glideRequest.into(config.imageView!!)
         } else if (config.target != null) {

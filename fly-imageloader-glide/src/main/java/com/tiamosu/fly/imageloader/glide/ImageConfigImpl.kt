@@ -51,6 +51,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     internal var isClearMemory = false
     internal var isClearDiskCache = false
     internal var isDontAnimate = false
+    internal var sizeMultiplier = -1f
 
     init {
         this.any = builder.any
@@ -83,6 +84,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         this.isClearMemory = builder.isClearMemory
         this.isClearDiskCache = builder.isClearDiskCache
         this.isDontAnimate = builder.isDontAnimate
+        this.sizeMultiplier = builder.sizeMultiplier
     }
 
     class Builder constructor(
@@ -117,6 +119,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         internal var isClearMemory = false
         internal var isClearDiskCache = false
         internal var isDontAnimate = false
+        internal var sizeMultiplier = -1f
 
         /**
          * 传入视图控件
@@ -337,6 +340,14 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          */
         fun dontAnimate(): Builder {
             this.isDontAnimate = true
+            return this
+        }
+
+        /**
+         * 在加载资源之前给Target大小设置系数
+         */
+        fun sizeMultiplier(sizeMultiplier: Float): Builder {
+            this.sizeMultiplier = sizeMultiplier
             return this
         }
 
