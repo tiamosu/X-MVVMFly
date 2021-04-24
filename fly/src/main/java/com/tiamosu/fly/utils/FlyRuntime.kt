@@ -22,7 +22,8 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.view.inputmethod.InputMethodManager
-import com.tiamosu.fly.ext.getSystemService
+import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.Utils
 
 /**
  * 描述：提供各种系统服务
@@ -30,6 +31,12 @@ import com.tiamosu.fly.ext.getSystemService
  * @author tiamosu
  * @date 2020/2/22.
  */
+
+/**
+ * 获取系统服务
+ */
+inline fun <reified T> getSystemService(): T? =
+    ContextCompat.getSystemService(Utils.getApp(), T::class.java)
 
 val windowManager get() = getSystemService<WindowManager>()
 val clipboardManager get() = getSystemService<ClipboardManager>()
