@@ -99,11 +99,6 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
             glideRequest.override(config.targetWidth, config.targetHeight)
         }
 
-        //添加请求配置
-        if (config.requestOptions != null) {
-            glideRequest.apply(config.requestOptions!!)
-        }
-
         //添加图片加载监听
         (config.requestListener as? RequestListener<Any>)?.let(glideRequest::addListener)
 
@@ -113,14 +108,13 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         //是否使用淡入淡出过渡动画
-        if (config.transcodeType == TranscodeType.AS_DRAWABLE) {
-            if (config.isCrossFade) {
+        when {
+            config.transcodeType == TranscodeType.AS_DRAWABLE && config.isCrossFade -> {
                 val drawableTransitionOptions = DrawableTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Drawable>).transition(drawableTransitionOptions)
             }
-        } else if (config.transcodeType == TranscodeType.AS_BITMAP) {
-            if (config.isCrossFade) {
+            config.transcodeType == TranscodeType.AS_BITMAP && config.isCrossFade -> {
                 val bitmapTransitionOptions = BitmapTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Bitmap>).transition(bitmapTransitionOptions)
@@ -130,6 +124,13 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         //glide用它来改变图形的形状
         if (config.transformation != null) {
             glideRequest.transform(*config.transformation!!)
+        }
+
+        //添加请求配置
+        if (config.requestOptions != null) {
+            for (option in config.requestOptions!!) {
+                option?.let { glideRequest.apply(it) }
+            }
         }
 
         if (config.imageView != null) {
