@@ -5,7 +5,11 @@
     android:id="@+id/nav_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/launchFragment">
+
+    <fragment
+        android:id="@+id/launchFragment"
+        android:name="com.tiamosu.fly.demo.ui.fragments.LaunchFragment" />
 
     <fragment
         android:id="@+id/mainFragment"
@@ -58,7 +62,9 @@
         app:enterAnim="@anim/fly_slide_enter"
         app:exitAnim="@anim/fly_slide_exit"
         app:popEnterAnim="@anim/fly_slide_pop_enter"
-        app:popExitAnim="@anim/fly_slide_pop_exit" />
+        app:popExitAnim="@anim/fly_slide_pop_exit"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_to_sharedFragment"

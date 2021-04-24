@@ -52,6 +52,12 @@ class MainFragment : BaseFragment() {
 
     override fun doBusiness() {}
 
+    override fun onFlySupportVisible() {
+        super.onFlySupportVisible()
+        val fragments = parentFragmentManager.fragments
+        Log.e("susu", "fragments:$fragments")
+    }
+
     override fun onBackPressedSupport(): Boolean {
         if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
             ActivityUtils.finishAllActivities()
