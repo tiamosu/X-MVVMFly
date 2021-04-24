@@ -16,7 +16,6 @@ import com.tiamosu.fly.integration.ConfigModule
 import com.tiamosu.fly.integration.ManifestParser
 import com.tiamosu.fly.integration.cache.IntelligentCache
 import com.tiamosu.fly.utils.checkNotNull
-import java.util.*
 
 /**
  * [FlyAppDelegate] 可以代理 [Application] 的生命周期, 在对应的生命周期, 执行对应的逻辑, 因为 Java 只能单继承,
@@ -31,7 +30,7 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
     private var application: Application? = null
     private var appComponent: AppComponent? = null
     private var configModules: List<ConfigModule>? = null
-    private var appLifecycles: MutableList<IFlyAppLifecycles>? = ArrayList()
+    private var appLifecycleList: MutableList<IFlyAppLifecycles>? = mutableListOf()
     private var componentCallback: ComponentCallbacks2? = null
 
     init {
@@ -40,17 +39,15 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
 
         //遍历之前获得的集合, 执行每一个 ConfigModule 实现类的某些方法
         for (module in configModules!!) {
-            //将框架外部, 开发者实现的 Application 的生命周期回调 (IFlyAppLifecycles) 存入 appLifecycles 集合 (此时还未注册回调)
-            module.injectAppLifecycle(context, appLifecycles!!)
+            //将框架外部, 开发者实现的 Application 的生命周期回调 (IFlyAppLifecycles) 存入 appLifecycleList 集合 (此时还未注册回调)
+            module.injectAppLifecycle(context, appLifecycleList!!)
         }
     }
 
     override fun attachBaseContext(context: Context) {
-        //遍历 appLifecycles, 执行所有已注册的 IFlyAppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.attachBaseContext(context)
-            }
+        //遍历 appLifecycleList, 执行所有已注册的 IFlyAppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
+        appLifecycleList?.forEach {
+            it.attachBaseContext(context)
         }
     }
 
@@ -61,27 +58,27 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
             .application(application)
             .globalConfigModule(getGlobalConfigModule(application, configModules))//全局配置
             .build()
-        appComponent!!.inject(this)
+        appComponent?.inject(this)
 
         //将 ConfigModule 的实现类的集合存放到缓存 Cache, 可以随时获取
         //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
         //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
         //前提是 extras 使用的是 IntelligentCache (框架默认使用)
         configModules?.apply {
-            appComponent!!.extras()
-                .put(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name), this)
+            appComponent?.extras()
+                ?.put(IntelligentCache.getKeyOfKeep(ConfigModule::class.java.name), this)
+            configModules = null
         }
-        this.configModules = null
 
-        componentCallback = AppComponentCallbacks(application, appComponent!!)
-        //注册回掉: 内存紧张时释放部分内存
-        application.registerComponentCallbacks(componentCallback)
+        appComponent?.let {
+            componentCallback = AppComponentCallbacks(application, it)
+            //注册回掉: 内存紧张时释放部分内存
+            componentCallback?.let(application::registerComponentCallbacks)
+        }
 
         //执行框架外部, 开发者扩展的 App onCreate 逻辑
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.onCreate(application)
-            }
+        appLifecycleList?.forEach {
+            it.onCreate(application)
         }
     }
 
@@ -89,38 +86,30 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
         if (componentCallback != null) {
             application.unregisterComponentCallbacks(componentCallback)
         }
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.onTerminate(application)
-            }
+        appLifecycleList?.forEach {
+            it.onTerminate(application)
         }
         this.application = null
         this.appComponent = null
-        this.appLifecycles = null
+        this.appLifecycleList = null
         this.componentCallback = null
     }
 
     override fun onConfigurationChanged(configuration: Configuration) {
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.onConfigurationChanged(configuration)
-            }
+        appLifecycleList?.forEach {
+            it.onConfigurationChanged(configuration)
         }
     }
 
     override fun onLowMemory() {
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.onLowMemory()
-            }
+        appLifecycleList?.forEach {
+            it.onLowMemory()
         }
     }
 
     override fun onTrimMemory(level: Int) {
-        if (appLifecycles?.isNotEmpty() == true) {
-            for (lifecycle in appLifecycles!!) {
-                lifecycle.onTrimMemory(level)
-            }
+        appLifecycleList?.forEach {
+            it.onTrimMemory(level)
         }
     }
 
@@ -137,10 +126,8 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
         val builder = GlobalConfigModule.builder()
 
         //遍历 ConfigModule 集合, 给全局配置 GlobalConfigModule 添加参数
-        modules?.apply {
-            for (module in modules) {
-                module.applyOptions(context, builder)
-            }
+        modules?.forEach {
+            it.applyOptions(context, builder)
         }
         return builder.build()
     }
@@ -153,13 +140,11 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
      * @see com.tiamosu.fly.utils.getAppComponent
      */
     override fun getAppComponent(): AppComponent {
+        val applicationClsName = application?.javaClass?.name ?: Application::class.java.name
         checkNotNull(
             appComponent,
             "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
-            AppComponent::class.java.name, javaClass.name, if (application == null)
-                Application::class.java.name
-            else
-                application!!.javaClass.name
+            AppComponent::class.java.name, javaClass.name, applicationClsName
         )
         return appComponent!!
     }

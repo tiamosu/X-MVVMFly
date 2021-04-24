@@ -14,22 +14,11 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <!-- Activity 专场动画  -->
-        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimationStyle</item>
     </style>
 
     <!-- 闪屏页主题样式 -->
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/app_bg</item>
-    </style>
-
-    <style name="AnimationActivity" parent="@android:style/Animation">
-        <!-- A 打开 B，B 的出现动画 -->
-        <item name="android:activityOpenEnterAnimation">@anim/slide_enter</item>
-        <!-- A 打开 B，A 的消失动画 -->
-        <item name="android:activityOpenExitAnimation">@anim/slide_exit</item>
-        <!-- B 关闭到 A，A 的出现动画 *时长要小于 B 的消失动画，否则会闪烁* -->
-        <item name="android:activityCloseEnterAnimation">@anim/slide_pop_enter</item>
-        <!-- B 关闭到 A，B 的消失动画 *时长要小于 B 的消失动画，否则会闪烁* -->
-        <item name="android:activityCloseExitAnimation">@anim/slide_pop_exit</item>
     </style>
 </resources>
