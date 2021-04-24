@@ -48,6 +48,7 @@ class FragmentNavigator internal constructor(
 
     private val backStack = ArrayDeque<Int>()
     private var resumeStateRunnable: Runnable? = null
+    private var preReadyResumeFragment: Fragment? = null
 
     /**
      * {@inheritDoc}
@@ -79,25 +80,37 @@ class FragmentNavigator internal constructor(
             if (removeIndex >= fragmentManager.fragments.size) {
                 removeIndex = fragmentManager.fragments.lastIndex
             }
-            fragmentManager.fragments.removeAt(removeIndex)
+            val removeFragment = fragmentManager.fragments[removeIndex]
+            fragmentManager.fragments.remove(removeFragment)
             backStack.removeLast()
 
+            //防止preReadyResumeFragment已进行销毁时，继续引用导致内存泄露
+            if (removeFragment == preReadyResumeFragment) {
+                preReadyResumeFragment = null
+                removeCallbacks(resumeStateRunnable)
+                return true
+            }
             var preFragmentIndex = removeIndex - 1
             if (preFragmentIndex >= fragmentManager.fragments.size) {
                 preFragmentIndex = fragmentManager.fragments.lastIndex
             }
-            if (preFragmentIndex >= 0 && preFragmentIndex < fragmentManager.fragments.size) {
-                val preFragment = fragmentManager.fragments[preFragmentIndex]
-                resumeStateRunnable = Runnable {
-                    if (!preFragment.isStateSaved && preFragment.isAdded) {
-                        fragmentManager.beginTransaction().apply {
-                            setMaxLifecycle(preFragment, Lifecycle.State.RESUMED)
-                            commit()
-                        }
-                    }
-                }
-                postDelayed(resumeStateRunnable, 50)
+            if (preFragmentIndex < 0 || preFragmentIndex >= fragmentManager.fragments.size) {
+                return true
             }
+            preReadyResumeFragment = fragmentManager.fragments[preFragmentIndex]
+            resumeStateRunnable = Runnable {
+                if (preReadyResumeFragment?.isStateSaved == true
+                    || preReadyResumeFragment?.isAdded != true
+                ) {
+                    return@Runnable
+                }
+                fragmentManager.beginTransaction().apply {
+                    preReadyResumeFragment?.let { setMaxLifecycle(it, Lifecycle.State.RESUMED) }
+                    commit()
+                }
+                preReadyResumeFragment = null
+            }
+            postDelayed(resumeStateRunnable, 50)
         } catch (e: Exception) {
             e.printStackTrace()
         }
