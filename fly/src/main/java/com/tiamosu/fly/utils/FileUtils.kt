@@ -16,13 +16,15 @@ fun createFile(fileDirName: String?, fileName: String): File {
 /**
  * 创建未存在的文件夹
  */
-fun createDir(fileDirName: String?): File? {
-    val fileDirPath = Utils.getApp().getExternalFilesDir(null)?.absolutePath
+fun createDir(fileDirName: String?, type: String? = null): File? {
+    val fileDirPath = Utils.getApp().getExternalFilesDir(type)?.absolutePath
         ?: Utils.getApp().cacheDir.absolutePath
-    val folder = fileDirName ?: Utils.getApp().packageName
-    val dir = "$fileDirPath/$folder/"
-    val fileDir = File(dir)
-    return createDir(fileDir)
+    var dir = "$fileDirPath/"
+    val folder = fileDirName ?: ""
+    if (folder.isNotBlank()) {
+        dir += "$folder/"
+    }
+    return createDir(File(dir))
 }
 
 /**
@@ -41,7 +43,7 @@ fun getCacheFile(): File {
     //获取应用程序内的外部缓存路劲
     var cacheFile = Utils.getApp().externalCacheDir
     //如果获取的文件为空,就使用自己定义的缓存文件夹做缓存路径
-    cacheFile = cacheFile ?: createDir(Utils.getApp().packageName)
+    cacheFile = cacheFile ?: createDir("")
     //如果获取的文件为空，就使用应用程序内的内部缓存路劲
     return cacheFile ?: Utils.getApp().cacheDir
 }
@@ -65,4 +67,11 @@ fun getGlideCacheSize(): Long {
  */
 fun getHttpCacheFile(): File? {
     return createDir(File(getAppComponent().cacheFile(), "http"))
+}
+
+/**
+ * 获取http数据缓存大小
+ */
+fun getHttpCacheSize(): Long {
+    return FileUtils.getLength(getHttpCacheFile())
 }
