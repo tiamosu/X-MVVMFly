@@ -175,11 +175,15 @@ class FragmentNavigator internal constructor(
             toFragment.arguments = args
 
             val ft = fragmentManager.beginTransaction()
-            val enterAnim = navOptions?.enterAnim ?: 0
-            val exitAnim = navOptions?.exitAnim ?: 0
-            val popEnterAnim = navOptions?.popEnterAnim ?: 0
-            val popExitAnim = navOptions?.popExitAnim ?: 0
-            if (enterAnim != 0 || exitAnim != 0 || popEnterAnim != 0 || popExitAnim != 0) {
+            var enterAnim = navOptions?.enterAnim ?: -1
+            var exitAnim = navOptions?.exitAnim ?: -1
+            var popEnterAnim = navOptions?.popEnterAnim ?: -1
+            var popExitAnim = navOptions?.popExitAnim ?: -1
+            if (enterAnim != -1 || exitAnim != -1 || popEnterAnim != -1 || popExitAnim != -1) {
+                enterAnim = if (enterAnim != -1) enterAnim else 0
+                exitAnim = if (exitAnim != -1) exitAnim else 0
+                popEnterAnim = if (popEnterAnim != -1) popEnterAnim else 0
+                popExitAnim = if (popExitAnim != -1) popExitAnim else 0
                 ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
             }
 

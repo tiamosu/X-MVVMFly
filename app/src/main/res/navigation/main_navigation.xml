@@ -55,100 +55,100 @@
     <action
         android:id="@+id/action_to_mainFragment"
         app:destination="@id/mainFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_sharedFragment"
         app:destination="@id/sharedFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_httpFragment"
         app:destination="@id/httpFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_glideFragment"
         app:destination="@id/glideFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_loadSirFragment"
         app:destination="@id/loadSirFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_pop_to_newsFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit"
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit"
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
 
     <action
         android:id="@+id/action_to_basicRequestFragment"
         app:destination="@id/basicRequestFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_uploadFragment"
         app:destination="@id/uploadFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_downloadFragment"
         app:destination="@id/downloadFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_to_cacheFragment"
         app:destination="@id/cacheFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 
     <action
         android:id="@+id/action_pop_to_cacheFragment"
         app:destination="@id/cacheFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit"
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit"
         app:popUpTo="@id/httpFragment"
         app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_to_cacheFragment2"
         app:destination="@id/cacheFragment"
-        app:enterAnim="@anim/h_fragment_enter"
-        app:exitAnim="@anim/h_fragment_exit"
+        app:enterAnim="@anim/fly_slide_enter"
+        app:exitAnim="@anim/fly_slide_exit"
         app:launchSingleTop="true"
-        app:popEnterAnim="@anim/h_fragment_pop_enter"
-        app:popExitAnim="@anim/h_fragment_pop_exit" />
+        app:popEnterAnim="@anim/fly_slide_pop_enter"
+        app:popExitAnim="@anim/fly_slide_pop_exit" />
 </navigation>
