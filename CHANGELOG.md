@@ -1,3 +1,12 @@
+# 新版本2.2.7
+* dagger2 2.35
+* glide加载配置优化
+* 新增Activity、Fragment专场动画
+* createDir 创建文件夹优化
+* getSystemService 函数调整
+* 修复导航图中action不加动画报错问题。
+* Fragment页面跳转内存泄漏优化
+
 # 新版本2.2.6
 * loading弹框加载优化
 
