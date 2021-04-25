@@ -48,6 +48,7 @@ class FragmentNavigator internal constructor(
 
     private val backStack = ArrayDeque<Int>()
     private var resumeStateRunnable: Runnable? = null
+    private var preReadyResumeFragment: Fragment? = null
 
     /**
      * {@inheritDoc}
@@ -79,25 +80,37 @@ class FragmentNavigator internal constructor(
             if (removeIndex >= fragmentManager.fragments.size) {
                 removeIndex = fragmentManager.fragments.lastIndex
             }
-            fragmentManager.fragments.removeAt(removeIndex)
+            val removeFragment = fragmentManager.fragments[removeIndex]
+            fragmentManager.fragments.remove(removeFragment)
             backStack.removeLast()
 
+            //防止preReadyResumeFragment已进行销毁时，继续引用导致内存泄露
+            if (removeFragment == preReadyResumeFragment) {
+                preReadyResumeFragment = null
+                removeCallbacks(resumeStateRunnable)
+                return true
+            }
             var preFragmentIndex = removeIndex - 1
             if (preFragmentIndex >= fragmentManager.fragments.size) {
                 preFragmentIndex = fragmentManager.fragments.lastIndex
             }
-            if (preFragmentIndex >= 0 && preFragmentIndex < fragmentManager.fragments.size) {
-                val preFragment = fragmentManager.fragments[preFragmentIndex]
-                resumeStateRunnable = Runnable {
-                    if (!preFragment.isStateSaved && preFragment.isAdded) {
-                        fragmentManager.beginTransaction().apply {
-                            setMaxLifecycle(preFragment, Lifecycle.State.RESUMED)
-                            commit()
-                        }
-                    }
-                }
-                postDelayed(resumeStateRunnable, 50)
+            if (preFragmentIndex < 0 || preFragmentIndex >= fragmentManager.fragments.size) {
+                return true
             }
+            preReadyResumeFragment = fragmentManager.fragments[preFragmentIndex]
+            resumeStateRunnable = Runnable {
+                if (preReadyResumeFragment?.isStateSaved == true
+                    || preReadyResumeFragment?.isAdded != true
+                ) {
+                    return@Runnable
+                }
+                fragmentManager.beginTransaction().apply {
+                    preReadyResumeFragment?.let { setMaxLifecycle(it, Lifecycle.State.RESUMED) }
+                    commit()
+                }
+                preReadyResumeFragment = null
+            }
+            postDelayed(resumeStateRunnable, 50)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -175,11 +188,15 @@ class FragmentNavigator internal constructor(
             toFragment.arguments = args
 
             val ft = fragmentManager.beginTransaction()
-            val enterAnim = navOptions?.enterAnim ?: 0
-            val exitAnim = navOptions?.exitAnim ?: 0
-            val popEnterAnim = navOptions?.popEnterAnim ?: 0
-            val popExitAnim = navOptions?.popExitAnim ?: 0
-            if (enterAnim != 0 || exitAnim != 0 || popEnterAnim != 0 || popExitAnim != 0) {
+            var enterAnim = navOptions?.enterAnim ?: -1
+            var exitAnim = navOptions?.exitAnim ?: -1
+            var popEnterAnim = navOptions?.popEnterAnim ?: -1
+            var popExitAnim = navOptions?.popExitAnim ?: -1
+            if (enterAnim != -1 || exitAnim != -1 || popEnterAnim != -1 || popExitAnim != -1) {
+                enterAnim = if (enterAnim != -1) enterAnim else 0
+                exitAnim = if (exitAnim != -1) exitAnim else 0
+                popEnterAnim = if (popEnterAnim != -1) popEnterAnim else 0
+                popExitAnim = if (popExitAnim != -1) popExitAnim else 0
                 ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
             }
 

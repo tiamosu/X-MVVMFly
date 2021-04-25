@@ -12,8 +12,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.*
 import androidx.navigation.NavDestination.ClassType
-import com.tiamosu.fly.R
 import androidx.navigation.fragment.DialogFragmentNavigator.Destination
+import com.tiamosu.fly.R
 
 /**
  * Navigator that uses [DialogFragment.show]. Every
@@ -32,7 +32,7 @@ class DialogFragmentNavigator internal constructor(
                 val dialogFragment = source as? DialogFragment ?: return@LifecycleEventObserver
                 if (!dialogFragment.requireDialog().isShowing) {
                     try {
-                        NavHostFragment.findNavController(dialogFragment)?.popBackStack()
+                        NavHostFragment.findNavController(dialogFragment).popBackStack()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="ActivityAnimationStyle" parent="@android:style/Animation">
+        <!-- A 打开 B，B 的出现动画 -->
+        <item name="android:activityOpenEnterAnimation">@anim/fly_slide_enter</item>
+        <!-- A 打开 B，A 的消失动画 -->
+        <item name="android:activityOpenExitAnimation">@anim/fly_slide_exit</item>
+        <!-- B 关闭到 A，A 的出现动画 *时长要小于 B 的消失动画，否则会闪烁* -->
+        <item name="android:activityCloseEnterAnimation">@anim/fly_slide_pop_enter</item>
+        <!-- B 关闭到 A，B 的消失动画 *时长要小于 B 的消失动画，否则会闪烁* -->
+        <item name="android:activityCloseExitAnimation">@anim/fly_slide_pop_exit</item>
+    </style>
+
     <style name="FlyLoadingDialogStyle">
         <!-- 无边框 -->
         <item name="android:windowFrame">@null</item>

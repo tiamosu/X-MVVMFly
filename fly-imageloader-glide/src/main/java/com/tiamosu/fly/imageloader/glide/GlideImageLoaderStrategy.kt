@@ -113,14 +113,13 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         }
 
         //是否使用淡入淡出过渡动画
-        if (config.transcodeType == TranscodeType.AS_DRAWABLE) {
-            if (config.isCrossFade) {
+        when {
+            config.transcodeType == TranscodeType.AS_DRAWABLE && config.isCrossFade -> {
                 val drawableTransitionOptions = DrawableTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Drawable>).transition(drawableTransitionOptions)
             }
-        } else if (config.transcodeType == TranscodeType.AS_BITMAP) {
-            if (config.isCrossFade) {
+            config.transcodeType == TranscodeType.AS_BITMAP && config.isCrossFade -> {
                 val bitmapTransitionOptions = BitmapTransitionOptions()
                     .crossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build())
                 (glideRequest as GlideRequest<Bitmap>).transition(bitmapTransitionOptions)
@@ -135,6 +134,13 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         //在加载资源之前给Target大小设置系数。
         if (config.sizeMultiplier != -1f) {
             glideRequest.sizeMultiplier(config.sizeMultiplier)
+        }
+
+        //添加请求配置
+        if (config.requestOptions != null) {
+            for (option in config.requestOptions!!) {
+                option?.let { glideRequest.apply(it) }
+            }
         }
 
         if (config.imageView != null) {

@@ -303,10 +303,7 @@ open class NavHostFragment : Fragment(), NavHost {
          * @throws IllegalStateException if the given Fragment does not correspond with a
          * [NavHost] or is not within a NavHost.
          */
-        fun findNavController(fragment: Fragment): NavController? {
-            if (!fragment.isAdded) return null
-            LogUtils.iTag(TAG, "findNavController:Fragment $fragment")
-
+        fun findNavController(fragment: Fragment): NavController {
             var findFragment: Fragment? = fragment
             while (findFragment != null) {
                 if (findFragment is NavHostFragment) {

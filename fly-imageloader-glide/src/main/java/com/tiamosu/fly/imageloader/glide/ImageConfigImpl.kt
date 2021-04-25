@@ -30,7 +30,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     internal var placeholderDrawable: Drawable? = null
     internal var errorDrawable: Drawable? = null
     internal var fallbackDrawable: Drawable? = null
-    internal var requestOptions: RequestOptions? = null
+    internal var requestOptions: Array<out RequestOptions?>? = null
     internal var requestListener: RequestListener<out Any>? = null
     internal var transformation: Array<out BitmapTransformation?>? = null
     internal var imageViews: Array<ImageView?>? = null
@@ -98,7 +98,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         internal var placeholderDrawable: Drawable? = null
         internal var errorDrawable: Drawable? = null
         internal var fallbackDrawable: Drawable? = null
-        internal var requestOptions: RequestOptions? = null
+        internal var requestOptions: Array<out RequestOptions?>? = null
         internal var requestListener: RequestListener<out Any>? = null
         internal var transformation: Array<out BitmapTransformation?>? = null
         internal var imageViews: Array<ImageView?>? = null
@@ -322,7 +322,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         /**
          * 自定义加载配置
          */
-        fun apply(requestOptions: RequestOptions?): Builder {
+        fun apply(vararg requestOptions: RequestOptions?): Builder {
             this.requestOptions = requestOptions
             return this
         }
