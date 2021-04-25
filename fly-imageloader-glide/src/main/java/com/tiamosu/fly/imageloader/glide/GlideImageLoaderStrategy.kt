@@ -25,8 +25,7 @@ import com.tiamosu.fly.utils.launchMain
  * @date 2018/9/17.
  */
 @Suppress("UNCHECKED_CAST")
-class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
-    GlideAppliesOptions {
+class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, GlideAppliesOptions {
 
     @SuppressLint("CheckResult")
     override fun loadImage(context: Context, config: ImageConfigImpl) {
@@ -97,11 +96,6 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>,
         //设定大小
         if (config.targetWidth > 0 && config.targetHeight > 0) {
             glideRequest.override(config.targetWidth, config.targetHeight)
-        }
-
-        //添加请求配置
-        if (config.requestOptions != null) {
-            glideRequest.apply(config.requestOptions!!)
         }
 
         //添加图片加载监听
