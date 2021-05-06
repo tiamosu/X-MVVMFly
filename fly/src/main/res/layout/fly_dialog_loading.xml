@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <View
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/fly_shape_loading_bg">
+        android:layout_gravity="center"
+        android:background="@drawable/fly_shape_loading_bg" />
 
-        <com.tiamosu.fly.base.dialog.loading.RotateView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@drawable/fly_loading" />
-    </FrameLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <com.tiamosu.fly.base.dialog.loading.RotateView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/fly_loading" />
+</FrameLayout>
