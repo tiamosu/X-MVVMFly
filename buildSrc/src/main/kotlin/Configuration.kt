@@ -10,10 +10,6 @@ object Android {
     const val versionCode = 1
 }
 
-object Publish {
-    const val groupId = "com.github.tiamosu"
-}
-
 object Versions {
     const val kotlin = "1.4.32"
 
