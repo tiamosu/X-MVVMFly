@@ -2,6 +2,7 @@ package com.tiamosu.fly.http.request.base
 
 import android.text.TextUtils
 import com.tiamosu.fly.http.FlyHttp
+import com.tiamosu.fly.http.FlyHttp.Companion.download
 import com.tiamosu.fly.http.api.ApiService
 import com.tiamosu.fly.http.cache.RxCache
 import com.tiamosu.fly.http.cache.converter.IDiskConverter
@@ -19,6 +20,7 @@ import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.io.File
@@ -96,6 +98,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
 
     internal var isBreakpointDownload = false    //是否进行断点下载
 
+    private var httpLoggingInterceptor: HttpLoggingInterceptor? = null  //数据请求打印拦截器
+
     init {
         baseUrl = FlyHttp.getBaseUrl()
         if (!TextUtils.isEmpty(baseUrl)) {
@@ -111,6 +115,7 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
         cacheTime = FlyHttp.getCacheTime()
         cache = FlyHttp.getHttpCache()
         isGlobalErrorHandle = FlyHttp.isGlobalErrorHandle()
+        httpLoggingInterceptor = FlyHttp.getHttpLoggingInterceptor()
 
         //默认添加 Accept-Language
         val acceptLanguage = HttpHeaders.acceptLanguage
@@ -445,6 +450,24 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
     }
 
     /**
+     * 是否打印数据请求结果
+     * 注意：执行应用下载时（[download]）需要关闭输出，否则影响文件下载进度判断
+     */
+    fun setPrintEnable(
+        isEnable: Boolean = false,
+        interceptor: HttpLoggingInterceptor? = null
+    ): R {
+        if (!isEnable) {
+            httpLoggingInterceptor = null
+            return this as R
+        }
+        httpLoggingInterceptor = interceptor ?: HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        }
+        return this as R
+    }
+
+    /**
      * 根据当前的请求参数，生成对应的 OkHttpClient
      */
     private fun generateOkClient(): OkHttpClient.Builder {
@@ -472,7 +495,8 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
                 it.sign(sign).timeStamp(timeStamp).accessToken(accessToken)
             }
         }
-        FlyHttp.getHttpLoggingInterceptor()?.let { okHttpNewBuilder.addInterceptor(it) }
+
+        httpLoggingInterceptor?.let(okHttpNewBuilder::addInterceptor)
         return okHttpNewBuilder
     }
 
