@@ -20,7 +20,7 @@ object Versions {
     const val corektx = "1.3.2"
     const val annotation = "1.2.0"
     const val appcompat = "1.2.0"
-    const val fragmentktx = "1.3.2"
+    const val fragment = "1.3.3"
     const val navigation = "2.3.5"
     const val lifecycle = "2.3.1"
     const val viewpager2 = "1.0.0"
@@ -60,7 +60,7 @@ object Deps {
     const val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
 
     //navigation
-    const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragmentktx}"
+    const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragment}"
     const val androidx_navigation_runtime =
         "androidx.navigation:navigation-runtime:${Versions.navigation}"
 

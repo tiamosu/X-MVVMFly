@@ -24,15 +24,8 @@ fun AppCompatActivity.navController(@IdRes viewId: Int): NavController {
  * 尝试在导航层次结构中向上导航（页面返回到上一页）
  *
  * @param viewId 可通过viewId获取导航控制器[navController]
- * @param interval 设置防抖间隔时间，单位毫秒
  */
-fun AppCompatActivity.navigateUp(
-    @IdRes viewId: Int,
-    interval: Long = 500
-): Boolean {
-    if (!isValid(interval)) {
-        return false
-    }
+fun AppCompatActivity.navigateUp(@IdRes viewId: Int): Boolean {
     return try {
         navController(viewId).navigateUp()
     } catch (e: Exception) {
@@ -47,17 +40,12 @@ fun AppCompatActivity.navigateUp(
  * @param destinationId 所要达到的目的地id
  * @param inclusive 给定的目的地是否也弹出
  * @param viewId 可通过viewId获取导航控制器[navController]
- * @param interval 设置防抖间隔时间，单位毫秒
  */
 fun AppCompatActivity.popBackStack(
     @IdRes destinationId: Int? = null,
     inclusive: Boolean = false,
-    @IdRes viewId: Int,
-    interval: Long = 500
+    @IdRes viewId: Int
 ): Boolean {
-    if (!isValid(interval)) {
-        return false
-    }
     return try {
         if (destinationId != null) {
             navController(viewId).popBackStack(destinationId, inclusive)
@@ -211,11 +199,8 @@ fun Fragment.navController(view: View? = null): NavController {
  * @param view 可通过view获取导航控制器[Fragment.navController]
  * @param interval 设置防抖间隔时间，单位毫秒
  */
-fun Fragment.navigateUp(
-    view: View? = null,
-    interval: Long = 500
-): Boolean {
-    if (!isAdded || !isValid(interval)) {
+fun Fragment.navigateUp(view: View? = null): Boolean {
+    if (!isAdded) {
         return false
     }
     return try {
@@ -232,15 +217,13 @@ fun Fragment.navigateUp(
  * @param destinationId 所要达到的目的地id
  * @param inclusive 给定的目的地是否也弹出
  * @param view 可通过view获取导航控制器[Fragment.navController]
- * @param interval 设置防抖间隔时间，单位毫秒
  */
 fun Fragment.popBackStack(
     @IdRes destinationId: Int? = null,
     inclusive: Boolean = false,
-    view: View? = null,
-    interval: Long = 500
+    view: View? = null
 ): Boolean {
-    if (!isAdded || !isValid(interval)) {
+    if (!isAdded) {
         return false
     }
     return try {
