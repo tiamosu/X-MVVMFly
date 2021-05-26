@@ -1,5 +1,8 @@
 # 新版本2.2.9
-* fragment 1.3.3
+* fragment 1.3.4
+* appcompat 1.3.0
+* dagger2 2.36
+* corektx 1.5.0
 * fragment回退优化，移除防抖
 
 # 新版本2.2.8

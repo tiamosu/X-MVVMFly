@@ -17,10 +17,10 @@ object Publish {
 object Versions {
     const val kotlin = "1.4.32"
 
-    const val corektx = "1.3.2"
+    const val corektx = "1.5.0"
     const val annotation = "1.2.0"
-    const val appcompat = "1.2.0"
-    const val fragment = "1.3.3"
+    const val appcompat = "1.3.0"
+    const val fragment = "1.3.4"
     const val navigation = "2.3.5"
     const val lifecycle = "2.3.1"
     const val viewpager2 = "1.0.0"
@@ -36,9 +36,9 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.35.1"
+    const val dagger2 = "2.36"
     const val utilcode = "1.30.6"
-    const val leakcanary = "2.6"
+    const val leakcanary = "2.7"
     const val unpeeklivedata = "4.5.0-beta1"
 
     const val rxerrorhandler = "3.0.4"
