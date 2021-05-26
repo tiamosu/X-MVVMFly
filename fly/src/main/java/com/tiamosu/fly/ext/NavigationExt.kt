@@ -197,7 +197,6 @@ fun Fragment.navController(view: View? = null): NavController {
  * 尝试在导航层次结构中向上导航（页面返回到上一页）
  *
  * @param view 可通过view获取导航控制器[Fragment.navController]
- * @param interval 设置防抖间隔时间，单位毫秒
  */
 fun Fragment.navigateUp(view: View? = null): Boolean {
     if (!isAdded) {
