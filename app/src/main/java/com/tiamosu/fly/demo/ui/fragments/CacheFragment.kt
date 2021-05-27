@@ -1,11 +1,13 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.text.Html
-import com.tiamosu.fly.demo.base.BaseFragment
-import com.tiamosu.fly.demo.ext.lazyViewModel
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.bridge.request.CacheViewModel
 import com.tiamosu.fly.demo.databinding.FragmentCacheBinding
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.FlyHttp
@@ -20,12 +22,15 @@ import io.reactivex.rxjava3.disposables.Disposable
  * @date 2020/3/19.
  */
 class CacheFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentCacheBinding }
+    private val dataBinding: FragmentCacheBinding by lazyDataBinding()
     private val viewModel: CacheViewModel by lazyViewModel()
+
     private var cacheMode = CacheMode.FIRSTREMOTE
     private val cacheKey = this.javaClass.name
 
-    override fun getLayoutId() = R.layout.fragment_cache
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_cache)
+    }
 
     @Suppress("DEPRECATION")
     override fun initEvent() {

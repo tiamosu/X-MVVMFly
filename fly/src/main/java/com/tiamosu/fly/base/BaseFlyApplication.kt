@@ -1,30 +1,20 @@
 package com.tiamosu.fly.base
 
-import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.component.AppComponent
 import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.checkState
+import com.tiamosu.navigation.FlyApplication
 
 /**
  * @author tiamosu
  * @date 2018/7/2.
  */
-open class BaseFlyApplication : Application(), IFlyApp, ViewModelStoreOwner {
+open class BaseFlyApplication : FlyApplication(), IFlyApp {
     private var appDelegate: IFlyAppLifecycles? = null
-
-    //可借助 Application 来管理一个应用级的 ViewModel，
-    //实现全应用范围内的 生命周期安全 且 事件源可追溯的 视图控制器 事件通知。
-    private val appViewModelStore by lazy { ViewModelStore() }
-    private val factory by lazy {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(this)
-    }
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
@@ -58,14 +48,6 @@ open class BaseFlyApplication : Application(), IFlyApp, ViewModelStoreOwner {
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         appDelegate?.onTrimMemory(level)
-    }
-
-    override fun getViewModelStore(): ViewModelStore {
-        return appViewModelStore
-    }
-
-    fun getAppViewModelProvider(): ViewModelProvider {
-        return ViewModelProvider(this, factory)
     }
 
     /**

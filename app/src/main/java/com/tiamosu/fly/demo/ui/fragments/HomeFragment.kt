@@ -1,12 +1,12 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import androidx.core.os.bundleOf
-import com.tiamosu.fly.base.DataBindingConfig
-import com.tiamosu.fly.demo.base.BaseVmDbFragment
-import com.tiamosu.fly.demo.ext.lazyViewModel
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseVmDbFragment
 import com.tiamosu.fly.demo.bridge.request.HomeViewModel
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.ext.navigate
 
 /**
@@ -16,13 +16,12 @@ import com.tiamosu.fly.ext.navigate
 class HomeFragment : BaseVmDbFragment() {
     private val viewModel: HomeViewModel by lazyViewModel("ViewModel 初始化入参测试~~~ ^_^")
 
-    override fun getLayoutId() = R.layout.fragment_home
-
     override fun isCheckNetChanged() = true
 
     override fun getDataBindingConfig(): DataBindingConfig {
-        return DataBindingConfig()
-            .addBindingParam(BR.click, ClickProxy())
+        return DataBindingConfig(R.layout.fragment_home).apply {
+            addBindingParam(BR.click, ClickProxy())
+        }
     }
 
     override fun doBusiness() {

@@ -4,20 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.blankj.utilcode.util.ActivityUtils
-import com.tiamosu.fly.base.DataBindingConfig
-import com.tiamosu.fly.demo.base.BaseActivity
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseActivity
 
 class SplashActivity : BaseActivity() {
 
-    override fun getLayoutId() = R.layout.activity_splash
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.activity_splash).apply {
+            addBindingParam(BR.click, ClickProxy())
+        }
+    }
 
     override fun isCheckNetChanged() = true
-
-    override fun getDataBindingConfig() = DataBindingConfig().apply {
-        addBindingParam(BR.click, ClickProxy())
-    }
 
     override fun onCreateInit(savedInstanceState: Bundle?): Boolean {
         if (!super.onCreateInit(savedInstanceState)) {

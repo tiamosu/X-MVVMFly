@@ -3,61 +3,67 @@ package com.tiamosu.fly.base
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.lifecycle.Lifecycle
+import com.tiamosu.databinding.page.FlyDataBindingActivity
 import com.tiamosu.fly.base.action.*
 import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
 import com.tiamosu.fly.ext.clickNoRepeat
-import com.tiamosu.fly.fragmentation.FlySupportActivity
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * 描述：生命周期调用顺序：[onCreate] → [initParameters] → [initView] → [createObserver]
- * → [initEvent] → [doBusiness] → [onStart] → [onResume] → [onPause] → [onStop] → [onDestroy]
+ * → [onStart] → [onResume] → [initEvent] → [doBusiness] → [onPause] → [onStop] → [onDestroy]
  *
  * @author tiamosu
  * @date 2020/2/18.
  */
-abstract class BaseFlyActivity : FlySupportActivity(),
+abstract class BaseFlyActivity : FlyDataBindingActivity(),
     ActivityAction, BundleAction, HandlerAction, KeyboardAction, NetAction {
 
     private val networkDelegate by lazy { NetworkDelegate() }
 
     //是否在页面可见时加载数据，防止多次加载数据
-    private var isVisibleLoadData = false
+    private var isVisibleLoadData = true
 
     final override val bundle
         get() = intent?.extras
 
     final override fun getContext() = this
 
-    var rootView: View? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!onCreateInit(savedInstanceState)) {
             return
         }
-        initParameters(bundle)
-        setContentView()
-        initView(rootView)
-        createObserver()
-        initEvent()
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
-        tryLoadData(true)
+
+        initSoftKeyboard()
+        initParameters(bundle)
+        initView(rootView)
+        createObserver()
+    }
+
+    /**
+     * 页面可见时加载
+     */
+    private fun onLazyLoad() {
+        if (!isVisibleLoadData) return
+        isVisibleLoadData = false
+        initEvent()
+        doBusiness()
     }
 
     override fun onResume() {
         super.onResume()
+        onLazyLoad()
         if (isCheckNetChanged()) {
             networkDelegate.hasNetWork(this)
         }
-        tryLoadData(false)
     }
 
     override fun onPause() {
@@ -68,8 +74,8 @@ abstract class BaseFlyActivity : FlySupportActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        isVisibleLoadData = false
         removeCallbacks()
+        isVisibleLoadData = true
     }
 
     override fun finish() {
@@ -82,14 +88,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
         super.onNewIntent(intent)
         //设置为当前的 Intent，避免 Activity 被杀死后重启 Intent 还是最原先的那个
         setIntent(intent)
-    }
-
-    override fun setContentView() {
-        if (getLayoutId() > 0) {
-            rootView = View.inflate(getContext(), getLayoutId(), null)
-            setContentView(rootView)
-            initSoftKeyboard()
-        }
     }
 
     override val loadingConfig by lazy { LoadingConfig() }
@@ -120,17 +118,6 @@ abstract class BaseFlyActivity : FlySupportActivity(),
      */
     fun getContentView(): ViewGroup? {
         return findViewById(Window.ID_ANDROID_CONTENT)
-    }
-
-    private fun tryLoadData(isCreate: Boolean) {
-        if (isCreate) {
-            doBusiness()
-        } else if (isNeedReload()) {
-            if (isVisibleLoadData) {
-                doBusiness()
-            }
-            isVisibleLoadData = true
-        }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {

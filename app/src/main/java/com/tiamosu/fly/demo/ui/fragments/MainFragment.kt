@@ -5,8 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentMainBinding
 import com.tiamosu.fly.demo.ext.init
 import com.tiamosu.fly.ext.addObserve
@@ -16,7 +18,7 @@ import com.tiamosu.fly.ext.addObserve
  * @date 2020/3/13.
  */
 class MainFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentMainBinding }
+    private val dataBinding: FragmentMainBinding by lazyDataBinding()
 
     private val fragments by lazy {
         arrayListOf<Class<out Fragment>>().apply {
@@ -27,7 +29,9 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    override fun getLayoutId() = R.layout.fragment_main
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_main)
+    }
 
     override fun initView(rootView: View?) {
         dataBinding.mainViewPager.init(this, fragments)

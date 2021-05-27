@@ -1,19 +1,23 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.view.View
-import com.tiamosu.fly.demo.base.BaseFragment
-import com.tiamosu.fly.demo.ext.loadServiceInit
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentLoadsirBinding
+import com.tiamosu.fly.demo.ext.loadServiceInit
 
 /**
  * @author tiamosu
  * @date 2020/4/11.
  */
 class LoadSirFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentLoadsirBinding }
+    private val dataBinding: FragmentLoadsirBinding by lazyDataBinding()
 
-    override fun getLayoutId() = R.layout.fragment_loadsir
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_loadsir)
+    }
 
     override fun initView(rootView: View?) {
         loadServiceInit(dataBinding.loadLl) {

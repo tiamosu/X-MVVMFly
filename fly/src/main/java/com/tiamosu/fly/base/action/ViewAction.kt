@@ -16,16 +16,6 @@ interface ViewAction {
     fun getContext(): Context
 
     /**
-     * 用于布局加载，如果[getLayoutId]返回0，则不会生产视图
-     */
-    fun getLayoutId(): Int
-
-    /**
-     * 生成布局视图
-     */
-    fun setContentView()
-
-    /**
      * 用于初始化参数
      */
     fun initParameters(bundle: Bundle?)
@@ -44,11 +34,6 @@ interface ViewAction {
      * 创建观察者
      */
     fun createObserver()
-
-    /**
-     * 再次可见时，是否重新请求数据，默认为false则只请求一次数据
-     */
-    fun isNeedReload() = false
 
     /**
      * 用于加载数据、处理相关业务逻辑等（Fragment懒加载）

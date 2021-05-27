@@ -3,8 +3,10 @@ package com.tiamosu.fly.demo.ui.fragments
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentNewsBinding
 import com.tiamosu.fly.demo.ui.adapter.CustomFragmentStateAdapter
 import com.tiamosu.fly.ext.clickNoRepeat
@@ -14,7 +16,7 @@ import com.tiamosu.fly.ext.clickNoRepeat
  * @date 2020/5/12.
  */
 class NewsFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentNewsBinding }
+    private val dataBinding: FragmentNewsBinding by lazyDataBinding()
 
     private val fragments by lazy {
         mutableListOf<Fragment>().apply {
@@ -33,7 +35,9 @@ class NewsFragment : BaseFragment() {
         }
     }
 
-    override fun getLayoutId() = R.layout.fragment_news
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_news)
+    }
 
     override fun initView(rootView: View?) {
         adapter.updateDataSetChanged(fragments)

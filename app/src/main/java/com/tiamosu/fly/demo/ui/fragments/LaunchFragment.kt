@@ -1,7 +1,8 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.ext.navigate
 
 /**
@@ -10,7 +11,9 @@ import com.tiamosu.fly.ext.navigate
  */
 class LaunchFragment : BaseFragment() {
 
-    override fun getLayoutId() = 0
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(0)
+    }
 
     override fun initEvent() {
         navigate(R.id.action_to_mainFragment)

@@ -10,54 +10,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //kotlin
-    api Deps.kotlin_stdlib
-    api(Deps.kotlin_stdlib_jdk8) {
-        exclude module: 'kotlin-stdlib'
-    }
-
-    //androidx
-    api(Deps.androidx_appcompat) {
-        exclude module: 'core'
-        exclude module: 'fragment'
-        exclude module: 'annotation'
-        exclude group: 'androidx.lifecycle'
-    }
-    api(Deps.androidx_core_ktx) {
-        exclude module: 'annotation'
-        exclude module: 'kotlin-stdlib'
-        exclude module: 'lifecycle-runtime'
-    }
-    api Deps.androidx_annotation
-
-    //fragment
-    api(Deps.androidx_fragment) {
-        exclude module: 'core'
-        exclude module: 'annotation'
-        exclude module: 'collection'
-        exclude group: 'androidx.lifecycle'
-    }
-    api(Deps.androidx_navigation_runtime) {
-        exclude module: 'activity'
-        exclude module: 'savedstate'
-        exclude group: 'androidx.lifecycle'
-    }
-
-    //lifecycle
-    api(Deps.lifecycle_runtime) {
-        exclude module: 'annotation'
-    }
-    api(Deps.lifecycle_common_java8) {
-        exclude module: 'annotation'
-        exclude module: 'lifecycle-common'
-    }
-    api(Deps.lifecycle_viewmodel_ktx) {
-        exclude module: 'kotlin-stdlib'
-    }
-    api(Deps.lifecycle_livedata_ktx) {
-        exclude module: 'kotlin-stdlib'
-        exclude module: 'kotlinx-coroutines-core'
-    }
+    //flyNavigation
+    api Deps.fly_navigation
+    api Deps.fly_databinding
 
     //rx
     api Deps.rxjava3
@@ -81,8 +36,6 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'retrofit'
     }
-
-    //gson
     api Deps.gson
 
     //okhttp3

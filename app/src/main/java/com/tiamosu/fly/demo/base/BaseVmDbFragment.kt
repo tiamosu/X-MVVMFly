@@ -3,7 +3,7 @@ package com.tiamosu.fly.demo.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.tiamosu.fly.base.BaseFlyVmDbFragment
+import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
 import com.tiamosu.fly.ext.lazyAppViewModel
 
@@ -11,7 +11,7 @@ import com.tiamosu.fly.ext.lazyAppViewModel
  * @author tiamosu
  * @date 2020/5/15.
  */
-abstract class BaseVmDbFragment : BaseFlyVmDbFragment() {
+abstract class BaseVmDbFragment : BaseFlyFragment() {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
 
     override fun initParameters(bundle: Bundle?) {}

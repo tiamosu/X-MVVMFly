@@ -5,8 +5,7 @@ import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.KeyboardUtils
 import com.kingja.loadsir.core.LoadService
-import com.tiamosu.fly.base.BaseFlyVmDbFragment
-import com.tiamosu.fly.base.DataBindingConfig
+import com.tiamosu.fly.base.BaseFlyFragment
 import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
 import com.tiamosu.fly.demo.ext.showCallback
 import com.tiamosu.fly.demo.loadsir.EmptyCallback
@@ -18,11 +17,9 @@ import com.tiamosu.fly.ext.lazyAppViewModel
  * @author tiamosu
  * @date 2020/2/20.
  */
-abstract class BaseFragment : BaseFlyVmDbFragment(), IUIAction {
+abstract class BaseFragment : BaseFlyFragment(), IUIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
     internal var loadService: LoadService<Any>? = null
-
-    override fun getDataBindingConfig() = DataBindingConfig()
 
     override fun initParameters(bundle: Bundle?) {
         Log.e(fragmentTag, "initParameters")

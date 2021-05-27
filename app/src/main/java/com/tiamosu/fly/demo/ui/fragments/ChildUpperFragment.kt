@@ -1,7 +1,9 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentChildUpperBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.ext.navigate
@@ -11,9 +13,11 @@ import com.tiamosu.fly.ext.navigate
  * @date 2020/3/22.
  */
 class ChildUpperFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentChildUpperBinding }
+    private val dataBinding: FragmentChildUpperBinding by lazyDataBinding()
 
-    override fun getLayoutId() = R.layout.fragment_child_upper
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_child_upper)
+    }
 
     override fun initEvent() {
         dataBinding.btnSendMsg.clickNoRepeat {

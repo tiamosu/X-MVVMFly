@@ -11,7 +11,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.base.IFlyApp
 import com.tiamosu.fly.di.component.AppComponent
-import com.tiamosu.fly.fragmentation.FlySupportFragment
+import com.tiamosu.navigation.page.FlySupportFragment
 
 /**
  * @author tiamosu

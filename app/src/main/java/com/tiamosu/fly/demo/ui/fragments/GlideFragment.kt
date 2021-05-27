@@ -9,8 +9,10 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentGlideBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
@@ -24,14 +26,16 @@ import com.tiamosu.fly.utils.getGlideCacheSize
  * @date 2020/3/19.
  */
 class GlideFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentGlideBinding }
+    private val dataBinding: FragmentGlideBinding by lazyDataBinding()
 
     companion object {
         const val IMG_URL =
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdik.img.kttpdq.com%2Fpic%2F19%2F12786%2F67278f953e503402_1024x768.jpg&refer=http%3A%2F%2Fdik.img.kttpdq.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1618040074&t=84d6ac67232e3da6d965e3e60dce87e6"
     }
 
-    override fun getLayoutId() = R.layout.fragment_glide
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_glide)
+    }
 
     override fun initEvent() {
         dataBinding.glideBtnLoadLocalPic.clickNoRepeat {

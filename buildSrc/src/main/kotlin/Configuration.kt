@@ -17,6 +17,8 @@ object Publish {
 object Versions {
     const val kotlin = "1.4.32"
 
+    const val fly_navigation = "1.0.7"
+
     const val corektx = "1.5.0"
     const val annotation = "1.2.0"
     const val appcompat = "1.3.0"
@@ -49,6 +51,12 @@ object Deps {
     //kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+
+    //fly-navigation
+    const val fly_navigation =
+        "com.gitee.tiamosu.FlyNavigation:fly-navigation:${Versions.fly_navigation}"
+    const val fly_databinding =
+        "com.gitee.tiamosu.FlyNavigation:fly-databinding:${Versions.fly_navigation}"
 
     //androidx
     const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"

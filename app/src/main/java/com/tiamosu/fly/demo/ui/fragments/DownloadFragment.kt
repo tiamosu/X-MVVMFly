@@ -1,11 +1,13 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.util.Log
-import com.tiamosu.fly.demo.base.BaseFragment
-import com.tiamosu.fly.demo.ext.lazyViewModel
+import com.tiamosu.databinding.delegate.lazyDataBinding
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.bridge.request.DownloadViewModel
 import com.tiamosu.fly.demo.databinding.FragmentDownloadBinding
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.ext.clickNoRepeat
 
@@ -14,10 +16,12 @@ import com.tiamosu.fly.ext.clickNoRepeat
  * @date 2020/3/19.
  */
 class DownloadFragment : BaseFragment() {
-    private val dataBinding by lazy { binding as FragmentDownloadBinding }
+    private val dataBinding: FragmentDownloadBinding by lazyDataBinding()
     private val viewModel: DownloadViewModel by lazyViewModel()
 
-    override fun getLayoutId() = R.layout.fragment_download
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.fragment_download)
+    }
 
     override fun initEvent() {
         dataBinding.downloadBtnDownload.clickNoRepeat {

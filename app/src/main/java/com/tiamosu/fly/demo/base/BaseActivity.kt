@@ -1,10 +1,7 @@
 package com.tiamosu.fly.demo.base
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.base.DataBindingConfig
 import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
 import com.tiamosu.fly.ext.lazyAppViewModel
 
@@ -15,12 +12,6 @@ import com.tiamosu.fly.ext.lazyAppViewModel
 @Suppress("unused")
 abstract class BaseActivity : BaseVmDbActivity(), IUIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
-
-    override fun initParameters(bundle: Bundle?) {}
-    override fun initView(rootView: View?) {}
-    override fun initEvent() {}
-    override fun createObserver() {}
-    override fun getDataBindingConfig() = DataBindingConfig()
 
     override fun showToast(msg: String?) {
         ToastUtils.showShort(msg)

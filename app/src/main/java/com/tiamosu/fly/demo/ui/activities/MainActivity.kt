@@ -1,7 +1,8 @@
 package com.tiamosu.fly.demo.ui.activities
 
-import com.tiamosu.fly.demo.base.BaseActivity
+import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
+import com.tiamosu.fly.demo.base.BaseActivity
 
 /**
  * @author tiamosu
@@ -9,7 +10,9 @@ import com.tiamosu.fly.demo.R
  */
 class MainActivity : BaseActivity() {
 
-    override fun getLayoutId() = R.layout.activity_main
+    override fun getDataBindingConfig(): DataBindingConfig {
+        return DataBindingConfig(R.layout.activity_main)
+    }
 
     override fun doBusiness() {
     }
