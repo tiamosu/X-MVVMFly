@@ -1,8 +1,77 @@
 apply {
-    from "${rootDir.path}/config_app.gradle"
+    plugin "com.android.application"
+    plugin "kotlin-android"
+    plugin "kotlin-parcelize"
+    plugin "kotlin-kapt"
+}
+
+android {
+    compileSdkVersion Android.compileSdkVersion
+    defaultConfig {
+        applicationId "com.tiamosu.fly.demo"
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        //剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*'
+        exclude 'LICENSE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':easy-core')
+    implementation(project(':fly')) {
+        exclude module: 'kotlin-stdlib'
+    }
+    implementation(project(':fly-http')) {
+        exclude module: 'kotlin-stdlib'
+    }
+    implementation(project(':fly-imageloader-glide')) {
+        exclude module: 'kotlin-stdlib'
+    }
+
+    implementation(Deps.androidx_constraint_layout) {
+        exclude module: 'core'
+        exclude module: 'appcompat'
+    }
+    implementation(Deps.androidx_viewpager2) {
+        exclude module: 'core'
+        exclude module: 'fragment'
+        exclude module: 'annotation'
+        exclude module: 'collection'
+        exclude module: 'recyclerview'
+    }
+    implementation(Deps.androidx_recyclerview) {
+        exclude module: 'core'
+        exclude module: 'annotation'
+        exclude module: 'collection'
+        exclude module: 'customview'
+    }
+    implementation(Deps.loadsir) {
+        exclude module: 'kotlin-stdlib'
+    }
+
+    debugImplementation Deps.leakcanary_android
 }

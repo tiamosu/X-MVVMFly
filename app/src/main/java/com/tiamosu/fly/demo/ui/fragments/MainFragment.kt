@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.databinding.FragmentMainBinding
 import com.tiamosu.fly.demo.ext.init

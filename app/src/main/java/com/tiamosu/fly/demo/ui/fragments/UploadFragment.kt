@@ -1,9 +1,9 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.lazyViewModel
+import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.demo.bridge.UploadViewModel
+import com.tiamosu.fly.demo.bridge.request.UploadViewModel
 import com.tiamosu.fly.demo.databinding.FragmentUploadBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 

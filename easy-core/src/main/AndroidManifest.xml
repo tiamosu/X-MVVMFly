@@ -1,9 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tiamosu.fly.core">
-
-    <application>
-        <meta-data
-            android:name="com.tiamosu.fly.core.config.GlobalConfiguration"
-            android:value="ConfigModule" />
-    </application>
-</manifest>

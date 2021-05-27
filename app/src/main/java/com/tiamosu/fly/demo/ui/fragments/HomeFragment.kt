@@ -2,11 +2,11 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import androidx.core.os.bundleOf
 import com.tiamosu.fly.base.DataBindingConfig
-import com.tiamosu.fly.core.base.BaseVmDbFragment
-import com.tiamosu.fly.core.ext.lazyViewModel
+import com.tiamosu.fly.demo.base.BaseVmDbFragment
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.demo.bridge.HomeViewModel
+import com.tiamosu.fly.demo.bridge.request.HomeViewModel
 import com.tiamosu.fly.ext.navigate
 
 /**

@@ -1,8 +1,8 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.view.View
-import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.loadServiceInit
+import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.fly.demo.ext.loadServiceInit
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.databinding.FragmentLoadsirBinding
 

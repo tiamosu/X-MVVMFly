@@ -1,5 +1,4 @@
-include ':app',
-        ':easy-core'
+include ':app'
 
 include ':fly',
         ':fly-http',

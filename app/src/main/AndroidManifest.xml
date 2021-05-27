@@ -12,6 +12,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
+        <meta-data
+            android:name="com.tiamosu.fly.demo.config.GlobalConfiguration"
+            android:value="ConfigModule" />
+
         <activity
             android:name=".ui.activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

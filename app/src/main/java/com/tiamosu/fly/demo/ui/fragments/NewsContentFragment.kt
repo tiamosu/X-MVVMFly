@@ -2,7 +2,7 @@ package com.tiamosu.fly.demo.ui.fragments
 
 import android.annotation.SuppressLint
 import android.view.View
-import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.databinding.FragmentNewsContentBinding
 

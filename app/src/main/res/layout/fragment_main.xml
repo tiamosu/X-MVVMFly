@@ -14,13 +14,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.tiamosu.fly.core.ui.view.tabview.TabBarLayout
+        <com.tiamosu.fly.demo.ui.views.tabview.TabBarLayout
             android:id="@+id/main_tabBarLayout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/colorPrimary">
 
-            <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            <com.tiamosu.fly.demo.ui.views.tabview.TabBarItem
                 android:layout_width="0pt"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -30,7 +30,7 @@
                 app:tbi_textSelectedColor="@color/colorAccent"
                 app:tbi_textSize="12dp" />
 
-            <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            <com.tiamosu.fly.demo.ui.views.tabview.TabBarItem
                 android:layout_width="0pt"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -39,7 +39,7 @@
                 app:tbi_textSelectedColor="@color/colorAccent"
                 app:tbi_textSize="12dp" />
 
-            <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            <com.tiamosu.fly.demo.ui.views.tabview.TabBarItem
                 android:layout_width="0pt"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -48,7 +48,7 @@
                 app:tbi_textSelectedColor="@color/colorAccent"
                 app:tbi_textSize="12dp" />
 
-            <com.tiamosu.fly.core.ui.view.tabview.TabBarItem
+            <com.tiamosu.fly.demo.ui.views.tabview.TabBarItem
                 android:layout_width="0pt"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -56,6 +56,6 @@
                 app:tbi_textNormalColor="@android:color/white"
                 app:tbi_textSelectedColor="@color/colorAccent"
                 app:tbi_textSize="12dp" />
-        </com.tiamosu.fly.core.ui.view.tabview.TabBarLayout>
+        </com.tiamosu.fly.demo.ui.views.tabview.TabBarLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -11,7 +11,7 @@
         android:orientation="vertical"
         tools:ignore="HardcodedText">
 
-        <com.tiamosu.fly.core.ui.view.CustomProgressBar
+        <com.tiamosu.fly.demo.ui.views.CustomProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="20dp"

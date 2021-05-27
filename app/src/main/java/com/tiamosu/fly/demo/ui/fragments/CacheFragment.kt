@@ -1,10 +1,10 @@
 package com.tiamosu.fly.demo.ui.fragments
 
 import android.text.Html
-import com.tiamosu.fly.core.base.BaseFragment
-import com.tiamosu.fly.core.ext.lazyViewModel
+import com.tiamosu.fly.demo.base.BaseFragment
+import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.demo.bridge.CacheViewModel
+import com.tiamosu.fly.demo.bridge.request.CacheViewModel
 import com.tiamosu.fly.demo.databinding.FragmentCacheBinding
 import com.tiamosu.fly.ext.addObserve
 import com.tiamosu.fly.ext.clickNoRepeat

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.base.DataBindingConfig
-import com.tiamosu.fly.core.base.BaseActivity
+import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
 

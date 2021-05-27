@@ -1,6 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
-import com.tiamosu.fly.core.base.BaseFragment
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.databinding.FragmentHttpBinding
 import com.tiamosu.fly.ext.clickNoRepeat

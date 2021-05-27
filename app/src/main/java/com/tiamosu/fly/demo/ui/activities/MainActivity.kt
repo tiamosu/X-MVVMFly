@@ -1,6 +1,6 @@
 package com.tiamosu.fly.demo.ui.activities
 
-import com.tiamosu.fly.core.base.BaseActivity
+import com.tiamosu.fly.demo.base.BaseActivity
 import com.tiamosu.fly.demo.R
 
 /**
