@@ -4,7 +4,7 @@ import androidx.core.os.bundleOf
 import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
-import com.tiamosu.fly.demo.base.BaseVmDbFragment
+import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.bridge.request.HomeViewModel
 import com.tiamosu.fly.demo.ext.lazyViewModel
 import com.tiamosu.fly.ext.navigate
@@ -13,7 +13,7 @@ import com.tiamosu.fly.ext.navigate
  * @author tiamosu
  * @date 2020/5/12.
  */
-class HomeFragment : BaseVmDbFragment() {
+class HomeFragment : BaseFragment() {
     private val viewModel: HomeViewModel by lazyViewModel("ViewModel 初始化入参测试~~~ ^_^")
 
     override fun isCheckNetChanged() = true

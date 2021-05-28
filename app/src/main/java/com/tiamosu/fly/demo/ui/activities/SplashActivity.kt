@@ -37,7 +37,9 @@ class SplashActivity : BaseActivity() {
         return true
     }
 
-    override fun doBusiness() {}
+    override fun doBusiness() {
+        Log.e("tiamosu", "doBusiness")
+    }
 
     override fun onNetReConnect() {
         Log.e("tiamosu", "onNetRecConnect")
