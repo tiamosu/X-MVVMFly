@@ -37,6 +37,21 @@ abstract class BaseFragment : BaseFlyFragment(), IUIAction {
         Log.e(fragmentTag, "createObserver")
     }
 
+    override fun onFlySupportVisible() {
+        Log.e(fragmentTag, "onFlySupportVisible")
+        super.onFlySupportVisible()
+    }
+
+    override fun onFlySupportInvisible() {
+        Log.e(fragmentTag, "onFlySupportInvisible")
+        super.onFlySupportInvisible()
+    }
+
+    override fun onFlyLazyInitView() {
+        Log.e(fragmentTag, "onFlyLazyInitView")
+        super.onFlyLazyInitView()
+    }
+
     override fun showToast(msg: String?) {
         (context as? BaseActivity)?.showToast(msg)
     }
