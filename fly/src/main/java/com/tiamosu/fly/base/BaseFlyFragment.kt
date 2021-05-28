@@ -53,18 +53,8 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
         doBusiness()
     }
 
-    override fun onFlySupportVisible() {
-        super.onFlySupportVisible()
-        if (isCheckNetChanged()) {
-            networkDelegate.hasNetWork(this)
-        }
-    }
-
-    override val loadingConfig by lazy { LoadingConfig() }
-
     override fun showLoading(config: LoadingConfig?) {
-        val newConfig = config ?: loadingConfig
-        (context as? BaseFlyActivity)?.showLoading(newConfig)
+        (context as? BaseFlyActivity)?.showLoading(config)
     }
 
     override fun hideLoading() {

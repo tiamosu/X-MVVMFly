@@ -61,9 +61,6 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     override fun onResume() {
         super.onResume()
         onLazyLoad()
-        if (isCheckNetChanged()) {
-            networkDelegate.hasNetWork(this)
-        }
     }
 
     override fun onPause() {
@@ -90,10 +87,8 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
         setIntent(intent)
     }
 
-    override val loadingConfig by lazy { LoadingConfig() }
-
     override fun showLoading(config: LoadingConfig?) {
-        val newConfig = config ?: loadingConfig
+        val newConfig = config ?: LoadingConfig()
         val dialog = newConfig.dialog ?: FlyLoadingDialog(getContext())
         Loader.showLoading(newConfig.delayMillis, dialog)
     }
