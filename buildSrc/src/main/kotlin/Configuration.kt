@@ -17,8 +17,6 @@ object Publish {
 object Versions {
     const val kotlin = "1.4.32"
 
-    const val fly_navigation = "1.0.7"
-
     const val corektx = "1.5.0"
     const val annotation = "1.2.0"
     const val appcompat = "1.3.0"
@@ -43,6 +41,7 @@ object Versions {
     const val leakcanary = "2.7"
     const val unpeeklivedata = "4.5.0-beta1"
 
+    const val fly_navigation = "1.0.8"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }

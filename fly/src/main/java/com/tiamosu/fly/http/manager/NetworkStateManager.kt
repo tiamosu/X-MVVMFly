@@ -21,7 +21,7 @@ import com.tiamosu.fly.utils.connectivityManager
  * @author tiamosu
  * @date 2020/2/20.
  */
-class NetworkStateManager private constructor() : DefaultLifecycleObserver {
+class NetworkStateManager : DefaultLifecycleObserver {
     val networkStateCallback = EventLiveData<Boolean>()
 
     override fun onResume(owner: LifecycleOwner) {
@@ -102,8 +102,6 @@ class NetworkStateManager private constructor() : DefaultLifecycleObserver {
     }
 
     companion object {
-        val instance: NetworkStateManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            NetworkStateManager()
-        }
+        val instance by lazy { NetworkStateManager() }
     }
 }

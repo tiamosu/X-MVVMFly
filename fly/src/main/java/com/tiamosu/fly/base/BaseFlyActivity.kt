@@ -39,9 +39,6 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
         if (!onCreateInit(savedInstanceState)) {
             return
         }
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
-
         initSoftKeyboard()
         initParameters(bundle)
         initView(rootView)
@@ -54,6 +51,9 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     private fun onLazyLoad() {
         if (!isVisibleLoadData) return
         isVisibleLoadData = false
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+
         initEvent()
         doBusiness()
     }
