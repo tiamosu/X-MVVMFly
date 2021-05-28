@@ -1,3 +1,6 @@
+# 新版本3.0.1
+* 依赖冲突处理
+
 # 新版本3.0.0
 * 接入 FlyNavigation
 * ViewAction 移除 getLayoutId()、setContentView()、isNeedReload() 
