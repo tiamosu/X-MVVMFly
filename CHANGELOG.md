@@ -1,3 +1,11 @@
+# 新版本3.0.0
+* 接入 FlyNavigation
+* ViewAction 移除 getLayoutId()、setContentView()、isNeedReload() 
+* BaseFlyActivity：initEvent() 及 doBusiness() 挪至 onResume() 进行懒加载
+* BaseFlyFragment：initEvent() 挪至 onFlyLazyInitView() 进行懒加载
+* 移除 NavigationExt 扩展，请使用 FlyNavigationExt 扩展
+* lazyAppViewModel() 获取全局 ViewModel 调整
+
 # 新版本2.2.9
 * fragment 1.3.4
 * appcompat 1.3.0

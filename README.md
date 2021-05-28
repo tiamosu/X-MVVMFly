@@ -14,31 +14,31 @@
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        jcenter()
         maven { url 'https://jitpack.io' }
     }
 }
 ```
 
 ```groovy
-implementation 'com.github.tiamosu:X-MVVMFly:2.2.9'
+implementation 'com.github.tiamosu:X-MVVMFly:3.0.0'
 ```
 
 ## 可单独依赖模块：
 ### fly（必需）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly:2.2.9'
+implementation 'com.github.tiamosu.X-MVVMFly:fly:3.0.0'
 ```
 
 ### fly-http（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-http:2.2.9'
+implementation 'com.github.tiamosu.X-MVVMFly:fly-http:3.0.0'
 ```
 
 ### fly-imageloader-glide（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:2.2.9'
+implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:3.0.0'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)
@@ -46,16 +46,8 @@ implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:2.2.9'
 ## *特别感谢*
 * [MVPArms](https://github.com/JessYanCoding/MVPArms)
 * [RxEasyHttp](https://github.com/zhou-you/RxEasyHttp)
-* [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
-* [OkHttp](https://github.com/square/okhttp)
-* [Retrofit](https://github.com/square/retrofit)
-* [RxJava](https://github.com/ReactiveX/RxJava)
-* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
-* [RxErrorHandler](https://github.com/JessYanCoding/RxErrorHandler)
-* [Gson](https://github.com/google/gson)
-* [Glide](https://github.com/bumptech/glide)
-* [Dagger2](https://github.com/google/dagger)
-* [LeakCanary](https://github.com/square/leakcanary)
-* [Jetpack-MVVM-Best-Practice](https://github.com/KunMinX/Jetpack-MVVM-Best-Practice)
+* [FlyNavigation](https://gitee.com/tiamosu/FlyNavigation)
 * [GsonFactory](https://github.com/getActivity/GsonFactory)
+* [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 * [AndroidProject](https://github.com/getActivity/AndroidProject)
+* [Jetpack-MVVM-Best-Practice](https://github.com/KunMinX/Jetpack-MVVM-Best-Practice)
