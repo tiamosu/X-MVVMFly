@@ -17,8 +17,6 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    override fun isCheckNetChanged() = true
-
     override fun onCreateInit(savedInstanceState: Bundle?): Boolean {
         if (!super.onCreateInit(savedInstanceState)) {
             return false
@@ -39,14 +37,6 @@ class SplashActivity : BaseActivity() {
 
     override fun doBusiness() {
         Log.e("tiamosu", "doBusiness")
-    }
-
-    override fun onNetReConnect() {
-        Log.e("tiamosu", "onNetRecConnect")
-    }
-
-    override fun onNetworkStateChanged(isConnected: Boolean) {
-        Log.e("tiamosu", "onNetworkStateChanged:$isConnected")
     }
 
     @Suppress("RedundantOverride")

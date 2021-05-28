@@ -35,6 +35,9 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //添加网络状态监听
+        networkDelegate.addNetworkObserve(this)
+
         initView(rootView)
         createObserver()
     }
@@ -46,9 +49,6 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
     override fun onFlyLazyInitView() {
         super.onFlyLazyInitView()
-        //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
-
         initEvent()
         doBusiness()
     }
