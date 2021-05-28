@@ -6,7 +6,7 @@ import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentChildUpperBinding
 import com.tiamosu.fly.ext.clickNoRepeat
-import com.tiamosu.fly.ext.navigate
+import com.tiamosu.navigation.ext.navigate
 
 /**
  * @author tiamosu

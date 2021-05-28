@@ -3,18 +3,7 @@ package com.tiamosu.fly.ext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.base.BaseFlyApplication
 import com.tiamosu.fly.integration.ViewModelProviderFactory
-
-/**
- * 获取 Application 级别的 ViewModel
- */
-inline fun <reified VM : ViewModel> lazyAppViewModel(): Lazy<VM> {
-    return lazy {
-        (Utils.getApp() as BaseFlyApplication).getAppViewModelProvider().get(VM::class.java)
-    }
-}
 
 /**
  * 如果ViewModel需要接收参数，建议使用此方法创建ViewModel实例

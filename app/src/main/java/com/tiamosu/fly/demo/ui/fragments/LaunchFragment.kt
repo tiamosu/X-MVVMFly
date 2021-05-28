@@ -3,7 +3,7 @@ package com.tiamosu.fly.demo.ui.fragments
 import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
-import com.tiamosu.fly.ext.navigate
+import com.tiamosu.navigation.ext.navigate
 
 /**
  * @author tiamosu

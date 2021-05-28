@@ -6,7 +6,7 @@ import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.BaseFlyActivity
 import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
-import com.tiamosu.fly.ext.lazyAppViewModel
+import com.tiamosu.navigation.ext.lazyAppViewModel
 
 /**
  * @author tiamosu

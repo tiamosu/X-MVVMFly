@@ -11,7 +11,7 @@ import com.tiamosu.fly.demo.ext.showCallback
 import com.tiamosu.fly.demo.loadsir.EmptyCallback
 import com.tiamosu.fly.demo.loadsir.ErrorCallback
 import com.tiamosu.fly.demo.loadsir.LoadingCallback
-import com.tiamosu.fly.ext.lazyAppViewModel
+import com.tiamosu.navigation.ext.lazyAppViewModel
 
 /**
  * @author tiamosu
