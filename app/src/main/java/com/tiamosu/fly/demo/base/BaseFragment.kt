@@ -38,18 +38,18 @@ abstract class BaseFragment : BaseFlyFragment(), IUIAction {
     }
 
     override fun onFlySupportVisible() {
-        Log.e(fragmentTag, "onFlySupportVisible")
         super.onFlySupportVisible()
+        Log.e(fragmentTag, "onFlySupportVisible")
     }
 
     override fun onFlySupportInvisible() {
-        Log.e(fragmentTag, "onFlySupportInvisible")
         super.onFlySupportInvisible()
+        Log.e(fragmentTag, "onFlySupportInvisible")
     }
 
     override fun onFlyLazyInitView() {
-        Log.e(fragmentTag, "onFlyLazyInitView")
         super.onFlyLazyInitView()
+        Log.e(fragmentTag, "onFlyLazyInitView")
     }
 
     override fun showToast(msg: String?) {
