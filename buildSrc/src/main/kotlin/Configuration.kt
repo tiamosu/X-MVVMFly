@@ -27,7 +27,7 @@ object Versions {
     const val constraintlayout = "2.0.4"
     const val recyclerview = "1.2.0"
 
-    const val rxjava = "3.0.12"
+    const val rxjava = "3.0.13"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.1"
