@@ -17,12 +17,6 @@ object Publish {
 object Versions {
     const val kotlin = "1.4.32"
 
-    const val corektx = "1.5.0"
-    const val annotation = "1.2.0"
-    const val appcompat = "1.3.0"
-    const val fragment = "1.3.4"
-    const val navigation = "2.3.5"
-    const val lifecycle = "2.3.1"
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.0.4"
     const val recyclerview = "1.2.0"
@@ -41,7 +35,7 @@ object Versions {
     const val leakcanary = "2.7"
     const val unpeeklivedata = "4.5.0-beta1"
 
-    const val fly_navigation = "1.0.9"
+    const val fly_navigation = "1.1.0"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }
@@ -58,27 +52,10 @@ object Deps {
         "com.gitee.tiamosu.FlyNavigation:fly-databinding:${Versions.fly_navigation}"
 
     //androidx
-    const val androidx_core_ktx = "androidx.core:core-ktx:${Versions.corektx}"
-    const val androidx_annotation = "androidx.annotation:annotation:${Versions.annotation}"
-    const val androidx_appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
     const val androidx_constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
     const val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
-
-    //navigation
-    const val androidx_fragment = "androidx.fragment:fragment:${Versions.fragment}"
-    const val androidx_navigation_runtime =
-        "androidx.navigation:navigation-runtime:${Versions.navigation}"
-
-    //lifecycle
-    const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
-    const val lifecycle_common_java8 =
-        "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
-    const val lifecycle_viewmodel_ktx =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-    const val lifecycle_livedata_ktx =
-        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
 
     //dagger2：依赖注入框架 https://github.com/google/dagger
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
