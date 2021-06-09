@@ -33,7 +33,7 @@ object Versions {
     const val dagger2 = "2.36"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
-    const val unpeeklivedata = "4.5.0-beta1"
+    const val unpeeklivedata = "5.0.1-beta1"
 
     const val fly_navigation = "1.1.0"
     const val rxerrorhandler = "3.0.4"
@@ -101,7 +101,7 @@ object Deps {
     const val loadsir = "com.github.tiamosu:LoadSir:${Versions.loadsir}"
 
     //unPeekLiveData：解决LiveData数据倒灌 https://github.com/KunMinX/UnPeek-LiveData
-    const val unpeek_livedata = "com.kunminx.archi:unpeek-livedata:${Versions.unpeeklivedata}"
+    const val unpeek_livedata = "com.kunminx.arch:unpeek-livedata:${Versions.unpeeklivedata}"
 
     //gson：Google 提供的用来在 Java 对象和 JSON 数据之间进行映射的 Java 类库 https://github.com/google/gson
     const val gson = "com.google.code.gson:gson:${Versions.gson}"

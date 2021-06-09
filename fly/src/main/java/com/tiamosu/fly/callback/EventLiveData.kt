@@ -1,9 +1,5 @@
 package com.tiamosu.fly.callback
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.kunminx.architecture.ui.callback.UnPeekLiveData
 
 /**
@@ -28,13 +24,4 @@ import com.kunminx.architecture.ui.callback.UnPeekLiveData
  * https://xiaozhuanlan.com/topic/0168753249 和 https://xiaozhuanlan.com/topic/6719328450
  * <p>
  */
-class EventLiveData<T> : UnPeekLiveData<T>() {
-
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        when (owner) {
-            is AppCompatActivity -> observeInActivity(owner, observer)
-            is Fragment -> observeInFragment(owner, observer)
-            else -> throw IllegalArgumentException("owner 必须是 AppCompatActivity 或者 Fragment ！！！")
-        }
-    }
-}
+class EventLiveData<T> : UnPeekLiveData<T>()
