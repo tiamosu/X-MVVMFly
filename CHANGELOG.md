@@ -1,3 +1,8 @@
+# 新版本3.0.4
+* unPeekLiveData 升级
+* dagger2 2.37
+* Glide加载配置优化,transformation冲突问题
+
 # 新版本3.0.3
 * fly_navigation 1.1.0
 
