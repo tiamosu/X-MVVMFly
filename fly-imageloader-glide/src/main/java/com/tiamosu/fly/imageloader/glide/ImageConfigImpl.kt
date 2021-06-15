@@ -8,6 +8,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IntRange
 import androidx.annotation.RawRes
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -33,21 +36,13 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
     internal var requestOptions: Array<out RequestOptions?>? = null
     internal var requestListener: RequestListener<out Any>? = null
     internal var transformation: Array<out BitmapTransformation?>? = null
+    internal var transformationList: ArrayList<BitmapTransformation>? = null
     internal var imageViews: Array<ImageView?>? = null
     internal var cacheStrategy = 0
     internal var transcodeType = 0
-    internal var roundingRadius = 0
-    internal var leftTop = 0f
-    internal var rightTop = 0f
-    internal var rightBottom = 0f
-    internal var leftBottom = 0f
-    internal var blurValue = 0
     internal var targetWidth = 0
     internal var targetHeight = 0
     internal var isCrossFade = false
-    internal var isCenterCrop = false
-    internal var isCenterInside = false
-    internal var isCircleCrop = false
     internal var isClearMemory = false
     internal var isClearDiskCache = false
     internal var isDontAnimate = false
@@ -66,21 +61,13 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         this.requestOptions = builder.requestOptions
         this.requestListener = builder.requestListener
         this.transformation = builder.transformation
+        this.transformationList = builder.transformationList
         this.imageViews = builder.imageViews
         this.cacheStrategy = builder.cacheStrategy
         this.transcodeType = builder.transcodeType
-        this.roundingRadius = builder.roundingRadius
-        this.leftTop = builder.leftTop
-        this.rightTop = builder.rightTop
-        this.rightBottom = builder.rightBottom
-        this.leftBottom = builder.leftBottom
-        this.blurValue = builder.blurValue
         this.targetWidth = builder.targetWidth
         this.targetHeight = builder.targetHeight
         this.isCrossFade = builder.isCrossFade
-        this.isCenterCrop = builder.isCenterCrop
-        this.isCenterInside = builder.isCenterInside
-        this.isCircleCrop = builder.isCircleCrop
         this.isClearMemory = builder.isClearMemory
         this.isClearDiskCache = builder.isClearDiskCache
         this.isDontAnimate = builder.isDontAnimate
@@ -101,21 +88,13 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         internal var requestOptions: Array<out RequestOptions?>? = null
         internal var requestListener: RequestListener<out Any>? = null
         internal var transformation: Array<out BitmapTransformation?>? = null
+        internal val transformationList by lazy { arrayListOf<BitmapTransformation>() }
         internal var imageViews: Array<ImageView?>? = null
         internal var cacheStrategy = 0
         internal var transcodeType = 0
-        internal var roundingRadius = 0
-        internal var leftTop = 0f
-        internal var rightTop = 0f
-        internal var rightBottom = 0f
-        internal var leftBottom = 0f
-        internal var blurValue = 0
         internal var targetWidth = 0
         internal var targetHeight = 0
         internal var isCrossFade = false
-        internal var isCenterCrop = false
-        internal var isCenterInside = false
-        internal var isCircleCrop = false
         internal var isClearMemory = false
         internal var isClearDiskCache = false
         internal var isDontAnimate = false
@@ -213,7 +192,13 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 图片圆角大小
          */
         fun imageRadius(roundingRadius: Int): Builder {
-            this.roundingRadius = roundingRadius
+            val transformation = RoundedCornersTransformation(
+                roundingRadius.toFloat(),
+                roundingRadius.toFloat(),
+                roundingRadius.toFloat(),
+                roundingRadius.toFloat()
+            )
+            this.transformationList.add(transformation)
             return this
         }
 
@@ -231,10 +216,10 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
             rightBottom: Float = 0f,
             leftBottom: Float = 0f
         ): Builder {
-            this.leftTop = leftTop
-            this.rightTop = rightTop
-            this.rightBottom = rightBottom
-            this.leftBottom = leftBottom
+            val transformation = RoundedCornersTransformation(
+                leftTop, rightTop, leftBottom, rightBottom
+            )
+            this.transformationList.add(transformation)
             return this
         }
 
@@ -242,20 +227,13 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 高斯模糊值, 值越大模糊效果越大（blurValue 建议设置为15，范围0~25）
          */
         fun blurValue(@IntRange(from = 0, to = 25) blurValue: Int): Builder {
-            this.blurValue = blurValue
+            val transformation = BlurTransformation(blurValue)
+            this.transformationList.add(transformation)
             return this
         }
 
         /**
          * 给图片添加 Glide 独有的 BitmapTransformation
-         *
-         * 因为 BitmapTransformation 是 Glide 独有的类, 所以如果 BitmapTransformation 出现在 [ImageConfigImpl] 中
-         * 会使 [com.tiamosu.fly.http.imageloader.ImageLoader] 难以切换为其他图片加载框架, 在 [ImageConfigImpl] 中只能配置基础类型和 Android 包里的类
-         * 此 API 会在后面的版本中被删除, 请使用其他 API 替代
-         *
-         * @param transformation [BitmapTransformation]
-         * 请使用 [isCircleCrop], [isCenterCrop], [imageRadius] 替代
-         * 如果有其他自定义 BitmapTransformation 的需求, 请自行扩展 [com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy]
          */
         fun transform(vararg transformation: BitmapTransformation?): Builder {
             this.transformation = transformation
@@ -274,7 +252,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 是否将图片剪切为 CenterCrop
          */
         fun centerCrop(): Builder {
-            this.isCenterCrop = true
+            this.transformationList.add(CenterCrop())
             return this
         }
 
@@ -282,7 +260,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 是否将图片剪切为 CenterInside
          */
         fun centerInside(): Builder {
-            this.isCenterInside = true
+            this.transformationList.add(CenterInside())
             return this
         }
 
@@ -290,7 +268,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
          * 是否将图片剪切为圆形
          */
         fun circleCrop(): Builder {
-            this.isCircleCrop = true
+            this.transformationList.add(CircleCrop())
             return this
         }
 

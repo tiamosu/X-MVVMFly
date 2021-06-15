@@ -4,8 +4,6 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -16,9 +14,7 @@ import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentGlideBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
-import com.tiamosu.fly.imageloader.glide.BlurTransformation
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
-import com.tiamosu.fly.imageloader.glide.RoundedCornersTransformation
 import com.tiamosu.fly.utils.getGlideCacheSize
 
 /**
@@ -67,15 +63,11 @@ class GlideFragment : BaseFragment() {
             .load(any)
             .override(400, 400)
             .apply {
-                /**
-                 * 注意：Glide同时加载多个transform时，需要调用[ImageConfigImpl.Builder.transform]，否则有冲突
-                 */
-                val transforms = arrayListOf(CenterCrop(), RoundedCornersTransformation(58f))
+                centerCrop()
+                imageRadius(58f)
                 if (isBlur) {
-                    transforms.add(BlurTransformation(20))
+                    blurValue(20)
                 }
-                val array = transforms.toArray(arrayOf<BitmapTransformation>())
-                transform(*array)
             }
             .addListener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(

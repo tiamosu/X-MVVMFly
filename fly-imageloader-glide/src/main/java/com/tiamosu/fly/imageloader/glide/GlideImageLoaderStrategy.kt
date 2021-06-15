@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
@@ -39,37 +39,6 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
             GlideDiskCacheStrategy.DATA -> glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA)
             GlideDiskCacheStrategy.AUTOMATIC -> glideRequest.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             else -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
-        }
-
-        //是否将图片剪切为 CenterCrop
-        if (config.isCenterCrop) {
-            glideRequest.centerCrop()
-        } else if (config.isCenterInside) {
-            glideRequest.centerInside()
-        }
-
-        //是否将图片剪切为圆形
-        if (config.isCircleCrop) {
-            glideRequest.circleCrop()
-        }
-
-        //设置圆角大小
-        if (config.leftTop != 0f || config.leftBottom != 0f || config.rightTop != 0f || config.rightBottom != 0f) {
-            glideRequest.transform(
-                RoundedCornersTransformation(
-                    config.leftTop,
-                    config.rightTop,
-                    config.leftBottom,
-                    config.rightBottom
-                )
-            )
-        } else if (config.roundingRadius != 0) {
-            glideRequest.transform(RoundedCorners(config.roundingRadius))
-        }
-
-        //高斯模糊值, 值越大模糊效果越大(blurValue 建议设置为 15)
-        if (config.blurValue != 0) {
-            glideRequest.transform(BlurTransformation(config.blurValue))
         }
 
         //设置占位符
@@ -121,8 +90,17 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
 
         //glide用它来改变图形的形状
-        if (config.transformation != null) {
-            glideRequest.transform(*config.transformation!!)
+        if (config.transformation?.isNotEmpty() == true) {
+            config.transformation?.forEach {
+                it?.let { it1 -> config.transformationList?.add(it1) }
+            }
+        }
+        if (config.transformationList?.isNotEmpty() == true) {
+            val transformationArray =
+                config.transformationList?.toArray(arrayOf<BitmapTransformation>())
+            if (transformationArray?.isNotEmpty() == true) {
+                glideRequest.transform(*transformationArray)
+            }
         }
 
         //在加载资源之前给Target大小设置系数。
