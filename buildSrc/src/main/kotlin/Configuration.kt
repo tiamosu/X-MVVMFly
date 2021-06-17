@@ -33,7 +33,7 @@ object Versions {
     const val dagger2 = "2.37"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
-    const val unpeeklivedata = "5.0.1-beta1"
+    const val unpeeklivedata = "5.0.2-beta1"
 
     const val fly_navigation = "1.1.0"
     const val rxerrorhandler = "3.0.4"
