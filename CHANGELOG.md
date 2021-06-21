@@ -1,3 +1,7 @@
+# 新版本3.0.5
+* unpeeklivedata = "6.0.0-beta1"
+* fly_navigation = "1.1.1"
+
 # 新版本3.0.4
 * unPeekLiveData 升级
 * dagger2 2.37
