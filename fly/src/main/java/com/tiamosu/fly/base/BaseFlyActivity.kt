@@ -2,10 +2,8 @@ package com.tiamosu.fly.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.Window
-import androidx.lifecycle.Lifecycle
 import com.tiamosu.databinding.page.FlyDataBindingActivity
 import com.tiamosu.fly.base.action.*
 import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
@@ -113,23 +111,5 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
      */
     fun getContentView(): ViewGroup? {
         return findViewById(Window.ID_ANDROID_CONTENT)
-    }
-
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-        val fragments = supportFragmentManager.fragments
-        for (fragment in fragments) {
-            //这个 Fragment 必须是 BaseFlyFragment 的子类，并且处于可见状态
-            if (fragment !is BaseFlyFragment ||
-                fragment.lifecycle.currentState != Lifecycle.State.RESUMED
-            ) {
-                continue
-            }
-            //将按键事件派发给 Fragment 进行处理
-            if (fragment.dispatchKeyEvent(event)) {
-                //如果 Fragment 拦截了这个事件，那么就不交给 Activity 处理
-                return true
-            }
-        }
-        return super.dispatchKeyEvent(event)
     }
 }
