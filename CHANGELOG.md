@@ -1,3 +1,8 @@
+# 新版本3.0.7
+* recyclerview = "1.2.1"
+* fly_navigation = "1.1.2"
+* 添加deepClone深度克隆转化
+
 # 新版本3.0.6
 * 移除 Fragment 按键事件派发
 
