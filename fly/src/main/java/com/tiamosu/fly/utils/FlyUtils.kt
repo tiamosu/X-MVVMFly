@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.base.IFlyApp
 import com.tiamosu.fly.di.component.AppComponent
+import com.tiamosu.fly.integration.gson.GsonFactory
 import com.tiamosu.navigation.page.FlySupportFragment
 
 /**
@@ -43,4 +44,12 @@ fun isPageVisible(owner: LifecycleOwner): Boolean {
         }
         else -> false
     }
+}
+
+/**
+ * 深度克隆
+ */
+inline fun <reified T> T.deepClone(): T? {
+    val str = GsonFactory.toJson(this)
+    return GsonFactory.fromJson(str)
 }

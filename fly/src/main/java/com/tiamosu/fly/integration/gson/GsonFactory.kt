@@ -28,7 +28,8 @@ object GsonFactory {
 
     val gson by lazy { getAppComponent().gson() }
 
-    inline fun <reified T> fromJson(str: String): T? {
+    inline fun <reified T> fromJson(str: String?): T? {
+        str ?: return null
         return try {
             val type = object : TypeToken<T>() {}.type
             gson.fromJson(str, type)
@@ -38,7 +39,8 @@ object GsonFactory {
         }
     }
 
-    fun toJson(any: Any): String? {
+    fun toJson(any: Any?): String? {
+        any ?: return null
         return try {
             gson.toJson(any)
         } catch (e: Exception) {
