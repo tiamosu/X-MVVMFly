@@ -1,3 +1,7 @@
+# 新版本3.0.8
+* 网络状态变化监听调试
+* fly_navigation = "1.1.3"
+
 # 新版本3.0.7
 * recyclerview = "1.2.1"
 * fly_navigation = "1.1.2"
