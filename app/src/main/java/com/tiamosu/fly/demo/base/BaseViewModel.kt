@@ -9,7 +9,7 @@ import com.tiamosu.fly.demo.state.ResultState
  * @author tiamosu
  * @date 2020/3/18.
  */
-abstract class BaseViewModel : ViewModel(), IUIAction {
+abstract class BaseViewModel : ViewModel(), UIAction {
 
     val resultState by lazy { EventLiveData<ResultState>() }
 

@@ -17,7 +17,7 @@ import com.tiamosu.navigation.ext.lazyAppViewModel
  * @author tiamosu
  * @date 2020/2/20.
  */
-abstract class BaseFragment : BaseFlyFragment(), IUIAction {
+abstract class BaseFragment : BaseFlyFragment(), UIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
     internal var loadService: LoadService<Any>? = null
 

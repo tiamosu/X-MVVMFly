@@ -13,7 +13,7 @@ import com.tiamosu.navigation.ext.lazyAppViewModel
  * @date 2020/2/22.
  */
 @Suppress("unused")
-abstract class BaseActivity : BaseFlyActivity(), IUIAction {
+abstract class BaseActivity : BaseFlyActivity(), UIAction {
     val sharedViewModel: SharedViewModel by lazyAppViewModel()
 
     override fun initParameters(bundle: Bundle?) {}

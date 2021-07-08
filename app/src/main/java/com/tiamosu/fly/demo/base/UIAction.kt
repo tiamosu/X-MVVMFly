@@ -6,7 +6,7 @@ import com.tiamosu.fly.base.action.LoadingAction
  * @author tiamosu
  * @date 2020/3/18.
  */
-interface IUIAction : LoadingAction {
+interface UIAction : LoadingAction {
 
     fun showToast(msg: String?)
 
