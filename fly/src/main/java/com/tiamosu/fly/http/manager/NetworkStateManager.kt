@@ -16,19 +16,22 @@ import com.tiamosu.fly.callback.EventLiveData
  * @date 2020/2/20.
  */
 class NetworkStateManager : DefaultLifecycleObserver {
-    val networkStateCallback = EventLiveData<Boolean>()
-    private var networkReceiver: NetworkStateReceiver? = null
+    val networkStateCallback by lazy { EventLiveData<Boolean>() }
+    private val networkReceiver by lazy { NetworkStateReceiver() }
+    private var isRegistered = false
 
     @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {
-        networkReceiver = NetworkStateReceiver()
+        if (isRegistered) return
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         Utils.getApp().applicationContext.registerReceiver(networkReceiver, filter)
+        isRegistered = true
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        if (networkReceiver == null) return
+        if (!isRegistered) return
         Utils.getApp().applicationContext.unregisterReceiver(networkReceiver)
+        isRegistered = false
     }
 
     private class NetworkStateReceiver : BroadcastReceiver() {
