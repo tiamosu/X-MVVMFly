@@ -2,7 +2,6 @@
 
 object Android {
     const val compileSdkVersion = 30
-    const val buildToolsVersion = "30.0.3"
     const val minSdkVersion = 21
     const val targetSdkVersion = 30
 
@@ -35,7 +34,7 @@ object Versions {
     const val leakcanary = "2.7"
     const val unpeeklivedata = "6.0.0-beta1"
 
-    const val fly_navigation = "1.1.3"
+    const val fly_navigation = "1.1.4"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }
