@@ -9,8 +9,8 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
  * 描述：生命周期调用顺序：[onAttach] → [onCreate] → [initParameters] → [onCreateView]
- * → [onViewCreated] → [initView] → [createObserver] → [onActivityCreated] → [onResume]
- * → [onFlySupportVisible] → [onFlyLazyInitView] → [onFlyLazyInitView2] → [initEvent]
+ * → [onViewCreated] → [initView] → [initEvent] → [createObserver] → [onActivityCreated]
+ * → [onResume] → [onFlySupportVisible] → [onFlyLazyInitView] → [onFlyLazyInitView2]
  * → [doBusiness] → [onPause] → [onFlySupportInvisible] → [onDestroyView] → [onDestroy]
  * → [onDetach]
  *
@@ -38,6 +38,7 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
         networkDelegate.addNetworkObserve(this)
 
         initView(rootView)
+        initEvent()
         createObserver()
     }
 
@@ -48,7 +49,6 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
     override fun onFlyLazyInitView2() {
         super.onFlyLazyInitView2()
-        initEvent()
         doBusiness()
     }
 

@@ -29,12 +29,12 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.37"
+    const val dagger2 = "2.38.1"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
-    const val unpeeklivedata = "6.0.0-beta1"
+    const val unpeeklivedata = "6.1.0-beta1"
 
-    const val fly_navigation = "1.1.4"
+    const val fly_navigation = "1.1.5"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }

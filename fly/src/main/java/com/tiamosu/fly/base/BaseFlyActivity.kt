@@ -13,8 +13,9 @@ import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
- * 描述：生命周期调用顺序：[onCreate] → [initParameters] → [initView] → [createObserver]
- * → [onStart] → [onResume] → [initEvent] → [doBusiness] → [onPause] → [onStop] → [onDestroy]
+ * 描述：生命周期调用顺序：[onCreate] → [initParameters] → [initView] → [initEvent]
+ * → [createObserver] → [onStart] → [onResume] → [doBusiness] → [onPause] → [onStop]
+ * → [onDestroy]
  *
  * @author tiamosu
  * @date 2020/2/18.
@@ -43,6 +44,7 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
         initSoftKeyboard()
         initParameters(bundle)
         initView(rootView)
+        initEvent()
         createObserver()
     }
 
@@ -52,7 +54,6 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     private fun onLazyLoad() {
         if (!isVisibleLoadData) return
         isVisibleLoadData = false
-        initEvent()
         doBusiness()
     }
 
