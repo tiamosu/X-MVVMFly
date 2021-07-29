@@ -1,3 +1,9 @@
+# 新版本4.0.0
+* dagger2 = "2.38.1"
+* unpeeklivedata = "6.1.0-beta1"
+* fly_navigation = "1.1.5"
+* 注意：initEvent() 函数位置调整至 initView() 之后
+
 # 新版本3.0.9
 * fly_navigation = "1.1.4"
 
