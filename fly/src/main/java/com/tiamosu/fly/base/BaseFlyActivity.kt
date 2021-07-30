@@ -2,14 +2,14 @@ package com.tiamosu.fly.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup
-import android.view.Window
+import android.view.MotionEvent
+import android.view.View
+import android.widget.EditText
 import com.tiamosu.databinding.page.FlyDataBindingActivity
 import com.tiamosu.fly.base.action.*
 import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
 import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.base.dialog.loading.LoadingConfig
-import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.manager.NetworkDelegate
 
 /**
@@ -41,7 +41,6 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
         //添加网络状态监听
         networkDelegate.addNetworkObserve(this)
 
-        initSoftKeyboard()
         initParameters(bundle)
         initView(rootView)
         initEvent()
@@ -74,12 +73,6 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
         isVisibleLoadData = true
     }
 
-    override fun finish() {
-        //隐藏软键盘，避免内存泄漏
-        hideKeyboard(getContext())
-        super.finish()
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         //设置为当前的 Intent，避免 Activity 被杀死后重启 Intent 还是最原先的那个
@@ -97,20 +90,36 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     }
 
     /**
+     * 点击空白区域隐藏软键盘
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN
+            && isShouldHideKeyboard(currentFocus, ev)
+        ) {
+            initSoftKeyboard()
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun isShouldHideKeyboard(view: View?, event: MotionEvent): Boolean {
+        if (view is EditText) {
+            val l = intArrayOf(0, 0)
+            view.getLocationInWindow(l)
+            val left = l[0]
+            val top = l[1]
+            val bottom = top + view.height
+            val right = left + view.width
+            return !(event.x > left && event.x < right
+                    && event.y > top && event.y < bottom)
+        }
+        return false
+    }
+
+    /**
      * 初始化软键盘
      */
     protected open fun initSoftKeyboard() {
         //点击外部隐藏软键盘，提升用户体验
-        getContentView()?.clickNoRepeat {
-            //隐藏软键盘，避免内存泄漏
-            hideKeyboard(getContext())
-        }
-    }
-
-    /**
-     * 和 setContentView 对应的方法
-     */
-    fun getContentView(): ViewGroup? {
-        return findViewById(Window.ID_ANDROID_CONTENT)
+        hideKeyboard(getContext())
     }
 }
