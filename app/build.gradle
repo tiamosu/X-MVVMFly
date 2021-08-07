@@ -52,7 +52,7 @@ dependencies {
         exclude module: 'kotlin-stdlib'
     }
 
-    implementation(Deps.androidx_constraint_layout) {
+    implementation(Deps.androidx_constraintlayout) {
         exclude module: 'core'
         exclude module: 'appcompat'
     }

@@ -11,15 +11,7 @@ import java.util.*
  */
 object Loader : HandlerAction {
     private val dialogLoaders = ArrayList<BaseFlyDialog>()
-    private var dialogCallback: (() -> BaseFlyDialog)? = null
     private var hasDelayedCallbacks = false
-
-    /**
-     * 全局传入Loading弹框进行创建
-     */
-    fun createLoadingDialog(dialogCallback: () -> BaseFlyDialog) {
-        this.dialogCallback = dialogCallback
-    }
 
     /**
      * @param delayMillis 延迟展示时间，大于0延迟展示弹框，否则立即展示弹框
@@ -35,7 +27,8 @@ object Loader : HandlerAction {
             removeDelayedCallback()
         }
         val loadingDialog =
-            dialog ?: dialogCallback?.invoke() ?: FlyLoadingDialog(ActivityUtils.getTopActivity())
+            dialog ?: ActivityUtils.getTopActivity()?.let { FlyLoadingDialog(it) } ?: return
+
         loadingDialog.setOnDismissListener {
             hideLoading()
         }
