@@ -1,3 +1,9 @@
+# 新版本4.0.2
+* fly_navigation = "1.1.6"
+* constraintlayout = "2.1.0"
+* Loading弹框加载优化
+* 修复layoutId为0时，不执行initView()、initEvent()、createObserver()函数
+
 # 新版本4.0.1
 * 点击外部隐藏软键盘优化
 

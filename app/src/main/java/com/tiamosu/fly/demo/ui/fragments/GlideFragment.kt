@@ -64,7 +64,7 @@ class GlideFragment : BaseFragment() {
             .override(400, 400)
             .apply {
                 centerCrop()
-                imageRadius(58f)
+                imageRadius(58)
                 if (isBlur) {
                     blurValue(20)
                 }
