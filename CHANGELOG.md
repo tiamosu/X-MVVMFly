@@ -1,3 +1,6 @@
+# 新版本4.0.3
+* fly_navigation = "1.1.7"
+
 # 新版本4.0.2
 * fly_navigation = "1.1.6"
 * constraintlayout = "2.1.0"
