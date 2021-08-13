@@ -30,7 +30,10 @@ class NetworkDelegate {
         }
     }
 
-    fun hasNetWork(netAction: NetAction, isConnected: Boolean = NetworkUtils.isConnected()) {
+    private fun hasNetWork(
+        netAction: NetAction,
+        isConnected: Boolean = NetworkUtils.isConnected()
+    ) {
         val owner = netAction as? LifecycleOwner ?: return
         val curNetStatus = if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
         if (curNetStatus != lastNetStatus || isNetReConnect) {
@@ -38,7 +41,7 @@ class NetworkDelegate {
             if (isConnected && lastNetStatus == NetworkState.NETWORK_OFF) {
                 isNetReConnect = true
             }
-            if (isPageVisible(owner)) {
+            if (owner.isPageVisible) {
                 netAction.onNetworkStateChanged(isConnected)
                 if (isConnected && isNetReConnect) {
                     netAction.onNetReConnect()
