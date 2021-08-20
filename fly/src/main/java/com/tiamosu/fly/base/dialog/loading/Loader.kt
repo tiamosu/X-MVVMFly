@@ -26,8 +26,15 @@ object Loader : HandlerAction {
         if (delayMillis <= 0) {
             removeDelayedCallback()
         }
-        val loadingDialog =
-            dialog ?: ActivityUtils.getTopActivity()?.let { FlyLoadingDialog(it) } ?: return
+        var loadingDialog = dialog
+        if (loadingDialog == null
+            && ActivityUtils.isActivityAlive(ActivityUtils.getTopActivity())
+        ) {
+            loadingDialog = ActivityUtils.getTopActivity()?.let { FlyLoadingDialog(it) }
+        }
+        if (loadingDialog == null) {
+            return
+        }
 
         loadingDialog.setOnDismissListener {
             hideLoading()
@@ -67,8 +74,8 @@ object Loader : HandlerAction {
     }
 
     private fun showDialog(loadingDialog: BaseFlyDialog) {
-        val activity = loadingDialog.activity
-        if (activity.isFinishing || activity.isDestroyed) {
+        val context = loadingDialog.context
+        if (!ActivityUtils.isActivityAlive(context)) {
             hideLoading()
             return
         }

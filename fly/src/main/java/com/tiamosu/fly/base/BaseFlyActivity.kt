@@ -81,7 +81,7 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
 
     override fun showLoading(config: LoadingConfig?) {
         val newConfig = config ?: LoadingConfig()
-        val dialog = newConfig.dialog ?: FlyLoadingDialog(getContext())
+        val dialog = newConfig.dialog ?: FlyLoadingDialog(this)
         Loader.showLoading(newConfig.delayMillis, dialog)
     }
 

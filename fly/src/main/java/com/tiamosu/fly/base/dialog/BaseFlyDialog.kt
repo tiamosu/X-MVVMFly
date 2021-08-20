@@ -1,6 +1,5 @@
 package com.tiamosu.fly.base.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -18,18 +17,9 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     themeResId: Int = 0
 ) : Dialog(context, themeResId) {
 
-    var activity: Activity
-        private set
-
     protected abstract fun bindLayout(): Int
     protected abstract fun initView(dialog: BaseFlyDialog, contentView: View)
     protected abstract fun setWindowStyle(window: Window?)
-
-    init {
-        val activity = ActivityUtils.getActivityByContext(context)
-            ?: throw IllegalArgumentException("context is not instance of Activity.")
-        this.activity = activity
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
