@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import com.tiamosu.fly.imageloader.glide.http.NoConnectivityMonitorFactory
 import com.tiamosu.fly.imageloader.glide.http.OkHttpUrlLoader
 import com.tiamosu.fly.utils.activityManager
 import com.tiamosu.fly.utils.getAppComponent
@@ -62,6 +63,11 @@ class GlideConfiguration : AppGlideModule() {
         val loadImgStrategy = appComponent.imageLoader().getLoadImgStrategy()
         if (loadImgStrategy is GlideAppliesOptions) {
             loadImgStrategy.applyGlideOptions(context, builder)
+        }
+
+        //兼容了华为平板 5.1 5.0机型上，Register too many Broadcast Receivers 的问题
+        if (NoConnectivityMonitorFactory.isNeedDisableNetCheck()) {
+            builder.setConnectivityMonitorFactory(NoConnectivityMonitorFactory())
         }
     }
 
