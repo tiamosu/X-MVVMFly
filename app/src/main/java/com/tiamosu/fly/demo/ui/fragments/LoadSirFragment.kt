@@ -3,6 +3,7 @@ package com.tiamosu.fly.demo.ui.fragments
 import android.view.View
 import com.tiamosu.databinding.delegate.lazyDataBinding
 import com.tiamosu.databinding.page.DataBindingConfig
+import com.tiamosu.fly.base.dialog.loading.Loader
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentLoadsirBinding
@@ -33,7 +34,7 @@ class LoadSirFragment : BaseFragment() {
      * 模拟数据请求
      */
     private fun requestData() {
-        showLoading()
+        Loader.showLoading()
         postDelayed({
             hideLoading()
             showViewError()

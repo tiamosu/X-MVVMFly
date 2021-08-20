@@ -1,5 +1,6 @@
 package com.tiamosu.fly.base.dialog.loading
 
+import android.app.Activity
 import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.fly.base.action.HandlerAction
 import com.tiamosu.fly.base.dialog.BaseFlyDialog
@@ -27,10 +28,12 @@ object Loader : HandlerAction {
             removeDelayedCallback()
         }
         var loadingDialog = dialog
+        var topActivity: Activity? = null
         if (loadingDialog == null
-            && ActivityUtils.isActivityAlive(ActivityUtils.getTopActivity())
+            && ActivityUtils.isActivityAlive(
+                ActivityUtils.getTopActivity().also { topActivity = it })
         ) {
-            loadingDialog = ActivityUtils.getTopActivity()?.let { FlyLoadingDialog(it) }
+            loadingDialog = topActivity?.let { FlyLoadingDialog(it) }
         }
         if (loadingDialog == null) {
             return

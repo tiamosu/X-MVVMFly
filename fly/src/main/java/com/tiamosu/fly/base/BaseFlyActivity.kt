@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import com.blankj.utilcode.util.ActivityUtils
 import com.tiamosu.databinding.page.FlyDataBindingActivity
 import com.tiamosu.fly.base.action.*
 import com.tiamosu.fly.base.dialog.loading.FlyLoadingDialog
@@ -80,8 +81,9 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     }
 
     override fun showLoading(config: LoadingConfig?) {
+        if (!ActivityUtils.isActivityAlive(getContext())) return
         val newConfig = config ?: LoadingConfig()
-        val dialog = newConfig.dialog ?: FlyLoadingDialog(this)
+        val dialog = newConfig.dialog ?: FlyLoadingDialog(getContext())
         Loader.showLoading(newConfig.delayMillis, dialog)
     }
 
