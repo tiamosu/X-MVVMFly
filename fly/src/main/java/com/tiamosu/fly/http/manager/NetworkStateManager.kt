@@ -18,18 +18,23 @@ import com.tiamosu.navigation.page.FlyLifecycleObserver
 class NetworkStateManager : FlyLifecycleObserver {
     val networkStateCallback by lazy { EventLiveData<Boolean>() }
     private val networkReceiver by lazy { NetworkStateReceiver() }
+    private var isRegistered = false
 
     @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {
         kotlin.runCatching {
+            if (isRegistered) return
             val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
             Utils.getApp().applicationContext.registerReceiver(networkReceiver, filter)
+            isRegistered = true
         }
     }
 
     override fun onPause(owner: LifecycleOwner) {
         kotlin.runCatching {
+            if (!isRegistered) return
             Utils.getApp().applicationContext.unregisterReceiver(networkReceiver)
+            isRegistered = false
         }
     }
 
