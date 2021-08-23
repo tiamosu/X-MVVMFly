@@ -1,5 +1,9 @@
 # 新版本4.0.5
 * 捕获网络监听注册产生的bug
+* unpeeklivedata = "7.2.0-beta1"
+* fly_navigation = "1.1.8"
+* Loading加载优化
+* 兼容了华为平板 5.1 5.0机型上，Register too many Broadcast Receivers 的问题
 
 # 新版本4.0.4
 * 页面真实可见性判断优化
