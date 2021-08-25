@@ -22,23 +22,23 @@ allprojects {
 ```
 
 ```groovy
-implementation 'com.github.tiamosu:X-MVVMFly:4.0.5'
+implementation 'com.github.tiamosu:X-MVVMFly:4.0.6'
 ```
 
 ## 可单独依赖模块：
 ### fly（必需）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly:4.0.5'
+implementation 'com.github.tiamosu.X-MVVMFly:fly:4.0.6'
 ```
 
 ### fly-http（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-http:4.0.5'
+implementation 'com.github.tiamosu.X-MVVMFly:fly-http:4.0.6'
 ```
 
 ### fly-imageloader-glide（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:4.0.5'
+implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:4.0.6'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)

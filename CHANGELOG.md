@@ -1,3 +1,6 @@
+# 新版本4.0.6
+* dialog优化
+
 # 新版本4.0.5
 * 捕获网络监听注册产生的bug
 * unpeeklivedata = "7.2.0-beta1"
