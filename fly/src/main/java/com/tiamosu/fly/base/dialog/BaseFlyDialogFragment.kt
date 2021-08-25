@@ -28,8 +28,10 @@ open class BaseFlyDialogFragment : DialogFragment() {
         context: Context,
         dialogCallback: IFlyDialogCallback
     ): BaseFlyDialogFragment {
-        this.dialogCallback = dialogCallback
         fragmentActivity = getFragmentActivity(context)
+        if (fragmentActivity != null) {
+            this.dialogCallback = dialogCallback
+        }
         return this
     }
 
