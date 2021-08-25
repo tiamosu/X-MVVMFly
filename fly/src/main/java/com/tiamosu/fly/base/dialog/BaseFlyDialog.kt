@@ -1,8 +1,10 @@
 package com.tiamosu.fly.base.dialog
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import com.blankj.utilcode.util.ActivityUtils
@@ -21,17 +23,27 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
     protected abstract fun initView(dialog: BaseFlyDialog, contentView: View)
     protected abstract fun setWindowStyle(window: Window?)
 
+    val activity by lazy {
+        val activity = ActivityUtils.getActivityByContext(context)
+        if (activity !is Activity) {
+            Log.e("BaseFlyDialog", "context is not instance of Activity")
+        }
+        activity
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val contentView = View.inflate(context, bindLayout(), null)
-        setContentView(contentView)
-        initView(this, contentView)
-        setWindowStyle(window)
+        if (ActivityUtils.isActivityAlive(activity)) {
+            val contentView = View.inflate(context, bindLayout(), null)
+            setContentView(contentView)
+            initView(this, contentView)
+            setWindowStyle(window)
+        }
     }
 
     override fun show() {
         launchMain {
-            if (ActivityUtils.isActivityAlive(context)) {
+            if (ActivityUtils.isActivityAlive(activity)) {
                 super@BaseFlyDialog.show()
             }
         }
@@ -39,7 +51,7 @@ abstract class BaseFlyDialog @JvmOverloads constructor(
 
     override fun dismiss() {
         launchMain {
-            if (ActivityUtils.isActivityAlive(context)) {
+            if (ActivityUtils.isActivityAlive(activity)) {
                 super@BaseFlyDialog.dismiss()
             }
         }

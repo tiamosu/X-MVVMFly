@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,12 +33,12 @@ open class BaseFlyDialogFragment : DialogFragment() {
         return this
     }
 
-    private fun getFragmentActivity(context: Context): FragmentActivity {
+    private fun getFragmentActivity(context: Context): FragmentActivity? {
         val activity = ActivityUtils.getActivityByContext(context)
         if (activity !is FragmentActivity) {
-            throw IllegalArgumentException(context.toString() + "not instance of FragmentActivity")
+            Log.e("BaseFlyDialogFragment", "context not instance of FragmentActivity")
         }
-        return activity
+        return activity as? FragmentActivity
     }
 
     override fun getTheme(): Int {

@@ -77,8 +77,8 @@ object Loader : HandlerAction {
     }
 
     private fun showDialog(loadingDialog: BaseFlyDialog) {
-        val context = loadingDialog.context
-        if (!ActivityUtils.isActivityAlive(context)) {
+        val activity = loadingDialog.activity
+        if (!ActivityUtils.isActivityAlive(activity)) {
             hideLoading()
             return
         }
