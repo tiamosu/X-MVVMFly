@@ -26,7 +26,7 @@ enum class CacheMode(val className: String) {
     /**
      * 先加载缓存，缓存没有再去请求网络
      */
-    FIRSTCACHE("FirstCacheStategy"),
+    FIRSTCACHE("FirstCacheStrategy"),
 
     /**
      * 仅加载网络，但数据依然会被缓存
