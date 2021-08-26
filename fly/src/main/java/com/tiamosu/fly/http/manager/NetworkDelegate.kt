@@ -37,6 +37,9 @@ class NetworkDelegate {
         val owner = netAction as? LifecycleOwner ?: return
         val curNetStatus = if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
         if (curNetStatus != lastNetStatus || isNetReConnect) {
+            if (lastNetStatus == NetworkState.NETWORK_DEFAULT) {
+                lastNetStatus = curNetStatus
+            }
             //判断网络是否是重连接的
             if (isConnected && lastNetStatus != NetworkState.NETWORK_ON) {
                 isNetReConnect = true
