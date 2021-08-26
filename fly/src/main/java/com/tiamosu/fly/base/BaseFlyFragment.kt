@@ -65,6 +65,11 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
         removeCallbacks()
     }
 
+    override fun onFlySupportVisible() {
+        networkDelegate.hasNetWork(this)
+        super.onFlySupportVisible()
+    }
+
     override fun onFlyLazyInitView2() {
         super.onFlyLazyInitView2()
         doBusiness()

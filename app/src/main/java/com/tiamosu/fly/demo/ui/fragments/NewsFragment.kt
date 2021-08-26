@@ -1,5 +1,6 @@
 package com.tiamosu.fly.demo.ui.fragments
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ToastUtils
@@ -69,6 +70,16 @@ class NewsFragment : BaseFragment() {
             fragments.removeLast()
             adapter.updateDataSetChanged(fragments)
         }
+    }
+
+    override fun isCheckNetChanged() = true
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        Log.e("susu", "onNetworkStateChanged:$isConnected")
+    }
+
+    override fun onNetReConnect() {
+        Log.e("susu", "onNetReConnect")
     }
 
     override fun doBusiness() {}

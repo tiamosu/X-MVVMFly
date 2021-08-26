@@ -30,7 +30,7 @@ class NetworkDelegate {
         }
     }
 
-    private fun hasNetWork(
+    fun hasNetWork(
         netAction: NetAction,
         isConnected: Boolean = NetworkUtils.isConnected()
     ) {
@@ -38,7 +38,7 @@ class NetworkDelegate {
         val curNetStatus = if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
         if (curNetStatus != lastNetStatus || isNetReConnect) {
             //判断网络是否是重连接的
-            if (isConnected && lastNetStatus == NetworkState.NETWORK_OFF) {
+            if (isConnected && lastNetStatus != NetworkState.NETWORK_ON) {
                 isNetReConnect = true
             }
             if (owner.isPageVisible) {
