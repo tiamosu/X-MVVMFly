@@ -23,6 +23,7 @@ class TabBarLayout @JvmOverloads constructor(
     private var curItemPos = -1
     private val tabBarItems = ArrayList<TabBarItem>()
     private var onItemSelectedListener: OnItemSelectedListener? = null
+    private var isFirstPageSelected = true
 
     private val tabBarParams by lazy {
         LayoutParams(-1, -1).apply { weight = 1f }
@@ -56,18 +57,29 @@ class TabBarLayout @JvmOverloads constructor(
         }
     }
 
-    private fun tabBarItemClick(barItem: TabBarItem, smoothScroll: Boolean) {
+    private fun tabBarItemClick(
+        barItem: TabBarItem,
+        smoothScroll: Boolean,
+        isViewPagerSelect: Boolean = false,
+        isInitListener: Boolean = false,
+    ) {
         curItemPos = barItem.tabPosition
 
-        if (preItemPos == curItemPos) {
+        if (!isInitListener && (preItemPos == curItemPos)) {
             onItemSelectedListener?.onItemReselected?.invoke(curItemPos)
             return
         }
         val isItemSelected = onItemSelectedListener?.onItemSelectBefore?.invoke(curItemPos) ?: true
         if (isItemSelected) {
             barItem.isSelected = true
-            tabBarItems.getOrNull(preItemPos)?.also { it.isSelected = false }
-            viewPager2?.setCurrentItem(curItemPos, smoothScroll)
+
+            if (!isInitListener) {
+                tabBarItems.getOrNull(preItemPos)?.also { it.isSelected = false }
+
+                if (!isViewPagerSelect) {
+                    viewPager2?.setCurrentItem(curItemPos, smoothScroll)
+                }
+            }
 
             onItemSelectedListener?.onItemSelected?.invoke(curItemPos, preItemPos)
             onItemSelectedListener?.onItemUnselected?.invoke(preItemPos)
@@ -79,10 +91,20 @@ class TabBarLayout @JvmOverloads constructor(
         this.viewPager2 = viewPager2
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                if (position == curItemPos) return
-                setCurrentItem(position, smoothScroll)
+                if (isFirstPageSelected) {
+                    isFirstPageSelected = false
+                    return
+                }
+                if (position != getItemPosition()) {
+                    changeCurrentItem(position, isViewPagerSelect = true)
+                }
             }
         })
+
+        //若tbi_selected属性设定或者执行TabBarItem的setSelected，当前下标不为0时触发
+        if (getItemPosition() != 0) {
+            viewPager2.setCurrentItem(getItemPosition(), false)
+        }
     }
 
     fun setTabBarItem(views: ArrayList<TabBarItem>) {
@@ -96,15 +118,25 @@ class TabBarLayout @JvmOverloads constructor(
     }
 
     fun setCurrentItem(position: Int, smoothScroll: Boolean = this.smoothScroll) {
+        changeCurrentItem(position, smoothScroll)
+    }
+
+    private fun changeCurrentItem(
+        position: Int,
+        smoothScroll: Boolean = this.smoothScroll,
+        isViewPagerSelect: Boolean = false,
+        isInitListener: Boolean = false,
+    ) {
         (getChildAt(position) as? TabBarItem)?.let {
-            tabBarItemClick(it, smoothScroll)
+            tabBarItemClick(it, smoothScroll, isViewPagerSelect, isInitListener)
         }
     }
 
     fun setOnItemSelectedListener(
-        onItemSelectedListener: OnItemSelectedListener.() -> Unit = {}
+        listener: OnItemSelectedListener.() -> Unit = {}
     ) {
-        this.onItemSelectedListener = OnItemSelectedListener().apply(onItemSelectedListener)
+        onItemSelectedListener = OnItemSelectedListener().apply(listener)
+        changeCurrentItem(getItemPosition(), isInitListener = true)
     }
 
     fun getItemPosition(): Int {
