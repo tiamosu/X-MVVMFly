@@ -60,7 +60,7 @@ class TabBarLayout @JvmOverloads constructor(
     private fun tabBarItemClick(
         barItem: TabBarItem,
         smoothScroll: Boolean,
-        isViewPagerSelect: Boolean = false,
+        isViewPagerSelect: Boolean = true,
         isInitListener: Boolean = false,
     ) {
         curItemPos = barItem.tabPosition
@@ -73,12 +73,11 @@ class TabBarLayout @JvmOverloads constructor(
         if (isItemSelected) {
             barItem.isSelected = true
 
-            if (!isInitListener) {
+            if (curItemPos != preItemPos) {
                 tabBarItems.getOrNull(preItemPos)?.also { it.isSelected = false }
-
-                if (!isViewPagerSelect) {
-                    viewPager2?.setCurrentItem(curItemPos, smoothScroll)
-                }
+            }
+            if (isViewPagerSelect) {
+                viewPager2?.setCurrentItem(curItemPos, smoothScroll)
             }
 
             onItemSelectedListener?.onItemSelected?.invoke(curItemPos, preItemPos)
@@ -96,7 +95,7 @@ class TabBarLayout @JvmOverloads constructor(
                     return
                 }
                 if (position != getItemPosition()) {
-                    changeCurrentItem(position, isViewPagerSelect = true)
+                    changeCurrentItem(position, isViewPagerSelect = false)
                 }
             }
         })
@@ -124,7 +123,7 @@ class TabBarLayout @JvmOverloads constructor(
     private fun changeCurrentItem(
         position: Int,
         smoothScroll: Boolean = this.smoothScroll,
-        isViewPagerSelect: Boolean = false,
+        isViewPagerSelect: Boolean = true,
         isInitListener: Boolean = false,
     ) {
         (getChildAt(position) as? TabBarItem)?.let {
@@ -136,7 +135,7 @@ class TabBarLayout @JvmOverloads constructor(
         listener: OnItemSelectedListener.() -> Unit = {}
     ) {
         onItemSelectedListener = OnItemSelectedListener().apply(listener)
-        changeCurrentItem(getItemPosition(), isInitListener = true)
+        changeCurrentItem(getItemPosition(), isViewPagerSelect = false, isInitListener = true)
     }
 
     fun getItemPosition(): Int {
