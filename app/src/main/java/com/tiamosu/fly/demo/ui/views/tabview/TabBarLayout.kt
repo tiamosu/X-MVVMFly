@@ -1,8 +1,6 @@
 package com.tiamosu.fly.demo.ui.views.tabview
 
 import android.content.Context
-import android.os.Bundle
-import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -18,61 +16,62 @@ class TabBarLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayoutCompat(context, attrs, defStyleAttr) {
-
     private var viewPager2: ViewPager2? = null
-    private val tabParams: LayoutParams
     private var smoothScroll = false
-    private var isItemClick = false
 
-    private var currentItemPosition = -1
-    private val barItems = ArrayList<TabBarItem>()
+    private var preItemPos = -1
+    private var curItemPos = -1
+    private val tabBarItems = ArrayList<TabBarItem>()
     private var onItemSelectedListener: OnItemSelectedListener? = null
+
+    private val tabBarParams by lazy {
+        LayoutParams(-1, -1).apply { weight = 1f }
+    }
 
     init {
         orientation = HORIZONTAL
-        tabParams = LayoutParams(-1, -1)
-        tabParams.weight = 1f
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val childCount = childCount
         for (i in 0 until childCount) {
-            val childView = getChildAt(i)
-            if (childView is TabBarItem) {
-                addItem(childView, i)
+            (getChildAt(i) as? TabBarItem)?.let { addTabBarItem(it, i) }
+        }
+    }
+
+    private fun addTabBarItem(tabBarItem: TabBarItem, tabBarIndex: Int) {
+        if (tabBarItem.isSelected) {
+            curItemPos = tabBarIndex
+
+            if (preItemPos == -1) {
+                preItemPos = tabBarIndex
             }
         }
+        tabBarItem.tabPosition = tabBarIndex
+        tabBarItem.layoutParams = tabBarParams
+        tabBarItems.add(tabBarItem)
+
+        tabBarItem.setOnClickListener {
+            tabBarItemClick(tabBarItem, smoothScroll)
+        }
     }
 
-    private fun addItem(barItem: TabBarItem, tabPosition: Int) {
-        barItem.setOnClickListener {
-            isItemClick = true
-            barItemClick(barItem, viewPager2)
-            isItemClick = false
-        }
-        if (barItem.isSelected && currentItemPosition == -1) {
-            currentItemPosition = tabPosition
-        }
-        barItem.tabPosition = tabPosition
-        barItem.layoutParams = tabParams
-        barItems.add(barItem)
-    }
+    private fun tabBarItemClick(barItem: TabBarItem, smoothScroll: Boolean) {
+        curItemPos = barItem.tabPosition
 
-    private fun barItemClick(barItem: TabBarItem?, viewPager2: ViewPager2? = null) {
-        if (barItem !is TabBarItem) {
+        if (preItemPos == curItemPos) {
+            onItemSelectedListener?.onItemReselected?.invoke(curItemPos)
             return
         }
-        val pos = barItem.tabPosition
-        if (currentItemPosition == pos) {
-            onItemSelectedListener?.onItemReselected(pos)
-        } else {
+        val isItemSelected = onItemSelectedListener?.onItemSelectBefore?.invoke(curItemPos) ?: true
+        if (isItemSelected) {
             barItem.isSelected = true
-            onItemSelectedListener?.onItemSelected(pos, currentItemPosition)
-            onItemSelectedListener?.onItemUnselected(currentItemPosition)
-            setItemSelected(currentItemPosition, false)
-            viewPager2?.setCurrentItem(pos, smoothScroll)
-            currentItemPosition = pos
+            tabBarItems.getOrNull(preItemPos)?.also { it.isSelected = false }
+            viewPager2?.setCurrentItem(curItemPos, smoothScroll)
+
+            onItemSelectedListener?.onItemSelected?.invoke(curItemPos, preItemPos)
+            onItemSelectedListener?.onItemUnselected?.invoke(preItemPos)
+            preItemPos = curItemPos
         }
     }
 
@@ -80,83 +79,42 @@ class TabBarLayout @JvmOverloads constructor(
         this.viewPager2 = viewPager2
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                if (!isItemClick) {
-                    barItemClick(getChildAt(position) as? TabBarItem)
-                }
+                if (position == curItemPos) return
+                setCurrentItem(position, smoothScroll)
             }
         })
     }
 
-    fun setSmoothScroll(mSmoothScroll: Boolean) {
-        this.smoothScroll = mSmoothScroll
-    }
-
-    fun setCurrentItem(position: Int) {
-        if (position < 0 || barItems.size < position) {
-            return
-        }
-        viewPager2?.setCurrentItem(position, smoothScroll)
-        post { getChildAt(position).performClick() }
-    }
-
-    fun setItemSelected(index: Int, isSelected: Boolean = true) {
-        if (index >= 0 && index < barItems.size) {
-            barItems[index].isSelected = isSelected
-            if (isSelected) {
-                currentItemPosition = index
-            }
+    fun setTabBarItem(views: ArrayList<TabBarItem>) {
+        views.forEachIndexed { index, tabBarItem ->
+            addTabBarItem(tabBarItem, index)
         }
     }
 
-    fun getCurrentItemPosition(): Int {
-        return if (currentItemPosition == -1) 0 else currentItemPosition
+    fun setSmoothScroll(smoothScroll: Boolean) {
+        this.smoothScroll = smoothScroll
     }
 
-    fun getBottomItem(index: Int): TabBarItem? {
-        return if (barItems.size < index) null else barItems[index]
+    fun setCurrentItem(position: Int, smoothScroll: Boolean = this.smoothScroll) {
+        (getChildAt(position) as? TabBarItem)?.let {
+            tabBarItemClick(it, smoothScroll)
+        }
     }
 
     fun setOnItemSelectedListener(
-        onItemSelected: (position: Int, prePosition: Int) -> Unit,
-        onItemUnselected: (position: Int) -> Unit = {},
-        onItemReselected: (position: Int) -> Unit = {}
+        onItemSelectedListener: OnItemSelectedListener.() -> Unit = {}
     ) {
-        this.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(position: Int, prePosition: Int) {
-                onItemSelected(position, prePosition)
-            }
-
-            override fun onItemUnselected(position: Int) {
-                onItemUnselected(position)
-            }
-
-            override fun onItemReselected(position: Int) {
-                onItemReselected(position)
-            }
-        }
+        this.onItemSelectedListener = OnItemSelectedListener().apply(onItemSelectedListener)
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        return Bundle().apply {
-            putParcelable(INSTANCE_STATE, super.onSaveInstanceState())
-            putInt(INSTANCE_POSITION, currentItemPosition)
+    fun getItemPosition(): Int {
+        if (curItemPos == -1) {
+            curItemPos = preItemPos
         }
+        return if (curItemPos == -1) 0 else curItemPos
     }
 
-    override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state is Bundle) {
-            currentItemPosition = state.getInt(INSTANCE_POSITION)
-            for (index in barItems.indices) {
-                setItemSelected(index, index == currentItemPosition)
-            }
-            super.onRestoreInstanceState(state.getParcelable(INSTANCE_STATE))
-        } else {
-            super.onRestoreInstanceState(state)
-        }
-    }
-
-    companion object {
-        private const val INSTANCE_STATE = "TabBarLayout_instance_state"
-        private const val INSTANCE_POSITION = "TabBarLayout_instance_position"
+    fun getTabBarItem(index: Int): TabBarItem? {
+        return tabBarItems.getOrNull(index)
     }
 }

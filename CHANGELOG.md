@@ -1,3 +1,6 @@
+# 新版本4.0.9
+* fly_navigation = "1.2.0"，lazyDataBinding 优化
+
 # 新版本4.0.8
 * 网络状态变化监听优化
 

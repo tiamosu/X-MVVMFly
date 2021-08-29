@@ -39,13 +39,21 @@ class MainFragment : BaseFragment() {
     }
 
     override fun initEvent() {
-        dataBinding.mainTabBarLayout.setOnItemSelectedListener(onItemSelected = { position, prePosition ->
-            Log.e("xia", "onItemSelected:$position  prePosition:$prePosition")
-        }, onItemUnselected = { position ->
-            Log.e("xia", "onItemUnselected:$position")
-        }, onItemReselected = { position ->
-            Log.e("xia", "onItemReselected:$position")
-        })
+        dataBinding.mainTabBarLayout.setOnItemSelectedListener {
+            onItemSelectBefore { position ->
+                Log.e("susu", "onItemSelectBefore:$position")
+                true
+            }
+            onItemReselected { position ->
+                Log.e("susu", "onItemReselected:$position")
+            }
+            onItemSelected { position, prePosition ->
+                Log.e("susu", "onItemSelected:$position  prePosition:$prePosition")
+            }
+            onItemUnselected { prePosition ->
+                Log.e("susu", "onItemUnselected:$prePosition")
+            }
+        }
     }
 
     override fun createObserver() {
