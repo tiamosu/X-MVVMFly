@@ -69,9 +69,9 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        removeCallbacks()
         isVisibleLoadData = true
+        removeCallbacks()
+        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent?) {

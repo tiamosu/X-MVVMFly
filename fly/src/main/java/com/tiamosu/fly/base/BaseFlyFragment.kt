@@ -57,12 +57,8 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
     override fun onDestroyView() {
         isViewCreated = false
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         removeCallbacks()
+        super.onDestroyView()
     }
 
     override fun onFlySupportVisible() {
