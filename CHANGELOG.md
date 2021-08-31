@@ -1,3 +1,6 @@
+# 新版本4.1.1
+* removeCallbacks 优化
+
 # 新版本4.1.0
 * fly_navigation = "1.2.1"，lazyDataBinding 优化
 
