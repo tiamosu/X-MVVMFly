@@ -49,17 +49,17 @@ class GlideFragment : BaseFragment() {
 
         dataBinding.glideBtnClearCache.clickNoRepeat {
             Log.e("susu", "cacheSize:${getGlideCacheSize()}")
-            ImageConfigImpl
+            val config = ImageConfigImpl
                 .load(null)
                 .clearDiskCache()
                 .clearMemory()
                 .build()
-                .let(ImageLoader::clear)
+            ImageLoader.clear(context, config)
         }
     }
 
     private fun loadImage(any: Any, isBlur: Boolean = false) {
-        ImageConfigImpl
+        val config = ImageConfigImpl
             .load(any)
             .override(400, 400)
             .apply {
@@ -94,7 +94,7 @@ class GlideFragment : BaseFragment() {
             })
             .into(dataBinding.glideIv)
             .build()
-            .let(ImageLoader::loadImage)
+        ImageLoader.loadImage(context, config)
     }
 
     override fun doBusiness() {}

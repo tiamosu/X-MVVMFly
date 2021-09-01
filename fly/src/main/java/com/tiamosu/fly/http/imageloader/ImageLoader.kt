@@ -2,8 +2,6 @@ package com.tiamosu.fly.http.imageloader
 
 import android.content.Context
 import androidx.annotation.NonNull
-import com.blankj.utilcode.util.Utils
-import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,42 +17,18 @@ class ImageLoader @Inject constructor() {
     @Inject
     internal var mStrategy: BaseImageLoaderStrategy<*>? = null
 
-    /**
-     * 加载图片
-     */
-    fun <T : ImageConfig> loadImage(context: Context, config: T) {
-        checkNotNull(
-            mStrategy, "Please implement BaseImageLoaderStrategy "
-                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) "
-                    + "in the applyOptions method of ConfigModule"
-        )
-        (this.mStrategy as? BaseImageLoaderStrategy<ImageConfig>)?.loadImage(context, config)
-    }
-
-    /**
-     * 停止加载或清理缓存
-     */
-    fun <T : ImageConfig> clear(context: Context, config: T) {
-        checkNotNull(
-            mStrategy, "Please implement BaseImageLoaderStrategy "
-                    + "and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) "
-                    + "in the applyOptions method of ConfigModule"
-        )
-        (this.mStrategy as? BaseImageLoaderStrategy<ImageConfig>)?.clear(context, config)
-    }
-
     companion object {
 
         @JvmStatic
-        fun <T : ImageConfig> loadImage(config: T) {
-            getAppComponent().imageLoader()
-                .loadImage(Utils.getApp(), config)
+        fun <T : ImageConfig> loadImage(context: Context, config: T) {
+            val strategy = getAppComponent().imageLoader().getLoadImgStrategy()
+            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.loadImage(context, config)
         }
 
         @JvmStatic
-        fun <T : ImageConfig> clear(config: T) {
-            getAppComponent().imageLoader()
-                .clear(Utils.getApp(), config)
+        fun <T : ImageConfig> clear(context: Context, config: T) {
+            val strategy = getAppComponent().imageLoader().getLoadImgStrategy()
+            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.clear(context, config)
         }
     }
 
@@ -66,6 +40,9 @@ class ImageLoader @Inject constructor() {
     }
 
     fun getLoadImgStrategy(): BaseImageLoaderStrategy<*> {
-        return mStrategy!!
+        return checkNotNull(mStrategy) {
+            "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#" +
+                    "imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
+        }
     }
 }
