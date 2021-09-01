@@ -1,3 +1,7 @@
+# 新版本4.1.2
+* fly_navigation = "1.2.2"
+* ImageLoader 图片加载，可自行传入context上下文
+
 # 新版本4.1.1
 * removeCallbacks 优化
 
