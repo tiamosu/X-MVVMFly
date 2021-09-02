@@ -1,3 +1,6 @@
+# 新版本4.1.3
+* 修复 okhttp header 解析的错误问题：java.lang.IllegalArgumentException: Unexpected char
+
 # 新版本4.1.2
 * fly_navigation = "1.2.2"
 * ImageLoader 图片加载，可自行传入context上下文
