@@ -3,12 +3,14 @@ package com.tiamosu.fly.http.model
 import android.annotation.SuppressLint
 import android.os.Build
 import android.text.TextUtils
+import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.http.utils.escapeParams
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.Serializable
+import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -176,7 +178,7 @@ class HttpHeaders : Serializable {
                     }
                     // add the model for the release build
                     if ("REL" == Build.VERSION.CODENAME) {
-                        val model = Build.MODEL
+                        val model = URLEncoder.encode(DeviceUtils.getModel(), "UTF-8")
                         if (model.isNotEmpty()) {
                             buffer.append("; ")
                             buffer.append(model)
