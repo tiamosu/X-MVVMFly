@@ -1,3 +1,6 @@
+# 新版本4.1.4
+* rxjava = "3.1.1"
+
 # 新版本4.1.3
 * 修复 okhttp header 解析的错误问题：java.lang.IllegalArgumentException: Unexpected char
 
