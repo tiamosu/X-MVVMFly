@@ -17,7 +17,7 @@ object Versions {
     const val kotlin = "1.4.32"
 
     const val viewpager2 = "1.0.0"
-    const val constraintlayout = "2.1.0"
+    const val constraintlayout = "2.1.1"
     const val recyclerview = "1.2.1"
 
     const val rxjava = "3.1.1"
@@ -34,7 +34,7 @@ object Versions {
     const val leakcanary = "2.7"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.2.2"
+    const val fly_navigation = "1.2.3"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }

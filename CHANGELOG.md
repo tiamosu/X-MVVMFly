@@ -1,3 +1,8 @@
+# 新版本4.1.5
+* constraintlayout = "2.1.1"
+* fly_navigation = "1.2.3"
+* 修复 LiveData 监听失效问题
+
 # 新版本4.1.4
 * rxjava = "3.1.1"
 
