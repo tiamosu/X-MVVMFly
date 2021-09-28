@@ -52,6 +52,7 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
         initView(rootView)
         initEvent()
+        createObserver()
     }
 
     override fun onDestroyView() {
@@ -67,7 +68,6 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
 
     override fun onFlyLazyInitView2() {
         super.onFlyLazyInitView2()
-        createObserver()
         doBusiness()
     }
 

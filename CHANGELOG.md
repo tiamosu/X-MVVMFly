@@ -1,3 +1,6 @@
+# 新版本4.1.6
+* createObserver() 调用回退
+
 # 新版本4.1.5
 * constraintlayout = "2.1.1"
 * fly_navigation = "1.2.3"
