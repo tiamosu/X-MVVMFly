@@ -1,15 +1,12 @@
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-    options.encoding = 'UTF-8'
-}
+apply plugin: 'com.github.dcendents.android-maven'
+group = Publish.groupId
 
 task sourcesJar(type: Jar) {
     getArchiveClassifier().set('sources')
     from android.sourceSets.main.java.srcDirs
 }
 task javadoc(type: Javadoc) {
+    failOnError false
     source = android.sourceSets.main.java.srcDirs
     classpath += configurations.compile
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
@@ -21,8 +18,17 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 if (project.hasProperty("kotlin")) {
     // Disable creating javaDocs
-    project.tasks.withType(Javadoc) {
+    tasks.withType(Javadoc) {
         enabled = false
+    }
+}
+
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
     }
 }
 

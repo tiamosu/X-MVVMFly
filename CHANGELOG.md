@@ -1,3 +1,7 @@
+# 新版本4.1.8
+* dagger2 = "2.39"
+* fly_navigation = "1.2.5"
+
 # 新版本4.1.6
 * createObserver() 调用回退
 
