@@ -23,13 +23,12 @@ object Versions {
     const val rxjava = "3.1.1"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
-    const val okhttp3 = "4.9.1"
-    const val okio = "2.8.0"
+    const val okhttp3 = "4.9.2"
     const val gson = "2.8.6"
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.39"
+    const val dagger2 = "2.39.1"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
     const val unpeeklivedata = "7.2.0-beta1"
@@ -88,9 +87,6 @@ object Deps {
     const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
     const val okhttp3_logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp3}"
-
-    //搭配okhttp使用 https://github.com/square/okio
-    const val okio = "com.squareup.okio:okio:${Versions.okio}"
 
     //glide：强大的图片加载框架 https://github.com/bumptech/glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"

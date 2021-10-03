@@ -40,12 +40,7 @@ dependencies {
 
     //okhttp3
     api(Deps.okhttp3) {
-        exclude module: 'okio'
         exclude module: 'kotlin-stdlib'
-    }
-    api(Deps.okio) {
-        exclude module: 'kotlin-stdlib'
-        exclude module: 'kotlin-stdlib-common'
     }
 
     //dagger2
