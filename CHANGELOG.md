@@ -1,3 +1,6 @@
+# 新版本4.2.1
+* RxJava 回退3.1.1，修复问题：java.lang.OutOfMemoryError: pthread_create (1040KB stack) failed: Try again
+
 # 新版本4.2.0
 * rxjava = "3.1.2"
 
