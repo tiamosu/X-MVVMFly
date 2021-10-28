@@ -1,3 +1,6 @@
+# 新版本4.2.4
+* Glide加载优化，新增GlideFlyExt扩展
+
 # 新版本4.2.3
 * Glide加载优化，支持生命周期绑定：View、Context、Fragment、Activity、FragmentActivity
 
