@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.tiamosu.fly.http.imageloader.BaseImageLoaderStrategy
+import com.tiamosu.fly.http.imageloader.ImageContextWrap
 import com.tiamosu.fly.utils.launchIO
 import com.tiamosu.fly.utils.launchMain
 
@@ -28,8 +30,8 @@ import com.tiamosu.fly.utils.launchMain
 class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, GlideAppliesOptions {
 
     @SuppressLint("CheckResult")
-    override fun loadImage(context: Context, config: ImageConfigImpl) {
-        val glideRequest = getGlideRequest(context, config) ?: return
+    override fun loadImage(contextWrap: ImageContextWrap, config: ImageConfigImpl) {
+        val glideRequest = getGlideRequest(contextWrap, config) ?: return
 
         //缓存策略
         when (config.cacheStrategy) {
@@ -122,15 +124,17 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
     }
 
-    private fun getGlideRequest(context: Context, config: ImageConfigImpl): GlideRequest<Any>? {
-        val request = GlideFly.with(context)
+    private fun getGlideRequest(
+        contextWrap: ImageContextWrap,
+        config: ImageConfigImpl
+    ): GlideRequest<Any>? {
+        val request = getGlideRequests(contextWrap) ?: return null
         val glideRequest = when (config.transcodeType) {
             TranscodeType.AS_BITMAP -> request.asBitmap() as? GlideRequest<Any>
             TranscodeType.AS_FILE -> request.asFile() as? GlideRequest<Any>
             TranscodeType.AS_GIF -> request.asGif() as? GlideRequest<Any>
             else -> request.asDrawable() as? GlideRequest<Any>
-        }
-        glideRequest ?: return null
+        } ?: return null
 
         return when (val any = config.any) {
             is Bitmap -> glideRequest.load(any as? Bitmap)
@@ -141,7 +145,8 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
     }
 
-    override fun clear(context: Context, config: ImageConfigImpl) {
+    override fun clear(contextWrap: ImageContextWrap, config: ImageConfigImpl) {
+        val context = getContext(contextWrap) ?: return
         val glide = GlideFly.get(context)
         val requestManager = glide.requestManagerRetriever.get(context)
         if (config.imageView != null) {
@@ -159,6 +164,28 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
         if (config.isClearMemory) {//清除内存缓存
             launchMain { glide.clearMemory() }
+        }
+    }
+
+    private fun getContext(wrap: ImageContextWrap): Context? {
+        return when {
+            wrap.context != null -> wrap.context
+            wrap.activity != null -> wrap.activity
+            wrap.view != null -> wrap.view?.context
+            wrap.fragment != null -> wrap.fragment?.context
+            wrap.fragmentActivity != null -> wrap.fragmentActivity
+            else -> Utils.getApp()
+        }
+    }
+
+    private fun getGlideRequests(wrap: ImageContextWrap): GlideRequests? {
+        return when {
+            wrap.context != null -> wrap.context?.let { GlideFly.with(it) }
+            wrap.activity != null -> wrap.activity?.let { GlideFly.with(it) }
+            wrap.view != null -> wrap.view?.let { GlideFly.with(it) }
+            wrap.fragment != null -> wrap.fragment?.let { GlideFly.with(it) }
+            wrap.fragmentActivity != null -> wrap.fragmentActivity?.let { GlideFly.with(it) }
+            else -> Utils.getApp()?.let { GlideFly.with(it) }
         }
     }
 

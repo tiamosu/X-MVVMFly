@@ -14,6 +14,7 @@ import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentGlideBinding
 import com.tiamosu.fly.ext.clickNoRepeat
 import com.tiamosu.fly.http.imageloader.ImageLoader
+import com.tiamosu.fly.http.imageloader.imgCtxWrap
 import com.tiamosu.fly.imageloader.glide.ImageConfigImpl
 import com.tiamosu.fly.utils.getGlideCacheSize
 
@@ -54,7 +55,7 @@ class GlideFragment : BaseFragment() {
                 .clearDiskCache()
                 .clearMemory()
                 .build()
-            ImageLoader.clear(context, config)
+            ImageLoader.clear(imgCtxWrap, config)
         }
     }
 
@@ -94,7 +95,7 @@ class GlideFragment : BaseFragment() {
             })
             .into(dataBinding.glideIv)
             .build()
-        ImageLoader.loadImage(context, config)
+        ImageLoader.loadImage(imgCtxWrap, config)
     }
 
     override fun doBusiness() {}

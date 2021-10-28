@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.imageloader
 
-import android.content.Context
 import androidx.annotation.NonNull
 import com.tiamosu.fly.utils.getAppComponent
 import javax.inject.Inject
@@ -20,15 +19,15 @@ class ImageLoader @Inject constructor() {
     companion object {
 
         @JvmStatic
-        fun <T : ImageConfig> loadImage(context: Context, config: T) {
+        fun <T : ImageConfig> loadImage(contextWrap: ImageContextWrap, config: T) {
             val strategy = getAppComponent().imageLoader().getLoadImgStrategy()
-            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.loadImage(context, config)
+            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.loadImage(contextWrap, config)
         }
 
         @JvmStatic
-        fun <T : ImageConfig> clear(context: Context, config: T) {
+        fun <T : ImageConfig> clear(contextWrap: ImageContextWrap, config: T) {
             val strategy = getAppComponent().imageLoader().getLoadImgStrategy()
-            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.clear(context, config)
+            (strategy as? BaseImageLoaderStrategy<ImageConfig>)?.clear(contextWrap, config)
         }
     }
 
