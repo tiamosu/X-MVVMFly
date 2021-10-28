@@ -2,24 +2,24 @@
 
 package com.tiamosu.fly.http.utils
 
+import com.tiamosu.fly.http.FlyHttp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * @author tiamosu
  * @date 2020/3/18.
  */
 
-fun <T> io(): ObservableTransformer<T, T>? {
+fun <T> io(): ObservableTransformer<T, T> {
     return ObservableTransformer { upstream ->
         upstream
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
+            .subscribeOn(FlyHttp.scheduler)
+            .unsubscribeOn(FlyHttp.scheduler)
     }
 }
 
-fun <T> main(): ObservableTransformer<T, T>? {
+fun <T> main(): ObservableTransformer<T, T> {
     return ObservableTransformer { upstream ->
         upstream.observeOn(AndroidSchedulers.mainThread())
     }

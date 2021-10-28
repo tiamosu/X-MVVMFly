@@ -16,7 +16,9 @@ import com.tiamosu.fly.http.utils.main
 import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.getAppComponent
 import com.tiamosu.fly.utils.getHttpCacheFile
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
@@ -577,6 +579,13 @@ class FlyHttp {
             if (disposable?.isDisposed == false) {
                 disposable.dispose()
             }
+        }
+
+        /**
+         * 自定义Schedulers的线程池，在频繁使用Rxjava的时候仅使用单个调用度的实例
+         */
+        internal val scheduler: Scheduler by lazy {
+            getAppComponent().executorService().let { Schedulers.from(it) }
         }
     }
 }
