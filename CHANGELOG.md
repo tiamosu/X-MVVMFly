@@ -1,3 +1,6 @@
+# 新版本4.2.3
+* Glide加载优化，支持生命周期绑定：View、Context、Fragment、Activity、FragmentActivity
+
 # 新版本4.2.2
 * rxjava = "3.1.2"
 * 自定义Schedulers的线程池，在频繁使用Rxjava的时候仅使用单个调用度的实例
