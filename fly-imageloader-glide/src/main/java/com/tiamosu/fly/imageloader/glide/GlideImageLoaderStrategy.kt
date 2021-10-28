@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -128,7 +127,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         contextWrap: ImageContextWrap,
         config: ImageConfigImpl
     ): GlideRequest<Any>? {
-        val request = getGlideRequests(contextWrap) ?: return null
+        val request = contextWrap.getGlideRequests ?: return null
         val glideRequest = when (config.transcodeType) {
             TranscodeType.AS_BITMAP -> request.asBitmap() as? GlideRequest<Any>
             TranscodeType.AS_FILE -> request.asFile() as? GlideRequest<Any>
@@ -146,7 +145,7 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
     }
 
     override fun clear(contextWrap: ImageContextWrap, config: ImageConfigImpl) {
-        val context = getContext(contextWrap) ?: return
+        val context = contextWrap.getGlideContext ?: return
         val glide = GlideFly.get(context)
         val requestManager = glide.requestManagerRetriever.get(context)
         if (config.imageView != null) {
@@ -164,28 +163,6 @@ class GlideImageLoaderStrategy : BaseImageLoaderStrategy<ImageConfigImpl>, Glide
         }
         if (config.isClearMemory) {//清除内存缓存
             launchMain { glide.clearMemory() }
-        }
-    }
-
-    private fun getContext(wrap: ImageContextWrap): Context? {
-        return when {
-            wrap.context != null -> wrap.context
-            wrap.activity != null -> wrap.activity
-            wrap.view != null -> wrap.view?.context
-            wrap.fragment != null -> wrap.fragment?.context
-            wrap.fragmentActivity != null -> wrap.fragmentActivity
-            else -> Utils.getApp()
-        }
-    }
-
-    private fun getGlideRequests(wrap: ImageContextWrap): GlideRequests? {
-        return when {
-            wrap.context != null -> wrap.context?.let { GlideFly.with(it) }
-            wrap.activity != null -> wrap.activity?.let { GlideFly.with(it) }
-            wrap.view != null -> wrap.view?.let { GlideFly.with(it) }
-            wrap.fragment != null -> wrap.fragment?.let { GlideFly.with(it) }
-            wrap.fragmentActivity != null -> wrap.fragmentActivity?.let { GlideFly.with(it) }
-            else -> Utils.getApp()?.let { GlideFly.with(it) }
         }
     }
 
