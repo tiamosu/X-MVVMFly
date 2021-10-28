@@ -1,3 +1,7 @@
+# 新版本4.2.2
+* rxjava = "3.1.2"
+* 自定义Schedulers的线程池，在频繁使用Rxjava的时候仅使用单个调用度的实例
+
 # 新版本4.2.1
 * RxJava 回退3.1.1，修复问题：java.lang.OutOfMemoryError: pthread_create (1040KB stack) failed: Try again
 
