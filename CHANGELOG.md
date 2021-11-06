@@ -1,3 +1,7 @@
+# 新版本4.2.5
+* dagger2 = "2.40"
+* fly_navigation = "1.4.0"
+
 # 新版本4.2.4
 * Glide加载优化，新增GlideFlyExt扩展
 
