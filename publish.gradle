@@ -148,6 +148,22 @@ signing {
     sign publishing.publications
 }
 
+task assembleAndPublishLocally(dependsOn: ['assembleRelease']) {
+    finalizedBy('publishToMavenLocal')
+}
+task assembleAndPublish(dependsOn: ['assembleRelease']) {
+    finalizedBy('publish')
+}
+
+configure(assembleAndPublishLocally) {
+    group = 'Publishing'
+    description = 'Publish the output locally'
+}
+configure(assembleAndPublish) {
+    group = 'Publishing'
+    description = 'Publish the output to mavenCentral'
+}
+
 private def getGAV() {
     def gav = new String[3]
     gav[0] = readProperty("publish.groupId")
