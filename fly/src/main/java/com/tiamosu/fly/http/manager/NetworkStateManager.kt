@@ -20,6 +20,7 @@ class NetworkStateManager : DefaultLifecycleObserver {
     private val networkReceiver by lazy { NetworkStateReceiver() }
     private var isRegistered = false
 
+    @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {
         kotlin.runCatching {
             if (isRegistered) return

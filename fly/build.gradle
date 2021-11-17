@@ -11,47 +11,69 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //flyNavigation
-    api Deps.fly_navigation
-    api Deps.fly_databinding
+    api(Deps.fly_navigation) {
+        transitive(true)
+    }
+    api(Deps.fly_databinding) {
+        transitive(true)
+    }
 
     //rx
-    api Deps.rxjava3
+    api(Deps.rxjava3) {
+        transitive(true)
+    }
     api(Deps.rxandroid3) {
+        transitive(true)
         exclude module: 'rxjava'
     }
     api(Deps.rxerrorhandler) {
+        transitive(true)
         exclude module: 'kotlin-stdlib'
     }
 
     //retrofit2
     api(Deps.retrofit2) {
+        transitive(true)
         exclude module: 'okhttp'
     }
     api(Deps.retrofit2_adapter_rxjava2) {
+        transitive(true)
         exclude module: 'rxjava'
         exclude module: 'retrofit'
         exclude module: 'reactive-streams'
     }
     api(Deps.retrofit2_converter_gson) {
+        transitive(true)
         exclude module: 'gson'
         exclude module: 'retrofit'
     }
-    api Deps.gson
+    api(Deps.gson) {
+        transitive(true)
+    }
 
     //okhttp3
     api(Deps.okhttp3) {
+        transitive(true)
         exclude module: 'kotlin-stdlib'
     }
 
     //dagger2
-    api Deps.dagger2
-    kapt Deps.dagger2_apt
+    api(Deps.dagger2) {
+        transitive(true)
+    }
+    kapt(Deps.dagger2_apt) {
+        transitive(true)
+    }
 
     //常用的util库
-    api Deps.utilcode
+    api(Deps.utilcode) {
+        transitive(true)
+    }
 
     //unPeekLiveData
-    api Deps.unpeek_livedata
+    api(Deps.unpeek_livedata) {
+        transitive(true)
+    }
 }
 
 apply from: "${rootDir.path}/publish.gradle"

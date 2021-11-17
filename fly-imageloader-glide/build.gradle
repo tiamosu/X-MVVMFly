@@ -7,11 +7,14 @@ dependencies {
     compileOnly project(':fly')
 
     api(Deps.glide) {
+        transitive(true)
         exclude group: 'androidx.annotation'
         exclude group: 'androidx.fragment'
         exclude group: 'androidx.vectordrawable'
     }
-    kapt Deps.glide_compiler
+    kapt(Deps.glide_compiler) {
+        transitive(true)
+    }
 }
 
 apply from: "${rootDir.path}/publish.gradle"
