@@ -7,9 +7,6 @@
 ## Requirements
 适用于 Android 5.0 + (21 + API级别) 和 Java 8 +。
 
-## Download
-[![](https://jitpack.io/v/tiamosu/X-MVVMFly.svg)](https://jitpack.io/#tiamosu/X-MVVMFly)
-
 ```groovy
 allprojects {
     repositories {
@@ -17,28 +14,27 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url 'https://jitpack.io' }
+
+        //或者 sonatype
+        maven {url "https://s01.oss.sonatype.org/content/groups/public"}
+        maven {url "https://s01.oss.sonatype.org/content/repositories/releases"}
     }
 }
 ```
 
-```groovy
-implementation 'com.github.tiamosu:X-MVVMFly:4.2.5'
-```
-
-## 可单独依赖模块：
 ### fly（必需）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly:4.2.5'
+implementation 'com.gitee.tiamosu:fly:4.3.0'
 ```
 
 ### fly-http（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-http:4.2.5'
+implementation 'com.gitee.tiamosu:fly-http:4.3.0'
 ```
 
 ### fly-imageloader-glide（可选）
 ```groovy
-implementation 'com.github.tiamosu.X-MVVMFly:fly-imageloader-glide:4.2.5'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.0'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)

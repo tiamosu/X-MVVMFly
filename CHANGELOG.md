@@ -1,3 +1,9 @@
+# 新版本4.3.0
+* gradle 7.0.3
+* jdk 11 适配
+* kotlin = "1.6.0"
+* fly_navigation = "1.5.3"
+
 # 新版本4.2.5
 * dagger2 = "2.40"
 * fly_navigation = "1.4.0"
