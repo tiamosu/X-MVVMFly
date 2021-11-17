@@ -1,9 +1,9 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
 object Android {
-    const val compileSdkVersion = 30
-    const val minSdkVersion = 21
-    const val targetSdkVersion = 30
+    const val compileSdk = 31
+    const val minSdk = 21
+    const val targetSdk = 30
 
     const val versionName = "1.0"
     const val versionCode = 1
@@ -14,7 +14,7 @@ object Publish {
 }
 
 object Versions {
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.6.0"
 
     const val viewpager2 = "1.0.0"
     const val constraintlayout = "2.1.1"
@@ -28,12 +28,12 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.40"
+    const val dagger2 = "2.40.1"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.4.0"
+    const val fly_navigation = "1.5.3"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }
@@ -44,10 +44,8 @@ object Deps {
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
     //fly-navigation
-    const val fly_navigation =
-        "com.gitee.tiamosu.FlyNavigation:fly-navigation:${Versions.fly_navigation}"
-    const val fly_databinding =
-        "com.gitee.tiamosu.FlyNavigation:fly-databinding:${Versions.fly_navigation}"
+    const val fly_navigation = "com.gitee.tiamosu:fly-navigation:${Versions.fly_navigation}"
+    const val fly_databinding = "com.gitee.tiamosu:fly-databinding:${Versions.fly_navigation}"
 
     //androidx
     const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
