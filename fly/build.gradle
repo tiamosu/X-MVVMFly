@@ -54,4 +54,4 @@ dependencies {
     api Deps.unpeek_livedata
 }
 
-//apply from: "${rootDir.path}/config_publish.gradle"
+apply from: "${rootDir.path}/publish.gradle"

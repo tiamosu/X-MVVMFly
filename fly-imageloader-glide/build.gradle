@@ -14,4 +14,4 @@ dependencies {
     kapt Deps.glide_compiler
 }
 
-//apply from: "${rootDir.path}/config_publish.gradle"
+apply from: "${rootDir.path}/publish.gradle"

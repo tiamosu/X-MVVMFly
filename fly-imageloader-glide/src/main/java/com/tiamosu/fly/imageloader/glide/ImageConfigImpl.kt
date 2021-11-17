@@ -28,7 +28,7 @@ import java.net.URL
  */
 @Suppress("unused")
 class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
-    internal var target: Target<out Any>? = null
+    internal var target: Target<in Any>? = null
     internal var fallbackId = 0
     internal var placeholderDrawable: Drawable? = null
     internal var errorDrawable: Drawable? = null
@@ -78,7 +78,7 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         internal val any: Any?
     ) {
         internal var imageView: ImageView? = null
-        internal var target: Target<out Any>? = null
+        internal var target: Target<in Any>? = null
         internal var placeholderId = 0
         internal var errorId = 0
         internal var fallbackId = 0
@@ -111,8 +111,9 @@ class ImageConfigImpl private constructor(builder: Builder) : ImageConfig() {
         /**
          * 添加 target，可通过返回结果自行处理
          */
+        @Suppress("UNCHECKED_CAST")
         fun into(target: Target<out Any>?): Builder {
-            this.target = target
+            this.target = target as? Target<in Any>
             return this
         }
 

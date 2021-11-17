@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException
 class ViewModelProviderFactory(private vararg val arguments: Any) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val constructors = modelClass.constructors
         val constructor = find(
             constructors

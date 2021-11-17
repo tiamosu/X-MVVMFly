@@ -1,0 +1,185 @@
+if (!loadLocalProperties()) {
+    print("项目根目录下local.properties文件不存在")
+    return
+}
+if (!loadPublishProperties()) {
+    print("项目根目录下publish.properties文件不存在")
+    return
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidSourcesJar(type: Jar) {
+    getArchiveClassifier().set("sources")
+    from android.sourceSets.main.java.source
+    exclude "**/R.class"
+    exclude "**/BuildConfig.class"
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    getArchiveClassifier().set('javadoc')
+    from javadoc.destinationDir
+}
+
+publishing {
+    def gav = getGAV()
+    // 定义发布什么
+    publications {
+        release(MavenPublication) {
+            // group id，发布后引用的依赖的 group id
+            groupId gav[0]
+            // 发布后引用的依赖的 artifact id
+            artifactId gav[1]
+            // 发布的版本
+            version gav[2]
+
+            // 发布的 arr 的文件和源码文件
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            artifact androidSourcesJar
+            artifact javadocJar
+
+            pom {
+                // 构件名称，可以自定义
+                name = readProperty("publish.name")
+                // 构件描述
+                description = readProperty("publish.description")
+                // 构件主页
+                url = readProperty("publish.url")
+                // 构件时间
+                inceptionYear = readProperty("publish.year")
+
+                // 许可证名称和地址
+                licenses {
+                    license {
+                        name = readProperty("publish.licenseName")
+                        url = readProperty("publish.licenseUrl")
+                        distribution = readProperty("publish.licenseDist")
+                    }
+                }
+                // 开发者信息
+                developers {
+                    developer {
+                        url = readProperty("publish.developerUrl")
+                        name = readProperty("publish.developerName")
+                        email = readProperty("publish.developerEmail")
+                    }
+                }
+                // 版本控制仓库地址
+                scm {
+                    url = readProperty("publish.scmUrl")
+                    connection = readProperty("publish.scmConnection")
+                    developerConnection = readProperty("publish.scmDeveloperConnection")
+                }
+                // 解决依赖关系
+                withXml {
+                    final dependenciesNode = asNode().appendNode('dependencies')
+
+                    ext.addDependency = { Dependency dep, String scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
+                            return // invalid dependencies should be ignored
+                        }
+
+                        final dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('artifactId', dep.name)
+
+                        if (dep.version != 'unspecified') {
+                            dependencyNode.appendNode('groupId', dep.group)
+                            dependencyNode.appendNode('version', dep.version)
+                            println("${dep.group} ${dep.name} ${dep.version}")
+                        }
+
+                        dependencyNode.appendNode('scope', scope)
+                        // Some dependencies may have types, such as aar, that should be mentioned in the POM file
+                        def artifactsList = dep.properties['artifacts']
+                        if (artifactsList != null && artifactsList.size() > 0) {
+                            final artifact = artifactsList[0]
+                            dependencyNode.appendNode('type', artifact.getType())
+                        }
+
+                        if (!dep.transitive) {
+                            // In case of non transitive dependency, all its dependencies should be force excluded from them POM file
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', '*')
+                            exclusionNode.appendNode('artifactId', '*')
+                        } else if (!dep.properties.excludeRules.empty) {
+                            // For transitive with exclusions, all exclude rules should be added to the POM file
+                            final exclusions = dependencyNode.appendNode('exclusions')
+                            dep.properties.excludeRules.each { ExcludeRule rule ->
+                                final exclusionNode = exclusions.appendNode('exclusion')
+                                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                            }
+                        }
+                    }
+
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                }
+            }
+        }
+    }
+    // 定义发布到哪里
+    repositories {
+        maven {
+            name = "SonaType"
+            // 发布的位置，这里根据发布的版本区分了 SNAPSHOT 和最终版本两种情况
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                // 这里就是之前在 issues.sonatype.org 注册的账号
+                username readProperty("ossrh.username")
+                password readProperty("ossrh.password")
+            }
+        }
+    }
+
+    println "GAV = ${gav[0]}:${gav[1]}:${gav[2]}"
+}
+
+signing {
+    sign publishing.publications
+}
+
+private def getGAV() {
+    def gav = new String[3]
+    gav[0] = readProperty("publish.groupId")
+    gav[1] = readProperty("publish.artifactId")
+    gav[2] = readProperty("publish.version")
+    return gav
+}
+
+private def loadLocalProperties() {
+    return loadProperties("local.properties")
+}
+
+private def loadPublishProperties() {
+    return loadProperties("publish.properties")
+}
+
+private def loadProperties(String fileName) {
+    File localPropsFile = project.rootProject.file(fileName)
+    if (localPropsFile.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(localPropsFile))
+        props.each { name, value ->
+            project.ext[name] = value
+        }
+        return true
+    } else {
+        return false
+    }
+}
+
+private def readProperty(String key) {
+    def value = project.hasProperty(key) ? project[key] : ''
+    println("loadProperties --- key:${key}   value:${value}")
+    return value
+}

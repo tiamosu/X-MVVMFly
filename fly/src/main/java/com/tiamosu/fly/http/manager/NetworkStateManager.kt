@@ -5,22 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.Utils
 import com.tiamosu.fly.callback.EventLiveData
-import com.tiamosu.navigation.page.FlyLifecycleObserver
 
 /**
  * @author tiamosu
  * @date 2020/2/20.
  */
-class NetworkStateManager : FlyLifecycleObserver {
+class NetworkStateManager : DefaultLifecycleObserver {
     val networkStateCallback by lazy { EventLiveData<Boolean>() }
     private val networkReceiver by lazy { NetworkStateReceiver() }
     private var isRegistered = false
 
-    @Suppress("DEPRECATION")
     override fun onResume(owner: LifecycleOwner) {
         kotlin.runCatching {
             if (isRegistered) return
