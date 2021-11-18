@@ -24,17 +24,17 @@ allprojects {
 
 ### fly（必需）
 ```groovy
-implementation 'com.gitee.tiamosu:fly:4.3.0'
+implementation 'com.gitee.tiamosu:fly:4.3.1'
 ```
 
 ### fly-http（可选）
 ```groovy
-implementation 'com.gitee.tiamosu:fly-http:4.3.0'
+implementation 'com.gitee.tiamosu:fly-http:4.3.1'
 ```
 
 ### fly-imageloader-glide（可选）
 ```groovy
-implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.0'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.1'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)
