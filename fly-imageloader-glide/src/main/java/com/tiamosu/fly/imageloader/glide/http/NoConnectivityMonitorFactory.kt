@@ -23,7 +23,7 @@ class NoConnectivityMonitorFactory : ConnectivityMonitorFactory {
         }
 
         private fun isHuaWei(): Boolean {
-            val brand: String = Build.BRAND.toLowerCase(Locale.ROOT)
+            val brand: String = Build.BRAND.lowercase(Locale.ROOT)
             return brand.contains("huawei") || brand.contains("honor")
         }
     }
