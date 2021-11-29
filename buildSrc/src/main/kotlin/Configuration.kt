@@ -13,23 +13,23 @@ object Versions {
     const val kotlin = "1.6.0"
 
     const val viewpager2 = "1.0.0"
-    const val constraintlayout = "2.1.1"
+    const val constraintlayout = "2.1.2"
     const val recyclerview = "1.2.1"
 
-    const val rxjava = "3.1.2"
+    const val rxjava = "3.1.3"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
-    const val okhttp3 = "4.9.2"
+    const val okhttp3 = "4.9.3"
     const val gson = "2.8.6"
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.40.1"
+    const val dagger2 = "2.40.2"
     const val utilcode = "1.30.6"
     const val leakcanary = "2.7"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.5.5"
+    const val fly_navigation = "1.5.6"
     const val rxerrorhandler = "3.0.4"
     const val loadsir = "2.0.7"
 }

@@ -170,11 +170,11 @@ class HttpHeaders : Serializable {
                     }
                     buffer.append("; ")
                     val language = locale.language
-                    buffer.append(language.toLowerCase(locale))
+                    buffer.append(language.lowercase(locale))
                     val country = locale.country
                     if (!TextUtils.isEmpty(country)) {
                         buffer.append("-")
-                        buffer.append(country.toLowerCase(locale))
+                        buffer.append(country.lowercase(locale))
                     }
                     // add the model for the release build
                     if ("REL" == Build.VERSION.CODENAME) {

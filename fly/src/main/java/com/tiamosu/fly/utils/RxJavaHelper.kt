@@ -25,7 +25,7 @@ fun setRxJavaErrorHandler(handlerCallback: RxJavaErrorHandlerCallback? = null) {
         if (handlerCallback?.onCallback(throwable) == true) {
             return@Consumer
         }
-        var e = throwable
+        var e: Throwable? = throwable
         if (e is UndeliverableException) {
             e = e.cause
         }
