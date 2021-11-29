@@ -1,3 +1,10 @@
+# 新版本4.3.2
+* constraintlayout = "2.1.2"
+* rxjava = "3.1.3"
+* okhttp3 = "4.9.3"
+* dagger2 = "2.40.2"
+* fly_navigation = "1.5.6"
+
 # 新版本4.3.1
 * fly_navigation = "1.5.5"
 
