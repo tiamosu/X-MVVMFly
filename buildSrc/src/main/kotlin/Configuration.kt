@@ -24,13 +24,13 @@ object Versions {
     const val disklrucache = "2.0.2"
 
     const val glide = "4.12.0"
-    const val dagger2 = "2.40.2"
-    const val utilcode = "1.30.6"
+    const val dagger2 = "2.40.4"
+    const val utilcode = "1.31.0"
     const val leakcanary = "2.7"
     const val unpeeklivedata = "7.2.0-beta1"
 
     const val fly_navigation = "1.5.6"
-    const val rxerrorhandler = "3.0.4"
+    const val rxerrorhandler = "4.0.1"
     const val loadsir = "2.0.7"
 }
 
@@ -69,7 +69,7 @@ object Deps {
     const val rxandroid3 = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
 
     //rxjava错误处理 https://github.com/tiamosu/X-RxErrorHandler
-    const val rxerrorhandler = "com.github.tiamosu:X-RxErrorHandler:${Versions.rxerrorhandler}"
+    const val rxerrorhandler = "com.gitee.tiamosu:RxErrorHandler:${Versions.rxerrorhandler}"
 
     //utilcode：常用工具类库 https://github.com/Blankj/AndroidUtilCode
     const val utilcode = "com.blankj:utilcodex:${Versions.utilcode}"

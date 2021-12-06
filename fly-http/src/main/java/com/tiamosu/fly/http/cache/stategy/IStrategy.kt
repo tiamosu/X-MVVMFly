@@ -21,7 +21,7 @@ interface IStrategy {
      * @param source    网络请求对象
      * @return 返回带缓存的Observable流对象
      */
-    fun <T> execute(
+    fun <T : Any> execute(
         rxCache: RxCache,
         cacheKey: String?,
         cacheTime: Long,

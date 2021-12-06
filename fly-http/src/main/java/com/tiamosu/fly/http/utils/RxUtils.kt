@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.ObservableTransformer
  * @date 2020/3/18.
  */
 
-fun <T> io(): ObservableTransformer<T, T> {
+fun <T : Any> io(): ObservableTransformer<T, T> {
     return ObservableTransformer { upstream ->
         upstream
             .subscribeOn(FlyHttp.scheduler)
@@ -19,7 +19,7 @@ fun <T> io(): ObservableTransformer<T, T> {
     }
 }
 
-fun <T> main(): ObservableTransformer<T, T> {
+fun <T : Any> main(): ObservableTransformer<T, T> {
     return ObservableTransformer { upstream ->
         upstream.observeOn(AndroidSchedulers.mainThread())
     }

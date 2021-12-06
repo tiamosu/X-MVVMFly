@@ -76,7 +76,7 @@ class RxCache {
      *
      * @param cacheMode 缓存类型
      */
-    fun <T> transformer(cacheMode: CacheMode): ObservableTransformer<T, CacheResult<T>> {
+    fun <T : Any> transformer(cacheMode: CacheMode): ObservableTransformer<T, CacheResult<T>> {
         val strategy = loadStrategy(cacheMode) //获取缓存策略
         return ObservableTransformer { upstream ->
             FlyHttpLog.iLog("cacheKey=$cacheKey")
@@ -89,7 +89,7 @@ class RxCache {
         }
     }
 
-    private abstract class SimpleSubscribe<T> : ObservableOnSubscribe<T> {
+    private abstract class SimpleSubscribe<T : Any> : ObservableOnSubscribe<T> {
         @Throws(Exception::class)
         override fun subscribe(subscriber: ObservableEmitter<T>) {
             try {
@@ -123,7 +123,7 @@ class RxCache {
      *
      * @param key 缓存key
      */
-    fun <T> load(key: String?): Observable<T> {
+    fun <T : Any> load(key: String?): Observable<T> {
         return load(key, -1)
     }
 
@@ -133,7 +133,7 @@ class RxCache {
      * @param key  缓存key
      * @param time 保存时间
      */
-    fun <T> load(key: String?, time: Long): Observable<T> {
+    fun <T : Any> load(key: String?, time: Long): Observable<T> {
         return Observable.create(object : SimpleSubscribe<T>() {
             override fun execute(): T? {
                 return cacheCore?.load(key, time)

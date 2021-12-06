@@ -16,7 +16,7 @@ import okio.ByteString
 @Suppress("unused")
 class CacheAndRemoteDistinctStrategy : BaseStrategy() {
 
-    override fun <T> execute(
+    override fun <T : Any> execute(
         rxCache: RxCache,
         cacheKey: String?,
         cacheTime: Long,

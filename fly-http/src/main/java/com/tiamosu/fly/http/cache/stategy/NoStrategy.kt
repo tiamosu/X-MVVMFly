@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.core.Observable
 @Suppress("unused")
 class NoStrategy : IStrategy {
 
-    override fun <T> execute(
+    override fun <T : Any> execute(
         rxCache: RxCache,
         cacheKey: String?,
         cacheTime: Long,

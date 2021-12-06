@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.core.Observable
  */
 abstract class BaseStrategy : IStrategy {
 
-    fun <T> loadCache(
+    fun <T : Any> loadCache(
         rxCache: RxCache,
         key: String?,
         time: Long,
@@ -21,9 +21,7 @@ abstract class BaseStrategy : IStrategy {
     ): Observable<CacheResult<T>> {
         var observable = rxCache.load<T>(key, time)
             .flatMap { t ->
-                if (t == null) {
-                    Observable.error(NullPointerException("Not find the cache!"))
-                } else Observable.just(CacheResult<T>(true, t))
+                Observable.just(CacheResult(true, t))
             }
         if (needEmpty) {
             observable = observable.onErrorResumeNext { Observable.empty() }
@@ -32,7 +30,7 @@ abstract class BaseStrategy : IStrategy {
     }
 
     //请求成功后：同步保存
-    fun <T> loadRemote(
+    fun <T : Any> loadRemote(
         rxCache: RxCache,
         key: String?,
         source: Observable<T>,
