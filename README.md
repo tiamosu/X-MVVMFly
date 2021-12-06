@@ -12,7 +12,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
         maven { url 'https://jitpack.io' }
 
         //或者 sonatype
@@ -24,17 +23,17 @@ allprojects {
 
 ### fly（必需）
 ```groovy
-implementation 'com.gitee.tiamosu:fly:4.3.2'
+implementation 'com.gitee.tiamosu:fly:4.3.3'
 ```
 
 ### fly-http（可选）
 ```groovy
-implementation 'com.gitee.tiamosu:fly-http:4.3.2'
+implementation 'com.gitee.tiamosu:fly-http:4.3.3'
 ```
 
 ### fly-imageloader-glide（可选）
 ```groovy
-implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.2'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.3'
 ```
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)
