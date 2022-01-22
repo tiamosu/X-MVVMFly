@@ -25,19 +25,19 @@ allprojects {
 ### fly（必需）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly:4.3.4'
+implementation 'com.gitee.tiamosu:fly:4.3.5'
 ```
 
 ### fly-http（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-http:4.3.4'
+implementation 'com.gitee.tiamosu:fly-http:4.3.5'
 ```
 
 ### fly-imageloader-glide（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.4'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.5'
 ```
 
 ### fly模块
@@ -45,8 +45,8 @@ implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.4'
 #### 依赖库
 
 ```gradle
-com.gitee.tiamosu:fly-navigation:1.5.7
-com.gitee.tiamosu:fly-databinding:1.5.7
+com.gitee.tiamosu:fly-navigation:1.5.8
+com.gitee.tiamosu:fly-databinding:1.5.8
 io.reactivex.rxjava3:rxjava:3.1.3
 io.reactivex.rxjava3:rxandroid:3.0.0
 com.gitee.tiamosu:RxErrorHandler:4.0.1
