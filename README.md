@@ -44,38 +44,29 @@ implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.5'
 
 #### 依赖库
 
-```gradle
-com.gitee.tiamosu:fly-navigation:1.5.8
-com.gitee.tiamosu:fly-databinding:1.5.8
-io.reactivex.rxjava3:rxjava:3.1.3
-io.reactivex.rxjava3:rxandroid:3.0.0
-com.gitee.tiamosu:RxErrorHandler:4.0.1
-com.squareup.retrofit2:retrofit:2.9.0
-com.squareup.retrofit2:adapter-rxjava3:2.9.0
-com.squareup.retrofit2:converter-gson:2.9.0
-com.google.code.gson:gson:2.8.6
-com.squareup.okhttp3:okhttp:4.9.3
-com.google.dagger:dagger:2.40.5
-com.blankj:utilcodex:1.31.0
-com.kunminx.arch:unpeek-livedata:7.2.0-beta1
-```
+* [FlyNavigation](https://gitee.com/tiamosu/FlyNavigation)
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+* [RxErrorHandler](https://gitee.com/tiamosu/X-RxErrorHandler)
+* [retrofit](https://github.com/square/retrofit)
+* [gson](https://github.com/google/gson)
+* [okhttp](https://github.com/square/okhttp)
+* [dagger](https://github.com/google/dagger)
+* [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
+* [UnPeek-LiveData](https://github.com/KunMinX/UnPeek-LiveData)
 
 ### fly-http模块
 
 #### 依赖库
 
-```gradle
-com.jakewharton:disklrucache:2.0.2
-com.squareup.okhttp3:logging-interceptor:4.9.3
-```
+* [DiskLruCache](https://github.com/JakeWharton/DiskLruCache)
+* [okhttp](https://github.com/square/okhttp)
 
 ### fly-http模块
 
 #### 依赖库
 
-```gradle
-com.github.bumptech.glide:glide:4.12.0
-```
+* [glide](https://github.com/bumptech/glide)
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)
 

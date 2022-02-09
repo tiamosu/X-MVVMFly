@@ -20,13 +20,13 @@ object Versions {
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.3"
-    const val gson = "2.8.6"
+    const val gson = "2.8.9"
     const val disklrucache = "2.0.2"
 
-    const val glide = "4.12.0"
+    const val glide = "4.13.0"
     const val dagger2 = "2.40.5"
     const val utilcode = "1.31.0"
-    const val leakcanary = "2.7"
+    const val leakcanary = "2.8.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
     const val fly_navigation = "1.5.8"
