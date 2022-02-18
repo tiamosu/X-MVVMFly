@@ -77,7 +77,7 @@ object GsonFactory {
         for (typeAdapterFactory in TYPE_ADAPTER_FACTORIES) {
             gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
         }
-        val constructor = ConstructorConstructor(INSTANCE_CREATORS)
+        val constructor = ConstructorConstructor(INSTANCE_CREATORS, true)
         gsonBuilder
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
