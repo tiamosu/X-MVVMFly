@@ -29,7 +29,7 @@ object Versions {
     const val leakcanary = "2.8.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.5.8"
+    const val fly_navigation = "1.5.9"
     const val rxerrorhandler = "4.0.1"
     const val loadsir = "2.0.7"
 }
