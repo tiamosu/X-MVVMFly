@@ -25,19 +25,19 @@ allprojects {
 ### fly（必需）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly:4.3.6'
+implementation 'com.gitee.tiamosu:fly:4.3.7'
 ```
 
 ### fly-http（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-http:4.3.6'
+implementation 'com.gitee.tiamosu:fly-http:4.3.7'
 ```
 
 ### fly-imageloader-glide（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.6'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.3.7'
 ```
 
 ### fly模块
