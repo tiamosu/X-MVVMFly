@@ -23,15 +23,15 @@ object Versions {
     const val gson = "2.9.0"
     const val disklrucache = "2.0.2"
 
-    const val glide = "4.13.0"
+    const val glide = "4.13.1"
     const val dagger2 = "2.41"
     const val utilcode = "1.31.0"
     const val leakcanary = "2.8.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.5.9"
+    const val fly_navigation = "1.6.0"
     const val rxerrorhandler = "4.0.1"
-    const val loadsir = "2.0.7"
+    const val loadsir = "3.0.0"
 }
 
 object Deps {
@@ -87,7 +87,7 @@ object Deps {
     const val glide_compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     //loadSir：加载反馈页管理框架 https://github.com/tiamosu/LoadSir
-    const val loadsir = "com.github.tiamosu:LoadSir:${Versions.loadsir}"
+    const val loadsir = "com.gitee.tiamosu:loadsir:${Versions.loadsir}"
 
     //unPeekLiveData：解决LiveData数据倒灌 https://github.com/KunMinX/UnPeek-LiveData
     const val unpeek_livedata = "com.kunminx.arch:unpeek-livedata:${Versions.unpeeklivedata}"
