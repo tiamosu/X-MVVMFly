@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.SPUtils
  * @author tiamosu
  * @date 2020/11/24.
  */
-internal object CacheUtils {
+internal object FlyCacheUtils {
     private val SP_UTILS = SPUtils.getInstance("FlyHttp")
 
     private fun putInt(key: String, value: Int) {

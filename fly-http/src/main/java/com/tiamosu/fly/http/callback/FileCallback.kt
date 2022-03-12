@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.tiamosu.fly.http.constant.DownloadStatus
 import com.tiamosu.fly.http.model.Progress
 import com.tiamosu.fly.http.model.Response
-import com.tiamosu.fly.http.utils.CacheUtils
+import com.tiamosu.fly.http.utils.FlyCacheUtils
 import com.tiamosu.fly.utils.createFile
 import com.tiamosu.fly.utils.launchMain
 import okhttp3.ResponseBody
@@ -43,10 +43,10 @@ abstract class FileCallback : NoCacheCustomCallback<File> {
      */
     internal fun update(isBreakpointDownload: Boolean) {
         val isDownloading =
-            CacheUtils.getDownloadStatus(downloadFile.absolutePath) == DownloadStatus.STATUS_LOADING
+            FlyCacheUtils.getDownloadStatus(downloadFile.absolutePath) == DownloadStatus.STATUS_LOADING
         val isBreakpointDownloading = isBreakpointDownload && isDownloading  //是否正在断点下载中
         if (!isBreakpointDownloading) {
-            CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_DEFAULT)
+            FlyCacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_DEFAULT)
             FileUtils.delete(downloadFile)
             this.downloadFile = createFile(this.destFileDir, this.destFileName)
         }
@@ -73,7 +73,7 @@ abstract class FileCallback : NoCacheCustomCallback<File> {
                 return
             }
             launchMain {
-                CacheUtils.setDownloadStatus(
+                FlyCacheUtils.setDownloadStatus(
                     downloadFile.absolutePath,
                     DownloadStatus.STATUS_COMPLETE
                 )
@@ -84,7 +84,7 @@ abstract class FileCallback : NoCacheCustomCallback<File> {
     }
 
     private fun saveFile(body: ResponseBody): File? {
-        CacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_LOADING)
+        FlyCacheUtils.setDownloadStatus(downloadFile.absolutePath, DownloadStatus.STATUS_LOADING)
 
         val progress = Progress().apply {
             val range = downloadFile.length()

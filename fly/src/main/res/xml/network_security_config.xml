@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><!-- 解决 Android P 禁用 http 请求的问题 -->
+<?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
-    <!-- 允许明文通信 -->
     <base-config
         cleartextTrafficPermitted="true"
-        tools:ignore="InsecureBaseConfiguration" />
+        tools:ignore="InsecureBaseConfiguration">
+
+        <!-- https 抓包 -->
+        <trust-anchors tools:ignore="AcceptsUserCertificates">
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>
