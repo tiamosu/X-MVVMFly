@@ -24,9 +24,9 @@ class NetworkDelegate {
             owner.lifecycle.addObserver(NetworkStateManager.instance)
         }
         if (netAction.isCheckNetChanged()) {
-            NetworkStateManager.instance.networkStateCallback.observe(owner, { isConnected ->
+            NetworkStateManager.instance.networkStateCallback.observe(owner) { isConnected ->
                 hasNetWork(netAction, isConnected)
-            })
+            }
         }
     }
 

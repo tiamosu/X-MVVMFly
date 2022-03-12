@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 class WeakOnCancelListener(real: DialogInterface.OnCancelListener?) :
     DialogInterface.OnCancelListener {
 
-    private var ref = WeakReference(real)
+    private val ref = WeakReference(real)
 
     override fun onCancel(dialog: DialogInterface?) {
         val real = ref.get()

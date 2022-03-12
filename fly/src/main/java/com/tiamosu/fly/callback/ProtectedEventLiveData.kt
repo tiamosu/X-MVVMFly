@@ -23,7 +23,7 @@ open class ProtectedEventLiveData<T> : LiveData<T>() {
 
     @Suppress("LABEL_NAME_CLASH")
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        super.observe(owner, { t: T ->
+        super.observe(owner) { t: T ->
             if (isCleaning) {
                 hasHandled = true
                 isDelaying = false
@@ -37,7 +37,7 @@ open class ProtectedEventLiveData<T> : LiveData<T>() {
             } else if (isDelaying) {
                 observer.onChanged(t)
             }
-        })
+        }
     }
 
     /**

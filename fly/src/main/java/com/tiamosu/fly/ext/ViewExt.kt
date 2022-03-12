@@ -1,7 +1,7 @@
 package com.tiamosu.fly.ext
 
 import android.view.View
-import com.tiamosu.fly.utils.isValid
+import com.tiamosu.navigation.ext.isValid
 
 /**
  * 防止重复点击事件，默认0.5秒内不可重复点击
@@ -22,10 +22,10 @@ fun View.clickNoRepeat(
  */
 fun clickNoRepeat(
     interval: Long = 500,
-    views: Array<out View>,
+    views: Array<out View?>,
     block: (view: View) -> Unit
 ) {
     views.forEach {
-        it.clickNoRepeat(interval, block)
+        it?.clickNoRepeat(interval, block)
     }
 }

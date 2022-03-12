@@ -1,6 +1,5 @@
 package com.tiamosu.fly.http.cache.core
 
-import com.tiamosu.fly.utils.checkNotNull
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 /**
@@ -24,7 +23,7 @@ abstract class BaseCache {
      */
     fun <T> load(key: String?, existTime: Long): T? {
         //1.先检查key
-        checkNotNull(key, "key == null")
+        checkNotNull(key) { "key == null" }
 
         //2.判断key是否存在,key不存在去读缓存没意义
         if (!containsKey(key)) {
@@ -55,7 +54,7 @@ abstract class BaseCache {
      */
     fun <T> save(key: String?, value: T?): Boolean {
         //1.先检查key
-        checkNotNull(key, "key == null")
+        checkNotNull(key) { "key == null" }
 
         //2.如果要保存的值为空,则删除
         if (value == null) {

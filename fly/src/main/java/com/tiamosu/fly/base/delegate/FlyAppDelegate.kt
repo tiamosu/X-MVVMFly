@@ -15,7 +15,6 @@ import com.tiamosu.fly.di.module.GlobalConfigModule
 import com.tiamosu.fly.integration.ConfigModule
 import com.tiamosu.fly.integration.ManifestParser
 import com.tiamosu.fly.integration.cache.IntelligentCache
-import com.tiamosu.fly.utils.checkNotNull
 
 /**
  * [FlyAppDelegate] 可以代理 [Application] 的生命周期, 在对应的生命周期, 执行对应的逻辑, 因为 Java 只能单继承,
@@ -141,12 +140,9 @@ class FlyAppDelegate(context: Context) : IFlyApp, IFlyAppLifecycles {
      */
     override fun getAppComponent(): AppComponent {
         val applicationClsName = application?.javaClass?.name ?: Application::class.java.name
-        checkNotNull(
-            appComponent,
-            "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
-            AppComponent::class.java.name, javaClass.name, applicationClsName
-        )
-        return appComponent!!
+        return checkNotNull(appComponent) {
+            "${AppComponent::class.java.name} == null, first call ${javaClass.name}#onCreate(Application) in ${applicationClsName}#onCreate()"
+        }
     }
 
     /**

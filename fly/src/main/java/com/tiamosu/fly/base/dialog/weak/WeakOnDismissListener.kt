@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 class WeakOnDismissListener(real: DialogInterface.OnDismissListener?) :
     DialogInterface.OnDismissListener {
 
-    private var ref = WeakReference(real)
+    private val ref = WeakReference(real)
 
     override fun onDismiss(dialog: DialogInterface?) {
         val real = ref.get()

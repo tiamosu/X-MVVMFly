@@ -8,41 +8,41 @@ object FlyDialogHelper {
 
     @JvmStatic
     fun safeShowDialog(dialog: BaseFlyDialog?) {
-        try {
+        kotlin.runCatching {
             if (dialog?.isShowing == false) {
                 dialog.show()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
     @JvmStatic
     fun safeCloseDialog(dialog: BaseFlyDialog?) {
-        try {
+        kotlin.runCatching {
             if (dialog?.isShowing == true) {
                 dialog.dismiss()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
     @JvmStatic
     fun safeShowDialog(dialogFragment: BaseFlyDialogFragment?) {
-        try {
+        kotlin.runCatching {
             dialogFragment?.show()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
     @JvmStatic
     fun safeCloseDialog(dialogFragment: BaseFlyDialogFragment?) {
-        try {
+        kotlin.runCatching {
             dialogFragment?.dismiss()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 }

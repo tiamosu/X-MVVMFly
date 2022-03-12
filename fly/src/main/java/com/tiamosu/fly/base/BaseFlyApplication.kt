@@ -5,8 +5,6 @@ import android.content.res.Configuration
 import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.component.AppComponent
-import com.tiamosu.fly.utils.checkNotNull
-import com.tiamosu.fly.utils.checkState
 import com.tiamosu.navigation.FlyApplication
 
 /**
@@ -58,13 +56,8 @@ open class BaseFlyApplication : FlyApplication(), IFlyApp {
      * @see [com.tiamosu.fly.utils.getAppComponent]
      */
     override fun getAppComponent(): AppComponent {
-        checkNotNull(appDelegate, "%s cannot be null", IFlyAppLifecycles::class.java.name)
-        checkState(
-            appDelegate is IFlyApp,
-            "%s must be implements %s",
-            IFlyAppLifecycles::class.java.name,
-            IFlyApp::class.java.name
-        )
-        return (appDelegate as IFlyApp).getAppComponent()
+        return checkNotNull((appDelegate as? IFlyApp)?.getAppComponent()) {
+            "${IFlyAppLifecycles::class.java.name} must be implements ${IFlyApp::class.java.name}"
+        }
     }
 }

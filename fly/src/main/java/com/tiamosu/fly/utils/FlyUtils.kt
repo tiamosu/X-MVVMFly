@@ -3,7 +3,6 @@
 package com.tiamosu.fly.utils
 
 import android.app.Activity
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.ActivityUtils
@@ -21,14 +20,9 @@ import com.tiamosu.navigation.page.FlySupportFragment
  */
 
 fun getAppComponent(): AppComponent {
-    checkNotNull(Utils.getApp(), "%s cannot be null", Context::class.java.name)
-    checkState(
-        Utils.getApp() is IFlyApp,
-        "%s must be implements %s",
-        Utils.getApp().javaClass.name,
-        IFlyApp::class.java.name
-    )
-    return (Utils.getApp() as IFlyApp).getAppComponent()
+    return checkNotNull((Utils.getApp() as? IFlyApp)?.getAppComponent()) {
+        "${Utils.getApp().javaClass.name} must be implements ${IFlyApp::class.java.name}"
+    }
 }
 
 /**

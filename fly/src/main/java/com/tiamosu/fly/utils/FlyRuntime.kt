@@ -3,7 +3,10 @@
 package com.tiamosu.fly.utils
 
 import android.app.*
+import android.app.admin.DevicePolicyManager
 import android.app.job.JobScheduler
+import android.app.usage.UsageStatsManager
+import android.appwidget.AppWidgetManager
 import android.content.ClipboardManager
 import android.hardware.SensorManager
 import android.location.LocationManager
@@ -15,6 +18,7 @@ import android.os.BatteryManager
 import android.os.PowerManager
 import android.os.Vibrator
 import android.os.storage.StorageManager
+import android.telecom.TelecomManager
 import android.telephony.CarrierConfigManager
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
@@ -64,3 +68,7 @@ val downloadManager get() = getSystemService<DownloadManager>()
 val batteryManager get() = getSystemService<BatteryManager>()
 val jobScheduler get() = getSystemService<JobScheduler>()
 val accessibilityManager get() = getSystemService<AccessibilityManager>()
+val appWidgetManager get() = getSystemService<AppWidgetManager>()
+val telecomManager get() = getSystemService<TelecomManager>()
+val devicePolicyManager get() = getSystemService<DevicePolicyManager>()
+val usageStatsManager get() = getSystemService<UsageStatsManager>()

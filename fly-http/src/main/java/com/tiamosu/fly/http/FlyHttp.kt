@@ -13,7 +13,6 @@ import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.*
 import com.tiamosu.fly.http.utils.FlyHttpLog
 import com.tiamosu.fly.http.utils.main
-import com.tiamosu.fly.utils.checkState
 import com.tiamosu.fly.utils.getAppComponent
 import com.tiamosu.fly.utils.getHttpCacheFile
 import io.reactivex.rxjava3.core.Scheduler
@@ -318,7 +317,7 @@ class FlyHttp {
      * 全局设置缓存的版本，默认为1，缓存的版本号
      */
     fun setCacheVersion(cacheVersion: Int): FlyHttp {
-        checkState(cacheVersion >= 0, "cacheVersion must > 0")
+        check(cacheVersion >= 0) { "cacheVersion must > 0" }
         globalRxCacheBuilder.appVersion(cacheVersion)
         return this
     }

@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference
  * @date 2020/5/30.
  */
 class WeakOnShowListener(real: DialogInterface.OnShowListener?) : DialogInterface.OnShowListener {
-    private var ref = WeakReference(real)
+    private val ref = WeakReference(real)
 
     override fun onShow(dialog: DialogInterface?) {
         val real = ref.get()

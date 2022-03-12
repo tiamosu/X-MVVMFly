@@ -1,8 +1,6 @@
 package com.tiamosu.fly.integration.cache
 
 import com.tiamosu.fly.integration.cache.IntelligentCache.Companion.KEY_KEEP
-import com.tiamosu.fly.utils.checkNotNull
-import java.util.*
 
 /**
  * [IntelligentCache] 含有可将数据永久存储至内存中的存储容器 [mMap], 和当达到最大容量时可根据 LRU
@@ -134,7 +132,6 @@ class IntelligentCache<V>(size: Int) : Cache<String, V> {
          */
         @JvmStatic
         fun getKeyOfKeep(key: String): String {
-            checkNotNull(key, "key == null")
             return KEY_KEEP + key
         }
     }

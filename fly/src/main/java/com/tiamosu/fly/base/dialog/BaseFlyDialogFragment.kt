@@ -101,7 +101,7 @@ open class BaseFlyDialogFragment : DialogFragment() {
      * 解决 Can not perform this action after onSaveInstanceState问题（当前Activity不在栈顶时显示错误的问题）
      */
     private fun showAllowingLoss(manager: FragmentManager, tag: String?) {
-        try {
+        kotlin.runCatching {
             val cls = DialogFragment::class.java
             cls.getDeclaredField("mDismissed").apply {
                 isAccessible = true
@@ -115,10 +115,8 @@ open class BaseFlyDialogFragment : DialogFragment() {
                 add(this@BaseFlyDialogFragment, tag)
                 commitAllowingStateLoss()
             }
-        } catch (e: Exception) {
-            //调系统的show()方法
+        }.onFailure {
             show(manager, tag)
-            return
         }
     }
 

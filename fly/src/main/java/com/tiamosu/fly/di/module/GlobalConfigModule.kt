@@ -10,7 +10,6 @@ import com.tiamosu.fly.integration.cache.Cache
 import com.tiamosu.fly.integration.cache.CacheType
 import com.tiamosu.fly.integration.cache.IntelligentCache
 import com.tiamosu.fly.integration.cache.LruCache
-import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getCacheFile
 import dagger.Module
 import dagger.Provides
@@ -20,7 +19,6 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.internal.threadFactory
 import java.io.File
-import java.util.*
 import java.util.concurrent.*
 import javax.inject.Singleton
 
@@ -192,8 +190,7 @@ class GlobalConfigModule private constructor(builder: Builder) {
         }
 
         fun baseurl(baseUrl: BaseUrl): Builder {
-            this.mBaseUrl =
-                checkNotNull(baseUrl, BaseUrl::class.java.canonicalName!! + "can not be null.")
+            this.mBaseUrl = baseUrl
             return this
         }
 

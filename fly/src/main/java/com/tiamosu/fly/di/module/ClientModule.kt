@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.tiamosu.fly.http.GlobalHttpHandler
-import com.tiamosu.fly.utils.checkNotNull
 import dagger.Module
 import dagger.Provides
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -72,10 +71,10 @@ abstract class ClientModule {
             gson: Gson
         ): Retrofit {
 
-            checkNotNull(httpUrl, "baseUrl == null")
+            checkNotNull(httpUrl) { "baseUrl == null" }
 
             builder
-                .baseUrl(httpUrl!!)//域名
+                .baseUrl(httpUrl)//域名
                 .client(client)//设置 OkHttp
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())//使用 RxJava
                 .addConverterFactory(GsonConverterFactory.create(gson))//使用 Gson

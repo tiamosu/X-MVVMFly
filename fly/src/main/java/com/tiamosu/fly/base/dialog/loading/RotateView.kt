@@ -35,7 +35,7 @@ class RotateView @JvmOverloads constructor(
     private fun initAnimator() {
         headerAnimator = ObjectAnimator
             .ofFloat(this, "rotation", 0f, 360f)
-            ?.apply {
+            .apply {
                 repeatCount = ObjectAnimator.INFINITE
                 interpolator = LinearInterpolator()
                 repeatMode = ObjectAnimator.RESTART

@@ -31,5 +31,5 @@ inline fun <reified VM : ViewModel> ViewModelStoreOwner.viewModel(factory: ViewM
 fun <VM : ViewModel> ViewModelStoreOwner.viewModel(
     clazz: Class<VM>, factory: ViewModelProvider.Factory = ViewModelProviderFactory()
 ): VM {
-    return ViewModelProvider(this, factory).get(clazz)
+    return ViewModelProvider(this, factory)[clazz]
 }

@@ -15,7 +15,6 @@ import com.tiamosu.fly.http.model.HttpHeaders
 import com.tiamosu.fly.http.model.HttpParams
 import com.tiamosu.fly.http.request.RequestCall
 import com.tiamosu.fly.integration.obtainRetrofitService
-import com.tiamosu.fly.utils.checkNotNull
 import com.tiamosu.fly.utils.getAppComponent
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.*
@@ -558,13 +557,13 @@ abstract class BaseRequest<R : BaseRequest<R>>(val url: String) {
                 interceptors.add(NoCacheInterceptor())
                 return if (diskConverter == null) {
                     rxCacheBuilder.also {
-                        it.cacheKey(checkNotNull(cacheKey, "cacheKey == null"))
+                        it.cacheKey(checkNotNull(cacheKey) { "cacheKey == null" })
                             .cacheTime(cacheTime)
                     }
                 } else {
                     FlyHttp.getRxCache().newBuilder().also {
                         it.diskConverter(diskConverter)
-                            .cacheKey(checkNotNull(cacheKey, "cacheKey == null"))
+                            .cacheKey(checkNotNull(cacheKey) { "cacheKey == null" })
                             .cacheTime(cacheTime)
                     }
                 }
