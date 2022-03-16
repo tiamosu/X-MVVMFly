@@ -48,10 +48,10 @@ implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.4.0'
 * [RxJava](https://github.com/ReactiveX/RxJava)
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [RxErrorHandler](https://gitee.com/tiamosu/X-RxErrorHandler)
-* [retrofit](https://github.com/square/retrofit)
-* [gson](https://github.com/google/gson)
-* [okhttp](https://github.com/square/okhttp)
-* [dagger](https://github.com/google/dagger)
+* [Retrofit](https://github.com/square/retrofit)
+* [Gson](https://github.com/google/gson)
+* [Okhttp](https://github.com/square/okhttp)
+* [Dagger](https://github.com/google/dagger)
 * [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 * [UnPeek-LiveData](https://github.com/KunMinX/UnPeek-LiveData)
 
@@ -60,13 +60,13 @@ implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.4.0'
 #### 依赖库
 
 * [DiskLruCache](https://github.com/JakeWharton/DiskLruCache)
-* [okhttp](https://github.com/square/okhttp)
+* [Okhttp](https://github.com/square/okhttp)
 
 ### fly-http模块
 
 #### 依赖库
 
-* [glide](https://github.com/bumptech/glide)
+* [Glide](https://github.com/bumptech/glide)
 
 ## [UpdateLog](https://github.com/tiamosu/X-MVVMFly/blob/master/CHANGELOG.md)
 
