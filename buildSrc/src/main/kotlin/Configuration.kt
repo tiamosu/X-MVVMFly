@@ -1,7 +1,7 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
 object Android {
-    const val compileSdk = 32
+    const val compileSdk = 31
     const val minSdk = 21
     const val targetSdk = 30
 
@@ -29,7 +29,7 @@ object Versions {
     const val leakcanary = "2.8.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.6.2"
+    const val fly_navigation = "1.6.3"
     const val rxerrorhandler = "4.0.1"
     const val loadsir = "3.0.0"
 }
