@@ -1,3 +1,6 @@
+# 新版本4.4.1
+* fly_navigation = "1.6.3"
+
 # 新版本4.4.0
 
 * network_security_config 配置修改
