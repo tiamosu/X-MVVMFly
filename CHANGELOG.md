@@ -1,4 +1,12 @@
+# 新版本4.4.2
+
+* rxjava = "3.1.4"
+* 网络安全配置修改
+* 移除android:name="android.permission.MANAGE_EXTERNAL_STORAGE"默认权限配置
+* ActivityAnimationStyle名称改为FlyActivityAnimationStyle
+
 # 新版本4.4.1
+
 * fly_navigation = "1.6.3"
 
 # 新版本4.4.0
