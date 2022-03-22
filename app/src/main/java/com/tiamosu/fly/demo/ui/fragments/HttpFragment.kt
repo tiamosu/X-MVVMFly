@@ -5,8 +5,8 @@ import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentHttpBinding
+import com.tiamosu.fly.demo.ext.jumpFragment
 import com.tiamosu.fly.ext.clickNoRepeat
-import com.tiamosu.navigation.ext.navigate
 
 /**
  * @author tiamosu
@@ -21,16 +21,16 @@ class HttpFragment : BaseFragment() {
 
     override fun initEvent() {
         dataBinding.btnBasicRequest.clickNoRepeat {
-            navigate(R.id.action_to_basicRequestFragment)
+            jumpFragment(resId = R.id.basicRequestFragment)
         }
         dataBinding.btnUpload.clickNoRepeat {
-            navigate(R.id.action_to_uploadFragment)
+            jumpFragment(resId = R.id.uploadFragment)
         }
         dataBinding.btnDownload.clickNoRepeat {
-            navigate(R.id.action_to_downloadFragment)
+            jumpFragment(resId = R.id.downloadFragment)
         }
         dataBinding.btnRequestCache.clickNoRepeat {
-            navigate(R.id.action_to_cacheFragment)
+            jumpFragment(resId = R.id.cacheFragment)
         }
     }
 

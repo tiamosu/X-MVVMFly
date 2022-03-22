@@ -5,8 +5,8 @@ import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentChildUpperBinding
+import com.tiamosu.fly.demo.ext.jumpFragment
 import com.tiamosu.fly.ext.clickNoRepeat
-import com.tiamosu.navigation.ext.navigate
 
 /**
  * @author tiamosu
@@ -27,7 +27,7 @@ class ChildUpperFragment : BaseFragment() {
 
         dataBinding.btnJumpNews.clickNoRepeat {
             sharedViewModel.selectTabItem.value = 1
-            navigate(R.id.action_pop_to_newsFragment)
+            jumpFragment(popUpToId = R.id.mainFragment)
         }
     }
 

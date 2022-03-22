@@ -7,8 +7,8 @@ import com.tiamosu.fly.demo.BR
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.bridge.request.HomeViewModel
+import com.tiamosu.fly.demo.ext.jumpFragment
 import com.tiamosu.fly.demo.ext.lazyViewModel
-import com.tiamosu.navigation.ext.navigate
 
 /**
  * @author tiamosu
@@ -31,24 +31,22 @@ class HomeFragment : BaseFragment() {
 
         fun startShared() {
             sharedViewModel.param.value = "SharedViewModel 共享数据传参测试~ ^_^"
-            navigate(
-                R.id.action_to_sharedFragment,
-                args = bundleOf(
-                    SharedFragment.KEY to "Fragment 跳转传参测试~~~"
-                )
+            jumpFragment(
+                resId = R.id.sharedFragment,
+                args = bundleOf(SharedFragment.KEY to "Fragment 跳转传参测试~~~")
             )
         }
 
         fun startHttp() {
-            navigate(R.id.action_to_httpFragment)
+            jumpFragment(resId = R.id.httpFragment)
         }
 
         fun startGlide() {
-            navigate(R.id.action_to_glideFragment)
+            jumpFragment(resId = R.id.glideFragment)
         }
 
         fun startLoadSir() {
-            navigate(R.id.action_to_loadSirFragment)
+            jumpFragment(resId = R.id.loadSirFragment)
         }
     }
 

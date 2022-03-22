@@ -4,7 +4,7 @@ import android.view.View
 import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
-import com.tiamosu.navigation.ext.navigate
+import com.tiamosu.fly.demo.ext.jumpFragment
 
 /**
  * @author tiamosu
@@ -17,7 +17,7 @@ class LaunchFragment : BaseFragment() {
     }
 
     override fun initView(rootView: View?) {
-        navigate(R.id.action_to_mainFragment)
+        jumpFragment(resId = R.id.mainFragment, popUpToId = R.id.nav_main, popUpToInclusive = true)
     }
 
     override fun doBusiness() {

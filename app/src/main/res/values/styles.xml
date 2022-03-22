@@ -14,7 +14,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <!-- Activity 专场动画  -->
-        <item name="android:windowAnimationStyle">@style/ActivityAnimationStyle</item>
+        <item name="android:windowAnimationStyle">@style/FlyActivityAnimationStyle</item>
     </style>
 
     <!-- 闪屏页主题样式 -->
