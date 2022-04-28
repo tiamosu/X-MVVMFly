@@ -10,11 +10,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.6.10"
-
-    const val viewpager2 = "1.0.0"
-    const val constraintlayout = "2.1.3"
-    const val recyclerview = "1.2.1"
+    const val kotlin = "1.6.21"
 
     const val rxjava = "3.1.4"
     const val rxandroid = "3.0.0"
@@ -26,10 +22,10 @@ object Versions {
     const val glide = "4.13.1"
     const val dagger2 = "2.41"
     const val utilcode = "1.31.0"
-    const val leakcanary = "2.8.1"
+    const val leakcanary = "2.9.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.6.3"
+    const val fly_navigation = "1.6.4"
     const val rxerrorhandler = "4.0.1"
     const val loadsir = "3.0.0"
 }
@@ -44,18 +40,16 @@ object Deps {
     const val fly_databinding = "com.gitee.tiamosu:fly-databinding:${Versions.fly_navigation}"
 
     //androidx
-    const val androidx_viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
-    const val androidx_constraintlayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
-    const val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
+    const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
 
     //dagger2：依赖注入框架 https://github.com/google/dagger
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
     const val dagger2_apt = "com.google.dagger:dagger-compiler:${Versions.dagger2}"
 
     //leakcanary：内存泄漏检测 https://github.com/square/leakcanary
-    const val leakcanary_android =
-        "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
+    const val leakcanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
 
     //retrofit2：基于okhttp封装的网络请求框架 https://github.com/square/retrofit
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"

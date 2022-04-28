@@ -1,57 +1,33 @@
 package com.tiamosu.fly.http.manager
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.NetworkUtils
 import com.tiamosu.fly.base.action.NetAction
-import com.tiamosu.fly.utils.isPageVisible
 
 /**
  * @author tiamosu
  * @date 2020/2/22.
  */
-class NetworkDelegate {
+class NetworkDelegate : NetworkUtils.OnNetworkStatusChangedListener {
     //记录上一次网络连接状态
     private var lastNetStatus = NetworkState.NETWORK_DEFAULT
 
-    //网络是否重新连接
-    private var isNetReConnect = false
+    private var netAction: NetAction? = null
 
-    @Suppress("DEPRECATION")
     fun addNetworkObserve(netAction: NetAction) {
-        val owner = netAction as? LifecycleOwner ?: return
-        if (owner is AppCompatActivity) {
-            owner.lifecycle.addObserver(NetworkStateManager.instance)
-        }
-        if (netAction.isCheckNetChanged()) {
-            NetworkStateManager.instance.networkStateCallback.observe(owner) { isConnected ->
-                hasNetWork(netAction, isConnected)
-            }
-        }
+        this.netAction = netAction
+        NetworkUtils.registerNetworkStatusChangedListener(this)
     }
 
-    fun hasNetWork(
-        netAction: NetAction,
-        isConnected: Boolean = NetworkUtils.isConnected()
-    ) {
-        val owner = netAction as? LifecycleOwner ?: return
-        val curNetStatus = if (isConnected) NetworkState.NETWORK_ON else NetworkState.NETWORK_OFF
-        if (curNetStatus != lastNetStatus || isNetReConnect) {
-            if (lastNetStatus == NetworkState.NETWORK_DEFAULT) {
-                lastNetStatus = curNetStatus
-            }
-            //判断网络是否是重连接的
-            if (isConnected && lastNetStatus != NetworkState.NETWORK_ON) {
-                isNetReConnect = true
-            }
-            if (owner.isPageVisible) {
-                netAction.onNetworkStateChanged(isConnected)
-                if (isConnected && isNetReConnect) {
-                    netAction.onNetReConnect()
-                    isNetReConnect = false
-                }
-                lastNetStatus = curNetStatus
-            }
+    override fun onDisconnected() {
+        lastNetStatus = NetworkState.NETWORK_OFF
+        netAction?.onNetworkStateChanged(false)
+    }
+
+    override fun onConnected(networkType: NetworkUtils.NetworkType) {
+        netAction?.onNetworkStateChanged(true)
+        if (lastNetStatus != NetworkState.NETWORK_ON) {
+            netAction?.onNetReConnect()
         }
+        lastNetStatus = NetworkState.NETWORK_ON
     }
 }

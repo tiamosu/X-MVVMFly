@@ -52,18 +52,18 @@ dependencies {
         exclude module: 'kotlin-stdlib'
     }
 
-    implementation(Deps.androidx_constraintlayout) {
+    implementation(Deps.constraintlayout) {
         exclude module: 'core'
         exclude module: 'appcompat'
     }
-    implementation(Deps.androidx_viewpager2) {
+    implementation(Deps.viewpager2) {
         exclude module: 'core'
         exclude module: 'fragment'
         exclude module: 'annotation'
         exclude module: 'collection'
         exclude module: 'recyclerview'
     }
-    implementation(Deps.androidx_recyclerview) {
+    implementation(Deps.recyclerview) {
         exclude module: 'core'
         exclude module: 'annotation'
         exclude module: 'collection'
@@ -73,5 +73,5 @@ dependencies {
         exclude module: 'kotlin-stdlib'
     }
 
-    debugImplementation Deps.leakcanary_android
+    debugImplementation Deps.leakcanary
 }

@@ -48,7 +48,9 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
         isViewCreated = true
 
         //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
+        if (isCheckNetChanged()) {
+            networkDelegate.addNetworkObserve(this)
+        }
 
         initView(rootView)
         initEvent()
@@ -59,11 +61,6 @@ abstract class BaseFlyFragment : FlyDataBindingFragment(),
         isViewCreated = false
         removeCallbacks()
         super.onDestroyView()
-    }
-
-    override fun onFlySupportVisible() {
-        networkDelegate.hasNetWork(this)
-        super.onFlySupportVisible()
     }
 
     override fun onFlyLazyInitView2() {

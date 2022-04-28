@@ -40,7 +40,9 @@ abstract class BaseFlyActivity : FlyDataBindingActivity(),
             return
         }
         //添加网络状态监听
-        networkDelegate.addNetworkObserve(this)
+        if (isCheckNetChanged()) {
+            networkDelegate.addNetworkObserve(this)
+        }
 
         initParameters(bundle)
         initView(rootView)
