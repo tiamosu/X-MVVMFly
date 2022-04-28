@@ -5,3 +5,5 @@
   **[] $VALUES;
   public *;
 }
+
+-keep class com.bumptech.glide.GeneratedAppGlideModuleImpl {*;}
