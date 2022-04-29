@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.lifecycle.ViewModelStore
 import com.tiamosu.fly.base.delegate.FlyAppDelegate
-import com.tiamosu.fly.base.delegate.IFlyAppLifecycles
 import com.tiamosu.fly.di.component.AppComponent
 import com.tiamosu.navigation.delegate.IFlyViewModel
 
@@ -14,19 +13,18 @@ import com.tiamosu.navigation.delegate.IFlyViewModel
  * @date 2018/7/2.
  */
 open class BaseFlyApplication : Application(), IFlyApp, IFlyViewModel {
-    private var appDelegate: IFlyAppLifecycles? = null
+    private val appDelegate by lazy { FlyAppDelegate(this) }
 
     override val appViewModelStore by lazy { ViewModelStore() }
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        appDelegate = appDelegate ?: FlyAppDelegate(base)
-        appDelegate?.attachBaseContext(base)
+        appDelegate.attachBaseContext(base)
     }
 
     override fun onCreate() {
         super.onCreate()
-        appDelegate?.onCreate(this)
+        appDelegate.onCreate(this)
     }
 
     /**
@@ -34,22 +32,22 @@ open class BaseFlyApplication : Application(), IFlyApp, IFlyViewModel {
      */
     override fun onTerminate() {
         super.onTerminate()
-        appDelegate?.onTerminate(this)
+        appDelegate.onTerminate(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        appDelegate?.onConfigurationChanged(newConfig)
+        appDelegate.onConfigurationChanged(newConfig)
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        appDelegate?.onLowMemory()
+        appDelegate.onLowMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        appDelegate?.onTrimMemory(level)
+        appDelegate.onTrimMemory(level)
     }
 
     /**
@@ -61,7 +59,7 @@ open class BaseFlyApplication : Application(), IFlyApp, IFlyViewModel {
      */
     override fun getAppComponent(): AppComponent {
         return checkNotNull((appDelegate as? IFlyApp)?.getAppComponent()) {
-            "${IFlyAppLifecycles::class.java.name} must be implements ${IFlyApp::class.java.name}"
+            "${appDelegate.javaClass.name} must be implements ${IFlyApp::class.java.name}"
         }
     }
 }
