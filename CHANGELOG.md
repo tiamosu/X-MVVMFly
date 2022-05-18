@@ -1,5 +1,14 @@
+# 新版本4.4.5
+
+* gradle = 7.2.0
+* glide = "4.13.2"
+* dagger2 = "2.42"
+* fly_navigation = "1.6.6
+
 # 新版本4.4.4
-* fly_navigation = "1.6.5"，FlyApplication调整，在使用全局ViewModel（SharedViewModel）时，可自行在Application中实现IFlyViewModel，不再强制继承FlyApplication
+
+* fly_navigation = "1.6.5"
+  ，FlyApplication调整，在使用全局ViewModel（SharedViewModel）时，可自行在Application中实现IFlyViewModel，不再强制继承FlyApplication
 
 # 新版本4.4.3
 

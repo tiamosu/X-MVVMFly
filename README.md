@@ -6,7 +6,7 @@
 
 ## Requirements
 
-适用于 Android 5.0 + (21 + API级别) 和 Java 8 +。
+适用于 Android 5.0 + (21 + API级别) 和 Java 11 +。
 
 ```groovy
 allprojects {
@@ -25,19 +25,19 @@ allprojects {
 ### fly（必需）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly:4.4.4'
+implementation 'com.gitee.tiamosu:fly:4.4.5'
 ```
 
 ### fly-http（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-http:4.4.4'
+implementation 'com.gitee.tiamosu:fly-http:4.4.5'
 ```
 
 ### fly-imageloader-glide（可选）
 
 ```groovy
-implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.4.4'
+implementation 'com.gitee.tiamosu:fly-imageloader-glide:4.4.5'
 ```
 
 ### fly模块
