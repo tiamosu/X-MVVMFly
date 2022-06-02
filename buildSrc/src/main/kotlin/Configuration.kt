@@ -3,7 +3,7 @@
 object Android {
     const val compileSdk = 32
     const val minSdk = 21
-    const val targetSdk = 30
+    const val targetSdk = 32
 
     const val versionName = "1.0"
     const val versionCode = 1
@@ -12,7 +12,7 @@ object Android {
 object Versions {
     const val kotlin = "1.6.21"
 
-    const val rxjava = "3.1.4"
+    const val rxjava = "3.1.5"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.9.3"
@@ -25,7 +25,7 @@ object Versions {
     const val leakcanary = "2.9.1"
     const val unpeeklivedata = "7.2.0-beta1"
 
-    const val fly_navigation = "1.6.6"
+    const val fly_navigation = "1.6.7"
     const val rxerrorhandler = "4.0.1"
     const val loadsir = "3.0.0"
 }
@@ -41,7 +41,7 @@ object Deps {
 
     //androidx
     const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
     const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
 
     //dagger2：依赖注入框架 https://github.com/google/dagger
