@@ -10,12 +10,12 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.6.21"
+    const val kotlin = "1.7.0"
 
     const val rxjava = "3.1.5"
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
-    const val okhttp3 = "4.9.3"
+    const val okhttp3 = "4.10.0"
     const val gson = "2.9.0"
     const val disklrucache = "2.0.2"
 
@@ -23,7 +23,7 @@ object Versions {
     const val dagger2 = "2.42"
     const val utilcode = "1.31.0"
     const val leakcanary = "2.9.1"
-    const val unpeeklivedata = "7.2.0-beta1"
+    const val unpeeklivedata = "7.6.0"
 
     const val fly_navigation = "1.6.7"
     const val rxerrorhandler = "4.0.1"
