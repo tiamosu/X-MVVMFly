@@ -1,3 +1,8 @@
+# 新版本4.4.7
+
+* kotlin = "1.7.0"
+* okhttp3 = "4.10.0"
+
 # 新版本4.4.6
 
 * rxjava = "3.1.5"
@@ -14,6 +19,7 @@
 
 * fly_navigation = "1.6.5"
 *
+
 FlyApplication调整，在使用全局ViewModel（SharedViewModel）共享时，可自行在Application中实现IFlyViewModel，不再强制继承FlyApplication
 
 # 新版本4.4.3
