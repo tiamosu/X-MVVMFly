@@ -10,19 +10,22 @@ import com.google.gson.internal.bind.TypeAdapters
 import com.google.gson.reflect.TypeToken
 import com.tiamosu.fly.integration.gson.data.*
 import com.tiamosu.fly.integration.gson.element.CollectionTypeAdapterFactory
+import com.tiamosu.fly.integration.gson.element.MapTypeAdapterFactory
 import com.tiamosu.fly.integration.gson.element.ReflectiveTypeAdapterFactory
 import com.tiamosu.fly.utils.getAppComponent
+import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.reflect.Type
 import java.math.BigDecimal
-import java.util.*
 
 /**
  * @author tiamosu
  * @date 2021/2/1.
  */
 object GsonFactory {
-    private val INSTANCE_CREATORS = HashMap<Type, InstanceCreator<*>>(0)
-    private val TYPE_ADAPTER_FACTORIES: MutableList<TypeAdapterFactory> = ArrayList()
+    private val INSTANCE_CREATORS by lazy { HashMap<Type, InstanceCreator<*>>(0) }
+    private val TYPE_ADAPTER_FACTORIES by lazy { ArrayList<TypeAdapterFactory>() }
+
     var jsonCallback: JsonCallback? = null
         private set
 
@@ -50,7 +53,7 @@ object GsonFactory {
     }
 
     /**
-     * 注册类型适配器
+     * 注册类型解析适配器
      */
     fun registerTypeAdapterFactory(factory: TypeAdapterFactory) {
         TYPE_ADAPTER_FACTORIES.add(factory)
@@ -73,10 +76,7 @@ object GsonFactory {
     /**
      * 创建 Gson 构建对象
      */
-    fun setGsonFactory(gsonBuilder: GsonBuilder) {
-        for (typeAdapterFactory in TYPE_ADAPTER_FACTORIES) {
-            gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
-        }
+    fun setGsonFactory(gsonBuilder: GsonBuilder = GsonBuilder()) {
         val constructor = ConstructorConstructor(INSTANCE_CREATORS, true)
         gsonBuilder
             .registerTypeAdapterFactory(
@@ -134,5 +134,22 @@ object GsonFactory {
                     Excluder.DEFAULT
                 )
             )
+            .registerTypeAdapterFactory(MapTypeAdapterFactory(constructor, false))
+            .registerTypeAdapterFactory(
+                TypeAdapters.newFactory(
+                    JSONObject::class.java,
+                    JSONObjectTypeAdapter()
+                )
+            )
+            .registerTypeAdapterFactory(
+                TypeAdapters.newFactory(
+                    JSONArray::class.java,
+                    JSONArrayTypeAdapter()
+                )
+            )
+
+        for (typeAdapterFactory in TYPE_ADAPTER_FACTORIES) {
+            gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
+        }
     }
 }

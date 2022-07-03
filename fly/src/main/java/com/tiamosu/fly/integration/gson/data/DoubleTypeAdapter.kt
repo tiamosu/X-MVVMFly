@@ -11,8 +11,12 @@ import java.io.IOException
  * @date 2021/2/1.
  */
 internal class DoubleTypeAdapter : TypeAdapter<Double>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): Double {
+    override fun read(`in`: JsonReader?): Double {
+        if (`in` == null) {
+            return 0.0
+        }
         return when (`in`.peek()) {
             JsonToken.NUMBER -> `in`.nextDouble()
             JsonToken.STRING -> {

@@ -11,7 +11,6 @@ import com.google.gson.internal.`$Gson$Types`
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Field
 import java.lang.reflect.GenericArrayType
-import java.util.*
 
 /**
  * @author tiamosu
@@ -52,12 +51,15 @@ internal class ReflectiveTypeAdapterFactory(
             return null
         }
         // 如果是枚举类型
-        return if (Enum::class.java.isAssignableFrom(raw) && raw != Enum::class.java) {
-            null
-        } else ReflectiveTypeAdapter(
-            constructorConstructor[type],
+        if (Enum::class.java.isAssignableFrom(raw) && raw != Enum::class.java) {
+            return null
+        }
+        return ReflectiveTypeAdapter(
+            constructorConstructor.get(type),
             getBoundFields(gson, type, raw)
-        )
+        ).apply {
+            setReflectiveType(type, null)
+        }
     }
 
     private fun getBoundFields(

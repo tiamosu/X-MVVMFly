@@ -11,8 +11,12 @@ import java.io.IOException
  * @date 2021/2/1.
  */
 internal class StringTypeAdapter : TypeAdapter<String>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): String {
+    override fun read(`in`: JsonReader?): String {
+        if (`in` == null) {
+            return ""
+        }
         return when (`in`.peek()) {
             JsonToken.STRING, JsonToken.NUMBER -> `in`.nextString() ?: ""
             JsonToken.BOOLEAN ->                 // 对于布尔类型比较特殊，需要做针对性处理

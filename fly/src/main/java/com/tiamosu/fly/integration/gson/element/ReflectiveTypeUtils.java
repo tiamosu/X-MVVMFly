@@ -11,6 +11,7 @@ import com.google.gson.internal.Primitives;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.tiamosu.fly.integration.gson.data.MapTypeAdapter;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -135,20 +136,22 @@ public class ReflectiveTypeUtils {
             Field field,
             TypeToken<?> fieldType,
             String fieldName) {
+        TypeAdapter<?> adapter = null;
         final JsonAdapter annotation = field.getAnnotation(JsonAdapter.class);
         if (annotation != null) {
-            final TypeAdapter<?> adapter = getTypeAdapter(constructor, gson, fieldType, annotation);
-            if (adapter != null) {
-                return adapter;
-            }
+            adapter = getTypeAdapter(constructor, gson, fieldType, annotation);
         }
-
-        final TypeAdapter<?> adapter = gson.getAdapter(fieldType);
+        if (adapter == null) {
+            adapter = gson.getAdapter(fieldType);
+        }
         if (adapter instanceof CollectionTypeAdapter) {
             ((CollectionTypeAdapter<?>) adapter).setReflectiveType(TypeToken.get(field.getDeclaringClass()), fieldName);
         }
         if (adapter instanceof ReflectiveTypeAdapter) {
             ((ReflectiveTypeAdapter<?>) adapter).setReflectiveType(TypeToken.get(field.getDeclaringClass()), fieldName);
+        }
+        if (adapter instanceof MapTypeAdapter) {
+            ((MapTypeAdapter<?, ?>) adapter).setReflectiveType(TypeToken.get(field.getDeclaringClass()), fieldName);
         }
         return adapter;
     }

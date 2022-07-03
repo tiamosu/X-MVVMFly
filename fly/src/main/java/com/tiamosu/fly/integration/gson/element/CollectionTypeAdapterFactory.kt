@@ -45,6 +45,8 @@ internal class CollectionTypeAdapterFactory(
             elementType,
             elementTypeAdapter,
             constructor
-        ) as? TypeAdapter<T>
+        ).apply {
+            setReflectiveType(typeToken, null)
+        } as? TypeAdapter<T>
     }
 }

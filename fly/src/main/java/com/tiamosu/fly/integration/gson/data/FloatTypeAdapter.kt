@@ -11,8 +11,12 @@ import java.io.IOException
  * @date 2021/2/1.
  */
 internal class FloatTypeAdapter : TypeAdapter<Float>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): Float {
+    override fun read(`in`: JsonReader?): Float {
+        if (`in` == null) {
+            return 0f
+        }
         return when (`in`.peek()) {
             JsonToken.NUMBER -> `in`.nextDouble().toFloat()
             JsonToken.STRING -> {

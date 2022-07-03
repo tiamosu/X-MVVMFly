@@ -11,8 +11,12 @@ import java.io.IOException
  * @date 2021/2/1.
  */
 internal class BooleanTypeAdapter : TypeAdapter<Boolean>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): Boolean {
+    override fun read(`in`: JsonReader?): Boolean {
+        if (`in` == null) {
+            return false
+        }
         return when (`in`.peek()) {
             JsonToken.BOOLEAN -> `in`.nextBoolean()
             JsonToken.STRING ->                 // 如果后台返回 "true" 或者 "TRUE"，则处理为 true，否则为 false

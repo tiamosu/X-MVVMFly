@@ -12,8 +12,12 @@ import java.math.BigDecimal
  * @date 2021/2/1.
  */
 internal class LongTypeAdapter : TypeAdapter<Long>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): Long {
+    override fun read(`in`: JsonReader?): Long {
+        if (`in` == null) {
+            return 0
+        }
         return when (`in`.peek()) {
             JsonToken.NUMBER -> {
                 return try {
@@ -26,7 +30,7 @@ internal class LongTypeAdapter : TypeAdapter<Long>() {
             JsonToken.STRING -> {
                 val result = `in`.nextString()
                 return if (result == null || "" == result) {
-                    0L
+                    0
                 } else try {
                     result.toLong()
                 } catch (e: NumberFormatException) {
@@ -35,17 +39,17 @@ internal class LongTypeAdapter : TypeAdapter<Long>() {
             }
             JsonToken.NULL -> {
                 `in`.nextNull()
-                0L
+                0
             }
             else -> {
                 `in`.skipValue()
-                0L
+                0
             }
         }
     }
 
     @Throws(IOException::class)
     override fun write(out: JsonWriter, value: Long?) {
-        out.value(value ?: 0L)
+        out.value(value ?: 0)
     }
 }

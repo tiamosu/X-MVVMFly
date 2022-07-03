@@ -12,8 +12,12 @@ import java.math.BigDecimal
  * @date 2021/2/1.
  */
 internal class BigDecimalTypeAdapter : TypeAdapter<BigDecimal>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): BigDecimal {
+    override fun read(`in`: JsonReader?): BigDecimal {
+        if (`in` == null) {
+            return BigDecimal(0)
+        }
         return when (`in`.peek()) {
             JsonToken.NUMBER, JsonToken.STRING -> {
                 val result = `in`.nextString()

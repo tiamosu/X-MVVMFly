@@ -30,7 +30,7 @@ internal class CollectionTypeAdapter<E>(
     private var typeToken: TypeToken<*>? = null
     private var fieldName: String? = null
 
-    fun setReflectiveType(typeToken: TypeToken<*>, fieldName: String) {
+    fun setReflectiveType(typeToken: TypeToken<*>, fieldName: String?) {
         this.typeToken = typeToken
         this.fieldName = fieldName
     }

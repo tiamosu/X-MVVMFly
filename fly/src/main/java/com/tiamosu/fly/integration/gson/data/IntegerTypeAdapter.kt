@@ -12,8 +12,12 @@ import java.math.BigDecimal
  * @date 2021/2/1.
  */
 internal class IntegerTypeAdapter : TypeAdapter<Int>() {
+
     @Throws(IOException::class)
-    override fun read(`in`: JsonReader): Int {
+    override fun read(`in`: JsonReader?): Int {
+        if (`in` == null) {
+            return 0
+        }
         return when (`in`.peek()) {
             JsonToken.NUMBER -> {
                 return try {
