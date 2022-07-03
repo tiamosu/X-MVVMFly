@@ -1,3 +1,8 @@
+# 新版本4.4.8
+
+* unpeeklivedata = "7.6.0"
+* fly_navigation = "1.6.8"
+
 # 新版本4.4.7
 
 * kotlin = "1.7.0"

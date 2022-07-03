@@ -23,9 +23,9 @@ object Versions {
     const val dagger2 = "2.42"
     const val utilcode = "1.31.0"
     const val leakcanary = "2.9.1"
-    const val unpeeklivedata = "7.2.0-beta1"
+    const val unpeeklivedata = "7.6.0"
 
-    const val fly_navigation = "1.6.7"
+    const val fly_navigation = "1.6.8"
     const val rxerrorhandler = "4.0.1"
     const val loadsir = "3.0.0"
 }
