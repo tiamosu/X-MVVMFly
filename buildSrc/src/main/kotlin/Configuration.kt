@@ -10,7 +10,7 @@ object Android {
 }
 
 object Versions {
-    const val kotlin = "1.7.0"
+    const val kotlin = "1.7.10"
 
     const val rxjava = "3.1.5"
     const val rxandroid = "3.0.0"
