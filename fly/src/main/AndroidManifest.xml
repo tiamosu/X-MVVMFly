@@ -16,6 +16,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+    <uses-sdk tools:overrideLibrary="com.kunminx.unpeeklivedata" />
+
     <application
         android:hasFragileUserData="true"
         android:networkSecurityConfig="@xml/network_security_config"
