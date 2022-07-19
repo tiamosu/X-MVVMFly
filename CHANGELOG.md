@@ -1,3 +1,6 @@
+# 新版本4.5.0
+* <uses-sdk tools:overrideLibrary="com.kunminx.unpeeklivedata"></uses-sdk>
+
 # 新版本4.4.9
 
 * 新增支持解析 Map 类型的对象
