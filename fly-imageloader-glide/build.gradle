@@ -1,3 +1,6 @@
+ext {
+    artifactId = "fly-imageloader-glide"
+}
 apply {
     from "${rootDir.path}/config_lib.gradle"
 }
@@ -17,4 +20,4 @@ dependencies {
     }
 }
 
-apply from: "${rootDir.path}/publish.gradle"
+apply from: "${rootDir.path}/publish/publish.gradle"

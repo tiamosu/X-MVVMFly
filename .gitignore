@@ -8,4 +8,4 @@
 /captures
 .externalNativeBuild
 .cxx
-/secret.gpg
+/publish/secret.gpg
