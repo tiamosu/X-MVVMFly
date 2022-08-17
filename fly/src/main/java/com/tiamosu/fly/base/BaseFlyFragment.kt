@@ -20,7 +20,7 @@ import com.tiamosu.fly.http.manager.NetworkDelegate
 abstract class BaseFlyFragment : FlyDataBindingFragment(),
     FragmentAction, BundleAction, HandlerAction, KeyboardAction, NetAction {
 
-    private val networkDelegate by lazy { NetworkDelegate() }
+    private val networkDelegate by lazy { NetworkDelegate(this) }
 
     final override val bundle
         get() = arguments
