@@ -3,19 +3,15 @@ package com.tiamosu.fly.base
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import androidx.lifecycle.ViewModelStore
 import com.tiamosu.fly.base.delegate.FlyAppDelegate
 import com.tiamosu.fly.di.component.AppComponent
-import com.tiamosu.navigation.delegate.IFlyViewModel
 
 /**
  * @author tiamosu
  * @date 2018/7/2.
  */
-open class BaseFlyApplication : Application(), IFlyApp, IFlyViewModel {
+open class BaseFlyApplication : Application(), IFlyApp {
     private val appDelegate by lazy { FlyAppDelegate(this) }
-
-    override val appViewModelStore by lazy { ViewModelStore() }
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
