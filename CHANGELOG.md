@@ -1,4 +1,11 @@
+# 新版本4.5.1
+
+* dagger2 = "2.43.2"
+* fly_navigation = "1.6.9"
+* 删除 IFlyViewModel，全局 ViewModel 实现已通过 ApplicationInstance 替换
+
 # 新版本4.5.0
+
 * <uses-sdk tools:overrideLibrary="com.kunminx.unpeeklivedata"></uses-sdk>
 
 # 新版本4.4.9
