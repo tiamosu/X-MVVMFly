@@ -9,6 +9,7 @@ import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.bridge.request.HomeViewModel
 import com.tiamosu.fly.demo.ext.jumpFragment
 import com.tiamosu.fly.demo.ext.lazyViewModel
+import com.tiamosu.fly.demo.sharedViewModel
 
 /**
  * @author tiamosu

@@ -6,19 +6,16 @@ import android.view.View
 import com.blankj.utilcode.util.KeyboardUtils
 import com.kingja.loadsir.core.LoadService
 import com.tiamosu.fly.base.BaseFlyFragment
-import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
 import com.tiamosu.fly.demo.ext.showCallback
 import com.tiamosu.fly.demo.loadsir.EmptyCallback
 import com.tiamosu.fly.demo.loadsir.ErrorCallback
 import com.tiamosu.fly.demo.loadsir.LoadingCallback
-import com.tiamosu.navigation.ext.lazyAppViewModel
 
 /**
  * @author tiamosu
  * @date 2020/2/20.
  */
 abstract class BaseFragment : BaseFlyFragment(), UIAction {
-    val sharedViewModel: SharedViewModel by lazyAppViewModel()
     internal var loadService: LoadService<Any>? = null
 
     override fun initParameters(bundle: Bundle?) {

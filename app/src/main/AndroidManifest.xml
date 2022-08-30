@@ -4,7 +4,7 @@
     package="com.tiamosu.fly.demo">
 
     <application
-        android:name=".App"
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@drawable/fly"
         android:label="@string/app_name"

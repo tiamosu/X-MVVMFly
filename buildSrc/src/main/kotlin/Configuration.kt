@@ -16,7 +16,7 @@ object Versions {
     const val rxandroid = "3.0.0"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.10.0"
-    const val gson = "2.9.0"
+    const val gson = "2.9.1"
     const val disklrucache = "2.0.2"
 
     const val glide = "4.13.2"

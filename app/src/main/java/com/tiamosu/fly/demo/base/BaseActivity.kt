@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.tiamosu.fly.base.BaseFlyActivity
-import com.tiamosu.fly.demo.bridge.callback.SharedViewModel
-import com.tiamosu.navigation.ext.lazyAppViewModel
 
 /**
  * @author tiamosu
@@ -14,7 +12,6 @@ import com.tiamosu.navigation.ext.lazyAppViewModel
  */
 @Suppress("unused")
 abstract class BaseActivity : BaseFlyActivity(), UIAction {
-    val sharedViewModel: SharedViewModel by lazyAppViewModel()
 
     override fun initParameters(bundle: Bundle?) {}
     override fun initView(rootView: View?) {}

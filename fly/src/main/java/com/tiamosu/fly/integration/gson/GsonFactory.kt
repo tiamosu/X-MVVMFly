@@ -1,9 +1,6 @@
 package com.tiamosu.fly.integration.gson
 
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
-import com.google.gson.InstanceCreator
-import com.google.gson.TypeAdapterFactory
+import com.google.gson.*
 import com.google.gson.internal.ConstructorConstructor
 import com.google.gson.internal.Excluder
 import com.google.gson.internal.bind.TypeAdapters
@@ -25,6 +22,7 @@ import java.math.BigDecimal
 object GsonFactory {
     private val INSTANCE_CREATORS by lazy { HashMap<Type, InstanceCreator<*>>(0) }
     private val TYPE_ADAPTER_FACTORIES by lazy { ArrayList<TypeAdapterFactory>() }
+    private val REFLECTION_ACCESS_FILTERS by lazy { ArrayList<ReflectionAccessFilter>() }
 
     var jsonCallback: JsonCallback? = null
         private set
@@ -74,10 +72,21 @@ object GsonFactory {
     }
 
     /**
+     * 添加反射访问过滤器，同等于 [GsonBuilder.addReflectionAccessFilter]
+     */
+    fun addReflectionAccessFilter(filter: ReflectionAccessFilter?) {
+        filter?.let { REFLECTION_ACCESS_FILTERS.add(0, it) }
+    }
+
+    /**
      * 创建 Gson 构建对象
      */
     fun setGsonFactory(gsonBuilder: GsonBuilder = GsonBuilder()) {
-        val constructor = ConstructorConstructor(INSTANCE_CREATORS, true)
+        val constructor = ConstructorConstructor(
+            INSTANCE_CREATORS,
+            true,
+            REFLECTION_ACCESS_FILTERS
+        )
         gsonBuilder
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
@@ -134,7 +143,9 @@ object GsonFactory {
                     Excluder.DEFAULT
                 )
             )
-            .registerTypeAdapterFactory(MapTypeAdapterFactory(constructor, false))
+            .registerTypeAdapterFactory(
+                MapTypeAdapterFactory(constructor, false)
+            )
             .registerTypeAdapterFactory(
                 TypeAdapters.newFactory(
                     JSONObject::class.java,
@@ -148,6 +159,7 @@ object GsonFactory {
                 )
             )
 
+        // 添加到自定义的类型解析适配器，因为在 GsonBuilder.create 方法中会对 List 进行反转，所以这里需要放到最后的位置上，这样就会优先解析
         for (typeAdapterFactory in TYPE_ADAPTER_FACTORIES) {
             gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
         }

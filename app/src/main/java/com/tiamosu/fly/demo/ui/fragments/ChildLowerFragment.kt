@@ -5,6 +5,7 @@ import com.tiamosu.databinding.page.DataBindingConfig
 import com.tiamosu.fly.demo.R
 import com.tiamosu.fly.demo.base.BaseFragment
 import com.tiamosu.fly.demo.databinding.FragmentChildLowerBinding
+import com.tiamosu.fly.demo.sharedViewModel
 import com.tiamosu.fly.ext.addObserve
 
 /**
