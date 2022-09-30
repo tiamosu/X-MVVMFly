@@ -1,3 +1,10 @@
+# 新版本4.5.3
+
+* glide = "4.14.1"
+* dagger2 = "2.44"
+* unpeeklivedata = "7.8.0"
+* fly_navigation = "1.7.0"
+
 # 新版本4.5.2
 
 * 兼容 Gson 2.9.1 版本
