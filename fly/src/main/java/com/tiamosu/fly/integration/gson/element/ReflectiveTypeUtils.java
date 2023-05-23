@@ -11,7 +11,6 @@ import com.google.gson.internal.Primitives;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.tiamosu.fly.integration.gson.data.MapTypeAdapter;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -29,7 +28,6 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -40,8 +38,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
- * @author tiamosu
- * @date 2021/2/1.
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/GsonFactory
+ * time   : 2020/12/08
+ * desc   : 反射工具类
  */
 public class ReflectiveTypeUtils {
 
@@ -88,13 +88,8 @@ public class ReflectiveTypeUtils {
         return TYPE_TOKENS.contains(clazz);
     }
 
-    public static ReflectiveFieldBound createBoundField(final Gson gson,
-                                                        final ConstructorConstructor constructor,
-                                                        final Field field,
-                                                        final String fieldName,
-                                                        final TypeToken<?> fieldType,
-                                                        boolean serialize,
-                                                        boolean deserialize) {
+    public static ReflectiveFieldBound createBoundField(final Gson gson, final ConstructorConstructor constructor, final Field field, final String fieldName,
+                                                        final TypeToken<?> fieldType, boolean serialize, boolean deserialize) {
 
         // 判断是否是基本数据类型
         final boolean primitive = Primitives.isPrimitive(fieldType.getRawType());
@@ -120,22 +115,18 @@ public class ReflectiveTypeUtils {
             }
 
             @Override
-            public boolean writeField(Object value) throws IllegalAccessException {
+            public boolean writeField(Object value) throws IOException, IllegalAccessException {
                 if (!isSerialized()) {
                     return false;
                 }
+
                 final Object fieldValue = field.get(value);
                 return fieldValue != value;
             }
         };
     }
 
-    public static TypeAdapter<?> getFieldAdapter(
-            Gson gson,
-            ConstructorConstructor constructor,
-            Field field,
-            TypeToken<?> fieldType,
-            String fieldName) {
+    public static TypeAdapter<?> getFieldAdapter(Gson gson, ConstructorConstructor constructor, Field field, TypeToken<?> fieldType, String fieldName) {
         TypeAdapter<?> adapter = null;
         final JsonAdapter annotation = field.getAnnotation(JsonAdapter.class);
         if (annotation != null) {
@@ -156,7 +147,6 @@ public class ReflectiveTypeUtils {
         return adapter;
     }
 
-    @SuppressWarnings("unchecked")
     public static TypeAdapter<?> getTypeAdapter(ConstructorConstructor constructor,
                                                 Gson gson,
                                                 TypeToken<?> fieldType,
@@ -180,18 +170,26 @@ public class ReflectiveTypeUtils {
         if (typeAdapter != null) {
             typeAdapter = typeAdapter.nullSafe();
         }
+
         return typeAdapter;
     }
 
-    public static List<String> getFieldName(FieldNamingStrategy fieldNamingPolicy, Field field) {
-        final SerializedName serializedName = field.getAnnotation(SerializedName.class);
-        final List<String> fieldNames = new LinkedList<>();
-        if (serializedName == null) {
-            fieldNames.add(fieldNamingPolicy.translateName(field));
-        } else {
-            fieldNames.add(serializedName.value());
-            Collections.addAll(fieldNames, serializedName.alternate());
+    public static List<String> getFieldNames(FieldNamingStrategy fieldNamingPolicy, Field field) {
+        final SerializedName annotation = field.getAnnotation(SerializedName.class);
+        if (annotation == null) {
+            final String name = fieldNamingPolicy.translateName(field);
+            return Collections.singletonList(name);
         }
+
+        final String serializedName = annotation.value();
+        final String[] alternates = annotation.alternate();
+        if (alternates.length == 0) {
+            return Collections.singletonList(serializedName);
+        }
+
+        final List<String> fieldNames = new ArrayList<>(alternates.length + 1);
+        fieldNames.add(serializedName);
+        Collections.addAll(fieldNames, alternates);
         return fieldNames;
     }
 }

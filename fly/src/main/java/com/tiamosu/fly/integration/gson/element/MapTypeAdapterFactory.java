@@ -8,16 +8,15 @@ import com.google.gson.internal.ConstructorConstructor;
 import com.google.gson.internal.ObjectConstructor;
 import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.reflect.TypeToken;
-import com.tiamosu.fly.integration.gson.data.MapTypeAdapter;
 
 import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
- * @author tiamosu
- * @date 2022/7/3
- *
- * 描述：Map 解析适配器，参考：{@link com.google.gson.internal.bind.MapTypeAdapterFactory}
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/GsonFactory
+ * time   : 2022/03/30
+ * desc   : Map 解析适配器，参考：{@link com.google.gson.internal.bind.MapTypeAdapterFactory}
  */
 public class MapTypeAdapterFactory implements TypeAdapterFactory {
     private final ConstructorConstructor mConstructorConstructor;
@@ -32,21 +31,20 @@ public class MapTypeAdapterFactory implements TypeAdapterFactory {
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
-        Type type = typeToken.getType();
-
-        Class<? super T> rawType = typeToken.getRawType();
+        final Type type = typeToken.getType();
+        final Class<? super T> rawType = typeToken.getRawType();
         if (!Map.class.isAssignableFrom(rawType)) {
             return null;
         }
 
-        Class<?> rawTypeOfSrc = $Gson$Types.getRawType(type);
-        Type[] keyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawTypeOfSrc);
-        TypeAdapter<?> keyAdapter = getKeyAdapter(gson, keyAndValueTypes[0]);
-        TypeAdapter<?> valueAdapter = gson.getAdapter(TypeToken.get(keyAndValueTypes[1]));
-        ObjectConstructor<T> constructor = mConstructorConstructor.get(typeToken);
+        final Class<?> rawTypeOfSrc = $Gson$Types.getRawType(type);
+        final Type[] keyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawTypeOfSrc);
+        final TypeAdapter<?> keyAdapter = getKeyAdapter(gson, keyAndValueTypes[0]);
+        final TypeAdapter<?> valueAdapter = gson.getAdapter(TypeToken.get(keyAndValueTypes[1]));
+        final ObjectConstructor<T> constructor = mConstructorConstructor.get(typeToken);
 
         // we don't define a type parameter for the key or value types
-        MapTypeAdapter result = new MapTypeAdapter(gson, keyAndValueTypes[0], keyAdapter,
+        final MapTypeAdapter result = new MapTypeAdapter(gson, keyAndValueTypes[0], keyAdapter,
                 keyAndValueTypes[1], valueAdapter, constructor, mComplexMapKeySerialization);
         result.setReflectiveType(typeToken, null);
         return result;

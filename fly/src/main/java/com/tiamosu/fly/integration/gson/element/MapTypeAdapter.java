@@ -1,4 +1,4 @@
-package com.tiamosu.fly.integration.gson.data;
+package com.tiamosu.fly.integration.gson.element;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -14,19 +14,19 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.tiamosu.fly.integration.gson.GsonFactory;
 import com.tiamosu.fly.integration.gson.JsonCallback;
-import com.tiamosu.fly.integration.gson.element.TypeAdapterRuntimeTypeWrapper;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author tiamosu
- * @date 2022/7/3
- * <p>
- * 描述：Map 解析适配器，参考：{@link com.google.gson.internal.bind.MapTypeAdapterFactory.Adapter}
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/GsonFactory
+ * time   : 2022/03/30
+ * desc   : Map 解析适配器，参考：{@link com.google.gson.internal.bind.MapTypeAdapterFactory.Adapter}
  */
 @SuppressWarnings("JavadocReference")
 public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
@@ -38,11 +38,8 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
     private TypeToken<?> mTypeToken;
     private String mFieldName;
 
-    public MapTypeAdapter(Gson context,
-                          Type keyType,
-                          TypeAdapter<K> keyTypeAdapter,
-                          Type valueType,
-                          TypeAdapter<V> valueTypeAdapter,
+    public MapTypeAdapter(Gson context, Type keyType, TypeAdapter<K> keyTypeAdapter,
+                          Type valueType, TypeAdapter<V> valueTypeAdapter,
                           ObjectConstructor<? extends Map<K, V>> constructor,
                           boolean complexMapKeySerialization) {
         mKeyTypeAdapter = new TypeAdapterRuntimeTypeWrapper<>(context, keyTypeAdapter, keyType);
@@ -58,14 +55,13 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
 
     @Override
     public Map<K, V> read(JsonReader in) throws IOException {
-        JsonToken jsonToken = in.peek();
+        final JsonToken jsonToken = in.peek();
         if (jsonToken == JsonToken.NULL) {
             in.nextNull();
-            return null;
+            return new HashMap<>();
         }
 
-        Map<K, V> map = mConstructor.construct();
-
+        final Map<K, V> map = mConstructor.construct();
         if (jsonToken == JsonToken.BEGIN_ARRAY) {
             in.beginArray();
             while (in.hasNext()) {
@@ -77,7 +73,7 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
                     in.endArray();
                 } else {
                     in.skipValue();
-                    JsonCallback callback = GsonFactory.INSTANCE.getJsonCallback();
+                    final JsonCallback callback = GsonFactory.INSTANCE.getJsonCallback();
                     if (callback != null) {
                         callback.onTypeException(mTypeToken, mFieldName, jsonToken);
                     }
@@ -98,7 +94,7 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
             in.endObject();
         } else {
             in.skipValue();
-            JsonCallback callback = GsonFactory.INSTANCE.getJsonCallback();
+            final JsonCallback callback = GsonFactory.INSTANCE.getJsonCallback();
             if (callback != null) {
                 callback.onTypeException(mTypeToken, mFieldName, jsonToken);
             }
@@ -124,11 +120,10 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
         }
 
         boolean hasComplexKeys = false;
-        List<JsonElement> keys = new ArrayList<>(map.size());
-
-        List<V> values = new ArrayList<V>(map.size());
+        final List<JsonElement> keys = new ArrayList<>(map.size());
+        final List<V> values = new ArrayList<>(map.size());
         for (Map.Entry<K, V> entry : map.entrySet()) {
-            JsonElement keyElement = mKeyTypeAdapter.toJsonTree(entry.getKey());
+            final JsonElement keyElement = mKeyTypeAdapter.toJsonTree(entry.getKey());
             keys.add(keyElement);
             values.add(entry.getValue());
             hasComplexKeys |= keyElement.isJsonArray() || keyElement.isJsonObject();
@@ -146,7 +141,7 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
         } else {
             out.beginObject();
             for (int i = 0, size = keys.size(); i < size; i++) {
-                JsonElement keyElement = keys.get(i);
+                final JsonElement keyElement = keys.get(i);
                 out.name(keyToString(keyElement));
                 mValueTypeAdapter.write(out, values.get(i));
             }
@@ -156,7 +151,7 @@ public class MapTypeAdapter<K, V> extends TypeAdapter<Map<K, V>> {
 
     private String keyToString(JsonElement keyElement) {
         if (keyElement.isJsonPrimitive()) {
-            JsonPrimitive primitive = keyElement.getAsJsonPrimitive();
+            final JsonPrimitive primitive = keyElement.getAsJsonPrimitive();
             if (primitive.isNumber()) {
                 return String.valueOf(primitive.getAsNumber());
             } else if (primitive.isBoolean()) {
