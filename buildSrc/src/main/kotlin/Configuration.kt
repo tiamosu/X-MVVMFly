@@ -1,40 +1,36 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
 object Android {
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 21
-    const val targetSdk = 32
+    const val targetSdk = 33
 
     const val versionName = "1.0"
     const val versionCode = 1
 }
 
 object Versions {
-    const val kotlin = "1.7.10"
+    const val kotlin = "1.8.20"
 
-    const val rxjava = "3.1.6"
+    const val rxjava = "3.1.7"
     const val rxandroid = "3.0.2"
     const val retrofit2 = "2.9.0"
     const val okhttp3 = "4.11.0"
     const val gson = "2.10.1"
     const val disklrucache = "2.0.2"
 
-    const val glide = "4.15.1"
-    const val dagger2 = "2.46.1"
+    const val glide = "4.16.0"
+    const val dagger2 = "2.48"
     const val utilcode = "1.31.1"
-    const val leakcanary = "2.9.1"
+    const val leakcanary = "2.12"
     const val unpeeklivedata = "7.8.0"
 
-    const val fly_navigation = "1.7.0"
-    const val rxerrorhandler = "4.0.1"
-    const val loadsir = "3.0.0"
+    const val fly_navigation = "1.7.1"
+    const val rxerrorhandler = "4.0.2"
+    const val loadsir = "3.0.1"
 }
 
 object Deps {
-    //kotlin
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-
     //fly-navigation
     const val fly_navigation = "com.gitee.tiamosu:fly-navigation:${Versions.fly_navigation}"
     const val fly_databinding = "com.gitee.tiamosu:fly-databinding:${Versions.fly_navigation}"
@@ -42,7 +38,7 @@ object Deps {
     //androidx
     const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
-    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
+    const val recyclerview = "androidx.recyclerview:recyclerview:1.3.1"
 
     //dagger2：依赖注入框架 https://github.com/google/dagger
     const val dagger2 = "com.google.dagger:dagger:${Versions.dagger2}"
