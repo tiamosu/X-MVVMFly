@@ -1,3 +1,15 @@
+# 新版本4.5.6
+
+* gradle:7.4.2
+* compileSdk = 33、targetSdk = 33
+* kotlin = "1.8.20"
+* rxjava = "3.1.7"
+* glide = "4.16.0"
+* dagger2 = "2.48"
+* fly_navigation = "1.7.1"
+* rxerrorhandler = "4.0.2"
+* loadsir = "3.0.1"
+
 # 新版本4.5.5
 
 * rxjava = "3.1.6"
